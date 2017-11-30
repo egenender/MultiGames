@@ -4,8 +4,8 @@ Eduardo Peluffo
 # Colaborators
 None
 
-# Telegram Bot for the Xapi prototype
-This is a simple Telegram Bot for the Xapi prototype
+# Telegram Bot for the Multi Games By Levi
+This is a simple Telegram Bot for the Multi Games By Levi
 
 ## Start a game
 You can contact the bot via [URL](https://URL) 
