@@ -65,7 +65,7 @@ def command_prueba(bot, update, args):
 		log.info(img)
 		'''
 		
-		surl = "https://github.com/leviatas/MultiGames/blob/master/img/LostExpedition/plastilla1.jpg"
+		surl = "https://github.com/leviatas/MultiGames/blob/master/img/LostExpedition/plastilla1.jpg?raw=1"
 		bot.send_photo(cid, photo=surl)
 		
 		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
