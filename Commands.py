@@ -73,7 +73,7 @@ def command_prueba(bot, update, args):
 		basePath = sys.path[0]
 		log.info(basePath)
 		filenames = os.listdir(basePath)
-		log.info(filenames[3])
+		log.info(filenames)
 		images = os.listdir(filenames[2])
 		bot.send_message(cid, images[0])
 		
