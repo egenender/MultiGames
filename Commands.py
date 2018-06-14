@@ -63,11 +63,33 @@ def command_prueba(bot, update, args):
 		cid = update.message.chat_id
 		game = GamesController.games.get(cid, None)
 		
+		'''
 		carta = get_carta(args[2], args[0], args[1])
 				
 		bio = BytesIO()
 		bio.name = 'image.jpeg'
 		carta.save(bio, 'JPEG')
+		bio.seek(0)
+		bot.send_photo(cid, photo=bio)
+		'''
+		
+		images = map(Image.open, ['/app/img/LostExpedition/plastilla1.jpg', '/app/img/LostExpedition/plastilla2.jpg', 
+					  '/app/img/LostExpedition/plastilla3.jpg'])
+		widths, heights = zip(*(i.size for i in images))
+
+		total_width = sum(widths)
+		max_height = max(heights)
+
+		new_im = Image.new('RGB', (total_width, max_height))
+
+		x_offset = 0
+		for im in images:
+		  new_im.paste(im, (x_offset,0))
+		  x_offset += im.size[0]
+		
+		bio = BytesIO()
+		bio.name = 'image.jpeg'
+		new_im.save(bio, 'JPEG')
 		bio.seek(0)
 		bot.send_photo(cid, photo=bio)
 		
