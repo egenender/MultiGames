@@ -52,7 +52,7 @@ def command_prueba(bot, update, args):
 		width, height = img.size
 		widthCarta, heightCarta = width/3, height/3
 		
-		fila, columna = args[0], args[1]
+		fila, columna = int(args[0]), int(args[1])
 		
 		log.info(img.size)
 		left, top, right, bottom = (fila*widthCarta), (columna*heightCarta), widthCarta, heightCarta
