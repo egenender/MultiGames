@@ -19,7 +19,7 @@ from Boardgamebox.Player import Player
 from Boardgamebox.State import State
 from Constants.Config import ADMIN
 from collections import namedtuple
-from PIL import Image
+import PIL
 from io import BytesIO
 
 # Enable logging
@@ -47,8 +47,9 @@ def command_prueba(bot, update, args):
 		cid = update.message.chat_id
 		game = GamesController.games.get(cid, None)
 		
-		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
-		#log.info(img.Size)
+		img = Image.Image.open('/app/img/LostExpedition/plastilla1.jpg')
+		width, height = img.size
+		log.info(width)
 		left, top, right, bottom = 0, 0, 709, 1063
 		cropped = img.crop( ( left, top, right, bottom ) )
 		
