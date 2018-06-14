@@ -900,6 +900,7 @@ def main():
         dp.add_handler(CommandHandler("otra", Commands.command_otra, pass_args = True))
         dp.add_handler(CommandHandler("limpiar", Commands.command_limpiar, pass_args = True))        
         dp.add_handler(CommandHandler("calltoaction", Commands.call_to_action))
+        dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
                 
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
