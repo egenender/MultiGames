@@ -74,8 +74,9 @@ def command_prueba(bot, update, args):
 		log.info(basePath)
 		filenames = os.listdir(basePath)
 		log.info(filenames)
-		images = os.listdir(filenames[6])
+		images = os.listdir(filenames[10])
 		log.info(images)
+		#images = os.listdir(filenames[10])
 		bot.send_message(cid, images[0])
 		
 		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
