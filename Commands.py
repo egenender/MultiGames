@@ -20,6 +20,7 @@ from Boardgamebox.State import State
 from Constants.Config import ADMIN
 from collections import namedtuple
 from PIL import Image
+from io import BytesIO
 
 # Enable logging
 
@@ -72,7 +73,19 @@ def command_prueba(bot, update, args):
 		
 		#img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
 		#bot.send_photo(cid, photo=img)
-		bot.send_photo(cid, photo=open('/app/img/LostExpedition/plastilla1.jpg', 'rb'))
+		
+		# Funciona
+		#bot.send_photo(cid, photo=open('/app/img/LostExpedition/plastilla1.jpg', 'rb'))
+		
+		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
+		left, top, right, bottom = 0, 0, 45, 45
+		cropped = img.crop( ( left, top, right, bottom ) )
+		
+		bio = BytesIO()
+		bio.name = 'image.jpeg'
+		cropped.save(bio, 'JPEG')
+		bio.seek(0)
+		bot.send_photo(cid, photo=bio)
 		
 		'''
 		# Para ver que archivos hay en cada carpeta
