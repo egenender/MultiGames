@@ -70,7 +70,7 @@ def command_prueba(bot, update, args):
 		bot.send_photo(cid, photo=surl)
 		'''
 		
-		basePath = os.listdir(sys.path[0])
+		basePath = sys.path[0]
 		filenames = os.listdir(basePath)
 		bot.send_message(cid, filenames[0])
 		
