@@ -70,8 +70,9 @@ def command_prueba(bot, update, args):
 		bot.send_photo(cid, photo=surl)
 		'''
 		
-		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
-		bot.send_photo(cid, photo=img)
+		#img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
+		#bot.send_photo(cid, photo=img)
+		bot.send_photo(cid, photo=open('/app/img/LostExpedition/plastilla1.jpg', 'rb'))
 		
 		'''
 		# Para ver que archivos hay en cada carpeta
