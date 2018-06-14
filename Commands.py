@@ -599,3 +599,39 @@ def command_elegimos(bot, update, args):
 				game.board.state.last_votes[uid] = args[0]
 			MainController.count_actions(bot, game)
 		
+def command_prueba(bot, update, args):
+	uid = update.message.from_user.id
+	if uid == ADMIN:
+		cid = update.message.chat_id
+		game = GamesController.games.get(cid, None)
+		
+		'''game.board.state.resultado_misiones.append("Fracaso")
+		MainController.start_round(bot, game)
+		'''
+		sdate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		log.info("Paso la conversion " + sdate)
+		surl = "https://www.dropbox.com/s/86bfrnzbdy563yl/BSGP No more yerba - CURRENT.jpg?raw=1&cache=" + sdate
+		log.info("URL: " + surl)
+		bot.send_photo(cid, photo=surl)
+		
+		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
+		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1')
+		'''game = GamesController.games.get(cid, None)
+		
+		#game.board.state.failed_votes -= 1
+		
+		for uid in game.board.state.last_votes:
+			bot.send_message(ADMIN, "%s voto, en last votes" % game.playerlist[uid].name)
+		
+		bot.send_message(ADMIN, "Fase actual: %s" % game.board.state.fase_actual)
+		'''
+		
+		'''
+		callback = update.callback_query
+		log.info(' '.join(args))
+		'''
+		'''
+		cid = update.message.chat_id
+		game = GamesController.games.get(cid, None)		
+		MainController.final_asesino(bot, game)
+		'''
