@@ -56,10 +56,11 @@ def command_prueba(bot, update, args):
 		#surl = ".\img\LostExpedition\plastilla1.jpg"
 		#img = Image.open( '..\img\LostExpedition\plastilla1.jpg' )
 		script_dir = sys.path[0]
+		log.info(script_dir)
 		img_path = os.path.join(script_dir, args[0])
-		
+		log.info(img_path)
 		img = Image.open(img_path)
-		
+		log.info(img)
 		bot.send_photo(cid, photo=img)
 		
 		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
