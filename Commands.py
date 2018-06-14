@@ -77,9 +77,9 @@ def command_prueba(bot, update, args):
 					  '/app/img/LostExpedition/plastilla3.jpg'])
 		'''
 		images = []
-		images.append(get_carta(1, 0, 0))
+		images.append(get_carta(1, 1, 0))
 		images.append(get_carta(1, 0, 1))
-		images.append(get_carta(1, 0, 2))
+		images.append(get_carta(1, 2, 2))
 		
 		widths, heights = zip(*(i.size for i in images))
 
