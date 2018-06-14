@@ -52,8 +52,10 @@ def command_prueba(bot, update, args):
 		width, height = img.size
 		widthCarta, heightCarta = width/3, height/3
 		
+		fila, columna = 0, 0
+		
 		log.info(img.size)
-		left, top, right, bottom = 0, 0, widthCarta, heightCarta
+		left, top, right, bottom = (fila*widthCarta), (columna*heightCarta), widthCarta, heightCarta
 		cropped = img.crop( ( left, top, right, bottom ) )
 		
 		bio = BytesIO()
