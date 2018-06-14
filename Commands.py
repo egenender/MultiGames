@@ -69,10 +69,17 @@ def command_prueba(bot, update, args):
 		surl = "https://github.com/leviatas/MultiGames/blob/master/img/LostExpedition/plastilla1.jpg?raw=1"
 		bot.send_photo(cid, photo=surl)
 		'''
+		
+		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
+		bot.send_photo(cid, photo=img)
+		
+		'''
+		# Para ver que archivos hay en cada carpeta
 		basePath = sys.path[0]
 		log.info(basePath)
 		filenames = os.listdir(os.path.join(basePath + args[0]))
 		log.info(filenames)
+		'''
 		
 		'''
 		basePath = sys.path[0]
