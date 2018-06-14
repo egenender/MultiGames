@@ -55,13 +55,18 @@ def command_prueba(bot, update, args):
 		#log.info("URL: " + surl)
 		#surl = ".\img\LostExpedition\plastilla1.jpg"
 		#img = Image.open( '..\img\LostExpedition\plastilla1.jpg' )
+		
+		'''
 		script_dir = sys.path[0]
 		log.info(script_dir)
 		img_path = os.path.join(script_dir, args[0])
 		log.info(script_dir + args[0])
 		img = Image.open(img_path)
 		log.info(img)
-		bot.send_photo(cid, photo=img)
+		'''
+		
+		surl = "https://github.com/leviatas/MultiGames/blob/master/img/LostExpedition/plastilla1.jpg"
+		bot.send_photo(cid, photo=surl)
 		
 		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
 		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1')
