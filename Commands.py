@@ -48,7 +48,9 @@ def command_prueba(bot, update, args):
 		cid = update.message.chat_id
 		game = GamesController.games.get(cid, None)
 		
-		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
+		url_img = '/app/img/LostExpedition/plastilla%s.jpg' % (args[3])
+		
+		img = Image.open(url_img)
 		width, height = img.size
 		widthCarta, heightCarta = width/3, height/3
 		
@@ -57,8 +59,8 @@ def command_prueba(bot, update, args):
 		#log.info(img.size)
 		
 		x, y = (fila*widthCarta), (columna*heightCarta)
-		log.info(x)
-		log.info(y)
+		#log.info(x)
+		#log.info(y)
 		
 		left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
 		cropped = img.crop( ( left, top, right, bottom ) )
