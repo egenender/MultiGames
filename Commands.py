@@ -60,7 +60,7 @@ def command_prueba(bot, update, args):
 		log.info(x)
 		log.info(y)
 		
-		left, top, right, bottom = x, y, widthCarta, heightCarta
+		left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
 		cropped = img.crop( ( left, top, right, bottom ) )
 		
 		bio = BytesIO()
