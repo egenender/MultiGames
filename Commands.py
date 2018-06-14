@@ -47,6 +47,17 @@ def command_prueba(bot, update, args):
 		cid = update.message.chat_id
 		game = GamesController.games.get(cid, None)
 		
+		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
+		#log.info(img.Size)
+		left, top, right, bottom = 0, 0, 709, 1063
+		cropped = img.crop( ( left, top, right, bottom ) )
+		
+		bio = BytesIO()
+		bio.name = 'image.jpeg'
+		cropped.save(bio, 'JPEG')
+		bio.seek(0)
+		bot.send_photo(cid, photo=bio)
+		
 		'''game.board.state.resultado_misiones.append("Fracaso")
 		MainController.start_round(bot, game)
 		'''
@@ -77,16 +88,7 @@ def command_prueba(bot, update, args):
 		# Funciona
 		#bot.send_photo(cid, photo=open('/app/img/LostExpedition/plastilla1.jpg', 'rb'))
 		
-		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
-		#log.info(img.Size)
-		left, top, right, bottom = 0, 0, 709, 1063
-		cropped = img.crop( ( left, top, right, bottom ) )
 		
-		bio = BytesIO()
-		bio.name = 'image.jpeg'
-		cropped.save(bio, 'JPEG')
-		bio.seek(0)
-		bot.send_photo(cid, photo=bio)
 		
 		'''
 		# Para ver que archivos hay en cada carpeta
