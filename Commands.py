@@ -78,7 +78,7 @@ def command_prueba(bot, update, args):
 		#bot.send_photo(cid, photo=open('/app/img/LostExpedition/plastilla1.jpg', 'rb'))
 		
 		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
-		log.info(img.Size)
+		#log.info(img.Size)
 		left, top, right, bottom = 0, 0, 709, 1063
 		cropped = img.crop( ( left, top, right, bottom ) )
 		
