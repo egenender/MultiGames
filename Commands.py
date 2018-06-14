@@ -58,7 +58,7 @@ def command_prueba(bot, update, args):
 		script_dir = sys.path[0]
 		log.info(script_dir)
 		img_path = os.path.join(script_dir, args[0])
-		log.info(img_path)
+		log.info(script_dir + args[0])
 		img = Image.open(img_path)
 		log.info(img)
 		bot.send_photo(cid, photo=img)
