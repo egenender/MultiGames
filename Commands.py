@@ -78,7 +78,7 @@ def command_prueba(bot, update, args):
 		#log.info("Paso la conversion " + sdate)
 		#surl = "https://www.dropbox.com/s/86bfrnzbdy563yl/BSGP No more yerba - CURRENT.jpg?raw=1&cache=" + sdate
 		#log.info("URL: " + surl)
-		surl = "..\img\LostExpedition\plastilla1.jpg"
+		surl = ".\img\LostExpedition\plastilla1.jpg"
 		bot.send_photo(cid, photo=surl)
 		
 		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
