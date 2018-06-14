@@ -50,8 +50,10 @@ def command_prueba(bot, update, args):
 		
 		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
 		width, height = img.size
+		widthCarta, heightCarta = width/3, heightCarta/3
+		
 		log.info(img.size)
-		left, top, right, bottom = 0, 0, 709, 1063
+		left, top, right, bottom = 0, 0, widthCarta, heightCarta
 		cropped = img.crop( ( left, top, right, bottom ) )
 		
 		bio = BytesIO()
