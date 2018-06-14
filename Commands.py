@@ -72,9 +72,15 @@ def command_prueba(bot, update, args):
 		bio.seek(0)
 		bot.send_photo(cid, photo=bio)
 		'''
-		
+		'''
 		images = map(Image.open, ['/app/img/LostExpedition/plastilla1.jpg', '/app/img/LostExpedition/plastilla2.jpg', 
 					  '/app/img/LostExpedition/plastilla3.jpg'])
+		'''
+		images = []
+		images.append(get_carta(1, 0, 0))
+		images.append(get_carta(1, 0, 1))
+		images.append(get_carta(1, 0, 2))
+		
 		widths, heights = zip(*(i.size for i in images))
 
 		total_width = sum(widths)
