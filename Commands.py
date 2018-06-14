@@ -50,7 +50,7 @@ def command_prueba(bot, update, args):
 		
 		img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
 		width, height = img.size
-		widthCarta, heightCarta = width/3, heightCarta/3
+		widthCarta, heightCarta = width/3, height/3
 		
 		log.info(img.size)
 		left, top, right, bottom = 0, 0, widthCarta, heightCarta
