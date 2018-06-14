@@ -6,7 +6,7 @@ import jsonpickle
 import os
 import psycopg2
 import urllib.parse
-
+import sys
 	
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 
@@ -55,7 +55,10 @@ def command_prueba(bot, update, args):
 		#log.info("URL: " + surl)
 		#surl = ".\img\LostExpedition\plastilla1.jpg"
 		#img = Image.open( '..\img\LostExpedition\plastilla1.jpg' )
-		img = Image.open(args[0])
+		script_dir = sys.path[0]
+		img_path = os.path.join(script_dir, args[0])
+		
+		img = Image.open(img_path)
 		
 		bot.send_photo(cid, photo=img)
 		
