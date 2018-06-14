@@ -608,7 +608,7 @@ def command_prueba(bot, update, args):
 		'''game.board.state.resultado_misiones.append("Fracaso")
 		MainController.start_round(bot, game)
 		'''
-		sdate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		sdate = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		log.info("Paso la conversion " + sdate)
 		surl = "https://www.dropbox.com/s/86bfrnzbdy563yl/BSGP No more yerba - CURRENT.jpg?raw=1&cache=" + sdate
 		log.info("URL: " + surl)
