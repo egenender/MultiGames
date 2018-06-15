@@ -76,6 +76,10 @@ def command_prueba(bot, update, args):
 		images = map(Image.open, ['/app/img/LostExpedition/plastilla1.jpg', '/app/img/LostExpedition/plastilla2.jpg', 
 					  '/app/img/LostExpedition/plastilla3.jpg'])
 		'''
+		
+		int_de_string = int(args[0])
+		bot.send_message(cid, int_de_string)
+		
 		images = []
 		images.append(get_carta(1, 1, 0))
 		images.append(get_carta(1, 0, 1))
