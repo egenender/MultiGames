@@ -43,14 +43,14 @@ conn = psycopg2.connect(
 )
 
 
-def get_carta(plastilla, columna, fila):
+def get_carta(plastilla, fila, columna):
 	url_img = '/app/img/LostExpedition/plastilla%s.jpg' % (plastilla)		
 	img = Image.open(url_img)
 	width, height = img.size
 	widthCarta, heightCarta = width/3, height/3
 	columna, fila = int(columna), int(fila)
 	#log.info(img.size)
-	x, y = (fila*widthCarta), (columna*heightCarta)
+	x, y = (columna*heightCarta), (fila*widthCarta)
 	#log.info(x)
 	#log.info(y)
 	left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
