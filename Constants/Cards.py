@@ -141,7 +141,7 @@ cartas_aventura = {
     21 : {
         "nombre" : "Nombre",
         "plastilla" : "3",
-        "fila" : "1" 
+        "fila" : "1",
         "columna" : "2"
     },
     22 : {
