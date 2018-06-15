@@ -96,6 +96,8 @@ def command_prueba(bot, update, args):
 		
 		images = []
 		
+		cartas_mañana.sort()
+		
 		for carta_aventura in cartas_mañana:
 			carta_actual = cartas_aventura[carta_aventura]
 			images.append(get_carta(carta_actual["plastilla"], carta_actual["fila"], carta_actual["columna"]))
