@@ -90,7 +90,7 @@ def command_prueba(bot, update, args):
 		
 		cartas_mañana = []
 		
-		for i in range(3):
+		for i in range(6):
 			cartas_mañana.append(cartas_juego_actual.pop(0))
 		
 		
