@@ -23,6 +23,8 @@ from collections import namedtuple
 from PIL import Image
 from io import BytesIO
 
+from Constants.Cards import cartas_aventura
+
 # Enable logging
 
 log.basicConfig(
@@ -81,14 +83,28 @@ def command_prueba(bot, update, args):
 		#int_de_string = float(args[0])
 		#bot.send_message(cid, int_de_string)
 		
+		cartas_juego_actual =  random.sample([*cartas_aventura], len([*cartas_aventura]))		
+		
+		cartas_mañana = []
+		
+		for i in range(3):
+			cartas_mañana.append(cartas_juego_actual.pop(0))
+		
+		
 		images = []
-		images.append(get_carta(1, 1, 0))
+		
+		for carta_aventura in cartas_mañana:
+			carta_actual = cartas_aventura[carta_aventura]
+			images.append(get_carta(carta_actual["plastilla"], carta_actual["fila"], carta_actual["columna"]))
+				
+		'''images.append(get_carta(1, 1, 0))
 		images.append(get_carta(1, 0, 1))
 		images.append(get_carta(2, 2, 2))
 		images.append(get_carta(3, 1, 0))
 		images.append(get_carta(4, 1, 0))
 		images.append(get_carta(5, 1, 0))
 		images.append(get_carta(7, 2, 2))
+		'''
 		
 		widths, heights = zip(*(i.size for i in images))
 
