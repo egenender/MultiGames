@@ -48,7 +48,9 @@ conn = psycopg2.connect(
 )
 
 
-def get_carta(plastilla, fila, columna):
+def get_img_carta(num_carta):
+	carta = cartas_aventura[num_carta]
+	plastilla, fila, columna = carta["plastilla"], carta["fila"], carta["columna"]	
 	url_img = '/app/img/LostExpedition/plastilla%s.jpg' % (plastilla)		
 	img = Image.open(url_img)
 	width, height = img.size
@@ -99,8 +101,7 @@ def command_prueba(bot, update, args):
 		cartas_mañana.sort()
 		
 		for carta_aventura in cartas_mañana:
-			carta_actual = cartas_aventura[carta_aventura]
-			images.append(get_carta(carta_actual["plastilla"], carta_actual["fila"], carta_actual["columna"]))
+			images.append(get_img_carta(carta_aventura))
 				
 		'''images.append(get_carta(1, 1, 0))
 		images.append(get_carta(1, 0, 1))
