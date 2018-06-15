@@ -50,7 +50,7 @@ def get_carta(plastilla, fila, columna):
 	widthCarta, heightCarta = width/3, height/3
 	columna, fila = int(columna), int(fila)
 	#log.info(img.size)
-	x, y = (fila*heightCarta), (columna*widthCarta)
+	x, y = (fila*widthCarta), (columna*heightCarta)
 	#log.info(x)
 	#log.info(y)
 	left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
