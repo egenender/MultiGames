@@ -77,7 +77,7 @@ def command_prueba(bot, update, args):
 					  '/app/img/LostExpedition/plastilla3.jpg'])
 		'''
 		
-		int_de_string = int(args[0])
+		int_de_string = float(args[0])
 		bot.send_message(cid, int_de_string)
 		
 		images = []
