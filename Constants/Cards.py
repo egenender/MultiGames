@@ -60,7 +60,7 @@ cartas_aventura = {
         "columna" : "0"
         
     },
-    10" : {
+    10 : {
         "nombre" : "Nombre",
         "plastilla" : "2",
         "fila" : "0",
