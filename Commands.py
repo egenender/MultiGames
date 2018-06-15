@@ -79,7 +79,11 @@ def command_prueba(bot, update, args):
 		images = []
 		images.append(get_carta(1, 1, 0))
 		images.append(get_carta(1, 0, 1))
-		images.append(get_carta(1, 2, 2))
+		images.append(get_carta(2, 2, 2))
+		images.append(get_carta(3, 1, 0))
+		images.append(get_carta(4, 1, 0))
+		images.append(get_carta(5, 1, 0))
+		images.append(get_carta(7, 2, 2))
 		
 		widths, heights = zip(*(i.size for i in images))
 
