@@ -48,6 +48,7 @@ def get_carta(plastilla, fila, columna):
 	img = Image.open(url_img)
 	width, height = img.size
 	widthCarta, heightCarta = width/3, height/3
+	# Este switch se hace para corresponder al llamado del metodo, sino tendria que haber sido columna, fila.
 	columna, fila = int(fila), int(columna)
 	#log.info(img.size)
 	x, y = (fila*widthCarta), (columna*heightCarta)
