@@ -23,7 +23,10 @@ from collections import namedtuple
 from PIL import Image
 from io import BytesIO
 
+# Objetos que uso de prueba estaran en el state
 from Constants.Cards import cartas_aventura
+import random
+# Objetos que uso de prueba estaran en el state
 
 # Enable logging
 
