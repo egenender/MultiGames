@@ -50,7 +50,7 @@ def get_carta(plastilla, fila, columna):
 	widthCarta, heightCarta = width/3, height/3
 	columna, fila = int(columna), int(fila)
 	#log.info(img.size)
-	x, y = (columna*heightCarta), (fila*widthCarta)
+	x, y = (fila*heightCarta), (columna*widthCarta)
 	#log.info(x)
 	#log.info(y)
 	left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
@@ -77,8 +77,8 @@ def command_prueba(bot, update, args):
 					  '/app/img/LostExpedition/plastilla3.jpg'])
 		'''
 		
-		int_de_string = float(args[0])
-		bot.send_message(cid, int_de_string)
+		#int_de_string = float(args[0])
+		#bot.send_message(cid, int_de_string)
 		
 		images = []
 		images.append(get_carta(1, 1, 0))
