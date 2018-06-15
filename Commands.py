@@ -48,7 +48,7 @@ def get_carta(plastilla, fila, columna):
 	img = Image.open(url_img)
 	width, height = img.size
 	widthCarta, heightCarta = width/3, height/3
-	columna, fila = int(columna), int(fila)
+	columna, fila = int(fila), int(columna)
 	#log.info(img.size)
 	x, y = (fila*widthCarta), (columna*heightCarta)
 	#log.info(x)
