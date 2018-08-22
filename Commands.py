@@ -68,7 +68,8 @@ def get_img_carta(num_carta):
 def command_prueba(bot, update, args):
 	uid = update.message.from_user.id
 	if uid == ADMIN:
-		cid = update.message.chat_id
+		cid = '-1001206290323'
+		#update.message.chat_id
 		game = GamesController.games.get(cid, None)
 		
 		'''
