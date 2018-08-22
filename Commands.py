@@ -66,6 +66,8 @@ def get_img_carta(num_carta):
 	return cropped
 
 def command_prueba(bot, update, args):
+	log.info(update.message.from_user.id)
+	log.info(update.message.chat_id)
 	uid = update.message.from_user.id
 	if uid == ADMIN:
 		cid = '-1001206290323'
