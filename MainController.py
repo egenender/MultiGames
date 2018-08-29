@@ -901,7 +901,12 @@ def main():
         dp.add_handler(CommandHandler("limpiar", Commands.command_limpiar, pass_args = True))        
         dp.add_handler(CommandHandler("calltoaction", Commands.call_to_action))
         dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
-                
+        
+        # Secret Moon Commands
+        dp.add_handler(CommandHandler("joinsecretmoon", Commands.command_join_secret_moon))
+        dp.add_handler(CommandHandler("newgamesecretmoon", Commands.command_newgame_secret_moon))
+        dp.add_handler(CommandHandler("startgamesecretmoon", Commands.command_startgame_secret_moon))
+        
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
         dp.add_handler(CommandHandler("nein", Commands.command_nein))
