@@ -105,7 +105,7 @@ def command_join_secret_moon(bot, update):
 		bot.send_message(cid, "The game has started. Please wait for the next game!")
 	elif uid in game.playerlist:
 		bot.send_message(game.cid, "You already joined the game, %s!" % fname)
-	elif len(game.playerlist) >= 9:
+	elif len(game.playerlist) >= 7:
 		bot.send_message(game.cid, "You have reached the maximum amount of players. Please start the game with /startgame!")
 	else:
 		#uid = update.message.from_user.id
@@ -118,9 +118,9 @@ def command_join_secret_moon(bot, update):
 			if len(game.playerlist) > 4:
 				bot.send_message(game.cid, fname + " has joined the game. Type /startgame if this was the last player and you want to start with %d players!" % len(game.playerlist))
 			elif len(game.playerlist) == 1:
-				bot.send_message(game.cid, "%s has joined the game. There is currently %d player in the game and you need 5-10 players." % (fname, len(game.playerlist)))
+				bot.send_message(game.cid, "%s has joined the game. There is currently %d player in the game and you need 5-8 players." % (fname, len(game.playerlist)))
 			else:
-				bot.send_message(game.cid, "%s has joined the game. There are currently %d players in the game and you need 5-10 players." % (fname, len(game.playerlist)))
+				bot.send_message(game.cid, "%s has joined the game. There are currently %d players in the game and you need 5-8 players." % (fname, len(game.playerlist)))
 		except Exception:
 			bot.send_message(game.cid,
 				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
@@ -137,8 +137,8 @@ def command_startgame_secret_moon(bot, update):
 		bot.send_message(cid, "The game is already running!")
 	elif uid != ADMIN:
 		bot.send_message(game.cid, "Only the Master Administrator can start the game")
-	elif len(game.playerlist) < 7:
-		bot.send_message(game.cid, "There are not enough players (min. 8, max. 10). Join the game with /join")
+	elif len(game.playerlist) < 4:
+		bot.send_message(game.cid, "There are not enough players (min. 5, max. 8). Join the game with /join")
 	else:
 		player_number = len(game.playerlist)
 		MainController.init_game(bot, game, game.cid, player_number)		
