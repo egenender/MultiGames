@@ -872,7 +872,7 @@ def main():
         updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN)
-        updater.bot.set_webhook("https://MultiGames.herokuapp.com/" + TOKEN)
+        updater.bot.set_webhook("https://multigames.herokuapp.com/" + TOKEN)
               
         
         # Get the dispatcher to register handlers
