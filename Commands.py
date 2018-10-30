@@ -155,6 +155,11 @@ def command_startgame_secret_moon(bot, update):
 
 # End Secret Moon	
 
+# The Lost Expedition
+# Conseguir que guarde en BD el juego actual y obtenerlo devuelta.
+# Hacer comando para obtener X cantidad de cartas del mazo
+# Hacer comando para ordenar las cartas obtenidas de la mano
+
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
@@ -181,6 +186,7 @@ def command_prueba(bot, update, args):
 		#int_de_string = float(args[0])
 		#bot.send_message(cid, int_de_string)
 		
+		#
 		cartas_juego_actual =  random.sample([*cartas_aventura], len([*cartas_aventura]))		
 		
 		cartas_mañana = []
