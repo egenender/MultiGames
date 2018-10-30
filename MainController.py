@@ -887,7 +887,7 @@ def main():
         dp.add_handler(CommandHandler("ping", Commands.command_ping))
         dp.add_handler(CommandHandler("symbols", Commands.command_symbols))
         dp.add_handler(CommandHandler("stats", Commands.command_stats))
-        dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
+        #dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
         dp.add_handler(CommandHandler("startgame", Commands.command_startgame))
         dp.add_handler(CommandHandler("cancelgame", Commands.command_cancelgame))
         dp.add_handler(CommandHandler("join", Commands.command_join, pass_args = True))
