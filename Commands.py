@@ -68,9 +68,15 @@ def get_img_carta(num_carta):
 	
 
 # The Lost Expedition
+# Comando para mostrar la mano
 # Conseguir que guarde en BD el juego actual y obtenerlo devuelta.
 # Hacer comando para obtener X cantidad de cartas del mazo
-# Hacer comando para ordenar las cartas obtenidas de la mano
+# Hacer comando para ordenar las cartas obtenidas de la mano (Muestra la mano al finalizar)
+# Hacer comando eliminar carta de la mano (Muestra la mano al finalizar)
+# Crear Stats de la expedicion.
+# Crear comando que disminuya los stats
+
+
 
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
