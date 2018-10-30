@@ -868,9 +868,10 @@ def main():
         '''
         
         
-        #updater = Updater(TOKEN)
+        updater = Updater(TOKEN)
         
         PORT = int(os.environ.get('PORT', '5000'))
+        
         updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN)
