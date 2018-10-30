@@ -867,14 +867,17 @@ def main():
         cur.execute(query)
         '''
         
-        PORT = int(os.environ.get('PORT', '8443'))
+        #PORT = int(os.environ.get('PORT', '8443'))
         updater = Updater(TOKEN)
+        
+        # DEscomentar para Webhook acordarse de cambiar el tipo de bot a web
+        '''
         updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN,
                       key='8ca9c17937b0699c7643b1084d97d2b40a4ceadc75f32d9914ceffcff873')
         updater.bot.set_webhook("https://multigames.herokuapp.com/" + TOKEN)
-              
+        '''              
         
         # Get the dispatcher to register handlers
         dp = updater.dispatcher
@@ -927,7 +930,7 @@ def main():
         dp.add_error_handler(error)
 
         # Start the Bot (Usar si no es WebHook)
-        #updater.start_polling()
+        updater.start_polling()
 
         # Run the bot until the you presses Ctrl-C or the process receives SIGINT,
         # SIGTERM or SIGABRT. This should be used most of the time, since
