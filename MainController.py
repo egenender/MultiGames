@@ -910,6 +910,10 @@ def main():
         dp.add_handler(CommandHandler("newgamesecretmoon", Commands.command_newgame_secret_moon))
         dp.add_handler(CommandHandler("startgamesecretmoon", Commands.command_startgame_secret_moon))
         
+        # Lost Expedition Commands
+        dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
+        dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard))
+        
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
         dp.add_handler(CommandHandler("nein", Commands.command_nein))
