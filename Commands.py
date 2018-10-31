@@ -167,7 +167,7 @@ def command_drawcard(bot, update, args):
 	uid = update.message.from_user.id
 	if uid == ADMIN:
 		game = GamesController.games[cid]
-		player = game.playerlist[player.uid]		
+		player = game.playerlist[uid]		
 		cantidad = int(args[0])
 		
 		for i in range(cantidad):
