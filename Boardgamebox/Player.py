@@ -8,3 +8,4 @@ class Player(object):
         self.inspected_players = {} 
         self.tokens_posesion = 0
         self.poseido = False
+        self.hand = []
