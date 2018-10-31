@@ -168,7 +168,9 @@ def command_drawcard(bot, update, args):
 	if uid == ADMIN:
 		game = GamesController.games[cid]
 		player = game.playerlist[player.uid]		
-		for i in range(int(args[0))):
+		cantidad = int(args[0])
+		
+		for i in range(cantidad):
 			player.hand.append(game.board.cartasAventura.pop(0))		
 		cid = '-1001206290323'
 		showImages(bot, cid, player.hand)
