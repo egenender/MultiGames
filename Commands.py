@@ -85,22 +85,8 @@ campero = 3
 brujula = 3
 hoja = 3
 
-def command_drawcard(bot, update, args):
-	uid = update.message.from_user.id
-	if uid == ADMIN:
-		cid = '-1001206290323'
-		hand.append(cartas_juego_actual.pop(0))
-
-def command_showhand(bot, update, args):
-	uid = update.message.from_user.id
-	if uid == ADMIN:
-		cid = '-1001206290323'		
-		images = []		
-		for carta_aventura in hand:
-			images.append(get_img_carta(carta_aventura))
-			
-
-def showImages(cid, cartas):
+# Generic commands for all games
+def showImages(bot, cid, cartas):
 	images = []
 	for carta in cartas:
 		images.append(get_img_carta(carta))
@@ -122,7 +108,75 @@ def showImages(cid, cartas):
 	new_im.save(bio, 'JPEG')
 	bio.seek(0)
 	bot.send_photo(cid, photo=bio)
-			
+	
+def save(bot, update):
+	cid = update.message.chat_id
+	groupName = update.message.chat.title
+	game = GamesController.games.get(cid, None)
+	gameType = 'LostExpedition'
+	save_game(cid, groupName, gameType, game)
+
+def load(bot, update):
+	cid = update.message.chat_id
+	game = load_game(cid)			
+	if game:
+		GamesController.games[cid] = game
+		bot.send_message(cid, "Juego Cargado exitosamente")				
+		#bot.send_message(game.cid, game.board.print_board(game.playerlist))				
+		# Remember the current player that he has to act
+		#MainController.start_round(bot, game)
+	else:
+		bot.send_message(cid, "No existe juego")		
+# Generic commands for all games
+
+#Lost Expedition
+def command_newgame_lost_expedition(bot, update, args):  
+	cid = update.message.chat_id
+	fname = update.message.from_user.first_name
+	uid = update.message.from_user.id
+	try:
+		game = GamesController.games.get(cid, None)		
+		if game:
+			bot.send_message(cid, "There is currently a game running.")
+		else:			
+			#Search game in DB
+			game = load_game(cid)			
+			if game:
+				GamesController.games[cid] = game
+				bot.send_message(cid, "Hay un juego actualmente. Borralo para crear uno nuevo")				
+				#bot.send_message(game.cid, game.board.print_board(game.playerlist))				      
+				# Remember the current player that he has to act
+				#MainController.start_round(bot, game)
+			else:
+				game = Game(cid, update.message.from_user.id)
+				GamesController.games[cid] = game
+				
+				# Creo el jugador que creo el juego y lo agrego al juego
+				player = Player(fname, uid)
+				game.add_player(uid, player)				
+				player_number = len(game.playerlist)
+				
+				game.board = Board(player_number, game)
+				game.board.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
+				bot.send_message(cid, "Nuevo juego creado")						
+	except Exception as e:
+		bot.send_message(cid, str(e))
+
+def command_drawcard(bot, update, args):
+	uid = update.message.from_user.id
+	if uid == ADMIN:
+		cid = '-1001206290323'
+		hand.append(game.board.cartasAventura.pop(0))
+		showImages(bot, cid, hand)
+
+def command_showhand(bot, update, args):
+	uid = update.message.from_user.id
+	if uid == ADMIN:
+		cid = '-1001206290323'		
+		images = []		
+		for carta_aventura in hand:
+			images.append(get_img_carta(carta_aventura))
+
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
@@ -135,8 +189,8 @@ def command_prueba(bot, update, args):
 		cartas_mañana = []		
 		for i in range(6):
 			cartas_mañana.append(cartas_juego_actual.pop(0))				
-		cartas_mañana.sort()				
-		showImages(cid, cartas_mañana)		
+		cartas_mañana.sort()
+		showImages(bot, cid, cartas_mañana)		
 
 commands = [  # command description used in the "help" command
     '/help - Gives you information about the available commands',
@@ -446,40 +500,40 @@ def command_claim(bot, update, args):
 		bot.send_message(cid, str(e))
 		log.error("Unknown error: " + str(e))    
 		
-def save_game(cid, groupName, game):
+def save_game(cid, groupName, game, gameType):
 	#Check if game is in DB first
 	cur = conn.cursor()			
 	log.info("Searching Game in DB")
-	query = "select * from games_xapi_bot where id = %s;"
+	query = "select * from games where id = %s;"
 	cur.execute(query, [cid])
 	dbdata = cur.fetchone()
 	if cur.rowcount > 0:
 		log.info('Updating Game')
 		gamejson = jsonpickle.encode(game)
 		#query = "UPDATE games SET groupName = %s, data = %s WHERE id = %s RETURNING data;"
-		query = "UPDATE games_xapi_bot SET groupName = %s, data = %s WHERE id = %s;"
-		cur.execute(query, (groupName, gamejson, cid))
+		query = "UPDATE games_xapi_bot SET groupName = %s, tipojuego = %s, data = %s WHERE id = %s;"
+		cur.execute(query, (groupName, gameType, gamejson, cid))
 		#log.info(cur.fetchone()[0])
 		conn.commit()		
 	else:
 		log.info('Saving Game in DB')
 		gamejson = jsonpickle.encode(game)
-		query = "INSERT INTO games_xapi_bot(id , groupName  , data) VALUES (%s, %s, %s);"
+		query = "INSERT INTO games_xapi_bot(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s);"
 		#query = "INSERT INTO games(id , groupName  , data) VALUES (%s, %s, %s) RETURNING data;"
-		cur.execute(query, (cid, groupName, gamejson))
+		cur.execute(query, (cid, groupName, gameType, gamejson))
 		#log.info(cur.fetchone()[0])
 		conn.commit()
 
 def load_game(cid):
 	cur = conn.cursor()			
 	log.info("Searching Game in DB")
-	query = "SELECT * FROM games_xapi_bot WHERE id = %s;"
+	query = "SELECT * FROM games WHERE id = %s;"
 	cur.execute(query, [cid])
 	dbdata = cur.fetchone()
 
 	if cur.rowcount > 0:
 		log.info("Game Found")
-		jsdata = dbdata[2]
+		jsdata = dbdata[3]
 		#log.info("jsdata = %s" % (jsdata))				
 		game = jsonpickle.decode(jsdata)
 		
@@ -498,7 +552,7 @@ def load_game(cid):
 def delete_game(cid):
 	cur = conn.cursor()
 	log.info("Deleting Game in DB")
-	query = "DELETE FROM games_xapi_bot WHERE id = %s;"
+	query = "DELETE FROM games WHERE id = %s;"
 	cur.execute(query, [cid])
 	conn.commit()
 	
