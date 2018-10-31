@@ -163,17 +163,23 @@ def command_newgame_lost_expedition(bot, update):
 		bot.send_message(cid, str(e))
 
 def command_drawcard(bot, update, args):
+	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
+		game = GamesController.games[cid]
+		player = game.playerlist[player.uid]		
+		player.hand.append(game.board.cartasAventura.pop(0))		
 		cid = '-1001206290323'
-		hand.append(game.board.cartasAventura.pop(0))
-		showImages(bot, cid, hand)
+		showImages(bot, cid, player.hand)
 
 def command_showhand(bot, update, args):
+	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
+		game = GamesController.games[cid]
+		player = game.playerlist[player.uid]		
 		cid = '-1001206290323'		
-		showImages(bot, cid, hand)
+		showImages(bot, cid, player.hand)
 		
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
