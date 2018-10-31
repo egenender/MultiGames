@@ -130,7 +130,7 @@ def load(bot, update):
 # Generic commands for all games
 
 #Lost Expedition
-def command_newgame_lost_expedition(bot, update, args):  
+def command_newgame_lost_expedition(bot, update):  
 	cid = update.message.chat_id
 	fname = update.message.from_user.first_name
 	uid = update.message.from_user.id
@@ -173,10 +173,8 @@ def command_showhand(bot, update, args):
 	uid = update.message.from_user.id
 	if uid == ADMIN:
 		cid = '-1001206290323'		
-		images = []		
-		for carta_aventura in hand:
-			images.append(get_img_carta(carta_aventura))
-
+		showImages(bot, cid, hand)
+		
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
