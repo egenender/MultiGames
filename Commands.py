@@ -77,7 +77,52 @@ def get_img_carta(num_carta):
 # Crear comando que disminuya los stats
 
 
+hand = []
+exploration = []
+food = 3
+bullets = 3
+campero = 3
+brujula = 3
+hoja = 3
 
+def command_drawcard(bot, update, args):
+	uid = update.message.from_user.id
+	if uid == ADMIN:
+		cid = '-1001206290323'
+		hand.append(cartas_juego_actual.pop(0))
+
+def command_showhand(bot, update, args):
+	uid = update.message.from_user.id
+	if uid == ADMIN:
+		cid = '-1001206290323'		
+		images = []		
+		for carta_aventura in hand:
+			images.append(get_img_carta(carta_aventura))
+			
+
+def showImages(cid, cartas):
+	images = []
+	for carta in cartas:
+		images.append(get_img_carta(carta))
+
+	widths, heights = zip(*(i.size for i in images))
+
+	total_width = sum(widths)
+	max_height = max(heights)
+
+	new_im = Image.new('RGB', (total_width, max_height))
+
+	x_offset = 0
+	for im in images:
+		new_im.paste(im, (x_offset,0))
+		x_offset += im.size[0]
+
+	bio = BytesIO()
+	bio.name = 'image.jpeg'
+	new_im.save(bio, 'JPEG')
+	bio.seek(0)
+	bot.send_photo(cid, photo=bio)
+			
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
@@ -85,139 +130,13 @@ def command_prueba(bot, update, args):
 	if uid == ADMIN:
 		cid = '-1001206290323'
 		#update.message.chat_id
-		game = GamesController.games.get(cid, None)
-		
-		'''
-		carta = get_carta(args[2], args[0], args[1])
-				
-		bio = BytesIO()
-		bio.name = 'image.jpeg'
-		carta.save(bio, 'JPEG')
-		bio.seek(0)
-		bot.send_photo(cid, photo=bio)
-		'''
-		'''
-		images = map(Image.open, ['/app/img/LostExpedition/plastilla1.jpg', '/app/img/LostExpedition/plastilla2.jpg', 
-					  '/app/img/LostExpedition/plastilla3.jpg'])
-		'''
-		
-		#int_de_string = float(args[0])
-		#bot.send_message(cid, int_de_string)
-		
-		#
-		cartas_juego_actual =  random.sample([*cartas_aventura], len([*cartas_aventura]))		
-		
-		cartas_mañana = []
-		
-		for i in range(6):
-			cartas_mañana.append(cartas_juego_actual.pop(0))
-		
-		
-		images = []
-		
-		cartas_mañana.sort()
-		
-		for carta_aventura in cartas_mañana:
-			images.append(get_img_carta(carta_aventura))
-				
-		'''images.append(get_carta(1, 1, 0))
-		images.append(get_carta(1, 0, 1))
-		images.append(get_carta(2, 2, 2))
-		images.append(get_carta(3, 1, 0))
-		images.append(get_carta(4, 1, 0))
-		images.append(get_carta(5, 1, 0))
-		images.append(get_carta(7, 2, 2))
-		'''
-		
-		widths, heights = zip(*(i.size for i in images))
-
-		total_width = sum(widths)
-		max_height = max(heights)
-
-		new_im = Image.new('RGB', (total_width, max_height))
-
-		x_offset = 0
-		for im in images:
-		  new_im.paste(im, (x_offset,0))
-		  x_offset += im.size[0]
-		
-		bio = BytesIO()
-		bio.name = 'image.jpeg'
-		new_im.save(bio, 'JPEG')
-		bio.seek(0)
-		bot.send_photo(cid, photo=bio)
-		
-		'''game.board.state.resultado_misiones.append("Fracaso")
-		MainController.start_round(bot, game)
-		'''
-		#sdate = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-		#log.info("Paso la conversion " + sdate)
-		#surl = "https://www.dropbox.com/s/86bfrnzbdy563yl/BSGP No more yerba - CURRENT.jpg?raw=1&cache=" + sdate
-		#log.info("URL: " + surl)
-		#surl = ".\img\LostExpedition\plastilla1.jpg"
-		#img = Image.open( '..\img\LostExpedition\plastilla1.jpg' )
-		
-		'''
-		script_dir = sys.path[0]
-		log.info(script_dir)
-		img_path = os.path.join(script_dir, args[0])
-		log.info(script_dir + args[0])
-		img = Image.open(img_path)
-		log.info(img)
-		'''
-		
-		'''
-		surl = "https://github.com/leviatas/MultiGames/blob/master/img/LostExpedition/plastilla1.jpg?raw=1"
-		bot.send_photo(cid, photo=surl)
-		'''
-		
-		#img = Image.open('/app/img/LostExpedition/plastilla1.jpg')
-		#bot.send_photo(cid, photo=img)
-		
-		# Funciona
-		#bot.send_photo(cid, photo=open('/app/img/LostExpedition/plastilla1.jpg', 'rb'))
-		
-		
-		
-		'''
-		# Para ver que archivos hay en cada carpeta
-		basePath = sys.path[0]
-		log.info(basePath)
-		filenames = os.listdir(os.path.join(basePath + args[0]))
-		log.info(filenames)
-		'''
-		
-		'''
-		basePath = sys.path[0]
-		log.info(basePath)
-		filenames = os.listdir(basePath)
-		log.info(filenames)
-		images = os.listdir(filenames[10])
-		log.info(images)
-		#images = os.listdir(filenames[10])
-		bot.send_message(cid, images[0])
-		'''
-		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1&cache=%d' % (datetime.now()))
-		#bot.send_photo(cid, photo='https://www.dropbox.com/s/sy4473ohowipxke/BSGP%20Esperando%20la%20Carroza%20-%20CURRENT.jpg?raw=1')
-		'''game = GamesController.games.get(cid, None)
-		
-		#game.board.state.failed_votes -= 1
-		
-		for uid in game.board.state.last_votes:
-			bot.send_message(ADMIN, "%s voto, en last votes" % game.playerlist[uid].name)
-		
-		bot.send_message(ADMIN, "Fase actual: %s" % game.board.state.fase_actual)
-		'''
-		
-		'''
-		callback = update.callback_query
-		log.info(' '.join(args))
-		'''
-		'''
-		cid = update.message.chat_id
 		game = GamesController.games.get(cid, None)		
-		MainController.final_asesino(bot, game)
-		'''
+		cartas_juego_actual =  random.sample([*cartas_aventura], len([*cartas_aventura]))		
+		cartas_mañana = []		
+		for i in range(6):
+			cartas_mañana.append(cartas_juego_actual.pop(0))				
+		cartas_mañana.sort()				
+		showImages(cid, cartas_mañana)		
 
 commands = [  # command description used in the "help" command
     '/help - Gives you information about the available commands',
