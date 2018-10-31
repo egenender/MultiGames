@@ -8,9 +8,11 @@ class Board(object):
         self.state = State()
         self.num_players = playercount
         self.fascist_track_actions = playerSets[self.num_players]["track"]
-        self.policies = random.sample(policies, len(policies))
+        self.policies = random.sample(policies, len(policies))        
         self.discards = []
-        self.previous = []
+        self.previous = []        
+        # LostExpedition
+        self.cartasAventura = []
    
     def print_board(self, player_list):
         board = "--- Posesión actual ---\n"
