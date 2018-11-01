@@ -157,7 +157,7 @@ def command_newgame_lost_expedition(bot, update):
 				player_number = len(game.playerlist)
 				bot.send_message(cid, "Se creo el juego y el usuario")
 				game.board = Board(player_number, game)
-				game.board.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
+				
 				bot.send_message(cid, "Nuevo juego creado")						
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
