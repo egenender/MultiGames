@@ -913,6 +913,7 @@ def main():
         # Lost Expedition Commands
         dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
         dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
+        dp.add_handler(CommandHandler("hand", Commands.command_showhand))
         
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
