@@ -77,14 +77,6 @@ def get_img_carta(num_carta):
 # Crear comando que disminuya los stats
 
 
-hand = []
-exploration = []
-food = 3
-bullets = 3
-campero = 3
-brujula = 3
-hoja = 3
-
 # Generic commands for all games
 def showImages(bot, cid, cartas):
 	images = []
