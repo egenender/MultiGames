@@ -181,7 +181,7 @@ def command_showhand(bot, update):
 	uid = update.message.from_user.id
 	if uid == ADMIN:
 		game = GamesController.games[cid]
-		player = game.playerlist[player.uid]		
+		player = game.playerlist[uid]		
 		cid = '-1001206290323'		
 		showImages(bot, cid, player.hand)
 		
