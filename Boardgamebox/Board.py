@@ -1,5 +1,5 @@
-from Constants.Cards import playerSets
-from Constants.Cards import policies
+from Constants.Cards import cartas_aventura
+
 import random
 from Boardgamebox.State import State
 
@@ -7,12 +7,13 @@ class Board(object):
     def __init__(self, playercount, game):
         self.state = State()
         self.num_players = playercount
-        self.fascist_track_actions = playerSets[self.num_players]["track"]
-        self.policies = random.sample(policies, len(policies))        
+        #Lost Expedition
+        self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
+              
         self.discards = []
         self.previous = []        
-        # LostExpedition
-        self.cartasAventura = []
+        
+        
    
     def print_board(self, player_list):
         board = "--- Posesión actual ---\n"
