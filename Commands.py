@@ -176,6 +176,7 @@ def command_drawcard(bot, update, args):
 		showImages(bot, cid, player.hand)
 
 def command_showhand(bot, update):
+	
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
