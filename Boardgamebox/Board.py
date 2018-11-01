@@ -9,7 +9,8 @@ class Board(object):
         self.num_players = playercount
         #Lost Expedition
         self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
-              
+        self.cartasExplorationActual = []
+        
         self.discards = []
         self.previous = []        
         
