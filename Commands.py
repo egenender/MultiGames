@@ -154,7 +154,7 @@ def command_newgame_lost_expedition(bot, update):
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
 
-def command_drawcard(bot, update, args==['2']):
+def command_drawcard(bot, update, args=['2']):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
