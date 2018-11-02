@@ -119,7 +119,6 @@ def load(bot, update):
 		#MainController.start_round(bot, game)
 	else:
 		bot.send_message(cid, "No existe juego")		
-# Generic commands for all games
 
 #Lost Expedition
 def command_newgame_lost_expedition(bot, update):  
@@ -168,8 +167,7 @@ def command_drawcard(bot, update, args):
 		cid = '-1001206290323'
 		showImages(bot, cid, player.hand)
 
-def command_showhand(bot, update):
-	
+def command_showhand(bot, update):	
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
