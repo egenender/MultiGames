@@ -158,6 +158,8 @@ def command_drawcard(bot, update, args=['2']):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
+		bot.send_message(cid, args)	
+		
 		game = GamesController.games[cid]
 		player = game.playerlist[uid]		
 		cantidad = int(args[0])
