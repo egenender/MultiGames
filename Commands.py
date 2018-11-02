@@ -157,7 +157,7 @@ def command_drawcard(bot, update, args):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
-		bot.send_message(cid, args)
+		#bot.send_message(cid, args)
 		game = GamesController.games[cid]
 		player = game.playerlist[uid]
 		# Si no se paso argumento paso 2 cartas.
