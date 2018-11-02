@@ -21,9 +21,9 @@ class Player(object):
         board = "--- Stats Jugador %s ---\n" % self.name
         board += "--- %s 🍲 ---\n" % self.food
         board += "--- %s 🔫 ---\n" % self.bullets
-        board += "--- Explorador Campero %s ❤️ ---\n" % self.vida_explorador_campero
-        board += "--- Explorador Brujula %s ❤️ ---\n" % self.vida_explorador_brujula
-        board += "--- Explorador Hoja %s ❤️ ---\n" % self.vida_explorador_hoja
+        board += "--- %s ❤️ Explorador Campero  ---\n" % self.vida_explorador_campero
+        board += "--- %s ❤️ Explorador Brujula  ---\n" % self.vida_explorador_brujula
+        board += "--- %s ❤️ Explorador Hoja  ---\n" % self.vida_explorador_hoja
         
         '''for uid in player_list:
             board += "%s tiene " % (player_list[uid].name)
