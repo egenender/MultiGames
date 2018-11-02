@@ -714,6 +714,7 @@ def end_game(bot, game, game_endcode):
         #   2   liberals win by killing Hitler
         #   99  game cancelled
         #
+        '''
         if game_endcode == 99:
                 if GamesController.games[game.cid].board is not None:
                         bot.send_message(game.cid, "Game cancelled!\n\n%s" % game.print_roles())
@@ -728,6 +729,7 @@ def end_game(bot, game, game_endcode):
                         bot.send_message(game.cid, "Game over! The liberals win by enacting 5 liberal policies!\n\n%s" % game.print_roles())
                 if game_endcode == 2:
                         bot.send_message(game.cid, "Game over! The liberals win by killing Hitler!\n\n%s" % game.print_roles())
+        '''
         del GamesController.games[game.cid]
         Commands.delete_game(game.cid)
         
