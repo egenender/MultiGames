@@ -154,16 +154,15 @@ def command_newgame_lost_expedition(bot, update):
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
 
-def command_drawcard(bot, update, args=['2']):
+def command_drawcard(bot, update, args):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	if uid == ADMIN:
-		bot.send_message(cid, args)	
-		
+		bot.send_message(cid, args)
 		game = GamesController.games[cid]
-		player = game.playerlist[uid]		
-		cantidad = int(args[0])
-		
+		player = game.playerlist[uid]
+		# Si no se paso argumento paso 2 cartas.
+		cantidad = int(args[0] if args else 2)		
 		for i in range(cantidad):
 			player.hand.append(game.board.cartasAventura.pop(0))		
 		cid = '-1001206290323'
