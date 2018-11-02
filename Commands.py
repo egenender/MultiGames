@@ -120,36 +120,41 @@ def load(bot, update):
 	else:
 		bot.send_message(cid, "No existe juego")		
 
+def get_game(cid):
+	# Busco el juego actual
+	game = GamesController.games.get(cid, None)	
+	if game:
+		# Si esta lo devuelvo.
+		return game
+	else:
+		# Si no esta lo busco en BD y lo pongo en GamesController.games
+		game = load_game(cid)
+		if game:
+			GamesController.games[cid] = game
+			return game
+		else:
+			None
+		
 #Lost Expedition
 def command_newgame_lost_expedition(bot, update):  
 	cid = update.message.chat_id
 	fname = update.message.from_user.first_name
 	uid = update.message.from_user.id
 	try:
-		game = GamesController.games.get(cid, None)		
+		game = get_game(cid)
 		if game:
-			bot.send_message(cid, "There is currently a game running.")
-		else:			
-			#Search game in DB
-			game = load_game(cid)			
-			if game:
-				GamesController.games[cid] = game
-				bot.send_message(cid, "Hay un juego actualmente. Borralo para crear uno nuevo")				
-				#bot.send_message(game.cid, game.board.print_board(game.playerlist))				      
-				# Remember the current player that he has to act
-				#MainController.start_round(bot, game)
-			else:
-				game = Game(cid, update.message.from_user.id)
-				GamesController.games[cid] = game
-				
-				# Creo el jugador que creo el juego y lo agrego al juego
-				player = Player(fname, uid)
-				game.add_player(uid, player)				
-				player_number = len(game.playerlist)
-				bot.send_message(cid, "Se creo el juego y el usuario")
-				game.board = Board(player_number, game)
-				
-				bot.send_message(cid, "Nuevo juego creado")						
+			bot.send_message(cid, "Hay un juego ya creado, borralo con /cancelgame.")
+		else			
+			GamesController.games[cid] = game
+
+			# Creo el jugador que creo el juego y lo agrego al juego
+			player = Player(fname, uid)
+			game.add_player(uid, player)				
+			player_number = len(game.playerlist)
+			bot.send_message(cid, "Se creo el juego y el usuario")
+			game.board = Board(player_number, game)
+
+			bot.send_message(cid, "Nuevo juego creado")						
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
 
@@ -158,7 +163,10 @@ def command_drawcard(bot, update, args):
 	uid = update.message.from_user.id
 	if uid == ADMIN:
 		#bot.send_message(cid, args)
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]
 		# Si no se paso argumento paso 2 cartas.
 		cantidad = int(args[0] if args else 2)		
@@ -170,7 +178,10 @@ def command_drawcard(bot, update, args):
 def command_showhand(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]
 		cid = '-1001206290323'		
 		showImages(bot, cid, player.hand)
@@ -178,7 +189,10 @@ def command_showhand(bot, update):
 def command_losebullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.bullets -= 1;
@@ -186,7 +200,10 @@ def command_losebullet(bot, update):
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.bullets += 1;
@@ -194,7 +211,10 @@ def command_gainbullet(bot, update):
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.food -= 1;
@@ -202,7 +222,10 @@ def command_losefood(bot, update):
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.food += 1;
@@ -210,7 +233,10 @@ def command_gainfood(bot, update):
 def command_showstats(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game = GamesController.games[cid]
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		player = game.playerlist[uid]	
 		cid = '-1001206290323'
 		bot.send_message(cid, player.print_stats())
@@ -223,7 +249,10 @@ def command_prueba(bot, update, args):
 	if uid == ADMIN:
 		cid = '-1001206290323'
 		#update.message.chat_id
-		game = GamesController.games.get(cid, None)		
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
 		cartas_juego_actual =  random.sample([*cartas_aventura], len([*cartas_aventura]))		
 		cartas_mañana = []		
 		for i in range(6):
