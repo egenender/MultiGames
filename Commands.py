@@ -382,7 +382,7 @@ def command_cancelgame(bot, update):
 		else:
 			bot.send_message(cid, "Only the initiator of the game or a group admin can cancel the game with /cancelgame")
 	else:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgamelostexpedition")
 
 def command_votes(bot, update):
 	try:
