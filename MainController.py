@@ -912,8 +912,16 @@ def main():
         
         # Lost Expedition Commands
         dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
+        
         dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
         dp.add_handler(CommandHandler("hand", Commands.command_showhand))
+        
+        dp.add_handler(CommandHandler("losebullet", Commands.command_losebullet))
+        dp.add_handler(CommandHandler("gainbullet", Commands.command_gainbullet))
+        dp.add_handler(CommandHandler("losefood", Commands.command_losefood))
+        dp.add_handler(CommandHandler("gainfood", Commands.command_gainfood))
+        
+        dp.add_handler(CommandHandler("stats", Commands.command_showstats))
         
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
