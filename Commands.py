@@ -170,42 +170,48 @@ def command_drawcard(bot, update, args):
 def command_showhand(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game, player = GamesController.games[cid] ,game.playerlist[uid]	
+		game = GamesController.games[cid]
+		player = game.playerlist[uid]
 		cid = '-1001206290323'		
 		showImages(bot, cid, player.hand)
 		
 def command_losebullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game, player = GamesController.games[cid] ,game.playerlist[uid]	
+		game = GamesController.games[cid]
+		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.bullets -= 1;
 		
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game, player = GamesController.games[cid] ,game.playerlist[uid]	
+		game = GamesController.games[cid]
+		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.bullets += 1;
 		
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game, player = GamesController.games[cid] ,game.playerlist[uid]	
+		game = GamesController.games[cid]
+		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.food -= 1;
 		
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game, player = GamesController.games[cid] ,game.playerlist[uid]	
+		game = GamesController.games[cid]
+		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.food += 1;
 
 def command_showstats(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
-		game, player = GamesController.games[cid] ,game.playerlist[uid]	
+		game = GamesController.games[cid]
+		player = game.playerlist[uid]	
 		cid = '-1001206290323'
 		bot.send_message(cid, player.print_stats())
 		
