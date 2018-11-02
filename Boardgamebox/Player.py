@@ -18,8 +18,8 @@ class Player(object):
     
     def print_stats(self):
         board = "--- Stats Actuales ---\n"
-        board += "--- Comida %s ---\n" % self.food
-        board += "--- Balas %s ---\n" % self.bullets
+        board += "--- %s 🍲 ---\n" % self.food
+        board += "--- %s 🔫 ---\n" % self.bullets
         board += "--- Explorador Campero %s ❤️ ---\n" % self.vida_explorador_campero
         board += "--- Explorador Brujula %s ❤️ ---\n" % self.vida_explorador_brujula
         board += "--- Explorador Hoja %s ❤️ ---\n" % self.vida_explorador_hoja
