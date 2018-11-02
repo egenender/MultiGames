@@ -15,6 +15,7 @@ class Player(object):
         self.vida_explorador_campero = 3
         self.vida_explorador_brujula = 3
         self.vida_explorador_hoja = 3
+        self.skills = []
     
     def print_stats(self):
         board = "--- Stats Jugador %s ---\n" % self.name
