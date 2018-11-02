@@ -17,7 +17,7 @@ class Player(object):
         self.vida_explorador_hoja = 3
     
     def print_stats(self):
-        board = "--- Stats Actuales ---\n"
+        board = "--- Stats Jugador %s ---\n" % self.name
         board += "--- %s 🍲 ---\n" % self.food
         board += "--- %s 🔫 ---\n" % self.bullets
         board += "--- Explorador Campero %s ❤️ ---\n" % self.vida_explorador_campero
