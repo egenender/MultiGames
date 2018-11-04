@@ -935,6 +935,9 @@ def main():
         dp.add_handler(CommandHandler("sortexploration", Commands.command_sort_exploration_rute))
         dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand))
         
+        dp.add_handler(CommandHandler("save", Commands.save))
+        dp.add_handler(CommandHandler("load", Commands.load))
+        
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
         dp.add_handler(CommandHandler("nein", Commands.command_nein))
