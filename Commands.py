@@ -200,6 +200,7 @@ def command_losebullet(bot, update):
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.bullets -= 1;
+		command_showstats(bot, update)
 		
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -211,6 +212,7 @@ def command_gainbullet(bot, update):
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.bullets += 1;
+		command_showstats(bot, update)
 		
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -222,6 +224,7 @@ def command_losefood(bot, update):
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.food -= 1;
+		command_showstats(bot, update)
 		
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -233,7 +236,151 @@ def command_gainfood(bot, update):
 		player = game.playerlist[uid]
 		cid = '-1001206290323'
 		player.food += 1;
+		command_showstats(bot, update)
+		
+def command_vida_explorador_campero(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		cid = '-1001206290323'
+		player.vida_explorador_campero  -= int(args[0] if args else 1);
+		command_showstats(bot, update)
+		
+def command_vida_explorador_brujula(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		cid = '-1001206290323'
+		player.vida_explorador_brujula  -= int(args[0] if args else 1);
+		command_showstats(bot, update)
+		
+def command_vida_explorador_hoja(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		cid = '-1001206290323'
+		player.vida_explorador_hoja  -= int(args[0] if args else 1);
+		command_showstats(bot, update)
 
+def command_add_exploration(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		cid = '-1001206290323'
+		# Primera carta de la mano si no pone argumentos
+		carta = int(args[0] if args else 1)-1
+		game.board.cartasExplorationActual.append(player.hand.pop(carta))
+		bot.send_message(cid, "Mano jugador")
+		showImages(bot, cid, player.hand)
+		bot.send_message(cid, "Exploracion")
+		showImages(bot, cid, game.board.cartasExplorationActual)		
+		
+def command_add_exploration_deck(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return		
+		cid = '-1001206290323'
+		cantidad = int(args[0] if args else 1)		
+		log.info(game.board.cartasAventura)
+		for i in range(cantidad):			
+			game.board.cartasExplorationActual.append(game.board.cartasAventura.pop(0))
+		log.info(game.board.cartasAventura)		
+		
+def command_show_exploration(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return		
+		cid = '-1001206290323'
+		showImages(bot, cid, game.board.cartasExplorationActual)
+
+def command_sort_exploration_rute(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		game.board.cartasExplorationActual.sort()		
+		cid = '-1001206290323'
+		showImages(bot, cid, game.board.cartasExplorationActual)
+
+def command_swap_exploration(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return		
+		cid = '-1001206290323'
+		# Me fijo que haya pasado los dos arguemtnso
+		if len(args) < 2:
+			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
+			return			
+		a, b =  int(args[0])-1, int(args[1])-1		
+		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
+		bot.send_message(cid, "Exploracion")
+		showImages(bot, cid, game.board.cartasExplorationActual)
+
+def command_remove_exploration(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		cid = '-1001206290323'
+		# Defecto saco la de la izquierda
+		item_to_remove = int(args[0] if args else 1)-1		
+		game.board.cartasExplorationActual.pop(item_to_remove)
+		bot.send_message(cid, "Exploracion")
+		showImages(bot, cid, game.board.cartasExplorationActual)
+		
+def command_sort_hand(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]	
+		player.hand.sort()		
+		cid = '-1001206290323'
+		showImages(bot, cid, player.hand)
+		
+'''def command_vida_explorador_hoja(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid == ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		cid = '-1001206290323'
+		player.food += 1;
+'''		
 def command_showstats(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
