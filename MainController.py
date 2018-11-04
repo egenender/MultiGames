@@ -923,11 +923,22 @@ def main():
         dp.add_handler(CommandHandler("losefood", Commands.command_losefood))
         dp.add_handler(CommandHandler("gainfood", Commands.command_gainfood))        
         dp.add_handler(CommandHandler("stats", Commands.command_showstats))
+        dp.add_handler(CommandHandler("campero", Commands.command_vida_explorador_campero, pass_args = True))
+        dp.add_handler(CommandHandler("brujula", Commands.command_vida_explorador_brujula, pass_args = True))
+        dp.add_handler(CommandHandler("hoja", Commands.command_vida_explorador_hoja, pass_args = True))
+        #
+        dp.add_handler(CommandHandler("addexplorationfromhand", Commands.command_add_exploration, pass_args = True))
+        dp.add_handler(CommandHandler("addexplorationfromdeck", Commands.command_add_exploration_deck, pass_args = True))
+        dp.add_handler(CommandHandler("swapexploration", Commands.command_swap_exploration, pass_args = True))
+        dp.add_handler(CommandHandler("removeexploration", Commands.command_remove_exploration, pass_args = True))
+        dp.add_handler(CommandHandler("showexploration", Commands.command_show_exploration))
+        dp.add_handler(CommandHandler("sortexploration", Commands.command_sort_exploration_rute))
+        dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand))
         
         #Testing commands
         dp.add_handler(CommandHandler("ja", Commands.command_ja))
         dp.add_handler(CommandHandler("nein", Commands.command_nein))
-        dp.add_handler(CommandHandler("elegimos", Commands.command_elegimos, pass_args = True)) 
+        dp.add_handler(CommandHandler("elegimos", Commands.command_elegimos, pass_args = True))
         
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_chan_(.*)", callback=nominate_chosen_chancellor))
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_insp_(.*)", callback=choose_inspect))
