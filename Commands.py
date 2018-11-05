@@ -175,7 +175,7 @@ def command_drawcard(bot, update, args):
 		for i in range(cantidad):
 			player.hand.append(game.board.cartasAventura.pop(0))
 		log.info(game.board.cartasAventura)
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		log.info(player.hand)
 		showImages(bot, cid, player.hand)
 		
@@ -187,7 +187,7 @@ def command_showhand(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		bot.send_message(cid, "Mano del jugador")
 		showImages(bot, cid, player.hand)
 		
@@ -199,7 +199,7 @@ def command_losebullet(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.bullets -= 1;
 		command_showstats(bot, update)
 		
@@ -211,7 +211,7 @@ def command_gainbullet(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.bullets += 1;
 		command_showstats(bot, update)
 		
@@ -223,7 +223,7 @@ def command_losefood(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.food -= 1;
 		command_showstats(bot, update)
 		
@@ -235,7 +235,7 @@ def command_gainfood(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.food += 1;
 		command_showstats(bot, update)
 		
@@ -247,7 +247,7 @@ def command_vida_explorador_campero(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.vida_explorador_campero  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
 		
@@ -259,7 +259,7 @@ def command_vida_explorador_brujula(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.vida_explorador_brujula  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
 		
@@ -271,7 +271,7 @@ def command_vida_explorador_hoja(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		player.vida_explorador_hoja  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
 
@@ -299,7 +299,7 @@ def command_add_exploration_deck(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		cantidad = int(args[0] if args else 1)		
 		log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
@@ -313,7 +313,7 @@ def command_show_exploration(bot, update):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
-		cid = '-1001206290323'		
+		#cid = '-1001206290323'		
 		if not game.board.cartasExplorationActual:
 			bot.send_message(cid, "Exploracion Actual no tiene cartas")
 		else:
@@ -337,7 +337,7 @@ def command_swap_exploration(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		# Me fijo que haya pasado los dos arguemtnso
 		if len(args) < 2:
 			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
@@ -354,7 +354,7 @@ def command_remove_exploration(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
 		item_to_remove = int(args[0] if args else 1)-1		
 		game.board.cartasExplorationActual.pop(item_to_remove)
@@ -390,7 +390,7 @@ def command_showstats(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]	
-		cid = '-1001206290323'
+		#cid = '-1001206290323'
 		bot.send_message(cid, player.print_stats())
 		
 
