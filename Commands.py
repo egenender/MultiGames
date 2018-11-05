@@ -193,6 +193,7 @@ def command_showhand(bot, update):
 			return
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
+		bot.send_message(cid, "Mano jugador actualizada.")
 		showImages(bot, cid, player.hand)
 		
 def command_losebullet(bot, update):
