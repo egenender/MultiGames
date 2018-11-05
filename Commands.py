@@ -106,7 +106,7 @@ def save(bot, update):
 	groupName = update.message.chat.title
 	game = GamesController.games.get(cid, None)
 	gameType = 'LostExpedition'
-	save_game(cid, groupName, gameType, game)
+	save_game(cid, groupName, game, gameType )
 
 def load(bot, update):
 	cid = update.message.chat_id
