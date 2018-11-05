@@ -721,29 +721,32 @@ def command_claim(bot, update, args):
 		log.error("Unknown error: " + str(e))    
 		
 def save_game(cid, groupName, game, gameType):
-	#Check if game is in DB first
-	cur = conn.cursor()			
-	log.info("Searching Game in DB")
-	query = "select * from games where id = %s;"
-	cur.execute(query, [cid])
-	dbdata = cur.fetchone()
-	if cur.rowcount > 0:
-		log.info('Updating Game')
-		gamejson = jsonpickle.encode(game)
-		#query = "UPDATE games SET groupName = %s, data = %s WHERE id = %s RETURNING data;"
-		query = "UPDATE games SET groupName = %s, tipojuego = %s, data = %s WHERE id = %s;"
-		cur.execute(query, (groupName, gameType, gamejson, cid))
-		#log.info(cur.fetchone()[0])
-		conn.commit()		
-	else:
-		log.info('Saving Game in DB')
-		gamejson = jsonpickle.encode(game)
-		log.info(gamejson)
-		query = "INSERT INTO games(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s) RETURNING data;"
-		#query = "INSERT INTO games(id , groupName  , data) VALUES (%s, %s, %s) RETURNING data;"
-		cur.execute(query, (cid, groupName, gameType, gamejson))
-		#log.info(cur.fetchone()[0])
-		conn.commit()
+	try:
+		#Check if game is in DB first
+		cur = conn.cursor()			
+		log.info("Searching Game in DB")
+		query = "select * from games where id = %s;"
+		cur.execute(query, [cid])
+		dbdata = cur.fetchone()
+		if cur.rowcount > 0:
+			log.info('Updating Game')
+			gamejson = jsonpickle.encode(game)
+			#query = "UPDATE games SET groupName = %s, data = %s WHERE id = %s RETURNING data;"
+			query = "UPDATE games SET groupName = %s, tipojuego = %s, data = %s WHERE id = %s;"
+			cur.execute(query, (groupName, gameType, gamejson, cid))
+			#log.info(cur.fetchone()[0])
+			conn.commit()		
+		else:
+			log.info('Saving Game in DB')
+			gamejson = jsonpickle.encode(game)
+			log.info(gamejson)
+			query = "INSERT INTO games(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s) RETURNING data;"
+			#query = "INSERT INTO games(id , groupName  , data) VALUES (%s, %s, %s) RETURNING data;"
+			cur.execute(query, (cid, groupName, gameType, gamejson))
+			#log.info(cur.fetchone()[0])
+			conn.commit()
+	except Exception as e:
+		bot.send_message(cid, 'No se grabo debido al siguiente error: '+str(e))
 
 def load_game(cid):
 	cur = conn.cursor()			
