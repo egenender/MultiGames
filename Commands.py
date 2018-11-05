@@ -171,12 +171,12 @@ def command_drawcard(bot, update, args):
 		player = game.playerlist[uid]
 		# Si no se paso argumento paso 2 cartas.
 		cantidad = int(args[0] if args else 2)		
-		log.info(game.board.cartasAventura)
+		#log.info(game.board.cartasAventura)
 		for i in range(cantidad):
 			player.hand.append(game.board.cartasAventura.pop(0))
-		log.info(game.board.cartasAventura)
+		#log.info(game.board.cartasAventura)
 		#cid = '-1001206290323'
-		log.info(player.hand)
+		#log.info(player.hand)
 		showImages(bot, cid, player.hand)
 		
 def command_showhand(bot, update):	
