@@ -314,7 +314,7 @@ def command_show_exploration(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
 		cid = '-1001206290323'		
-		if game.board.cartasExplorationActual:
+		if not game.board.cartasExplorationActual:
 			bot.send_message(cid, "Exploracion Actual no tiene cartas")
 		else:
 			bot.send_message(cid, "Exploracion Actual")
