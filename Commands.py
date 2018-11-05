@@ -313,9 +313,12 @@ def command_show_exploration(bot, update):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
-		cid = '-1001206290323'
-		bot.send_message(cid, "Exploracion Actual")
-		showImages(bot, cid, game.board.cartasExplorationActual)
+		cid = '-1001206290323'		
+		if game.board.cartasExplorationActual:
+			bot.send_message(cid, "Exploracion Actual no tiene cartas")
+		else:
+			bot.send_message(cid, "Exploracion Actual")
+			showImages(bot, cid, game.board.cartasExplorationActual)
 
 def command_sort_exploration_rute(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
