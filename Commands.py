@@ -413,18 +413,28 @@ def command_prueba(bot, update, args):
 		showImages(bot, cid, cartas_mañana)		
 
 commands = [  # command description used in the "help" command
-    '/help - Gives you information about the available commands',
-    '/start - Gives you a short piece of information about Secret Hitler',
-    '/symbols - Shows you all possible symbols of the board',
-    '/rules - Gives you a link to the official Secret Hitler rules',
-    '/newgame - Creates a new game or Loads a previous game',
-    '/join - Joins an existing game',
-    '/startgame - Starts an existing game when all players have joined',
-    '/cancelgame - Cancels an existing game. All data of the game will be lost',
-    '/board - Prints the current board with fascist and liberals tracks, presidential order and election counter',
-    '/history - Prints a History of the current game',
-    '/votes - Prints who voted',
-    '/calltovote - Calls the players to vote'    
+	'/help - Muestra ayuda sobre los comandos',
+	'/newgamelostexpedition - Nuevo Juego de Lost Expedition',
+	'/drawcard  - Obtiene X cartas, defecto 2',
+	'/losebullet  - Resta 1 bala',
+	'/gainbullet - Gana 1 bala',
+	'/losefood - Pierde 1 comida',
+	'/gainfood  - Gana 1 de comida',
+	'/stats  - Status actual',
+	'/campero - Setea vida explorador',
+	'/brujula - Setea vida explorador',
+	'/hoja - Setea vida explorador',
+	'/addexplorationfromhand - Agrega carta a exploracion de la mano por defecto la primera',
+	'/addexplorationfromdeck - Agrega carta a exploracion del mazo',
+	'/swapexploration X Y- Intercambia dos cartas de exploracion Ej: /swapexploratio 2 4',
+	'/removeexploration - remueve una carta de exploracion por defecto la primera. Ej: /removeexploration 2',
+	'/showexploration - Muestra la exploracion actual',
+	'/showhand - Muestra la mano actual',
+	'/sortexploration - Ordena la exploracion actual de menor a mayor',
+	'/sorthand - Ordena la mano del jugador de menor a mayor',
+	'/save - Graba el juego',
+	'/load - Obtiene el juego guardado',
+	'/delete - Borra el juego actual'	
 ]
 
 symbols = [
