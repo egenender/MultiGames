@@ -193,7 +193,7 @@ def command_showhand(bot, update):
 			return
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
-		command_showhand(bot, update)
+		showImages(bot, cid, player.hand)
 		
 def command_losebullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
