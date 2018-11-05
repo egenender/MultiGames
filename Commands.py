@@ -102,11 +102,16 @@ def showImages(bot, cid, cartas):
 	bot.send_photo(cid, photo=bio)
 	
 def save(bot, update):
-	cid = update.message.chat_id
-	groupName = update.message.from_user.first_name
-	game = GamesController.games.get(cid, None)
-	gameType = 'LostExpedition'
-	save_game(cid,groupName , game, gameType )
+	try:
+		cid = update.message.chat_id
+		groupName = update.message.from_user.first_name
+		game = GamesController.games.get(cid, None)
+		gameType = 'LostExpedition'
+		save_game(cid,groupName , game, gameType )
+		bot.send_message(cid, 'Se grabo correctamente.')
+	except Exception as e:
+		bot.send_message(cid, 'Error al grabar '+str(e))
+		
 
 def load(bot, update):
 	cid = update.message.chat_id
