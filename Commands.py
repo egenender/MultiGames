@@ -187,7 +187,8 @@ def command_showhand(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		cid = '-1001206290323'		
+		cid = '-1001206290323'
+		bot.send_message(cid, "Mano del jugador")
 		showImages(bot, cid, player.hand)
 		
 def command_losebullet(bot, update):
@@ -313,6 +314,7 @@ def command_show_exploration(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
 		cid = '-1001206290323'
+		bot.send_message(cid, "Exploracion Actual")
 		showImages(bot, cid, game.board.cartasExplorationActual)
 
 def command_sort_exploration_rute(bot, update):
@@ -322,9 +324,8 @@ def command_sort_exploration_rute(bot, update):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		game.board.cartasExplorationActual.sort()		
-		cid = '-1001206290323'
-		showImages(bot, cid, game.board.cartasExplorationActual)
+		game.board.cartasExplorationActual.sort()
+		command_show_exploration(bot, update)
 
 def command_swap_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -340,8 +341,7 @@ def command_swap_exploration(bot, update, args):
 			return			
 		a, b =  int(args[0])-1, int(args[1])-1		
 		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
-		bot.send_message(cid, "Exploracion")
-		showImages(bot, cid, game.board.cartasExplorationActual)
+		command_show_exploration(bot, update)
 
 def command_remove_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -355,8 +355,7 @@ def command_remove_exploration(bot, update, args):
 		# Defecto saco la de la izquierda
 		item_to_remove = int(args[0] if args else 1)-1		
 		game.board.cartasExplorationActual.pop(item_to_remove)
-		bot.send_message(cid, "Exploracion")
-		showImages(bot, cid, game.board.cartasExplorationActual)
+		command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -367,8 +366,7 @@ def command_sort_hand(bot, update):
 			return
 		player = game.playerlist[uid]	
 		player.hand.sort()		
-		cid = '-1001206290323'
-		showImages(bot, cid, player.hand)
+		command_showhand(bot, update)
 		
 '''def command_vida_explorador_hoja(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
