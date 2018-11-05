@@ -737,7 +737,8 @@ def save_game(cid, groupName, game, gameType):
 	else:
 		log.info('Saving Game in DB')
 		gamejson = jsonpickle.encode(game)
-		query = "INSERT INTO games(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s);"
+		log.info(gamejson)
+		query = "INSERT INTO games(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s) RETURNING data;"
 		#query = "INSERT INTO games(id , groupName  , data) VALUES (%s, %s, %s) RETURNING data;"
 		cur.execute(query, (cid, groupName, gameType, gamejson))
 		#log.info(cur.fetchone()[0])
