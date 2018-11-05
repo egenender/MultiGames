@@ -329,59 +329,53 @@ cartas_aventura = {
     },
     50.5 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "0", 
         "columna" : "0"
         
     },
     51 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "0", 
         "columna" : "1"
     },
     52 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "0", 
         "columna" : "2"   
     },
     53 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "1", 
         "columna" : "0"    
     },
     54 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "1", 
         "columna" : "1"     
     },
     55 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "1", 
         "columna" : "2"    
     },
     56 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "2", 
         "columna" : "0"     
     },
     99.5 : {
         "nombre" : "Nombre",
-        "plastilla" : "6",
+        "plastilla" : "7",
         "fila" : "2", 
         "columna" : "1"     
-    },
-    0 : {
-        "nombre" : "Nombre",
-        "plastilla" : "6",
-        "fila" : "2", 
-        "columna" : "2"      
-    }, 
+    },    
 }
 
 
