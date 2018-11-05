@@ -745,6 +745,7 @@ def save_game(cid, groupName, game, gameType):
 		if cur.rowcount > 0:
 			log.info('Updating Game')
 			gamejson = jsonpickle.encode(game)
+			log.info(gamejson)
 			#query = "UPDATE games SET groupName = %s, data = %s WHERE id = %s RETURNING data;"
 			query = "UPDATE games SET groupName = %s, tipojuego = %s, data = %s WHERE id = %s;"
 			cur.execute(query, (groupName, gameType, gamejson, cid))
