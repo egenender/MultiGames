@@ -607,16 +607,10 @@ def command_cancelgame(bot, update):
 	log.info('command_cancelgame called')
 	cid = update.message.chat_id	
 	#Always try to delete in DB
-	delete_game(cid)
-	if cid in GamesController.games.keys():
-		game = GamesController.games[cid]
-		status = bot.getChatMember(cid, update.message.from_user.id).status
-		if update.message.from_user.id == game.initiator or status in ("administrator", "creator"):
-			MainController.end_game(bot, game, 99)
-		else:
-			bot.send_message(cid, "Only the initiator of the game or a group admin can cancel the game with /cancelgame")
-	else:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgamelostexpedition")
+	try:
+		delete_game(cid)
+	except Exception as e:
+		bot.send_message(cid, "El borrado ha fallado debido a: "+str(e))	
 
 def command_votes(bot, update):
 	try:
