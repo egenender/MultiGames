@@ -916,7 +916,7 @@ def main():
         dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
         
         dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
-        dp.add_handler(CommandHandler("hand", Commands.command_showhand))
+        dp.add_handler(CommandHandler("showhand", Commands.command_showhand))
         
         dp.add_handler(CommandHandler("losebullet", Commands.command_losebullet))
         dp.add_handler(CommandHandler("gainbullet", Commands.command_gainbullet))
