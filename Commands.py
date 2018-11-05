@@ -103,10 +103,10 @@ def showImages(bot, cid, cartas):
 	
 def save(bot, update):
 	cid = update.message.chat_id
-	groupName = update.message.chat.title
+	groupName = update.message.from_user.first_name
 	game = GamesController.games.get(cid, None)
 	gameType = 'LostExpedition'
-	save_game(cid, groupName, game, gameType )
+	save_game(cid,groupName , game, gameType )
 
 def load(bot, update):
 	cid = update.message.chat_id
