@@ -515,14 +515,14 @@ def command_sort_hand(bot, update):
 		player.food += 1;
 '''		
 def command_showstats(bot, update):
+	log.info('command_showstats called')
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid == ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		player = game.playerlist[uid]	
-		#cid = '-1001206290323'
+		player = game.playerlist[uid]		
 		bot.send_message(cid, player.print_stats())
 		
 
