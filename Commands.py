@@ -294,6 +294,22 @@ def command_add_exploration(bot, update, args):
 		game.board.cartasExplorationActual.append(player.hand.pop(carta))
 		command_showhand(bot, update)
 		command_show_exploration(bot, update)		
+
+def command_add_exploration_first(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		# Primera carta de la mano si no pone argumentos
+		carta = int(args[0] if args else 1)-1
+		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
+		command_showhand(bot, update)
+		command_show_exploration(bot, update)		
+		
 		
 def command_add_exploration_deck(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -309,6 +325,21 @@ def command_add_exploration_deck(bot, update, args):
 			game.board.cartasExplorationActual.append(game.board.cartasAventura.pop(0))
 		log.info(game.board.cartasAventura)
 		command_show_exploration(bot, update)
+		
+def command_add_exploration_deck_first(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return		
+		#cid = '-1001206290323'
+		cantidad = int(args[0] if args else 1)		
+		log.info(game.board.cartasAventura)
+		for i in range(cantidad):			
+			game.board.cartasExplorationActual.insert(0, game.board.cartasAventura.pop(0))
+		log.info(game.board.cartasAventura)
+		command_show_exploration(bot, update)		
 		
 def command_show_exploration(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
