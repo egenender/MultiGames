@@ -76,11 +76,11 @@ def command_newgame_sql_command(bot, update, args):
 		cursor.execute(query)
 		#dbdata = cur.fetchone()
 		if cursor.rowcount > 0:
-			bot.send_message(cid, 'Hay al menos un elemento')
+			bot.send_message(cid, 'Resultado de la consulta:')
 			for table in cursor.fetchall():
 				bot.send_message(cid, table)
 		else:
-			bot.send_message(cid, 'No hay nada en la base de datos')
+			bot.send_message(cid, 'No se obtuvo nada de la consulta')
 	except Exception as e:
 		bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
 
