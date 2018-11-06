@@ -151,7 +151,7 @@ def command_newgame_lost_expedition(bot, update):
 			bot.send_message(cid, "Hay un juego ya creado, borralo con /cancelgame.")
 		else:
 			# Creo el juego si no esta.
-			game = Game(cid, update.message.from_user.id)
+			game = Game(cid, update.message.from_user.id, "solitario")
 			GamesController.games[cid] = game
 			# Creo el jugador que creo el juego y lo agrego al juego
 			player = Player(fname, uid)
