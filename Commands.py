@@ -178,7 +178,7 @@ def command_drawcard(bot, update, args):
 		cantidad = int(args[0] if args else 2)		
 		#log.info(game.board.cartasAventura)
 		for i in range(cantidad):
-			player.hand.append(game.board.cartasAventura.pop(0))
+			draw_card_cartasAventura(game, player.hand)		
 		#log.info(game.board.cartasAventura)
 		#cid = '-1001206290323'
 		#log.info(player.hand)
@@ -196,6 +196,41 @@ def command_showhand(bot, update):
 		bot.send_message(cid, "Mano jugador actualizada.")
 		showImages(bot, cid, player.hand)
 		
+def command_showskills(bot, update):	
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		if not player.skills:
+			bot.send_message(cid, "El jugador no tiene skills.")
+		else:
+			showImages(bot, cid, player.skills)
+
+def command_increase_progreso(bot, update):	
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		game.board.progreso += 1		
+		if game.board.progreso == 6:
+			bot.send_message(cid, "Ganaste")
+		else:
+			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 6" % game.board.progreso)
+		'''
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		if not player.skills:
+			bot.send_message(cid, "El jugador no tiene skills.")
+		else:
+			showImages(bot, cid, player.skills)
+		'''
+			
 def command_losebullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
@@ -310,6 +345,22 @@ def command_add_exploration_first(bot, update, args):
 		command_showhand(bot, update)
 		command_show_exploration(bot, update)		
 		
+
+def draw_card_cartasAventura(game, destino):
+	destino.append(game.board.cartasAventura.pop(0))
+	# Me fijo si hay carta en cartasAventura si no hay más mezclo el descarte en el mazo de aventura
+	if not game.board.cartasAventura:
+		game.board.cartasAventura = random.sample(game.board.discards, len(game.board.discards))
+		game.board.discards = []
+		game.board.amount_shuffled += 1
+		if game.board.amount_shuffled == 1:
+			bot.send_message(cid, "Se ha mezclado el mazo y se debe consumir 1 de comida")
+			#for uid in game.playerlist:
+			#	player = game.playerlist[uid]
+		else:
+			bot.send_message(cid, "Se ha perdido la partida porque se ha mezclado el mazo dos veces. /cancelgame")
+			
+		
 		
 def command_add_exploration_deck(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -322,7 +373,7 @@ def command_add_exploration_deck(bot, update, args):
 		cantidad = int(args[0] if args else 1)		
 		log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
-			game.board.cartasExplorationActual.append(game.board.cartasAventura.pop(0))
+			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
 		log.info(game.board.cartasAventura)
 		command_show_exploration(bot, update)
 		
@@ -381,6 +432,7 @@ def command_swap_exploration(bot, update, args):
 		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
 		command_show_exploration(bot, update)
 
+# Remove se usara para resolver y para remover cartas por accion de otras cartas		
 def command_remove_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
@@ -391,8 +443,43 @@ def command_remove_exploration(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
+		item_to_remove = int(args[0] if args else 1)-1	
+		try:
+			
+			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
+			command_show_exploration(bot, update)
+		except Exception as e:
+			bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
+			
+
+def command_remove_last_exploration(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)-1])
+		
+		
+# Resolver es basicamente remover pero la de mas a la izquierda.
+def command_resolve_exploration(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		command_remove_exploration(bot, update, [])
+		
+def command_gain_exploration(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		# Defecto saco la de la izquierda
 		item_to_remove = int(args[0] if args else 1)-1		
-		game.board.cartasExplorationActual.pop(item_to_remove)
+		player.skill.append(game.board.cartasExplorationActual.pop(item_to_remove))
 		command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update):
