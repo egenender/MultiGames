@@ -7,7 +7,7 @@ from Boardgamebox.Board import Board
 from Boardgamebox.State import State
 
 class Game(object):
-    def __init__(self, cid, initiator):
+    def __init__(self, cid, initiator, tipo):
         self.playerlist = {}
         self.player_sequence = []
         self.cid = cid
@@ -15,6 +15,7 @@ class Game(object):
         self.initiator = initiator
         self.dateinitvote = None
         self.history = []
+        self.tipo = tipo
     
     
     def add_player(self, uid, player):
