@@ -1,3 +1,3 @@
 TOKEN = "501280363:AAGr5YOn5-HBAKOKJoSSUys6NOfUC-A9PwM"
-ADMIN = 387393551 #your telegram ID
+ADMIN = [387393551, 271584582] #your telegram ID
 STATS = "../stats.json"
