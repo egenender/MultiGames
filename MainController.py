@@ -941,6 +941,7 @@ def main():
         dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
         dp.add_handler(CommandHandler("increaseprogreso", Commands.command_increase_progreso))
         dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration))
+        dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
         
         dp.add_handler(CommandHandler("save", Commands.save))
         dp.add_handler(CommandHandler("load", Commands.load))
