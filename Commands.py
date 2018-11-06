@@ -199,7 +199,7 @@ def command_drawcard(bot, update, args):
 			return
 		player = game.playerlist[uid]
 		# Si no se paso argumento paso 2 cartas.
-		cantidad = int(args[0] if args else 2)		
+		cantidad = int(args[0] if args else 1)		
 		#log.info(game.board.cartasAventura)
 		for i in range(cantidad):
 			draw_card_cartasAventura(game, player.hand)		
