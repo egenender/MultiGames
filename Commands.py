@@ -241,6 +241,7 @@ def command_losebullet(bot, update):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.bullets -= 1;
+		
 		command_showstats(bot, update)
 		
 def command_gainbullet(bot, update):
