@@ -151,6 +151,10 @@ def get_game(cid):
 			None
 		
 #Lost Expedition
+
+def after_command(bot, update):
+	save(bot, update)
+
 def command_hoja_ayuda(bot, update):
 	cid = update.message.chat_id
 	help_text = "Eventos amarillos son obligatorios\n" + \
@@ -180,6 +184,7 @@ def command_newgame_lost_expedition(bot, update):
 			game.board = Board(player_number, game)			
 			bot.send_message(cid, "El jugador obtiene 6 cartas")
 			command_drawcard(bot, update, [6])
+			after_command(bot, update)
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
 
@@ -203,6 +208,7 @@ def command_drawcard(bot, update, args):
 		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		command_showhand(bot, update)
+		after_command(bot, update)
 		
 def command_showhand(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -242,6 +248,7 @@ def command_increase_progreso(bot, update):
 			bot.send_message(cid, "Ganaste")
 		else:
 			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 6" % game.board.progreso)
+		after_command(bot, update)
 		'''
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
@@ -260,9 +267,9 @@ def command_losebullet(bot, update):
 			return
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
-		player.bullets -= 1;
-		
+		player.bullets -= 1;		
 		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -275,6 +282,7 @@ def command_gainbullet(bot, update):
 		#cid = '-1001206290323'
 		player.bullets += 1;
 		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -287,6 +295,7 @@ def command_losefood(bot, update):
 		#cid = '-1001206290323'
 		player.food -= 1;
 		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -299,6 +308,7 @@ def command_gainfood(bot, update):
 		#cid = '-1001206290323'
 		player.food += 1;
 		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_vida_explorador_campero(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -311,6 +321,7 @@ def command_vida_explorador_campero(bot, update, args):
 		#cid = '-1001206290323'
 		player.vida_explorador_campero  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_vida_explorador_brujula(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -323,6 +334,7 @@ def command_vida_explorador_brujula(bot, update, args):
 		#cid = '-1001206290323'
 		player.vida_explorador_brujula  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_vida_explorador_hoja(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -335,6 +347,7 @@ def command_vida_explorador_hoja(bot, update, args):
 		#cid = '-1001206290323'
 		player.vida_explorador_hoja  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
+		after_command(bot, update)
 
 def command_add_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -349,6 +362,7 @@ def command_add_exploration(bot, update, args):
 		carta = int(args[0] if args else 1)-1
 		game.board.cartasExplorationActual.append(player.hand.pop(carta))
 		bot.send_message(cid, "Se ha agregado la carta al final de la ruta")
+		after_command(bot, update)
 		#command_showhand(bot, update)
 		#command_show_exploration(bot, update)		
 
@@ -365,6 +379,7 @@ def command_add_exploration_first(bot, update, args):
 		carta = int(args[0] if args else 1)-1
 		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
 		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
+		after_command(bot, update)
 		#command_showhand(bot, update)
 		#command_show_exploration(bot, update)		
 		
@@ -398,6 +413,7 @@ def command_add_exploration_deck(bot, update, args):
 		for i in range(cantidad):			
 			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
 		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo" % cantidad)
+		after_command(bot, update)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)
 		
@@ -414,6 +430,7 @@ def command_add_exploration_deck_first(bot, update, args):
 		for i in range(cantidad):			
 			game.board.cartasExplorationActual.insert(0, game.board.cartasAventura.pop(0))
 		bot.send_message(cid, "Se ha agregado %s cartas al principio de la ruta desde el mazo" % cantidad)
+		after_command(bot, update)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)		
 		
@@ -440,6 +457,7 @@ def command_sort_exploration_rute(bot, update):
 			return
 		game.board.cartasExplorationActual.sort()
 		command_show_exploration(bot, update)
+		after_command(bot, update)
 
 def command_swap_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -455,6 +473,7 @@ def command_swap_exploration(bot, update, args):
 			return			
 		a, b =  int(args[0])-1, int(args[1])-1		
 		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
+		after_command(bot, update)
 		#command_show_exploration(bot, update)
 
 # Remove se usara para resolver y para remover cartas por accion de otras cartas		
@@ -472,6 +491,7 @@ def command_remove_exploration(bot, update, args):
 		try:			
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
+			after_command(bot, update)
 			#command_show_exploration(bot, update)
 		except Exception as e:
 			bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
@@ -480,11 +500,7 @@ def command_remove_exploration(bot, update, args):
 def command_remove_last_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)-1])
+		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)-1])		
 		
 		
 # Resolver es basicamente remover pero la de mas a la izquierda.
@@ -506,6 +522,7 @@ def command_gain_exploration(bot, update, args):
 		item_to_remove = int(args[0] if args else 1)-1		
 		player.skill.append(game.board.cartasExplorationActual.pop(item_to_remove))
 		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
+		after_command(bot, update)
 		#command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update):
@@ -518,6 +535,7 @@ def command_sort_hand(bot, update):
 		player = game.playerlist[uid]	
 		player.hand.sort()		
 		command_showhand(bot, update)
+		after_command(bot, update)
 		
 '''def command_vida_explorador_hoja(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
