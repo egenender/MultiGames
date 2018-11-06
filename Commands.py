@@ -525,6 +525,22 @@ def command_gain_exploration(bot, update, args):
 		after_command(bot, update)
 		#command_show_exploration(bot, update)
 		
+def command_use_skill(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		# Defecto saco la de la izquierda
+		item_to_remove = int(args[0] if args else 1)-1		
+		game.board.discards.append(player.skills.pop(item_to_remove))
+		bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
+		after_command(bot, update)
+		#command_show_exploration(bot, update)
+		
 def command_sort_hand(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
