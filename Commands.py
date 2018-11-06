@@ -575,12 +575,22 @@ symbols = [
 		
 		
 def command_symbols(bot, update):
-    cid = update.message.chat_id
-    symbol_text = "The following symbols can appear on the board: \n"
-    for i in symbols:
-        symbol_text += i + "\n"
-    bot.send_message(cid, symbol_text)
-
+	cid = update.message.chat_id
+	url_img = '/app/img/LostExpedition/Ayuda01.jpg'	
+	img = Image.open(url_img)
+	bot.send_photo(cid, photo=bio)
+	url_img = '/app/img/LostExpedition/Ayuda02.jpg'	
+	img = Image.open(url_img)
+	bot.send_photo(cid, photo=bio)
+	
+def command_hoja_ayuda(bot, update):
+	cid = update.message.chat_id
+	url_img = '/app/img/LostExpedition/Ayuda01.jpg'	
+	img = Image.open(url_img)
+	bot.send_photo(cid, photo=img)
+	url_img = '/app/img/LostExpedition/Ayuda02.jpg'	
+	img = Image.open(url_img)
+	bot.send_photo(cid, photo=img)
 
 def command_board(bot, update):
 	cid = update.message.chat_id
