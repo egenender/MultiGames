@@ -65,18 +65,26 @@ def get_img_carta(num_carta):
 	cropped = img.crop( ( left, top, right, bottom ) )
 	return cropped
 
+def command_newgame_sql_command(bot, update, args):
+	try:
+		cid = update.message.chat_id
+		#Check if game is in DB first
+		cur = conn.cursor()			
+		log.info("Executing in DB")
+		#query = "select * from games;"
+		query = " ".join(args)
+		cur.execute(query)
+		#dbdata = cur.fetchone()
+		if cur.rowcount > 0:
+			bot.send_message(cid, 'Hay al menos un elemento')			
+		else:
+			bot.send_message(cid, 'No hay nada en la base de datos')
+	except Exception as e:
+		bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
+
 	
 
 # The Lost Expedition
-# Comando para mostrar la mano
-# Conseguir que guarde en BD el juego actual y obtenerlo devuelta.
-# Hacer comando para obtener X cantidad de cartas del mazo
-# Hacer comando para ordenar las cartas obtenidas de la mano (Muestra la mano al finalizar)
-# Hacer comando eliminar carta de la mano (Muestra la mano al finalizar)
-# Crear Stats de la expedicion.
-# Crear comando que disminuya los stats
-
-
 # Generic commands for all games
 def showImages(bot, cid, cartas):
 	images = []
