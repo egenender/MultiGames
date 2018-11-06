@@ -17,7 +17,6 @@ class Game(object):
         self.history = []
         self.tipo = tipo
     
-    
     def add_player(self, uid, player):
         self.playerlist[uid] = player
 
