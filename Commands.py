@@ -167,7 +167,7 @@ def command_newgame_lost_expedition(bot, update):
 def command_drawcard(bot, update, args):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
-	if uid == ADMIN:
+	if uid in ADMIN:
 		#bot.send_message(cid, args)
 		game = get_game(cid)
 		if not game:
@@ -186,7 +186,7 @@ def command_drawcard(bot, update, args):
 		
 def command_showhand(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -198,7 +198,7 @@ def command_showhand(bot, update):
 		
 def command_losebullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -210,7 +210,7 @@ def command_losebullet(bot, update):
 		
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -222,7 +222,7 @@ def command_gainbullet(bot, update):
 		
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -234,7 +234,7 @@ def command_losefood(bot, update):
 		
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -246,7 +246,7 @@ def command_gainfood(bot, update):
 		
 def command_vida_explorador_campero(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -258,7 +258,7 @@ def command_vida_explorador_campero(bot, update, args):
 		
 def command_vida_explorador_brujula(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -270,7 +270,7 @@ def command_vida_explorador_brujula(bot, update, args):
 		
 def command_vida_explorador_hoja(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -282,7 +282,7 @@ def command_vida_explorador_hoja(bot, update, args):
 
 def command_add_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -297,7 +297,7 @@ def command_add_exploration(bot, update, args):
 		
 def command_add_exploration_deck(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -312,7 +312,7 @@ def command_add_exploration_deck(bot, update, args):
 		
 def command_show_exploration(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -326,7 +326,7 @@ def command_show_exploration(bot, update):
 
 def command_sort_exploration_rute(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -336,7 +336,7 @@ def command_sort_exploration_rute(bot, update):
 
 def command_swap_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -352,7 +352,7 @@ def command_swap_exploration(bot, update, args):
 
 def command_remove_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -366,7 +366,7 @@ def command_remove_exploration(bot, update, args):
 		
 def command_sort_hand(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
@@ -402,7 +402,7 @@ def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
 	uid = update.message.from_user.id
-	if uid == ADMIN:
+	if uid in ADMIN:
 		cid = '-1001206290323'
 		#update.message.chat_id
 		game = get_game(cid)
@@ -476,13 +476,7 @@ def command_board(bot, update):
 
 def command_start(bot, update):
     cid = update.message.chat_id
-    bot.send_message(cid,
-                     "\"Secret Hitler is a social deduction game for 5-10 people about finding and stopping the Secret Hitler."
-                     " The majority of players are liberals. If they can learn to trust each other, they have enough "
-                     "votes to control the table and win the game. But some players are fascists. They will say whatever "
-                     "it takes to get elected, enact their agenda, and blame others for the fallout. The liberals must "
-                     "work together to discover the truth before the fascists install their cold-blooded leader and win "
-                     "the game.\"\n- official description of Secret Hitler\n\nAdd me to a group and type /newgame to create a game!")
+    bot.send_message(cid,"Lost expedition.")
     command_help(bot, update)
 
 
