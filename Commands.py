@@ -722,7 +722,8 @@ def command_cancelgame(bot, update):
 	#Always try to delete in DB
 	try:
 		delete_game(cid)
-		del GamesController.games[cid]
+		if cid in GamesController.games.keys():
+			del GamesController.games[cid]
 		bot.send_message(cid, "Borrado exitoso.")
 	except Exception as e:
 		bot.send_message(cid, "El borrado ha fallado debido a: "+str(e))	
