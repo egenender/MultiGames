@@ -520,7 +520,7 @@ def command_gain_exploration(bot, update, args):
 		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
 		item_to_remove = int(args[0] if args else 1)-1		
-		player.skill.append(game.board.cartasExplorationActual.pop(item_to_remove))
+		player.skills.append(game.board.cartasExplorationActual.pop(item_to_remove))
 		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
 		after_command(bot, update)
 		#command_show_exploration(bot, update)
