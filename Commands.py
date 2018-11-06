@@ -69,14 +69,16 @@ def command_newgame_sql_command(bot, update, args):
 	try:
 		cid = update.message.chat_id
 		#Check if game is in DB first
-		cur = conn.cursor()			
+		cursor = conn.cursor()			
 		log.info("Executing in DB")
 		#query = "select * from games;"
 		query = " ".join(args)
-		cur.execute(query)
+		cursor.execute(query)
 		#dbdata = cur.fetchone()
-		if cur.rowcount > 0:
-			bot.send_message(cid, 'Hay al menos un elemento')			
+		if cursor.rowcount > 0:
+			bot.send_message(cid, 'Hay al menos un elemento')
+			for table in cursor.fetchall():
+				bot.send_message(cid, table)
 		else:
 			bot.send_message(cid, 'No hay nada en la base de datos')
 	except Exception as e:
