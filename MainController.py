@@ -944,7 +944,8 @@ def main():
         dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
         dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True))        
         dp.add_handler(CommandHandler("gainskill", Commands.command_gain_exploration, pass_args = True))
-        
+        dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
+                
         dp.add_handler(CommandHandler("save", Commands.save))
         dp.add_handler(CommandHandler("load", Commands.load))
         
