@@ -12,7 +12,7 @@
     groupName TEXT NOT NULL,
     data text NOT NULL
 );*/
-DROP TABLE IF EXISTS games_xapi_bot;
+/*DROP TABLE IF EXISTS games_xapi_bot;*/
 
 CREATE TABLE IF NOT EXISTS games (
     id bigint PRIMARY KEY,
