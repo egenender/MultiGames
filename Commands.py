@@ -397,7 +397,7 @@ def command_add_exploration_deck(bot, update, args):
 		log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
 			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
-		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo")
+		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo" % cantidad)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)
 		
@@ -413,7 +413,7 @@ def command_add_exploration_deck_first(bot, update, args):
 		log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
 			game.board.cartasExplorationActual.insert(0, game.board.cartasAventura.pop(0))
-		bot.send_message(cid, "Se ha agregado %s cartas al principio de la ruta desde el mazo")
+		bot.send_message(cid, "Se ha agregado %s cartas al principio de la ruta desde el mazo" % cantidad)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)		
 		
