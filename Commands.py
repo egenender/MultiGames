@@ -642,6 +642,7 @@ def command_stats(bot, update):
 # help page
 def command_help(bot, update):
 	cid = update.message.chat_id
+	'''
 	help_text += "Eventos amarillos son obligatorios\n"
 		+ "Eventos rojo son obligatorios pero tenes que elegir 1\n" 
 		+ "Eventos Azules son opcionales\n"
@@ -652,6 +653,7 @@ def command_help(bot, update):
 		+ "Carta con mas: Roba una carta del mazo y añadela al final de la ruta\n"
 		+ "Tipo: Avanza en la expedición\n"
 		+ "Calavera: Mata un explorador\n"
+	'''
 	help_text += "\nThe following commands are available:\n"
 	for i in commands:
 		help_text += i + "\n"
