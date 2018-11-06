@@ -933,7 +933,7 @@ def main():
         dp.add_handler(CommandHandler("addexplorationfromdeckfirst", Commands.command_add_exploration_deck_first, pass_args = True))
         dp.add_handler(CommandHandler("swapexploration", Commands.command_swap_exploration, pass_args = True))
         dp.add_handler(CommandHandler("removeexploration", Commands.command_remove_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("removelastexploration", Commands.command_remove_last_exploration, pass_args = True))
+        dp.add_handler(CommandHandler("removelastexploration", Commands.command_remove_last_exploration))
         dp.add_handler(CommandHandler("showexploration", Commands.command_show_exploration))
         dp.add_handler(CommandHandler("sortexploration", Commands.command_sort_exploration_rute))
         dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand))
