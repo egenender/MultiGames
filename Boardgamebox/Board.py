@@ -10,6 +10,9 @@ class Board(object):
         #Lost Expedition
         self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
         self.cartasExplorationActual = []
+        # Cantidad de veces que se mezclo el mazo.
+        self.amount_shuffled = 0
+        self.progreso = 0
         
         self.discards = []
         self.previous = []        
