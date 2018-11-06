@@ -141,6 +141,11 @@ def get_game(cid):
 			None
 		
 #Lost Expedition
+def command_hoja_ayuda(bot, update):
+	cid = update.message.chat_id
+	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
+	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
+
 def command_newgame_lost_expedition(bot, update):  
 	cid = update.message.chat_id
 	fname = update.message.from_user.first_name
@@ -583,14 +588,7 @@ def command_symbols(bot, update):
 	img = Image.open(url_img)
 	bot.send_photo(cid, photo=bio)
 	
-def command_hoja_ayuda(bot, update):
-	cid = update.message.chat_id
-	url_img = '/app/img/LostExpedition/Ayuda01.jpg'	
-	img = Image.open(url_img)
-	bot.send_photo(cid, photo=img)
-	url_img = '/app/img/LostExpedition/Ayuda02.jpg'	
-	img = Image.open(url_img)
-	bot.send_photo(cid, photo=img)
+
 
 def command_board(bot, update):
 	cid = update.message.chat_id
