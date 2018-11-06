@@ -517,7 +517,7 @@ def command_sort_hand(bot, update):
 def command_showstats(bot, update):
 	log.info('command_showstats called')
 	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
+	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
