@@ -201,6 +201,7 @@ def command_drawcard(bot, update, args):
 		#log.info(game.board.cartasAventura)
 		#cid = '-1001206290323'
 		#log.info(player.hand)
+		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		command_showhand(bot, update)
 		
 def command_showhand(bot, update):	
@@ -347,8 +348,9 @@ def command_add_exploration(bot, update, args):
 		# Primera carta de la mano si no pone argumentos
 		carta = int(args[0] if args else 1)-1
 		game.board.cartasExplorationActual.append(player.hand.pop(carta))
-		command_showhand(bot, update)
-		command_show_exploration(bot, update)		
+		bot.send_message(cid, "Se ha agregado la carta al final de la ruta")
+		#command_showhand(bot, update)
+		#command_show_exploration(bot, update)		
 
 def command_add_exploration_first(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -362,8 +364,9 @@ def command_add_exploration_first(bot, update, args):
 		# Primera carta de la mano si no pone argumentos
 		carta = int(args[0] if args else 1)-1
 		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
-		command_showhand(bot, update)
-		command_show_exploration(bot, update)		
+		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
+		#command_showhand(bot, update)
+		#command_show_exploration(bot, update)		
 		
 
 def draw_card_cartasAventura(game, destino):
@@ -394,8 +397,9 @@ def command_add_exploration_deck(bot, update, args):
 		log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
 			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
-		log.info(game.board.cartasAventura)
-		command_show_exploration(bot, update)
+		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo")
+		#log.info(game.board.cartasAventura)
+		#command_show_exploration(bot, update)
 		
 def command_add_exploration_deck_first(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -409,8 +413,9 @@ def command_add_exploration_deck_first(bot, update, args):
 		log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
 			game.board.cartasExplorationActual.insert(0, game.board.cartasAventura.pop(0))
-		log.info(game.board.cartasAventura)
-		command_show_exploration(bot, update)		
+		bot.send_message(cid, "Se ha agregado %s cartas al principio de la ruta desde el mazo")
+		#log.info(game.board.cartasAventura)
+		#command_show_exploration(bot, update)		
 		
 def command_show_exploration(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -450,7 +455,7 @@ def command_swap_exploration(bot, update, args):
 			return			
 		a, b =  int(args[0])-1, int(args[1])-1		
 		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
-		command_show_exploration(bot, update)
+		#command_show_exploration(bot, update)
 
 # Remove se usara para resolver y para remover cartas por accion de otras cartas		
 def command_remove_exploration(bot, update, args):
@@ -464,10 +469,10 @@ def command_remove_exploration(bot, update, args):
 		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
 		item_to_remove = int(args[0] if args else 1)-1	
-		try:
-			
+		try:			
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
-			command_show_exploration(bot, update)
+			bot.send_message(cid, "La carta se ha eliminado de la ruta")
+			#command_show_exploration(bot, update)
 		except Exception as e:
 			bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
 			
@@ -500,7 +505,8 @@ def command_gain_exploration(bot, update, args):
 		# Defecto saco la de la izquierda
 		item_to_remove = int(args[0] if args else 1)-1		
 		player.skill.append(game.board.cartasExplorationActual.pop(item_to_remove))
-		command_show_exploration(bot, update)
+		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
+		#command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
