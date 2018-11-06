@@ -143,6 +143,10 @@ def get_game(cid):
 #Lost Expedition
 def command_hoja_ayuda(bot, update):
 	cid = update.message.chat_id
+	help_text = "Eventos amarillos son obligatorios\n" + \
+			"Eventos rojo son obligatorios pero tenes que elegir 1\n"  + \
+			"Eventos Azules son opcionales"
+	bot.send_message(cid, help_text)
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
 
@@ -641,18 +645,11 @@ def command_stats(bot, update):
 def command_help(bot, update):
 	cid = update.message.chat_id
 	'''
-	help_text += "Eventos amarillos son obligatorios\n" + \
-		"Eventos rojo son obligatorios pero tenes que elegir 1\n" 
-		"Eventos Azules son opcionales\n" + \
-		"Negro: Ganar. Blanco: Gastar\n" + \
-		"Carta con flecha atravesando una carta: Descarta la siguiente carta exploracion\n" + \
-		"Carta con dos Flechas: Intercambia cartas de exploracion\n" + \
-		"Carta con menos: Descarta la ultima carta de exploracion (Sin incluir la carta actual)\n" + \
-		"Carta con mas: Roba una carta del mazo y añadela al final de la ruta\n" + \
-		"Tipo: Avanza en la expedición\n" + \
-		"Calavera: Mata un explorador\n"
+	help_text = "Eventos amarillos son obligatorios\n" + \
+			"Eventos rojo son obligatorios pero tenes que elegir 1\n"  + \
+			"Eventos Azules son opcionales\n"
 	'''
-	help_text = "\nThe following commands are available:\n"
+	help_text = "\nLos siguientes comandos estan disponibles:\n"
 	for i in commands:
 		help_text += i + "\n"
 	bot.send_message(cid, help_text)
