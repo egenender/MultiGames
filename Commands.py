@@ -694,24 +694,9 @@ def command_ping(bot, update):
 
 # prints statistics, only ADMIN
 def command_stats(bot, update):
-    cid = update.message.chat_id
-    if cid == ADMIN:
-        with open(STATS, 'r') as f:
-            stats = json.load(f)
-        stattext = "+++ Statistics +++\n" + \
-                    "Liberal Wins (policies): " + str(stats.get("libwin_policies")) + "\n" + \
-                    "Liberal Wins (killed Hitler): " + str(stats.get("libwin_kill")) + "\n" + \
-                    "Fascist Wins (policies): " + str(stats.get("fascwin_policies")) + "\n" + \
-                    "Fascist Wins (Hitler chancellor): " + str(stats.get("fascwin_hitler")) + "\n" + \
-                    "Games cancelled: " + str(stats.get("cancelled")) + "\n\n" + \
-                    "Total amount of groups: " + str(len(stats.get("groups"))) + "\n" + \
-                    "Games running right now: "
-	bot.send_message(cid, stattext)
-	
-# help page
-
-
-
+	cid = update.message.chat_id
+	if cid == ADMIN:		
+		bot.send_message(cid, "Estadisticas pronto...")
 
 def command_join(bot, update, args):
 	# I use args for testing. // Remove after?
