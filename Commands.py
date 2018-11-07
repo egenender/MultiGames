@@ -519,7 +519,7 @@ def command_remove_last_exploration(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
 		game = get_game(cid)
-		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)-1])		
+		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)])		
 		
 		
 # Resolver es basicamente remover pero la de mas a la izquierda.
