@@ -150,12 +150,20 @@ def get_game(cid):
 			return game
 		else:
 			None
-		
-#Lost Expedition
 
+# Despues de cada comando que actualiza el juego se graba
 def after_command(bot, update):
 	save(bot, update)
-
+	
+#Lost Expedition
+# Comando para hacer luego de que se achica la ruta a explorar
+def after_ruta_achicada(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	game = get_game(cid)
+	if not game.board.cartasExplorationActual:		
+		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia DÍA/NOCHE")
+		command_losefood(bot, update)
+		
 def command_hoja_ayuda(bot, update):
 	cid = update.message.chat_id
 	help_text = "Eventos amarillos son obligatorios\n" + \
@@ -500,6 +508,7 @@ def command_remove_exploration(bot, update, args):
 		try:			
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
+			after_ruta_achicada(bot, update)
 			after_command(bot, update)
 			#command_show_exploration(bot, update)
 		except Exception as e:
@@ -531,6 +540,7 @@ def command_gain_exploration(bot, update, args):
 		item_to_remove = int(args[0] if args else 1)-1		
 		player.skills.append(game.board.cartasExplorationActual.pop(item_to_remove))
 		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
+		after_ruta_achicada(bot, update)
 		after_command(bot, update)
 		#command_show_exploration(bot, update)
 		
