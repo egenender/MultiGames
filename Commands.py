@@ -597,9 +597,10 @@ def command_symbols(bot, update):
 def command_reglas(bot, update):
 	cid = update.message.chat_id
 	texto_reglas = "Solitario: \n" + \
-			"Dia: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano. Se ordenan por número. Resuelve. Pierde 1 comida" + \
-			"Noche: 1 mano. Poner de mazo o mano hasta completar 6. Se puede poner adelante o atras en la ruta. Resuelve. Pierde 1 comida"			
-	bot.send_message(cid, texto_reglas)
+			"*Dia*: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano.\n*Se ordenan por número.*\nResuelve.\n*Pierde 1 comida.*\n" + \
+			"*Noche*: Primera de la mano. Poner de mazo o mano hasta completar 6.\n*Se puede poner adelante o atras en la ruta.*\nResuelve.\n*Pierde 1 comida.* Ir a día."			
+	
+	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
 	
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
