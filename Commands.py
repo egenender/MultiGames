@@ -162,6 +162,7 @@ def after_ruta_achicada(bot, update):
 	game = get_game(cid)
 	if not game.board.cartasExplorationActual:		
 		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia DÍA/NOCHE")
+		bot.send_message(cid, "Se pierde uno de comida (Se pierde comida automaticamente, sino no hay que quitar 1 de vida de alguien y aumentar la comida)")
 		command_losefood(bot, update)
 		
 def command_hoja_ayuda(bot, update):
