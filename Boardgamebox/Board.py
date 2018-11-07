@@ -12,7 +12,9 @@ class Board(object):
         self.cartasExplorationActual = []
         # Cantidad de veces que se mezclo el mazo.
         self.amount_shuffled = 0
-        self.progreso = 0
+        # Se comienza en el primer lugar
+        self.progreso = 1
+        self.objetivoprogreso = 9
         
         self.discards = []
         self.previous = []        
