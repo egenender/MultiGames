@@ -118,7 +118,8 @@ def save(bot, update):
 		game = GamesController.games.get(cid, None)
 		gameType = 'LostExpedition'
 		save_game(cid,groupName , game, gameType )
-		bot.send_message(cid, 'Se grabo correctamente.')
+		#bot.send_message(cid, 'Se grabo correctamente.')
+		log.info('Se grabo correctamente.')
 	except Exception as e:
 		bot.send_message(cid, 'Error al grabar '+str(e))
 		
@@ -183,8 +184,7 @@ def command_newgame_lost_expedition(bot, update):
 			bot.send_message(cid, "Se creo el juego y el usuario")
 			game.board = Board(player_number, game)			
 			bot.send_message(cid, "El jugador obtiene 6 cartas")
-			command_drawcard(bot, update, [6])
-			after_command(bot, update)
+			command_drawcard(bot, update, [6])			
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
 
