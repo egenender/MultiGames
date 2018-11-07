@@ -912,7 +912,12 @@ def main():
         dp.add_handler(CommandHandler("newgamesecretmoon", Commands.command_newgame_secret_moon))
         dp.add_handler(CommandHandler("startgamesecretmoon", Commands.command_startgame_secret_moon))
         
+        # Comando para 
+        dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
+        
         # Lost Expedition Commands
+        dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
+        dp.add_handler(CommandHandler("reglas", Commands.command_reglas))
         dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
         
         dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
@@ -941,8 +946,8 @@ def main():
         dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
         dp.add_handler(CommandHandler("gainprogreso", Commands.command_increase_progreso))
         dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration))
-        dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
-        dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True))        
+        
+               
         dp.add_handler(CommandHandler("gainskill", Commands.command_gain_exploration, pass_args = True))
         dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
                 
