@@ -190,11 +190,13 @@ def command_newgame_lost_expedition(bot, update):
 				#Si es un juego en solitario comienzo sacando las dos cartas del mazo y las ordeno
 				command_add_exploration_deck(bot, update, [2])
 				command_sort_exploration_rute(bot, update)
+				bot.send_message(cid, "Ahora debes jugar dos cartas")
 				
-			
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
 
+
+		
 def command_drawcard(bot, update, args):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
@@ -250,11 +252,11 @@ def command_increase_progreso(bot, update):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		game.board.progreso += 1		
-		if game.board.progreso == 6:
+		game.board.progreso += 1
+		if game.board.progreso == game.board.objetivoprogreso:
 			bot.send_message(cid, "Ganaste")
 		else:
-			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 6" % game.board.progreso)
+			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
 		after_command(bot, update)
 		'''
 		player = game.playerlist[uid]
@@ -560,17 +562,6 @@ def command_sort_hand(bot, update):
 		command_showhand(bot, update)
 		after_command(bot, update)
 		
-'''def command_vida_explorador_hoja(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid == ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		cid = '-1001206290323'
-		player.food += 1;
-'''		
 def command_showstats(bot, update):
 	log.info('command_showstats called')
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -581,8 +572,35 @@ def command_showstats(bot, update):
 			return
 		player = game.playerlist[uid]		
 		bot.send_message(cid, player.print_stats())
-		
 
+def command_help(bot, update):
+	cid = update.message.chat_id
+	'''
+	help_text = "Eventos amarillos son obligatorios\n" + \
+	"Eventos rojo son obligatorios pero tenes que elegir 1\n"  + \
+	"Eventos Azules son opcionales\n"
+	'''
+	help_text = "\nLos siguientes comandos estan disponibles:\n"
+	for i in commands:
+		help_text += i + "\n"
+	bot.send_message(cid, help_text)
+		
+def command_symbols(bot, update):
+	cid = update.message.chat_id
+	url_img = '/app/img/LostExpedition/Ayuda01.jpg'	
+	img = Image.open(url_img)
+	bot.send_photo(cid, photo=bio)
+	url_img = '/app/img/LostExpedition/Ayuda02.jpg'	
+	img = Image.open(url_img)
+	bot.send_photo(cid, photo=bio)
+
+def command_reglas(bot, update):
+	cid = update.message.chat_id
+	texto_reglas = "Solitario: \n" + \
+			"Dia: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano. Se ordenan por número. Resuelve. Pierde 1 comida" + \
+			"Noche: 1 mano. Poner de mazo o mano hasta completar 6. Se puede poner adelante o atras en la ruta. Resuelve. Pierde 1 comida"			
+	bot.send_message(cid, texto_reglas)
+	
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
@@ -640,14 +658,7 @@ symbols = [
 
 		
 		
-def command_symbols(bot, update):
-	cid = update.message.chat_id
-	url_img = '/app/img/LostExpedition/Ayuda01.jpg'	
-	img = Image.open(url_img)
-	bot.send_photo(cid, photo=bio)
-	url_img = '/app/img/LostExpedition/Ayuda02.jpg'	
-	img = Image.open(url_img)
-	bot.send_photo(cid, photo=bio)
+
 	
 
 
@@ -695,21 +706,9 @@ def command_stats(bot, update):
                     "Games cancelled: " + str(stats.get("cancelled")) + "\n\n" + \
                     "Total amount of groups: " + str(len(stats.get("groups"))) + "\n" + \
                     "Games running right now: "
-        bot.send_message(cid, stattext)       
-
-
+	bot.send_message(cid, stattext)
+	
 # help page
-def command_help(bot, update):
-	cid = update.message.chat_id
-	'''
-	help_text = "Eventos amarillos son obligatorios\n" + \
-			"Eventos rojo son obligatorios pero tenes que elegir 1\n"  + \
-			"Eventos Azules son opcionales\n"
-	'''
-	help_text = "\nLos siguientes comandos estan disponibles:\n"
-	for i in commands:
-		help_text += i + "\n"
-	bot.send_message(cid, help_text)
 
 
 
