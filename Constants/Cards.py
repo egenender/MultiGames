@@ -10,12 +10,12 @@ comandos = {
     "remove_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
         "comando" : "command_remove_exploration",
-        "argumentos" : []
+        "argumentos" : None
     },
     "remove_last_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
         "comando" : "command_remove_last_exploration",
-        "argumentos" : []
+        "argumentos" : None
     },
     "add_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
@@ -71,7 +71,8 @@ comandos = {
     "lose_life" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_life",
-        "argumentos" : None
+        "indicacion" : "Elija a un explorador para perder una vida"
+        "argumentos" : ["ExploradorCampero", "ExploradorBrujula", "ExploradorHoja"]
     },
     "lose_food" : {
         "tipo" : "automatico",
