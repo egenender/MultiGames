@@ -86,7 +86,7 @@ def command_resolve_exploration2(bot, update):
 				btns = []
 				for argumento in comando["argumentos"]:
 					txtBoton = "%s" % (argumento)
-					datos = strcid + "_executecommand_" + argumento + "_" + comando["comando"]
+					datos = strcid + "*executecommand*" + argumento + "*" + comando["comando"]
 					log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 					bot.send_message(cid, datos)
 					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])     
@@ -104,7 +104,7 @@ def command_resolve_exploration2(bot, update):
 def execute_command(bot, update):
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
-	regex = re.search("(-[0-9]*)_executecommand_([^_]*)_(.*)", callback.data)
+	regex = re.search("([0-9]*)\*executecommand\*([^_]*)\*(.*)", callback.data)
 	cid = int(regex.group(1))
 	strcid = regex.group(1)	
 	opcion = regex.group(2)
