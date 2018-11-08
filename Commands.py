@@ -47,6 +47,32 @@ conn = psycopg2.connect(
     port=url.port
 )
 
+def command_resolve_exploration2(bot, update):
+	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
+	cid, uid, game, player = get_base_data(bot, update)
+	if game is not None:
+		# Busco la carta y obtengo sus acciones		
+		if not game.board.cartasExplorationActual:
+			bot.send_message(cid, "Exploracion Actual no tiene cartas")			
+		else:
+			carta = cartas_aventura[game.board.cartasExplorationActual[0]]
+			bot.send_message(cid, carta)
+			acciones = carta["acciones"]
+			index_accion_actual = 1
+			accion_actual = carta["acciones"][accion_actual]
+			bot.send_message(cid, accion_actual)
+			tipo_accion_actual = accion_actual["tipo"]
+			bot.send_message(cid, tipo_accion_actual)
+			opciones_accion_actual = accion_actual["opciones"]			
+			index_opcion_actual = 1
+			opcion_actual = opciones_accion_actual[opcion_actual]
+			bot.send_message(cid, opcion_actual)
+			comandos_opcion_actual = opcion_actual["comandos"]
+			index_comando_actual = 1
+			comando_actual = comandos_opcion_actual[index_comando_actual]
+			bot.send_message(cid, comando_actual)
+			#command_remove_exploration(bot, update, [1])
+
 
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
@@ -556,31 +582,6 @@ def command_resolve_exploration(bot, update):
 	if uid in ADMIN:
 		command_remove_exploration(bot, update, [1])
 
-def command_resolve_exploration2(bot, update):
-	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
-	cid, uid, game, player = get_base_data(bot, update)
-	if game not None:
-		# Busco la carta y obtengo sus acciones		
-		if not game.board.cartasExplorationActual:
-			bot.send_message(cid, "Exploracion Actual no tiene cartas")			
-		else:
-			carta = cartas_aventura[game.board.cartasExplorationActual[0]]
-			bot.send_message(cid, carta)
-			acciones = carta["acciones"]
-			index_accion_actual = 1
-			accion_actual = carta["acciones"][accion_actual]
-			bot.send_message(cid, accion_actual)
-			tipo_accion_actual = accion_actual["tipo"]
-			bot.send_message(cid, tipo_accion_actual)
-			opciones_accion_actual = accion_actual["opciones"]			
-			index_opcion_actual = 1
-			opcion_actual = opciones_accion_actual[opcion_actual]
-			bot.send_message(cid, opcion_actual)
-			comandos_opcion_actual = opcion_actual["comandos"]
-			index_comando_actual = 1
-			comando_actual = comandos_opcion_actual[index_comando_actual]
-			bot.send_message(cid, comando_actual)
-			#command_remove_exploration(bot, update, [1])
 		
 def command_gain_skill(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
