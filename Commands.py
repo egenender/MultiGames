@@ -81,10 +81,11 @@ def command_resolve_exploration2(bot, update):
 			# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
 			if tipo_comando == "automatico":
 				# Si el command que quiero usar tiene args se los agrego.
-				if comando["comando_argumentos"] is None:
-					getattr(sys.modules[__name__], comando["comando"])(bot, update)
-				else:
+				if "comando_argumentos" in comando:
 					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
+				else:
+					getattr(sys.modules[__name__], comando["comando"])(bot, update)
+					
 			elif tipo_comando == "indicaciones":
 				# Genero los botones para preguntar al usuario.
 				strcid = str(game.cid)
@@ -103,10 +104,10 @@ def command_resolve_exploration2(bot, update):
 				bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
 			else:
 				# Si es opcional, solo swap es de este tipo al momento.
-				if comando["argumentos"] is None:
-					getattr(sys.modules[__name__], comando["comando"])(bot, update)
+				if "comando_argumentos" in comando:
+					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
 				else:
-					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["argumentos"])				
+					getattr(sys.modules[__name__], comando["comando"])(bot, update)
 				
 def execute_command(bot, update):
 	callback = update.callback_query
