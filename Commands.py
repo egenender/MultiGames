@@ -101,7 +101,7 @@ def command_resolve_exploration2(bot, update):
 				#for uid in game.playerlist:
 				bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
 			else:
-				# Si es opcional, solo swap es de este tipo al momento.
+				# Si es final, solo gain_skill es final
 				if "comando_argumentos" in comando:
 					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
 				else:
@@ -115,6 +115,10 @@ def execute_command(bot, update):
 	strcid = regex.group(1)	
 	opcion = regex.group(2)
 	comando = regex.group(3)
+	
+	# Directamente lo ejecuto ya que tengo el argumento.
+	getattr(sys.modules[__name__], comando)(bot, update, opcion)
+	
 	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando))
 
 def get_img_carta(num_carta):
@@ -398,6 +402,23 @@ def command_gainfood(bot, update):
 		command_showstats(bot, update)
 		after_command(bot, update)
 
+def command_lose_life(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		if args == "Explorador Campero":
+			player.vida_explorador_campero  -=1;
+		if args == "Explorador Brujula":
+			player.vida_explorador_brujula  -=1;
+		if args == "Explorador Hoja":
+			player.vida_explorador_brujula  -=1;		
+		command_showstats(bot, update)
+		after_command(bot, update)
+		
 def command_gain_life(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
@@ -406,21 +427,12 @@ def command_gain_life(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.vida_explorador_campero  -= int(args[0] if args else 1);
-		command_showstats(bot, update)
-		after_command(bot, update)
-		
-def command_lose_life(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.vida_explorador_campero  -= 1;
+		if args == "Explorador Campero":
+			player.vida_explorador_campero  +=1;
+		if args == "Explorador Brujula":
+			player.vida_explorador_brujula  +=1;
+		if args == "Explorador Hoja":
+			player.vida_explorador_brujula  +=1;		
 		command_showstats(bot, update)
 		after_command(bot, update)
 		
