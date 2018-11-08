@@ -117,7 +117,7 @@ def execute_command(bot, update):
 	comando = regex.group(3)
 	
 	
-	bot.send_message(cid, update)
+	bot.send_message(cid, update.data)
 	# Directamente lo ejecuto ya que tengo el argumento.
 	getattr(sys.modules[__name__], comando)(bot, update, opcion)
 	
