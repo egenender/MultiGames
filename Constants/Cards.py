@@ -14,59 +14,63 @@ comandos = {
     },
     "remove_last_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
-        "comando" : "command_remove_last_exploration",
-        "argumentos" : None
+        "comando" : "command_remove_last_exploration"        
     },
     "add_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
         "comando" : "command_add_exploration",
-        "argumentos" : None
+        "comando_argumentos" : []
     },
     "swap_rute" : {
-        "tipo" : "opcional", # Comandos opcional se preguntara si el usuario quiere hacerlo
+        "tipo" : "indicaciones",
         "comando" : "command_swap_exploration",
-        "argumentos" : None
-    },
-    
+        "indicacion" : "¿Quiere intercambiar dos cartas de ruta?",
+        "indicacion_argumentos" : ["Sí", "No"]
+    },    
     "gain_life" : {
-        "tipo" : "automatico",
+        "tipo" : "indicaciones",
         "comando" : "command_gain_life",
-        "argumentos" : None
+        "indicacion" : "Elija a un explorador para ganar una vida",
+        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja"]
     },
     "gain_skill" : {
         "tipo" : "final", # Comandos con final se ejecutan al terminar de resolver.
         "comando" : "command_gain_skill",
-        "argumentos" : []
+        "comando_argumentos" : []
     },
     "gain_food" : {
         "tipo" : "automatico",
-        "comando" : "command_gainfood",
-        "argumentos" : None
+        "comando" : "command_gainfood",        
     },
     "gain_bullet" : {
         "tipo" : "automatico",
-        "comando" : "command_gainbullet",
-        "argumentos" : None
+        "comando" : "command_gainbullet"
     },
     "gain_progreso" : {
         "tipo" : "automatico",
-        "comando" : "command_increase_progreso",
-        "argumentos" : None
+        "comando" : "command_increase_progreso"
     },
     "lose_camp" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_camp",
-        "argumentos" : None
+        "indicacion" : "Elija que quiere hacer",
+        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja", "Usar carta skill"]
     },
     "lose_leaf" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_leaf",
-        "argumentos" : None
+        "indicacion" : "Elija que quiere hacer",
+        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja", "Usar carta skill"]
+    },
+    "lose_compass" : {
+        "tipo" : "indicaciones",
+        "comando" : "command_lose_compass",
+        "indicacion" : "Elija que quiere hacer",
+        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja", "Usar carta skill"]
     },
     "lose_bullet" : {
-        "tipo" : "indicaciones", # Caso especial que no se puede elegir si no se tiene
-        "comando" : "command_losebullet",
-        "argumentos" : None
+        "tipo" : "automatico", # Caso especial que no se puede elegir si no se tiene
+        "comando" : "command_losebullet"
     },
     "lose_life" : {
         "tipo" : "indicaciones",
@@ -76,13 +80,13 @@ comandos = {
     },
     "lose_food" : {
         "tipo" : "automatico",
-        "comando" : "command_losefood",
-        "argumentos" : None
+        "comando" : "command_losefood"
     },
     "lose_explorer" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_explorer",
-        "argumentos" : None
+        "indicacion" : "Elija a un explorador para morir",
+        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja"]
     },
 }
 
