@@ -27,6 +27,7 @@ from io import BytesIO
 from Constants.Cards import cartas_aventura
 from Constants.Cards import comandos
 import random
+import re
 # Objetos que uso de prueba estaran en el state
 
 # Enable logging
