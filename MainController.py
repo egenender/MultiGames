@@ -954,6 +954,8 @@ def main():
         dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf))
         dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer))
                 
+        dp.add_handler(CommandHandler("res", Commands.command_resolve_exploration2))      
+                
         dp.add_handler(CommandHandler("save", Commands.save))
         dp.add_handler(CommandHandler("load", Commands.load))
         
