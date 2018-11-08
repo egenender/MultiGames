@@ -80,16 +80,20 @@ def command_resolve_exploration2(bot, update):
 			
 			# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
 			if tipo_comando == "automatico":
-				getattr(sys.modules[__name__], comando["comando"])(bot, update)
+				# Si el command que quiero usar tiene args se los agrego.
+				if comando["comando_argumentos"] is None:
+					getattr(sys.modules[__name__], comando["comando"])(bot, update)
+				else:
+					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
 			elif tipo_comando == "indicaciones":
 				# Genero los botones para preguntar al usuario.
 				strcid = str(game.cid)
 				btns = []
-				for argumento in comando["argumentos"]:
-					txtBoton = "%s" % (argumento)
+				for argumento in comando["indicacion_argumentos"]:
+					txtBoton = "%s" % (comando["indicacion"])
 					datos = strcid + "*executecommand*" + argumento + "*" + comando["comando"]
-					log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-					bot.send_message(cid, datos)
+					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+					#bot.send_message(cid, datos)
 					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])     
 
 				btnMarkup = InlineKeyboardMarkup(btns)
