@@ -98,7 +98,7 @@ cartas_aventura = {
                 "opciones" : {
                     1 : {
                         "comandos" : {
-                            1 : "remove_rute",
+                            1 : "lose_life",
                             2 : "gain_food",
                             3 : "gain_food"                           
                         }
@@ -276,7 +276,7 @@ cartas_aventura = {
                 "opciones" : {
                     1 : {
                         "comandos" : {
-                            1 : "lose_life",
+                            1 : "remove_rute",
                             2 : "lose_life",
                             3 : "remove_rute"                            
                         }
