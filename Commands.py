@@ -415,7 +415,7 @@ def command_lose_life(bot, update, args):
 		if args == "Explorador Brujula":
 			player.vida_explorador_brujula  -=1;
 		if args == "Explorador Hoja":
-			player.vida_explorador_brujula  -=1;		
+			player.vida_explorador_hoja  -=1;		
 		command_showstats(bot, update)
 		after_command(bot, update)
 		
@@ -432,7 +432,7 @@ def command_gain_life(bot, update, args):
 		if args == "Explorador Brujula":
 			player.vida_explorador_brujula  +=1;
 		if args == "Explorador Hoja":
-			player.vida_explorador_brujula  +=1;		
+			player.vida_explorador_hoja  +=1;		
 		command_showstats(bot, update)
 		after_command(bot, update)
 		
@@ -723,29 +723,49 @@ def command_reglas(bot, update):
 	
 	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
 
-def command_lose_camp(bot, update):
+def command_lose_camp(bot, update, args):
 	cid, uid, game, player = get_base_data(bot, update)
 	if game is None:
 		return
-	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+	if args == "Explorador Campero":
+		player.vida_explorador_campero  -=1;
+	if args == "Explorador Brujula":
+		player.vida_explorador_brujula  -=2;
+	if args == "Explorador Hoja":
+		player.vida_explorador_hoja  -=2;
 	
-def command_lose_compass(bot, update):
+def command_lose_compass(bot, update, args):
 	cid, uid, game, player = get_base_data(bot, update)
 	if game is None:
 		return
-	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+	if args == "Explorador Campero":
+		player.vida_explorador_campero  -=2;
+	if args == "Explorador Brujula":
+		player.vida_explorador_brujula  -=1;
+	if args == "Explorador Hoja":
+		player.vida_explorador_hoja  -=2;
 	
-def command_lose_leaf(bot, update):
+def command_lose_leaf(bot, update, args):
 	cid, uid, game, player = get_base_data(bot, update)
 	if game is None:
 		return
-	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+	if args == "Explorador Campero":
+		player.vida_explorador_campero  -=2;
+	if args == "Explorador Brujula":
+		player.vida_explorador_brujula  -=2;
+	if args == "Explorador Hoja":
+		player.vida_explorador_hoja  -=1;
 	
-def command_lose_explorer(bot, update):
+def command_lose_explorer(bot, update, args):
 	cid, uid, game, player = get_base_data(bot, update)
 	if game is None:
 		return
-	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+	if args == "Explorador Campero":
+		player.vida_explorador_campero  = 0;
+	if args == "Explorador Brujula":
+		player.vida_explorador_brujula  = 0;
+	if args == "Explorador Hoja":
+		player.vida_explorador_hoja  = 0;
 		
 def get_base_data(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id
