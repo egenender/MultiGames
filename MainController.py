@@ -935,7 +935,7 @@ def main():
         dp.add_handler(CommandHandler("addrutefromhand", Commands.command_add_exploration, pass_args = True))
         dp.add_handler(CommandHandler("addrutefromdeck", Commands.command_add_exploration_deck, pass_args = True))
         dp.add_handler(CommandHandler("addrutefromhandfirst", Commands.command_add_exploration_first, pass_args = True))
-        dp.add_handler(CommandHandler("addrutefromdeckfirst", Commands.command_add_exploration_deck_first, pass_args = True))
+        dp.add_handler(CommandHandler("moverutefirst", Commands.command_add_exploration_deck_first, pass_args = True))
         dp.add_handler(CommandHandler("swaprute", Commands.command_swap_exploration, pass_args = True))
         dp.add_handler(CommandHandler("removerute", Commands.command_remove_exploration, pass_args = True))
         dp.add_handler(CommandHandler("removelastrute", Commands.command_remove_last_exploration))
