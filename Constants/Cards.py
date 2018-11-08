@@ -110,9 +110,9 @@ cartas_aventura = {
                 "opciones" : {
                     1 : {
                         "comandos" : {
-                            1 : "remove_exploration",
-                            2 : "remove_exploration",
-                            3 : "remove_exploration",                            
+                            1 : "remove_rute",
+                            2 : "remove_rute",
+                            3 : "remove_rute",                            
                         }
                     }
                 }            
