@@ -115,7 +115,7 @@ def execute_command(bot, update):
 	strcid = regex.group(1)	
 	opcion = regex.group(2)
 	comando = regex.group(3)
-	bot.send_message(cid, bot)
+	
 	
 	bot.send_message(cid, update)
 	# Directamente lo ejecuto ya que tengo el argumento.
