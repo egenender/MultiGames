@@ -91,7 +91,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "0",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -123,7 +123,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "0",
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -151,7 +151,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "0",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -166,7 +166,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "1",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -198,7 +198,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "1",
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "opcional", # si es de tipo opcional se puede obviar de hacerla
                 "opciones" : {
@@ -229,7 +229,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "1",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -269,7 +269,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "2",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -295,7 +295,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "2",
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -315,7 +315,7 @@ cartas_aventura = {
         "plastilla" : "1",
         "fila" : "2",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -341,7 +341,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "0",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -375,7 +375,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "0",
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -406,7 +406,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "0",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -442,7 +442,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "1",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -466,7 +466,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "1",
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -497,7 +497,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "1",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -528,7 +528,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "2",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -566,7 +566,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "2",
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -592,7 +592,7 @@ cartas_aventura = {
         "plastilla" : "2",
         "fila" : "2",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -622,7 +622,7 @@ cartas_aventura = {
         "plastilla" : "3",
         "fila" : "0",
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -658,7 +658,7 @@ cartas_aventura = {
         "plastilla" : "3",
         "fila" : "0", 
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -696,7 +696,7 @@ cartas_aventura = {
         "plastilla" : "3",
         "fila" : "0",
         "columna" : "2",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -723,7 +723,7 @@ cartas_aventura = {
         "plastilla" : "3",
         "fila" : "1", 
         "columna" : "0",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
@@ -748,7 +748,7 @@ cartas_aventura = {
         "plastilla" : "3",
         "fila" : "1", 
         "columna" : "1",
-        "actions" : {
+        "acciones" : {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
