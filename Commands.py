@@ -77,9 +77,9 @@ def command_resolve_exploration2(bot, update):
 			# Ejecuto el comando
 			comando = comandos[comando_actual]
 			if comando["argumentos"] is None:
-				getattr(Commands, comando["comando"])(bot, update)
+				getattr(sys.modules[__name__], comando["comando"])(bot, update)
 			else:
-				getattr(Commands, comando["comando"])(bot, update, comando["argumentos"])
+				getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["argumentos"])
 
 
 def get_img_carta(num_carta):
