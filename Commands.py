@@ -327,6 +327,32 @@ def command_gainfood(bot, update):
 		player.food += 1;
 		command_showstats(bot, update)
 		after_command(bot, update)
+
+def command_gain_life(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		player.vida_explorador_campero  -= int(args[0] if args else 1);
+		command_showstats(bot, update)
+		after_command(bot, update)
+		
+def command_lose_life(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		player.vida_explorador_campero  -= int(args[0] if args else 1);
+		command_showstats(bot, update)
+		after_command(bot, update)
 		
 def command_vida_explorador_campero(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -529,7 +555,7 @@ def command_resolve_exploration(bot, update):
 	if uid in ADMIN:
 		command_remove_exploration(bot, update, [1])
 		
-def command_gain_exploration(bot, update, args):
+def command_gain_skill(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
 		game = get_game(cid)
