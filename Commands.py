@@ -25,6 +25,7 @@ from io import BytesIO
 
 # Objetos que uso de prueba estaran en el state
 from Constants.Cards import cartas_aventura
+from Constants.Cards import comandos
 import random
 # Objetos que uso de prueba estaran en el state
 
@@ -72,6 +73,13 @@ def command_resolve_exploration2(bot, update):
 			comando_actual = comandos_opcion_actual[index_comando_actual]
 			bot.send_message(cid, comando_actual)
 			#command_remove_exploration(bot, update, [1])
+			
+			# Ejecuto el comando
+			comando = comandos[comando_actual]
+			if comando["argumentos"] is None:
+				getattr(Commands, comando["comando"])(bot, update)
+			else:
+				getattr(Commands, comando["comando"])(bot, update, comando["argumentos"])
 
 
 def get_img_carta(num_carta):
