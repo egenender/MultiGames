@@ -964,6 +964,7 @@ def main():
         dp.add_handler(CommandHandler("nein", Commands.command_nein))
         dp.add_handler(CommandHandler("elegimos", Commands.command_elegimos, pass_args = True))
         
+        '''
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_chan_(.*)", callback=nominate_chosen_chancellor))
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_insp_(.*)", callback=choose_inspect))
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_choo_(.*)", callback=choose_choose))
@@ -973,7 +974,8 @@ def main():
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(Ja|Nein)", callback=handle_voting))
         
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_action_(.*)", callback=handle_action))
-        
+        '''
+        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_executecommand_([^_]*)_(.*)", callback=Commands.execute_command))        
 
         # log all errors
         dp.add_error_handler(error)
