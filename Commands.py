@@ -72,15 +72,43 @@ def command_resolve_exploration2(bot, update):
 			index_comando_actual = 1
 			comando_actual = comandos_opcion_actual[index_comando_actual]
 			bot.send_message(cid, comando_actual)
-			#command_remove_exploration(bot, update, [1])
-			
+						
 			# Ejecuto el comando
 			comando = comandos[comando_actual]
-			if comando["argumentos"] is None:
+			tipo_comando = comando["tipo"]
+			
+			# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
+			if tipo_comando == "automatico":
 				getattr(sys.modules[__name__], comando["comando"])(bot, update)
-			else:
-				getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["argumentos"])
+			elif tipo_comando == "indicaciones":
+				# Genero los botones para preguntar al usuario.
+				strcid = str(game.cid)
+				btns = []
+				for argumento in comando["argumentos"]:
+					txtBoton = "%s" % (argumento)
+					datos = strcid + "_executecommand_" + argumento + "_" + comando["comando"]
+					log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])     
 
+				btnMarkup = InlineKeyboardMarkup(btns)
+				#for uid in game.playerlist:
+				bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
+			else:
+				# Si es opcional, solo swap es de este tipo al momento.
+				if comando["argumentos"] is None:
+					getattr(sys.modules[__name__], comando["comando"])(bot, update)
+				else:
+					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["argumentos"])				
+				
+def execute_command(bot, update)	
+	callback = update.callback_query
+	log.info('execute_command called: %s' % callback.data)
+	regex = re.search("(-[0-9]*)_executecommand_([^_]*)_(.*)", callback.data)
+	cid = int(regex.group(1))
+	strcid = regex.group(1)	
+	opcion = regex.group(2)
+	comando = regex.group(3)
+	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando))
 
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
