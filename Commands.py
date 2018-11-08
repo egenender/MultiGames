@@ -505,7 +505,7 @@ def command_remove_exploration(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
-		item_to_remove = int(args[0] if args else 1)-1	
+		item_to_remove = int(args[0] if args else 2)-1	
 		try:			
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
@@ -527,7 +527,7 @@ def command_remove_last_exploration(bot, update):
 def command_resolve_exploration(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
-		command_remove_exploration(bot, update, [])
+		command_remove_exploration(bot, update, [1])
 		
 def command_gain_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
