@@ -948,7 +948,7 @@ def main():
         dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration))
         
                
-        dp.add_handler(CommandHandler("gainskill", Commands.command_gain_exploration, pass_args = True))
+        dp.add_handler(CommandHandler("gainskill", Commands.command_gain_skill, pass_args = True))
         dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
                 
         dp.add_handler(CommandHandler("save", Commands.save))
