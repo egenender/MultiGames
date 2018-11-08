@@ -665,15 +665,16 @@ def command_lose_explorer(bot, update):
 	bot.send_message(cid, "Se obtuvieron los datos correctamente")
 		
 def get_base_data(bot, update):	
-	if uid in ADMIN:
-		cid, uid = update.message.chat_id, update.message.from_user.id	
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	if uid in ADMIN:		
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return cid, uid, None, None
 		player = game.playerlist[uid]
 		return cid, uid, game, player
-		
+	else:
+		return cid, uid, None, None		
 		
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
