@@ -949,10 +949,10 @@ def main():
         dp.add_handler(CommandHandler("gainskill", Commands.command_gain_skill, pass_args = True))
         dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
         
-        dp.add_handler(CommandHandler("losecamp", Commands.command_lose_camp))
-        dp.add_handler(CommandHandler("losecompass", Commands.command_lose_compass))
-        dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf))
-        dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer))
+        dp.add_handler(CommandHandler("losecamp", Commands.command_lose_camp, pass_args = True))
+        dp.add_handler(CommandHandler("losecompass", Commands.command_lose_compass, pass_args = True))
+        dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf, pass_args = True))
+        dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer, pass_args = True))
                 
         dp.add_handler(CommandHandler("res", Commands.command_resolve_exploration2))      
                 
