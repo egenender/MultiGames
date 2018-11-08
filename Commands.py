@@ -555,6 +555,12 @@ def command_resolve_exploration(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
 		command_remove_exploration(bot, update, [1])
+
+def command_resolve_exploration2(bot, update):
+	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
+	cid, uid, game, player = get_base_data(bot, update)
+	if game not None:
+		command_remove_exploration(bot, update, [1])
 		
 def command_gain_skill(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
