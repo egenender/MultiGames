@@ -66,23 +66,24 @@ def get_img_carta(num_carta):
 	return cropped
 
 def command_newgame_sql_command(bot, update, args):
-	try:
-		cid = update.message.chat_id
-		#Check if game is in DB first
-		cursor = conn.cursor()			
-		log.info("Executing in DB")
-		#query = "select * from games;"
-		query = " ".join(args)
-		cursor.execute(query)
-		#dbdata = cur.fetchone()
-		if cursor.rowcount > 0:
-			bot.send_message(cid, 'Resultado de la consulta:')
-			for table in cursor.fetchall():
-				bot.send_message(cid, table)
-		else:
-			bot.send_message(cid, 'No se obtuvo nada de la consulta')
-	except Exception as e:
-		bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
+	if uid in ADMIN:
+		try:
+			cid = update.message.chat_id
+			#Check if game is in DB first
+			cursor = conn.cursor()			
+			log.info("Executing in DB")
+			#query = "select * from games;"
+			query = " ".join(args)
+			cursor.execute(query)
+			#dbdata = cur.fetchone()
+			if cursor.rowcount > 0:
+				bot.send_message(cid, 'Resultado de la consulta:')
+				for table in cursor.fetchall():
+					bot.send_message(cid, table)
+			else:
+				bot.send_message(cid, 'No se obtuvo nada de la consulta')
+		except Exception as e:
+			bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
 
 	
 
