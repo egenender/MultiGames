@@ -66,7 +66,7 @@ def get_img_carta(num_carta):
 	return cropped
 
 def command_newgame_sql_command(bot, update, args):
-	cid = update.message.chat_id
+	cid, uid = update.message.chat_id, update.message.from_user.id
 	if uid in ADMIN:
 		try:
 			#Check if game is in DB first
