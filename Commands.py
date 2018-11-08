@@ -90,7 +90,7 @@ def command_resolve_exploration2(bot, update):
 				strcid = str(game.cid)
 				btns = []
 				for argumento in comando["indicacion_argumentos"]:
-					txtBoton = "%s" % (comando["indicacion"])
+					txtBoton = "%s" % (argumento)
 					datos = strcid + "*executecommand*" + argumento + "*" + comando["comando"]
 					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 					#bot.send_message(cid, datos)
