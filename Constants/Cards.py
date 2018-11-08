@@ -280,7 +280,7 @@ cartas_aventura = {
                 "opciones" : {
                     1 : {
                         "comandos" : {
-                            1 : "remove_rute",
+                            1 : "lose_life",
                             2 : "lose_life",
                             3 : "remove_rute"                            
                         }
