@@ -71,7 +71,7 @@ comandos = {
     "lose_life" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_life",
-        "indicacion" : "Elija a un explorador para perder una vida"
+        "indicacion" : "Elija a un explorador para perder una vida",
         "argumentos" : ["ExploradorCampero", "ExploradorBrujula", "ExploradorHoja"]
     },
     "lose_food" : {
