@@ -639,7 +639,42 @@ def command_reglas(bot, update):
 			"*Noche*: Primera de la mano. Poner de mazo o mano hasta completar 6.\n*Se puede poner adelante o atras en la ruta.*\nResuelve.\n*Pierde 1 comida.* Ir a día."			
 	
 	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
+
+def command_lose_camp(bot, update):
+	cid, uid, game, player = get_base_data(bot, update)
+	if game is None:
+		return
+	bot.send_message(cid, "Se obtuvieron los datos correctamente")
 	
+def command_lose_compass(bot, update):
+	cid, uid, game, player = get_base_data(bot, update)
+	if game is None:
+		return
+	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+	
+def command_lose_leaf(bot, update):
+	cid, uid, game, player = get_base_data(bot, update)
+	if game is None:
+		return
+	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+	
+def command_lose_explorer(bot, update):
+	cid, uid, game, player = get_base_data(bot, update)
+	if game is None:
+		return
+	bot.send_message(cid, "Se obtuvieron los datos correctamente")
+		
+def get_base_data(bot, update):	
+	if uid in ADMIN:
+		cid, uid = update.message.chat_id, update.message.from_user.id	
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return cid, uid, None, None
+		player = game.playerlist[uid]
+		return cid, uid, game, player
+		
+		
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
