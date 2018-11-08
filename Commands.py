@@ -59,13 +59,13 @@ def command_resolve_exploration2(bot, update):
 			bot.send_message(cid, carta)
 			acciones = carta["acciones"]
 			index_accion_actual = 1
-			accion_actual = carta["acciones"][accion_actual]
+			accion_actual = carta["acciones"][index_accion_actual]
 			bot.send_message(cid, accion_actual)
 			tipo_accion_actual = accion_actual["tipo"]
 			bot.send_message(cid, tipo_accion_actual)
 			opciones_accion_actual = accion_actual["opciones"]			
 			index_opcion_actual = 1
-			opcion_actual = opciones_accion_actual[opcion_actual]
+			opcion_actual = opciones_accion_actual[index_opcion_actual]
 			bot.send_message(cid, opcion_actual)
 			comandos_opcion_actual = opcion_actual["comandos"]
 			index_comando_actual = 1
