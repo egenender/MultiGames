@@ -376,7 +376,7 @@ def command_gain_life(bot, update, args):
 		command_showstats(bot, update)
 		after_command(bot, update)
 		
-def command_lose_life(bot, update, args):
+def command_lose_life(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	if uid in ADMIN:
 		game = get_game(cid)
@@ -385,7 +385,7 @@ def command_lose_life(bot, update, args):
 			return
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
-		player.vida_explorador_campero  -= int(args[0] if args else 1);
+		player.vida_explorador_campero  -= 1;
 		command_showstats(bot, update)
 		after_command(bot, update)
 		
