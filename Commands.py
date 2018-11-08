@@ -100,7 +100,7 @@ def command_resolve_exploration2(bot, update):
 				else:
 					getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["argumentos"])				
 				
-def execute_command(bot, update)	
+def execute_command(bot, update):
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
 	regex = re.search("(-[0-9]*)_executecommand_([^_]*)_(.*)", callback.data)
