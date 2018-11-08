@@ -1,27 +1,147 @@
+'''
+
+'''
+
+comandos = {
+    "lose_life" : {
+        "tipo" : "automatico",
+        "comando" : "command_lose_life",
+        "argumentos" : None
+    },
+    "gain_food" : {
+        "tipo" : "automatico",
+        "comando" : "command_gainfood",
+        "argumentos" : None
+    },
+    "remove_rute" : {
+        "tipo" : "automatico", #Comandos con automatico se hacen sin preguntar nada al usuario
+        "comando" : "command_remove_exploration",
+        "argumentos" : []
+    },
+    "gain_skill" : {
+        "tipo" : "final", # Comandos con final se ejecutan al terminar de resolver.
+        "comando" : "command_gain_skill",
+        "argumentos" : []
+    },
+    "gain_bullet" : {
+        "tipo" : "automatico",
+        "comando" : "gainbullet",
+        "argumentos" : None
+    },
+    "swap_rute" : {
+        "tipo" : "opcional", # Comandos opcional se preguntara si el usuario quiere hacerlo
+        "comando" : "command_swap_exploration",
+        "argumentos" : None
+    }
+}
+
 cartas_aventura = {
     0.5 : {
         "nombre" : "Nombre",
         "plastilla" : "1",
         "fila" : "0",
-        "columna" : "0"        
+        "columna" : "0",
+        "actions" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_food",
+                            3 : "gain_food"                           
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "remove_exploration",
+                            2 : "remove_exploration",
+                            3 : "remove_exploration",                            
+                        }
+                    }
+                }            
+            }
+        }
     },
     1 : {
         "nombre" : "Nombre",
         "plastilla" : "1",
         "fila" : "0",
-        "columna" : "1"      
+        "columna" : "1",
+        "actions" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill"                            
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "remove_rute"                           
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "gain_skill"                          
+                        }
+                    }
+                }
+            }
+        }
     },
     2 : {
         "nombre" : "Nombre",
         "plastilla" : "1",
         "fila" : "0",
-        "columna" : "2"     
+        "columna" : "2",
+        "actions" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : "gain_skill",
+                    2 : "gain_bullet"
+                }
+            }
+        }
     },
     3 : {
         "nombre" : "Nombre",
         "plastilla" : "1",
         "fila" : "1",
-        "columna" : "0"
+        "columna" : "0",
+        "actions" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_food"                          
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_food",
+                            3 : "gain_food"                           
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_food",
+                            3 : "gain_food"                           
+                        }
+                    }
+                }
+            }
+        }
     },
     4 : {
         "nombre" : "Nombre",
