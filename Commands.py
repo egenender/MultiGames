@@ -864,9 +864,9 @@ def get_base_data2(cid, uid):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return cid, uid, None, None
 		player = game.playerlist[uid]
-		return cid, uid, game, player
+		return game, player
 	else:
-		return cid, uid, None, None
+		return None, None
 		
 def get_base_data(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id
