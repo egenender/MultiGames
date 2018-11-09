@@ -84,7 +84,7 @@ def command_resolve_exploration2(bot, update):
 				game.board.state.index_accion_actual = 1
 
 				#execute_actions(bot, update, [])
-				bot.send_message(cid, "Cantidad de acciones " + len(acciones))
+				bot.send_message(cid, len(acciones))
 				index_accion_actual = 1
 				accion_actual = carta["acciones"][index_accion_actual]
 				#bot.send_message(cid, accion_actual)
