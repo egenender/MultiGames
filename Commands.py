@@ -56,6 +56,8 @@ def execute_actions(bot, update, args):
 	cid, uid, game, player = get_base_data(bot, update)
 	if game is not None:
 		#try:
+		bot.send_message(cid, "Init Execute Actions")
+		
 		acciones = game.board.state.acciones_carta_actual
 		index_accion_actual = game.board.state.index_accion_actual			
 		accion_actual = acciones[index_accion_actual]
@@ -69,6 +71,7 @@ def execute_actions(bot, update, args):
 
 		# Si el jugador ya eligio opcion.
 		if index_opcion_actual != 0:
+			bot.send_message(cid, "index_opcion_actual init")
 			#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
 			opcion_actual = opciones_accion_actual[index_opcion_actual]
 			comandos_opcion_actual = opcion_actual["comandos"]
