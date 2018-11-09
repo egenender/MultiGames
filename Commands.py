@@ -58,13 +58,111 @@ def execute_actions(bot, update, args):
 		try:
 			acciones = game.board.state.acciones_carta_actual
 			index_accion_actual = game.board.state.index_accion_actual			
-			accion_actual = acciones[index_accion_actual]	
-
-
+			accion_actual = acciones[index_accion_actual]
+			tipo_accion_actual = accion_actual["tipo"]
+			index_opcion_actual = game.board.state.index_opcion_actual
+			opciones_accion_actual = accion_actual["opciones"]
+			
+			# Veo si hay más de una opcion, si no la hay seteo el index_opcion_actual a 1
+			if len(opciones_accion_actual) == 1:
+				index_opcion_actual = 1
+				
+			# Si el jugador ya eligio opcion.
+			if index_opcion_actual != 0:
+				#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
+				opcion_actual = opciones_accion_actual[index_opcion_actual]
+				comandos_opcion_actual = opcion_actual["comandos"]
+				# Obtengo el ultimo indice de comando y le aumento 1.				
+				index_comando_actual = game.board.state.index_comando_actual
+				index_comando_actual += 1
+				# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
+				if index_comando_actual > len(comandos_opcion_actual):
+					# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
+					# y reseteo los otros
+					index_comando_actual = 0
+					index_opcion_actual = 0
+					# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
+					index_accion_actual += 1
+					if index_accion_actual > len(acciones):
+						# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
+						index_accion_actual = 0
+						bot.send_message(cid, "Se ha terminado de resolver la carta")
+						return
+					else:
+						# Llamada recursiva con nuevo indice de accion actual
+						execute_actions(bot, update, args)					
+				else:
+					# Ejecuto el proximo comando
+					comando_actual = comandos_opcion_actual[index_comando_actual]
+					comando = comandos[comando_actual]
+					iniciar_ejecucion_comando(bot, update, comando)
+			else:
+				# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
+				strcid = str(game.cid)
+				btns = []
+				# Creo los botones para elegir al usuario
+				for opcion_comandos in opciones_accion_actual:
+					txtBoton = "%s" % (opcion_comandos)
+					datos = strcid + "*opcioncomandos*" + opcion_comandos + "*" + str(uid)
+					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+					bot.send_message(cid, datos)					
+					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+					btnMarkup = InlineKeyboardMarkup(btns)
+				#for uid in game.playerlist:
+				bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
 		except Exception as e:
 			bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 		
-				
+def elegir_opcion_comando(bot, update):
+	try:
+		bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))callback = update.callback_query
+		log.info('execute_command called: %s' % callback.data)
+		regex = re.search("([0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
+		cid = int(regex.group(1))
+		strcid = regex.group(1)	
+		opcion = regex.group(2)	
+		uid = int(regex.group(3))
+		struid = regex.group(3)	
+		bot.send_message(cid, "%s %s %s" % (strcid, opcion, struid ))	
+		game.board.state.index_opcion_actual = int(opcion)
+		execute_actions(bot, update, args)
+	except Exception as e:
+			bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
+	
+def iniciar_ejecucion_comando(bot, update, comando):
+	try:
+		log.info('execute_comando called: %s' % comando)
+		cid, uid, game, player = get_base_data(bot, update)
+		tipo_comando = comando["tipo"]
+		# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
+		if tipo_comando == "automatico":
+			# Si el command que quiero usar tiene args se los agrego.
+			if "comando_argumentos" in comando:
+				getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
+			else:
+				getattr(sys.modules[__name__], comando["comando"])(bot, update)
+		elif tipo_comando == "indicaciones":
+			# Genero los botones para preguntar al usuario.
+			strcid = str(game.cid)
+			btns = []
+			# Creo los botones para elegir al usuario
+			for argumento in comando["indicacion_argumentos"]:
+				txtBoton = "%s" % (argumento)
+				datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
+				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+				bot.send_message(cid, datos)					
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+				btnMarkup = InlineKeyboardMarkup(btns)
+			#for uid in game.playerlist:
+			bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
+		else:
+			# Si es final, solo gain_skill es final
+			if "comando_argumentos" in comando:
+				getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
+			else:
+				getattr(sys.modules[__name__], comando["comando"])(bot, update)
+	except Exception as e:
+		bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
 
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
@@ -82,58 +180,9 @@ def command_resolve_exploration2(bot, update):
 				# Seteo los indices, las acciones siempre empiezan en 1
 				game.board.state.acciones_carta_actual = acciones
 				game.board.state.index_accion_actual = 1
-
-				#execute_actions(bot, update, [])
-				bot.send_message(cid, len(acciones))
-				index_accion_actual = 1
-				accion_actual = carta["acciones"][index_accion_actual]
-				#bot.send_message(cid, accion_actual)
-				tipo_accion_actual = accion_actual["tipo"]
-				#bot.send_message(cid, tipo_accion_actual)
-				opciones_accion_actual = accion_actual["opciones"]			
-				index_opcion_actual = 1
-				opcion_actual = opciones_accion_actual[index_opcion_actual]
-				#bot.send_message(cid, opcion_actual)
-				comandos_opcion_actual = opcion_actual["comandos"]
-				index_comando_actual = 1
-				comando_actual = comandos_opcion_actual[index_comando_actual]
-				bot.send_message(cid, comando_actual)
-
-				# Ejecuto el comando
-				comando = comandos[comando_actual]
-				tipo_comando = comando["tipo"]
-
-				# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
-				if tipo_comando == "automatico":
-					# Si el command que quiero usar tiene args se los agrego.
-					if "comando_argumentos" in comando:
-						getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
-					else:
-						getattr(sys.modules[__name__], comando["comando"])(bot, update)
-
-				elif tipo_comando == "indicaciones":
-					# Genero los botones para preguntar al usuario.
-					strcid = str(game.cid)
-					btns = []
-					for argumento in comando["indicacion_argumentos"]:
-						txtBoton = "%s" % (argumento)
-						datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
-						#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-						bot.send_message(cid, datos)					
-						btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])     
-
-					btnMarkup = InlineKeyboardMarkup(btns)
-					#for uid in game.playerlist:
-					bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
-				else:
-					# Si es final, solo gain_skill es final
-					if "comando_argumentos" in comando:
-						getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
-					else:
-						getattr(sys.modules[__name__], comando["comando"])(bot, update)
+				execute_actions(bot, update, [])
 			except Exception as e:
-				bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
-				
+				bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))				
 def execute_command(bot, update):
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
@@ -143,15 +192,12 @@ def execute_command(bot, update):
 	opcion = regex.group(2)
 	comando = regex.group(3)
 	uid = int(regex.group(4))
-	struid = regex.group(4)
-	
+	struid = regex.group(4)	
 	
 	bot.send_message(cid, "%s %s %s %s" % (strcid, opcion, comando, struid ))
 	# Directamente lo ejecuto ya que tengo el argumento.
 	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
 	
-	
-
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
 	plastilla, fila, columna = carta["plastilla"], carta["fila"], carta["columna"]	
