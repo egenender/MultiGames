@@ -92,7 +92,7 @@ def command_resolve_exploration2(bot, update):
 				btns = []
 				for argumento in comando["indicacion_argumentos"]:
 					txtBoton = "%s" % (argumento)
-					datos = strcid + "*executecommand*" + argumento + "*" + comando["comando"]
+					datos = strcid + "*executecommand*" + argumento + "*" + comando["comando"] + "*" + str(uid)
 					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 					#bot.send_message(cid, datos)					
 					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])     
@@ -110,16 +110,16 @@ def command_resolve_exploration2(bot, update):
 def execute_command(bot, update):
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
-	regex = re.search("([0-9]*)\*executecommand\*([^_]*)\*(.*)", callback.data)
+	regex = re.search("([0-9]*)\*executecommand\*([^_]*)\*(.*)\*([0-9]*)", callback.data)
 	cid = int(regex.group(1))
 	strcid = regex.group(1)	
 	opcion = regex.group(2)
 	comando = regex.group(3)
-	
+	uid = int(regex.group(4))
 	
 	bot.send_message(cid, update.callback_query)
 	# Directamente lo ejecuto ya que tengo el argumento.
-	getattr(sys.modules[__name__], comando)(bot, update, opcion)
+	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
 	
 	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando))
 
@@ -405,18 +405,25 @@ def command_gainfood(bot, update):
 		after_command(bot, update)
 
 def command_lose_life(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	
+	except Exception as e:
+		cid, uid = args[1], args[2]
+			
+	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		if args == "Explorador Campero":
+		if args[0] == "Explorador Campero":
 			player.vida_explorador_campero  -=1;
-		if args == "Explorador Brujula":
+		if args[0] == "Explorador Brujula":
 			player.vida_explorador_brujula  -=1;
-		if args == "Explorador Hoja":
+		if args[0] == "Explorador Hoja":
 			player.vida_explorador_hoja  -=1;		
 		command_showstats(bot, update)
 		after_command(bot, update)
