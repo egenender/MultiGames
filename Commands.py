@@ -123,6 +123,9 @@ def elegir_opcion_comando(bot, update):
 	log.info('elegir_opcion_comando called: %s' % callback.data)	
 	regex = re.search("([0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
 	uid, strcid, opcion, cid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+	
+	bot.send_message(cid, "datos strcid %s strcid %s" % (strcid, strcid))
+	
 	game = get_game(cid)
 	game.board.state.index_opcion_actual = int(opcion)
 	
