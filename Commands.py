@@ -108,7 +108,7 @@ def execute_actions(bot, cid, uid):
 				txtBoton = "%s" % (opcion_comandos)
 				datos = strcid + "*opcioncomandos*" + str(opcion_comandos) + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-				#bot.send_message(cid, datos)					
+				bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 				btnMarkup = InlineKeyboardMarkup(btns)
 			#for uid in game.playerlist:
