@@ -56,8 +56,7 @@ def execute_actions(bot, cid, uid):
 	game, player = get_base_data2(cid, uid)
 	if game is not None:
 		#try:
-		bot.send_message(cid, "Init Execute Actions")
-		
+		bot.send_message(cid, "Init Execute Actions")		
 		acciones = game.board.state.acciones_carta_actual
 		index_accion_actual = game.board.state.index_accion_actual			
 		accion_actual = acciones[index_accion_actual]
@@ -1197,7 +1196,7 @@ def save_game(cid, groupName, game, gameType):
 		if cur.rowcount > 0:
 			log.info('Updating Game')
 			gamejson = jsonpickle.encode(game)
-			log.info(gamejson)
+			#log.info(gamejson)
 			#query = "UPDATE games SET groupName = %s, data = %s WHERE id = %s RETURNING data;"
 			query = "UPDATE games SET groupName = %s, tipojuego = %s, data = %s WHERE id = %s;"
 			cur.execute(query, (groupName, gameType, gamejson, cid))
@@ -1206,7 +1205,7 @@ def save_game(cid, groupName, game, gameType):
 		else:
 			log.info('Saving Game in DB')
 			gamejson = jsonpickle.encode(game)
-			log.info(gamejson)
+			#log.info(gamejson)
 			query = "INSERT INTO games(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s) RETURNING data;"
 			#query = "INSERT INTO games(id , groupName  , data) VALUES (%s, %s, %s) RETURNING data;"
 			cur.execute(query, (cid, groupName, gameType, gamejson))
