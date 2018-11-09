@@ -98,7 +98,7 @@ def execute_actions(bot, cid, uid):
 				# Ejecuto el proximo comando
 				comando_actual = comandos_opcion_actual[index_comando_actual]
 				comando = comandos[comando_actual]
-				iniciar_ejecucion_comando(bot, update, comando)
+				iniciar_ejecucion_comando(bot, cid, uid, comando)
 		else:
 			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
 			strcid = str(game.cid)
@@ -133,10 +133,10 @@ def elegir_opcion_comando(bot, update):
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
 	
-def iniciar_ejecucion_comando(bot, update, comando):
+def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	#try:
 	log.info('execute_comando called: %s' % comando)
-	cid, uid, game, player = get_base_data(bot, update)
+	game, player = get_base_data2(cid, uid)
 	tipo_comando = comando["tipo"]
 	# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
 	if tipo_comando == "automatico":
