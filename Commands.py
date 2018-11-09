@@ -108,7 +108,7 @@ def execute_actions(bot, cid, uid):
 				txtBoton = "%s" % (opcion_comandos)
 				datos = strcid + "*opcioncomandos*" + str(opcion_comandos) + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-				bot.send_message(cid, datos)					
+				#bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 				btnMarkup = InlineKeyboardMarkup(btns)
 			#for uid in game.playerlist:
@@ -145,6 +145,8 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 			getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
 		else:
 			getattr(sys.modules[__name__], comando["comando"])(bot, update)
+		# Despues de ejecutar continuo las ejecuciones.
+		execute_actions(bot, cid, uid)
 	elif tipo_comando == "indicaciones":
 		# Genero los botones para preguntar al usuario.
 		strcid = str(game.cid)
@@ -171,7 +173,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
 	cid, uid, game, player = get_base_data(bot, update)
-	bot.send_message(cid, "El chat ID es %s" % str(cid))
+	#bot.send_message(cid, "El chat ID es %s" % str(cid))
 	if game is not None:
 		# Busco la carta y obtengo sus acciones		
 		if not game.board.cartasExplorationActual:
@@ -203,6 +205,8 @@ def execute_command(bot, update):
 	bot.send_message(cid, "%s %s %s %s" % (strcid, opcion, comando, struid ))
 	# Directamente lo ejecuto ya que tengo el argumento.
 	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
+	# Despues de ejecutar continuo las ejecuciones.
+	execute_actions(bot, cid, uid)
 	
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
