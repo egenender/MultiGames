@@ -116,8 +116,10 @@ def execute_command(bot, update):
 	opcion = regex.group(2)
 	comando = regex.group(3)
 	uid = int(regex.group(4))
+	struid = regex.group(4)
 	
-	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando,regex.group(4) ))
+	
+	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando, struid ))
 	# Directamente lo ejecuto ya que tengo el argumento.
 	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
 	
