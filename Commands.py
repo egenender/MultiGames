@@ -231,8 +231,8 @@ def get_game(cid):
 			None
 
 # Despues de cada comando que actualiza el juego se graba
-def after_command(cid, update):
-	save(cid, update)
+def after_command(bot, cid):
+	save(bot, cid)
 	
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
