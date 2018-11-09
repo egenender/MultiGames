@@ -117,11 +117,11 @@ def execute_command(bot, update):
 	comando = regex.group(3)
 	uid = int(regex.group(4))
 	
-	bot.send_message(cid, update.callback_query)
+	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando, str(uid)))
 	# Directamente lo ejecuto ya que tengo el argumento.
 	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
 	
-	bot.send_message(cid, "%s %s %s" % (strcid, opcion, comando))
+	
 
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
