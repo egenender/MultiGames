@@ -429,7 +429,7 @@ def command_lose_life(bot, update, args):
 		if args[0] == "Explorador Hoja":
 			player.vida_explorador_hoja  -=1;		
 		#Command_showstats(bot, update)
-		after_command(vot, cid)
+		after_command(bot, cid)
 		
 def command_gain_life(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -630,7 +630,7 @@ def command_remove_exploration(bot, update, args):
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
 			after_ruta_achicada(bot, update)
-			after_command(bot, cir)
+			after_command(bot, cid)
 			#command_show_exploration(bot, update)
 		except Exception as e:
 			bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
