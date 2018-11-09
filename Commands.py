@@ -110,7 +110,7 @@ def command_resolve_exploration2(bot, update):
 def execute_command(bot, update):
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
-	regex = re.search("([0-9]*)\*executecommand\*([^_]*)\*(.*)\*([0-9]*)", callback.data)
+	regex = re.search("([0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback.data)
 	cid = int(regex.group(1))
 	strcid = regex.group(1)	
 	opcion = regex.group(2)
