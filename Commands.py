@@ -92,7 +92,7 @@ def command_resolve_exploration2(bot, update):
 				btns = []
 				for argumento in comando["indicacion_argumentos"]:
 					txtBoton = "%s" % (argumento)
-					datos = strcid + "*executecommand*" + argumento + "*" + comando["comando"] + "*" + str(uid)
+					datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
 					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 					bot.send_message(cid, datos)					
 					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])     
