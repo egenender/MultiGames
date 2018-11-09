@@ -52,8 +52,8 @@ conn = psycopg2.connect(
 # Metodo que ira ejecutando las acciones.
 # Si una accion no tiene opciones comenzará a ejecutarla.
 # Se hará cada comando uno atras del otro hasta cumplir 
-def execute_actions(bot, update, args):
-	cid, uid, game, player = get_base_data(bot, update)
+def execute_actions(bot, cid, uid):
+	game, player = get_base_data2(cid, uid)
 	if game is not None:
 		#try:
 		bot.send_message(cid, "Init Execute Actions")
@@ -93,7 +93,7 @@ def execute_actions(bot, update, args):
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
-					execute_actions(bot, update, args)					
+					execute_actions(bot, cid, uid)					
 			else:
 				# Ejecuto el proximo comando
 				comando_actual = comandos_opcion_actual[index_comando_actual]
@@ -122,13 +122,13 @@ def elegir_opcion_comando(bot, update):
 	callback = update.callback_query
 	log.info('elegir_opcion_comando called: %s' % callback.data)	
 	regex = re.search("([0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-	game = get_game(uid)	
+	uid, strcid, opcion, cid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+	game = get_game(cid)
 	game.board.state.index_opcion_actual = int(opcion)
 	
 	#bot.delete_message(callback.chat.id, callback.message.message_id)
 	#bot.edit_message_text("Ha elegido la opcion: %s" % opcion, callback.chat.id, callback.message.message_id)
-	execute_actions(bot, update, [])
+	(bot, cid, uid)
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
 	
@@ -170,6 +170,7 @@ def iniciar_ejecucion_comando(bot, update, comando):
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
 	cid, uid, game, player = get_base_data(bot, update)
+	bot.send_message(cid, "El chat ID es %s" % str(cid))
 	if game is not None:
 		# Busco la carta y obtengo sus acciones		
 		if not game.board.cartasExplorationActual:
@@ -183,7 +184,7 @@ def command_resolve_exploration2(bot, update):
 			# Seteo los indices, las acciones siempre empiezan en 1
 			game.board.state.acciones_carta_actual = acciones
 			game.board.state.index_accion_actual = 1
-			execute_actions(bot, update, [])
+			execute_actions(cid, uid)
 			#except Exception as e:
 			#	bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
 			
@@ -855,6 +856,17 @@ def command_lose_explorer(bot, update, args):
 		player.vida_explorador_brujula  = 0;
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  = 0;
+
+def get_base_data2(cid, uid):
+	if uid in ADMIN:		
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return cid, uid, None, None
+		player = game.playerlist[uid]
+		return cid, uid, game, player
+	else:
+		return cid, uid, None, None
 		
 def get_base_data(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id
