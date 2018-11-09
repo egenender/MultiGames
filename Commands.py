@@ -184,7 +184,7 @@ def command_resolve_exploration2(bot, update):
 			# Seteo los indices, las acciones siempre empiezan en 1
 			game.board.state.acciones_carta_actual = acciones
 			game.board.state.index_accion_actual = 1
-			execute_actions(cid, uid)
+			execute_actions(bot, cid, uid)
 			#except Exception as e:
 			#	bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
 			
