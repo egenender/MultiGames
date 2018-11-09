@@ -114,16 +114,11 @@ def execute_actions(bot, update, args):
 			bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 		
 def elegir_opcion_comando(bot, update):
-	try:
-		bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))callback = update.callback_query
+	try:		
+		callback = update.callback_query
 		log.info('execute_command called: %s' % callback.data)
 		regex = re.search("([0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
-		cid = int(regex.group(1))
-		strcid = regex.group(1)	
-		opcion = regex.group(2)	
-		uid = int(regex.group(3))
-		struid = regex.group(3)	
-		
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		bot.send_message(cid, "%s %s %s" % (strcid, opcion, struid ))	
 		game.board.state.index_opcion_actual = int(opcion)
 		execute_actions(bot, update, args)
