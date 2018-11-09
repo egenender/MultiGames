@@ -189,10 +189,11 @@ def showImages(bot, cid, cartas):
 	bio.seek(0)
 	bot.send_photo(cid, photo=bio)
 	
-def save(bot, update):
+def save(bot, cid):
 	try:
-		cid = update.message.chat_id
-		groupName = update.message.from_user.first_name
+		
+		groupName = "Prueba"
+		
 		game = GamesController.games.get(cid, None)
 		gameType = 'LostExpedition'
 		save_game(cid,groupName , game, gameType )
@@ -230,8 +231,8 @@ def get_game(cid):
 			None
 
 # Despues de cada comando que actualiza el juego se graba
-def after_command(bot, update):
-	save(bot, update)
+def after_command(cid, update):
+	save(cid, update)
 	
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
@@ -304,7 +305,7 @@ def command_drawcard(bot, update, args):
 		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		command_showhand(bot, update)
-		after_command(bot, update)
+		after_command(cid, update)
 		
 def command_showhand(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -344,7 +345,7 @@ def command_increase_progreso(bot, update):
 			bot.send_message(cid, "Ganaste")
 		else:
 			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
-		after_command(bot, update)
+		after_command(cid, update)
 		'''
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
@@ -365,7 +366,7 @@ def command_losebullet(bot, update):
 		#cid = '-1001206290323'
 		player.bullets -= 1;		
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(cid, update)
 		
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -378,7 +379,7 @@ def command_gainbullet(bot, update):
 		#cid = '-1001206290323'
 		player.bullets += 1;
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(cid, update)
 		
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -391,7 +392,7 @@ def command_losefood(bot, update):
 		#cid = '-1001206290323'
 		player.food -= 1;
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(cid, update)
 		
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -404,7 +405,7 @@ def command_gainfood(bot, update):
 		#cid = '-1001206290323'
 		player.food += 1;
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(cid, update)
 
 def command_lose_life(bot, update, args):
 	try:
@@ -427,8 +428,8 @@ def command_lose_life(bot, update, args):
 			player.vida_explorador_brujula  -=1;
 		if args[0] == "Explorador Hoja":
 			player.vida_explorador_hoja  -=1;		
-		command_showstats(bot, update)
-		after_command(bot, update)
+		#Command_showstats(bot, update)
+		after_command(cid, update)
 		
 def command_gain_life(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
