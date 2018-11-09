@@ -106,7 +106,7 @@ def execute_actions(bot, update, args):
 			# Creo los botones para elegir al usuario
 			for opcion_comandos in opciones_accion_actual:
 				txtBoton = "%s" % (opcion_comandos)
-				datos = strcid + "*opcioncomandos*" + opcion_comandos + "*" + str(uid)
+				datos = strcid + "*opcioncomandos*" + str(opcion_comandos) + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 				bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
