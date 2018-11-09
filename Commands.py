@@ -123,6 +123,7 @@ def elegir_opcion_comando(bot, update):
 		opcion = regex.group(2)	
 		uid = int(regex.group(3))
 		struid = regex.group(3)	
+		
 		bot.send_message(cid, "%s %s %s" % (strcid, opcion, struid ))	
 		game.board.state.index_opcion_actual = int(opcion)
 		execute_actions(bot, update, args)
