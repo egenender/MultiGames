@@ -121,11 +121,8 @@ def elegir_opcion_comando(bot, update):
 	#try:		
 	callback = update.callback_query
 	log.info('elegir_opcion_comando called: %s' % callback.data)	
-	regex = re.search("([0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
-	uid, strcid, opcion, cid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-	
-	bot.send_message(uid, "datos strcid %s strcid %s" % (strcid, strcid))
-	bot.send_message(cid, "datos strcid %s strcid %s" % (strcid, strcid))
+	regex = re.search("(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 	
 	game = get_game(cid)
 	game.board.state.index_opcion_actual = int(opcion)
@@ -195,7 +192,7 @@ def command_resolve_exploration2(bot, update):
 def execute_command(bot, update):
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
-	regex = re.search("([0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback.data)
+	regex = re.search("(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback.data)
 	cid = int(regex.group(1))
 	strcid = regex.group(1)	
 	opcion = regex.group(2)
