@@ -129,7 +129,7 @@ def elegir_opcion_comando(bot, update):
 	
 	#bot.delete_message(callback.chat.id, callback.message.message_id)
 	#bot.edit_message_text("Ha elegido la opcion: %s" % opcion, callback.chat.id, callback.message.message_id)
-	(bot, cid, uid)
+	execute_actions(bot, cid, uid)
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
 	
