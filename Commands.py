@@ -110,6 +110,7 @@ def execute_actions(bot, update, args):
 				btnMarkup = InlineKeyboardMarkup(btns)
 			#for uid in game.playerlist:
 			bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
+			
 		#except Exception as e:
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 		
