@@ -305,7 +305,7 @@ def command_drawcard(bot, update, args):
 		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		command_showhand(bot, update)
-		after_command(cid, update)
+		after_command(bot, cid)
 		
 def command_showhand(bot, update):	
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -345,7 +345,7 @@ def command_increase_progreso(bot, update):
 			bot.send_message(cid, "Ganaste")
 		else:
 			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
-		after_command(cid, update)
+		after_command(bot, cid)
 		'''
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
@@ -366,7 +366,7 @@ def command_losebullet(bot, update):
 		#cid = '-1001206290323'
 		player.bullets -= 1;		
 		command_showstats(bot, update)
-		after_command(cid, update)
+		after_command(bot, cid)
 		
 def command_gainbullet(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -379,7 +379,7 @@ def command_gainbullet(bot, update):
 		#cid = '-1001206290323'
 		player.bullets += 1;
 		command_showstats(bot, update)
-		after_command(cid, update)
+		after_command(bot, cid)
 		
 def command_losefood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -392,7 +392,7 @@ def command_losefood(bot, update):
 		#cid = '-1001206290323'
 		player.food -= 1;
 		command_showstats(bot, update)
-		after_command(cid, update)
+		after_command(bot, cid)
 		
 def command_gainfood(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -405,7 +405,7 @@ def command_gainfood(bot, update):
 		#cid = '-1001206290323'
 		player.food += 1;
 		command_showstats(bot, update)
-		after_command(cid, update)
+		after_command(bot, cid)
 
 def command_lose_life(bot, update, args):
 	try:
@@ -429,7 +429,7 @@ def command_lose_life(bot, update, args):
 		if args[0] == "Explorador Hoja":
 			player.vida_explorador_hoja  -=1;		
 		#Command_showstats(bot, update)
-		after_command(cid, update)
+		after_command(vot, cid)
 		
 def command_gain_life(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -446,7 +446,7 @@ def command_gain_life(bot, update, args):
 		if args == "Explorador Hoja":
 			player.vida_explorador_hoja  +=1;		
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 		
 def command_vida_explorador_campero(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -459,7 +459,7 @@ def command_vida_explorador_campero(bot, update, args):
 		#cid = '-1001206290323'
 		player.vida_explorador_campero  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 		
 def command_vida_explorador_brujula(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -500,7 +500,7 @@ def command_add_exploration(bot, update, args):
 		carta = int(args[0] if args else 1)-1
 		game.board.cartasExplorationActual.append(player.hand.pop(carta))
 		bot.send_message(cid, "Se ha agregado la carta al final de la ruta")
-		after_command(bot, update)
+		after_command(bot, cid)
 		#command_showhand(bot, update)
 		#command_show_exploration(bot, update)		
 
@@ -551,7 +551,7 @@ def command_add_exploration_deck(bot, update, args):
 		for i in range(cantidad):			
 			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
 		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo" % cantidad)
-		after_command(bot, update)
+		after_command(bot, cid)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)
 		
@@ -567,7 +567,7 @@ def command_add_exploration_deck_first(bot, update, args):
 		
 		game.board.cartasExplorationActual.insert(0, game.board.cartasExplorationActual.pop(cantidad))
 		bot.send_message(cid, "Se ha agregado la carta %s al principio de la ruta" % cantidad+1)
-		after_command(bot, update)
+		after_command(bot, cid)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)		
 		
@@ -594,7 +594,7 @@ def command_sort_exploration_rute(bot, update):
 			return
 		game.board.cartasExplorationActual.sort()
 		command_show_exploration(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 
 def command_swap_exploration(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -611,7 +611,7 @@ def command_swap_exploration(bot, update, args):
 		a, b =  int(args[0])-1, int(args[1])-1		
 		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
 		bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (a, b))
-		after_command(bot, update)
+		after_command(bot, cid)
 		#command_show_exploration(bot, update)
 
 # Remove se usara para resolver y para remover cartas por accion de otras cartas		
@@ -630,7 +630,7 @@ def command_remove_exploration(bot, update, args):
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
 			after_ruta_achicada(bot, update)
-			after_command(bot, update)
+			after_command(bot, cir)
 			#command_show_exploration(bot, update)
 		except Exception as e:
 			bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
@@ -664,7 +664,7 @@ def command_gain_skill(bot, update, args):
 		player.skills.append(game.board.cartasExplorationActual.pop(item_to_remove))
 		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
 		after_ruta_achicada(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 		#command_show_exploration(bot, update)
 		
 def command_use_skill(bot, update, args):
@@ -680,7 +680,7 @@ def command_use_skill(bot, update, args):
 		item_to_remove = int(args[0] if args else 1)-1		
 		game.board.discards.append(player.skills.pop(item_to_remove))
 		bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
-		after_command(bot, update)
+		after_command(bot, cid)
 		#command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update):
@@ -693,7 +693,7 @@ def command_sort_hand(bot, update):
 		player = game.playerlist[uid]	
 		player.hand.sort()		
 		command_showhand(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 		
 def command_showstats(bot, update):
 	log.info('command_showstats called')
