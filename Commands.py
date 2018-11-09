@@ -127,7 +127,7 @@ def elegir_opcion_comando(bot, update):
 	bot.send_message(cid, "%s %s %s" % (strcid, opcion, struid ))	
 	game.board.state.index_opcion_actual = int(opcion)
 	
-	bot.delete_message(cid, callback.message.message_id)
+	bot.delete_message(callback..chat.id, callback.message.message_id)
 	
 	execute_actions(bot, update, args)
 	#except Exception as e:
