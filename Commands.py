@@ -55,63 +55,63 @@ conn = psycopg2.connect(
 def execute_actions(bot, update, args):
 	cid, uid, game, player = get_base_data(bot, update)
 	if game is not None:
-		try:
-			acciones = game.board.state.acciones_carta_actual
-			index_accion_actual = game.board.state.index_accion_actual			
-			accion_actual = acciones[index_accion_actual]
-			tipo_accion_actual = accion_actual["tipo"]
-			index_opcion_actual = game.board.state.index_opcion_actual
-			opciones_accion_actual = accion_actual["opciones"]
-			
-			# Veo si hay más de una opcion, si no la hay seteo el index_opcion_actual a 1
-			if len(opciones_accion_actual) == 1:
-				index_opcion_actual = 1
-				
-			# Si el jugador ya eligio opcion.
-			if index_opcion_actual != 0:
-				#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
-				opcion_actual = opciones_accion_actual[index_opcion_actual]
-				comandos_opcion_actual = opcion_actual["comandos"]
-				# Obtengo el ultimo indice de comando y le aumento 1.				
-				index_comando_actual = game.board.state.index_comando_actual
-				index_comando_actual += 1
-				# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
-				if index_comando_actual > len(comandos_opcion_actual):
-					# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
-					# y reseteo los otros
-					index_comando_actual = 0
-					index_opcion_actual = 0
-					# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
-					index_accion_actual += 1
-					if index_accion_actual > len(acciones):
-						# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
-						index_accion_actual = 0
-						bot.send_message(cid, "Se ha terminado de resolver la carta")
-						return
-					else:
-						# Llamada recursiva con nuevo indice de accion actual
-						execute_actions(bot, update, args)					
+		#try:
+		acciones = game.board.state.acciones_carta_actual
+		index_accion_actual = game.board.state.index_accion_actual			
+		accion_actual = acciones[index_accion_actual]
+		tipo_accion_actual = accion_actual["tipo"]
+		index_opcion_actual = game.board.state.index_opcion_actual
+		opciones_accion_actual = accion_actual["opciones"]
+
+		# Veo si hay más de una opcion, si no la hay seteo el index_opcion_actual a 1
+		if len(opciones_accion_actual) == 1:
+			index_opcion_actual = 1
+
+		# Si el jugador ya eligio opcion.
+		if index_opcion_actual != 0:
+			#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
+			opcion_actual = opciones_accion_actual[index_opcion_actual]
+			comandos_opcion_actual = opcion_actual["comandos"]
+			# Obtengo el ultimo indice de comando y le aumento 1.				
+			index_comando_actual = game.board.state.index_comando_actual
+			index_comando_actual += 1
+			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
+			if index_comando_actual > len(comandos_opcion_actual):
+				# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
+				# y reseteo los otros
+				index_comando_actual = 0
+				index_opcion_actual = 0
+				# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
+				index_accion_actual += 1
+				if index_accion_actual > len(acciones):
+					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
+					index_accion_actual = 0
+					bot.send_message(cid, "Se ha terminado de resolver la carta")
+					return
 				else:
-					# Ejecuto el proximo comando
-					comando_actual = comandos_opcion_actual[index_comando_actual]
-					comando = comandos[comando_actual]
-					iniciar_ejecucion_comando(bot, update, comando)
+					# Llamada recursiva con nuevo indice de accion actual
+					execute_actions(bot, update, args)					
 			else:
-				# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
-				strcid = str(game.cid)
-				btns = []
-				# Creo los botones para elegir al usuario
-				for opcion_comandos in opciones_accion_actual:
-					txtBoton = "%s" % (opcion_comandos)
-					datos = strcid + "*opcioncomandos*" + opcion_comandos + "*" + str(uid)
-					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-					bot.send_message(cid, datos)					
-					btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-					btnMarkup = InlineKeyboardMarkup(btns)
-				#for uid in game.playerlist:
-				bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
-		except Exception as e:
-			bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
+				# Ejecuto el proximo comando
+				comando_actual = comandos_opcion_actual[index_comando_actual]
+				comando = comandos[comando_actual]
+				iniciar_ejecucion_comando(bot, update, comando)
+		else:
+			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
+			strcid = str(game.cid)
+			btns = []
+			# Creo los botones para elegir al usuario
+			for opcion_comandos in opciones_accion_actual:
+				txtBoton = "%s" % (opcion_comandos)
+				datos = strcid + "*opcioncomandos*" + opcion_comandos + "*" + str(uid)
+				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+				bot.send_message(cid, datos)					
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+				btnMarkup = InlineKeyboardMarkup(btns)
+			#for uid in game.playerlist:
+			bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
+		#except Exception as e:
+		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 		
 def elegir_opcion_comando(bot, update):
 	try:		
