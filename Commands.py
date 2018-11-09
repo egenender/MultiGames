@@ -118,6 +118,7 @@ def execute_actions(bot, update, args):
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 		
 def elegir_opcion_comando(bot, update):
+	log.info('elegir_opcion_comando called: %s' % callback.data)
 	#try:		
 	callback = update.callback_query
 	log.info('execute_command called: %s' % callback.data)
