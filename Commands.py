@@ -120,15 +120,12 @@ def execute_actions(bot, update, args):
 def elegir_opcion_comando(bot, update):	
 	#try:		
 	callback = update.callback_query
-	log.info('elegir_opcion_comando called: %s' % callback.data)
-	log.info('execute_command called: %s' % callback.data)
+	log.info('elegir_opcion_comando called: %s' % callback.data)	
 	regex = re.search("([0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-	bot.send_message(cid, "%s %s %s" % (strcid, opcion, struid ))	
-	game.board.state.index_opcion_actual = int(opcion)
-	
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+	game.board.state.index_opcion_actual = int(opcion)	
 	#bot.delete_message(callback.chat.id, callback.message.message_id)
-	bot.edit_message_text("Ha elegido la opcion: %s" % opcion, callback.chat.id, callback.message.message_id)
+	#bot.edit_message_text("Ha elegido la opcion: %s" % opcion, callback.chat.id, callback.message.message_id)
 	execute_actions(bot, update, args)
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
