@@ -170,7 +170,9 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])	
 		else:
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid] )
-	#except Exception as e:
+		execute_actions(bot, cid, uid)	
+	#except 
+	
 	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
 
 def command_resolve_exploration2(bot, update):
