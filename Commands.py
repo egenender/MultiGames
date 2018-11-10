@@ -341,8 +341,8 @@ def after_command(bot, cid):
 	
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
-def after_ruta_achicada(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id
+def after_ruta_achicada(bot, cid, uid):
+	
 	game = get_game(cid)
 	if not game.board.cartasExplorationActual:		
 		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia DÍA/NOCHE")
@@ -769,11 +769,15 @@ def command_remove_exploration(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
-		item_to_remove = 1	
+		try:
+			item_to_remove = int(args[0] if args else 2)-1
+		except Exception as e:
+			item_to_remove = int(args[0][0] if args[0] else 2)-1
+			
 		try:			
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
-			after_ruta_achicada(bot, update)
+			after_ruta_achicada(bot, cid, uid)
 			after_command(bot, cid)
 			#command_show_exploration(bot, update)
 		except Exception as e:
