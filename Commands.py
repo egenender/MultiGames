@@ -77,12 +77,12 @@ def execute_actions(bot, cid, uid):
 			# Obtengo el ultimo indice de comando y le aumento 1.				
 			index_comando_actual = game.board.state.index_comando_actual
 			index_comando_actual += 1
-			bot.send_message(cid, "index_opcion_actual init %s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
+			bot.send_message(cid, "index_opcion_actual init %s/%s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
 			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
 			if index_comando_actual > len(comandos_opcion_actual):
 				# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
 				# y reseteo los otros
-				index_comando_actual = 0
+				index_comando_actual = 0 
 				index_opcion_actual = 0
 				# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
 				index_accion_actual += 1
