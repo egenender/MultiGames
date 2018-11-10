@@ -457,7 +457,7 @@ def command_losebullet(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.bullets -= 1;		
-		command_showstats(bot, update)
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_gainbullet(bot, update, args):
@@ -473,7 +473,7 @@ def command_gainbullet(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.bullets += 1;
-		command_showstats(bot, update)
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_losefood(bot, update, args):
@@ -489,7 +489,7 @@ def command_losefood(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.food -= 1;
-		command_showstats(bot, update)
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_gainfood(bot, update, args):
@@ -505,7 +505,7 @@ def command_gainfood(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.food += 1;
-		command_showstats(bot, update)
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 
 def command_lose_life(bot, update, args):
@@ -547,7 +547,7 @@ def command_gain_life(bot, update, args):
 			player.vida_explorador_brujula  +=1;
 		if args[0] == "Explorador Hoja":
 			player.vida_explorador_hoja  +=1;		
-		command_showstats(bot, update)
+		
 		after_command(bot, cid)
 		
 def command_vida_explorador_campero(bot, update, args):
