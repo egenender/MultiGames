@@ -10,7 +10,7 @@ comandos = {
     "remove_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
         "comando" : "command_remove_exploration",
-        "comando_argumentos" : []
+        "comando_argumentos" : [2]
     },
     "remove_last_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
