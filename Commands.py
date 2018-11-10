@@ -75,7 +75,12 @@ def execute_actions(bot, cid, uid):
 			opcion_actual = opciones_accion_actual[index_opcion_actual]
 			comandos_opcion_actual = opcion_actual["comandos"]
 			# Obtengo el ultimo indice de comando y le aumento 1.
-			game.board.state.index_comando_actual += 1
+			if (game.board.state.comando_pedido and game.board.state.comando_realizado) or not game.board.state.comando_pedido:
+				game.board.state.index_comando_actual += 1
+				game.board.state.comando_pedido = False
+				game.board.state.comando_realizado = False
+				
+				
 			index_comando_actual = game.board.state.index_comando_actual
 			
 			bot.send_message(cid, "index_opcion_actual init %s/%s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
@@ -86,6 +91,8 @@ def execute_actions(bot, cid, uid):
 				game.board.state.index_comando_actual = 0 
 				game.board.state.index_opcion_actual = 0
 				# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
+				
+				
 				game.board.state.index_accion_actual += 1
 				if game.board.state.index_accion_actual > len(acciones):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
@@ -97,6 +104,8 @@ def execute_actions(bot, cid, uid):
 					execute_actions(bot, cid, uid)					
 			else:
 				# Ejecuto el proximo comando
+				game.board.state.comando_realizado = False
+				game.board.state.comando_pedido = True
 				comando_actual = comandos_opcion_actual[index_comando_actual]
 				bot.send_message(cid, "Comando a executar %s" % comando_actual )
 				comando = comandos[comando_actual]
@@ -321,6 +330,7 @@ def get_game(cid):
 # Despues de cada comando que actualiza el juego se graba
 def after_command(bot, cid):
 	save(bot, cid)
+	game.board.state.comando_realizado = True
 	
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
