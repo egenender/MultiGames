@@ -330,6 +330,7 @@ def get_game(cid):
 # Despues de cada comando que actualiza el juego se graba
 def after_command(bot, cid):
 	save(bot, cid)
+	game = get_game(cid)
 	game.board.state.comando_realizado = True
 	
 #Lost Expedition
@@ -374,9 +375,9 @@ def command_newgame_lost_expedition(bot, update):
 			
 			if game.tipo == 'solitario':
 				#Si es un juego en solitario comienzo sacando las dos cartas del mazo y las ordeno
-				bot.send_message(cid, "Se agregan dos cartas a la epxloracion")
+				#bot.send_message(cid, "Se agregan dos cartas a la epxloracion")
 				command_add_exploration_deck(bot, update, [2])
-				bot.send_message(cid, "Se ordena el mazo de exploración")
+				#bot.send_message(cid, "Se ordena el mazo de exploración")
 				command_sort_exploration_rute(bot, update)
 				bot.send_message(cid, "Ahora debes jugar dos cartas")
 				
