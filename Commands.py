@@ -141,9 +141,10 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	if tipo_comando == "automatico":
 		# Si el command que quiero usar tiene args se los agrego.
 		if "comando_argumentos" in comando:
-			getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid]) 
+										
 		else:
-			getattr(sys.modules[__name__], comando["comando"])(bot, update)
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])
 		# Despues de ejecutar continuo las ejecuciones.
 		execute_actions(bot, cid, uid)
 	elif tipo_comando == "indicaciones":
@@ -163,9 +164,9 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	else:
 		# Si es final, solo gain_skill es final
 		if "comando_argumentos" in comando:
-			getattr(sys.modules[__name__], comando["comando"])(bot, update, comando["comando_argumentos"])	
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])	
 		else:
-			getattr(sys.modules[__name__], comando["comando"])(bot, update)
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid] )
 	#except Exception as e:
 	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
 
@@ -402,7 +403,10 @@ def command_showhand(bot, update):
 		showImages(bot, cid, player.hand)
 		
 def command_showskills(bot, update):	
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -415,8 +419,11 @@ def command_showskills(bot, update):
 		else:
 			showImages(bot, cid, player.skills)
 
-def command_increase_progreso(bot, update):	
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_increase_progreso(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -437,8 +444,11 @@ def command_increase_progreso(bot, update):
 			showImages(bot, cid, player.skills)
 		'''
 			
-def command_losebullet(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_losebullet(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -450,8 +460,11 @@ def command_losebullet(bot, update):
 		command_showstats(bot, update)
 		after_command(bot, cid)
 		
-def command_gainbullet(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_gainbullet(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -463,8 +476,11 @@ def command_gainbullet(bot, update):
 		command_showstats(bot, update)
 		after_command(bot, cid)
 		
-def command_losefood(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_losefood(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -476,8 +492,11 @@ def command_losefood(bot, update):
 		command_showstats(bot, update)
 		after_command(bot, cid)
 		
-def command_gainfood(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_gainfood(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -491,9 +510,7 @@ def command_gainfood(bot, update):
 
 def command_lose_life(bot, update, args):
 	try:
-		
 		cid, uid = update.message.chat_id, update.message.from_user.id
-	
 	except Exception as e:
 		cid, uid = args[1], args[2]
 			
@@ -514,18 +531,21 @@ def command_lose_life(bot, update, args):
 		after_command(bot, cid)
 		
 def command_gain_life(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		if args == "Explorador Campero":
+		if args[0] == "Explorador Campero":
 			player.vida_explorador_campero  +=1;
-		if args == "Explorador Brujula":
+		if args[0] == "Explorador Brujula":
 			player.vida_explorador_brujula  +=1;
-		if args == "Explorador Hoja":
+		if args[0] == "Explorador Hoja":
 			player.vida_explorador_hoja  +=1;		
 		command_showstats(bot, update)
 		after_command(bot, cid)
@@ -570,7 +590,10 @@ def command_vida_explorador_hoja(bot, update, args):
 		after_command(bot, update)
 
 def command_add_exploration(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -587,7 +610,10 @@ def command_add_exploration(bot, update, args):
 		#command_show_exploration(bot, update)		
 
 def command_add_exploration_first(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -621,7 +647,10 @@ def draw_card_cartasAventura(game, destino):
 		
 		
 def command_add_exploration_deck(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -638,7 +667,10 @@ def command_add_exploration_deck(bot, update, args):
 		#command_show_exploration(bot, update)
 		
 def command_add_exploration_deck_first(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -679,7 +711,10 @@ def command_sort_exploration_rute(bot, update):
 		after_command(bot, cid)
 
 def command_swap_exploration(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -698,7 +733,10 @@ def command_swap_exploration(bot, update, args):
 
 # Remove se usara para resolver y para remover cartas por accion de otras cartas		
 def command_remove_exploration(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -719,7 +757,10 @@ def command_remove_exploration(bot, update, args):
 			
 
 def command_remove_last_exploration(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)])		
@@ -733,7 +774,10 @@ def command_resolve_exploration(bot, update):
 
 		
 def command_gain_skill(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -750,7 +794,10 @@ def command_gain_skill(bot, update, args):
 		#command_show_exploration(bot, update)
 		
 def command_use_skill(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -818,7 +865,11 @@ def command_reglas(bot, update):
 	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
 
 def command_lose_camp(bot, update, args):
-	cid, uid, game, player = get_base_data(bot, update)
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
+	game, plauer = get_base_data2(cid, uid)	
 	if game is None:
 		return
 	if args == "Explorador Campero":
@@ -829,7 +880,11 @@ def command_lose_camp(bot, update, args):
 		player.vida_explorador_hoja  -=2;
 	
 def command_lose_compass(bot, update, args):
-	cid, uid, game, player = get_base_data(bot, update)
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
+	game, plauer = get_base_data2(cid, uid)
 	if game is None:
 		return
 	if args == "Explorador Campero":
@@ -840,7 +895,11 @@ def command_lose_compass(bot, update, args):
 		player.vida_explorador_hoja  -=2;
 	
 def command_lose_leaf(bot, update, args):
-	cid, uid, game, player = get_base_data(bot, update)
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
+	game, plauer = get_base_data2(cid, uid)
 	if game is None:
 		return
 	if args == "Explorador Campero":
@@ -851,7 +910,11 @@ def command_lose_leaf(bot, update, args):
 		player.vida_explorador_hoja  -=1;
 	
 def command_lose_explorer(bot, update, args):
-	cid, uid, game, player = get_base_data(bot, update)
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
+	game, plauer = get_base_data2(cid, uid)
 	if game is None:
 		return
 	if args == "Explorador Campero":
@@ -866,7 +929,7 @@ def get_base_data2(cid, uid):
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
-			return cid, uid, None, None
+			return None, None
 		player = game.playerlist[uid]
 		return game, player
 	else:
