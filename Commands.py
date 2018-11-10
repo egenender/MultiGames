@@ -769,7 +769,7 @@ def command_remove_exploration(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		# Defecto saco la de la izquierda
-		item_to_remove = int(args[0] if args else 2)-1	
+		item_to_remove = 2	
 		try:			
 			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
 			bot.send_message(cid, "La carta se ha eliminado de la ruta")
