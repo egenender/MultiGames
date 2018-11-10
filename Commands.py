@@ -130,7 +130,7 @@ def elegir_opcion_comando(bot, update):
 	game.board.state.index_opcion_actual = int(opcion)
 	
 	#bot.delete_message(callback.chat.id, callback.message.message_id)
-	bot.edit_message_text("Has elegido la opcion: %s" % opcion, callback.chat.id, callback.message.message_id)
+	bot.edit_message_text("Has elegido la opcion: %s" % opcion, cid, callback.message.message_id)
 	execute_actions(bot, cid, uid)
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
@@ -206,7 +206,7 @@ def execute_command(bot, update):
 	comando = regex.group(3)
 	uid = int(regex.group(4))
 	struid = regex.group(4)	
-	bot.edit_message_text("Has elegido la opcion: %s" % opcion, callback.chat.id, callback.message.message_id)
+	bot.edit_message_text("Has elegido la opcion: %s" % opcion, cid, callback.message.message_id)
 	#ot.send_message(cid, "%s %s %s %s" % (strcid, opcion, comando, struid ))
 	# Directamente lo ejecuto ya que tengo el argumento.
 	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
