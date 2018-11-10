@@ -74,21 +74,22 @@ def execute_actions(bot, cid, uid):
 			#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
 			opcion_actual = opciones_accion_actual[index_opcion_actual]
 			comandos_opcion_actual = opcion_actual["comandos"]
-			# Obtengo el ultimo indice de comando y le aumento 1.				
+			# Obtengo el ultimo indice de comando y le aumento 1.
+			game.board.state.index_comando_actual += 1
 			index_comando_actual = game.board.state.index_comando_actual
-			index_comando_actual += 1
+			
 			bot.send_message(cid, "index_opcion_actual init %s/%s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
 			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
 			if index_comando_actual > len(comandos_opcion_actual):
 				# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
 				# y reseteo los otros
-				index_comando_actual = 0 
-				index_opcion_actual = 0
+				game.board.state.index_comando_actual = 0 
+				game.board.state.index_opcion_actual = 0
 				# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
-				index_accion_actual += 1
-				if index_accion_actual > len(acciones):
+				game.board.state.index_accion_actual += 1
+				if game.board.state.index_accion_actual > len(acciones):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
-					index_accion_actual = 0
+					game.board.state.index_accion_actual = 0
 					bot.send_message(cid, "Se ha terminado de resolver la carta")
 					return
 				else:
