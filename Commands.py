@@ -70,7 +70,7 @@ def execute_actions(bot, cid, uid):
 
 		# Si el jugador ya eligio opcion.
 		if index_opcion_actual != 0:
-			bot.send_message(cid, "index_opcion_actual init")
+			bot.send_message(cid, "index_opcion_actual init %s" % str(index_comando_actual+1))
 			#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
 			opcion_actual = opciones_accion_actual[index_opcion_actual]
 			comandos_opcion_actual = opcion_actual["comandos"]
@@ -96,6 +96,7 @@ def execute_actions(bot, cid, uid):
 			else:
 				# Ejecuto el proximo comando
 				comando_actual = comandos_opcion_actual[index_comando_actual]
+				bot.send_message(cid, "Comando a execitar %s" % comando_actual )
 				comando = comandos[comando_actual]
 				iniciar_ejecucion_comando(bot, cid, uid, comando)
 		else:
