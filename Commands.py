@@ -144,7 +144,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid]) 
 										
 		else:
-			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid])
 		# Despues de ejecutar continuo las ejecuciones.
 		execute_actions(bot, cid, uid)
 	elif tipo_comando == "indicaciones":
@@ -166,7 +166,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 		if "comando_argumentos" in comando:
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])	
 		else:
-			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid] )
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid] )
 	#except Exception as e:
 	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
 
