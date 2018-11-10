@@ -184,6 +184,10 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	
 	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
 
+def command_continue(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	execute_actions(bot, cid, uid)
+	
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
 	cid, uid, game, player = get_base_data(bot, update)
@@ -201,6 +205,8 @@ def command_resolve_exploration2(bot, update):
 			# Seteo los indices, las acciones siempre empiezan en 1
 			game.board.state.acciones_carta_actual = acciones
 			game.board.state.index_accion_actual = 1
+			bot.send_message(cid, "Se inicia la ejecución de la ruta si en algun momento alguna carta no dice: Utilizar comando /continue en caso que se trabe y hasta terminar la carta.")
+			
 			execute_actions(bot, cid, uid)
 			#except Exception as e:
 			#	bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
