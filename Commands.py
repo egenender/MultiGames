@@ -1400,7 +1400,20 @@ def load_game(cid):
 		temp_player_list = {}		
 		for uid in game.playerlist:
 			temp_player_list[int(uid)] = game.playerlist[uid]
-		game.playerlist = temp_player_list		
+		# 
+		temp_acciones_carta_actual = {}
+		for aid in game.board.state.acciones_carta_actual:			
+			temp_acciones_carta_actual[int(aid)] = game.board.state.acciones_carta_actual[aid]
+			temp_opciones = {}
+			for oid in game.board.state.acciones_carta_actual[aid]["opciones"]:
+				temp_opciones[int(oid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]
+				temp_comandos = {}
+				for commid in game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"]:
+					temp_opciones[int(commid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"][commid]
+				temp_opciones[int(oid)]["comandos"] = temp_comandos
+			temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
+				
+		game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
 		#bot.send_message(cid, game.print_roles())
 		return game
 	else:
