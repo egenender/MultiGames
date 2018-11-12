@@ -97,12 +97,15 @@ def execute_actions(bot, cid, uid):
 				if game.board.state.index_accion_actual > len(acciones):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
 					game.board.state.index_accion_actual = 0
+					
 					bot.send_message(cid, "Se ha terminado de resolver la carta")
 					if game.board.state.adquirir_final:
 						command_gain_skill(bot, update, [0, cid, uid])
 						game.board.state.adquirir_final = False
 					else:
 						command_remove_exploration(bot, None, [1,cid,uid])
+					# Cuando termino pongo en none las acciones de la carta actual
+					game.board.state.acciones_carta_actual = None
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
@@ -1401,17 +1404,18 @@ def load_game(cid):
 		for uid in game.playerlist:
 			temp_player_list[int(uid)] = game.playerlist[uid]
 		# 
-		temp_acciones_carta_actual = {}
-		for aid in game.board.state.acciones_carta_actual:			
-			temp_acciones_carta_actual[int(aid)] = game.board.state.acciones_carta_actual[aid]
-			temp_opciones = {}
-			for oid in game.board.state.acciones_carta_actual[aid]["opciones"]:
-				temp_opciones[int(oid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]
-				temp_comandos = {}
-				for commid in game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"]:
-					temp_opciones[int(commid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"][commid]
-				temp_opciones[int(oid)]["comandos"] = temp_comandos
-			temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
+		if not game.board.state.acciones_carta_actual:
+			temp_acciones_carta_actual = {}
+			for aid in game.board.state.acciones_carta_actual:			
+				temp_acciones_carta_actual[int(aid)] = game.board.state.acciones_carta_actual[aid]
+				temp_opciones = {}
+				for oid in game.board.state.acciones_carta_actual[aid]["opciones"]:
+					temp_opciones[int(oid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]
+					temp_comandos = {}
+					for commid in game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"]:
+						temp_opciones[int(commid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"][commid]
+					temp_opciones[int(oid)]["comandos"] = temp_comandos
+				temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
 				
 		game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
 		#bot.send_message(cid, game.print_roles())
