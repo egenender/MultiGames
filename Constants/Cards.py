@@ -18,7 +18,7 @@ comandos = {
     },
     "add_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
-        "comando" : "command_add_exploration",
+        "comando" : "command_add_exploration_deck",
         "comando_argumentos" : []
     },
     "swap_rute" : {
