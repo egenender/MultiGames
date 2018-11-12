@@ -132,7 +132,11 @@ def execute_actions(bot, cid, uid):
 			btns = []
 			# Creo los botones para elegir al usuario
 			for opcion_comandos in opciones_accion_actual:
-				txtBoton = "%s" % (opcion_comandos)
+				txtBoton = ""
+				for comando in opcion_comandos["comandos"]:
+					txtBoton += opcion_comandos["comandos"][comando] + " "			
+				txtBoton = txtBoton[:-1]
+				#txtBoton = "%s" % (opcion_comandos)
 				datos = strcid + "*opcioncomandos*" + str(opcion_comandos) + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 				bot.send_message(cid, datos)					
