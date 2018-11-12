@@ -102,7 +102,7 @@ def execute_actions(bot, cid, uid):
 						command_gain_skill(bot, update, [0, cid, uid])
 						game.board.state.adquirir_final = False
 					else:
-						command_remove_exploration(bot, update, [1,cid,uid])
+						command_remove_exploration(bot, None, [1,cid,uid])
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
