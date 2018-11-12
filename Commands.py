@@ -863,9 +863,14 @@ def command_use_skill(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		# Si no se pasa parametro o paso -1 hago promp para que la elija
-		
-		if not args or args[0] == "-1":
+		# Si no se pasa parametro o paso -1 hago promp para que la elija		
+		if not args:
+			if not player.skills:
+				bot.send_message(cid, "El jugador no tiene skills.")
+				if game.board.state.comando_pedido:
+					execute_actions(bot, cid, uid)
+				# Si se esta ejecutando de forma automaticamente se vuelve
+			
 			for skill in player.skills:
 				txtBoton = "Carta %s" % (skill)
 				datos = strcid + "*opcionskill*" + str(skill) + "*" + str(uid)
@@ -873,7 +878,6 @@ def command_use_skill(bot, update, args):
 				bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 				btnMarkup = InlineKeyboardMarkup(btns)
-				indice += 1
 			#for uid in game.playerlist:
 			bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
 		else:
@@ -881,7 +885,7 @@ def command_use_skill(bot, update, args):
 			player = game.playerlist[uid]
 			#cid = '-1001206290323'
 			# Defecto saco la de la izquierda
-			item_to_remove = int(args[0] if args else 1)-1		
+			item_to_remove = int(args[0])-1		
 			game.board.discards.append(player.skills.pop(item_to_remove))
 			bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
 			after_command(bot, cid)
