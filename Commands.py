@@ -150,6 +150,24 @@ def elegir_opcion_comando(bot, update):
 	execute_actions(bot, cid, uid)
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
+
+def elegir_opcion_skill(bot, update):	
+	#try:		
+	callback = update.callback_query
+	log.info('elegir_opcion_comando called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+	
+	game = get_game(cid)
+	game.board.state.index_opcion_actual = int(opcion)
+	
+	#bot.delete_message(callback.chat.id, callback.message.message_id)
+	bot.edit_message_text("Has elegido la opcion: %s" % opcion, cid, callback.message.message_id)
+	execute_actions(bot, cid, uid)
+	#except Exception as e:
+	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
+
+
 	
 def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	#try:
@@ -844,13 +862,26 @@ def command_use_skill(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		# Defecto saco la de la izquierda
-		item_to_remove = int(args[0] if args else 1)-1		
-		game.board.discards.append(player.skills.pop(item_to_remove))
-		bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
-		after_command(bot, cid)
+		# Si no se pasa parametro o paso -1 hago promp para que la elija
+		if not args or args[0] == "-1":
+			for skill in player.skills:
+				txtBoton = "Carta %s" % (skill)
+				datos = strcid + "*opcionskill*" + str(skill) + "*" + str(uid)
+				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+				bot.send_message(cid, datos)					
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+				btnMarkup = InlineKeyboardMarkup(btns)
+			#for uid in game.playerlist:
+			bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
+		else:
+			
+			player = game.playerlist[uid]
+			#cid = '-1001206290323'
+			# Defecto saco la de la izquierda
+			item_to_remove = int(args[0] if args else 1)-1		
+			game.board.discards.append(player.skills.pop(item_to_remove))
+			bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
+			after_command(bot, cid)
 		#command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update):
@@ -915,11 +946,15 @@ def command_lose_camp(bot, update, args):
 		return
 	if args == "Explorador Campero":
 		player.vida_explorador_campero  -=1;
+		after_command(bot, cid)
 	if args == "Explorador Brujula":
 		player.vida_explorador_brujula  -=2;
+		after_command(bot, cid)
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  -=2;
-	after_command(bot, cid)
+		after_command(bot, cid)
+	if args == "Usar carta skill":
+		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_compass(bot, update, args):
 	try:
@@ -931,11 +966,15 @@ def command_lose_compass(bot, update, args):
 		return
 	if args == "Explorador Campero":
 		player.vida_explorador_campero  -=2;
+		after_command(bot, cid)
 	if args == "Explorador Brujula":
 		player.vida_explorador_brujula  -=1;
+		after_command(bot, cid)
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  -=2;
-	after_command(bot, cid)
+		after_command(bot, cid)
+	if args == "Usar carta skill":
+		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_leaf(bot, update, args):
 	try:
@@ -947,11 +986,15 @@ def command_lose_leaf(bot, update, args):
 		return
 	if args == "Explorador Campero":
 		player.vida_explorador_campero  -=2;
+		after_command(bot, cid)
 	if args == "Explorador Brujula":
 		player.vida_explorador_brujula  -=2;
+		after_command(bot, cid)
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  -=1;
-	after_command(bot, cid)
+		after_command(bot, cid)
+	if args == "Usar carta skill":
+		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_explorer(bot, update, args):
 	try:
@@ -963,11 +1006,16 @@ def command_lose_explorer(bot, update, args):
 		return
 	if args == "Explorador Campero":
 		player.vida_explorador_campero  = 0;
+		after_command(bot, cid)
 	if args == "Explorador Brujula":
 		player.vida_explorador_brujula  = 0;
+		after_command(bot, cid)
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  = 0;
-	after_command(bot, cid)
+		after_command(bot, cid)
+	if args == "Usar carta skill":
+		command_use_skill(bot, None, [1,cid,uid])
+	
 
 def get_base_data2(cid, uid):
 	if uid in ADMIN:		
