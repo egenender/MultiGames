@@ -7,7 +7,8 @@ import os
 import psycopg2
 import urllib.parse
 import sys
-	
+from time import sleep
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 
 import MainController
