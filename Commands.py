@@ -56,7 +56,7 @@ conn = psycopg2.connect(
 def execute_actions(bot, cid, uid):
 	game, player = get_base_data2(cid, uid)
 	if game is not None:
-		sleep(3)
+		sleep(2)
 		#try:
 		bot.send_message(cid, "Init Execute Actions")		
 		acciones = game.board.state.acciones_carta_actual
@@ -80,11 +80,9 @@ def execute_actions(bot, cid, uid):
 			if (game.board.state.comando_pedido and game.board.state.comando_realizado) or not game.board.state.comando_pedido:
 				game.board.state.index_comando_actual += 1
 				game.board.state.comando_pedido = False
-				game.board.state.comando_realizado = False
-				
+				game.board.state.comando_realizado = False			
 				
 			index_comando_actual = game.board.state.index_comando_actual
-			
 			bot.send_message(cid, "index_opcion_actual init %s/%s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
 			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
 			if index_comando_actual > len(comandos_opcion_actual):
@@ -105,17 +103,13 @@ def execute_actions(bot, cid, uid):
 						game.board.state.adquirir_final = False
 					else:
 						command_remove_exploration(bot, update, [1,cid,uid])
-						
-						
-						
-					
-					
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
 					execute_actions(bot, cid, uid)					
 			else:
 				# Ejecuto el proximo comando
+				sleep(3)
 				game.board.state.comando_realizado = False
 				game.board.state.comando_pedido = True
 				comando_actual = comandos_opcion_actual[index_comando_actual]
@@ -124,6 +118,7 @@ def execute_actions(bot, cid, uid):
 				iniciar_ejecucion_comando(bot, cid, uid, comando)
 		else:
 			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
+			sleep(3)
 			strcid = str(game.cid)
 			btns = []
 			# Creo los botones para elegir al usuario
@@ -159,6 +154,7 @@ def elegir_opcion_comando(bot, update):
 def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	#try:
 	log.info('execute_comando called: %s' % comando)
+	sleep(3)
 	game, player = get_base_data2(cid, uid)
 	tipo_comando = comando["tipo"]
 	# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
