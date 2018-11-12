@@ -860,6 +860,7 @@ def command_use_skill(bot, update, args):
 		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
+		player = game.playerlist[uid]
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
@@ -881,8 +882,6 @@ def command_use_skill(bot, update, args):
 			#for uid in game.playerlist:
 			bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
 		else:
-			
-			player = game.playerlist[uid]
 			#cid = '-1001206290323'
 			# Defecto saco la de la izquierda
 			item_to_remove = int(args[0])-1		
