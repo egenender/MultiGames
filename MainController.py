@@ -944,7 +944,7 @@ def main():
         dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand))
         dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
         dp.add_handler(CommandHandler("gainprogreso", Commands.command_increase_progreso, pass_args = True))
-        dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration))      
+        dp.add_handler(CommandHandler("removefirstrute", Commands.command_resolve_exploration))      
                
         dp.add_handler(CommandHandler("gainskill", Commands.command_gain_skill, pass_args = True))
         dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
@@ -954,7 +954,7 @@ def main():
         dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf, pass_args = True))
         dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer, pass_args = True))
                 
-        dp.add_handler(CommandHandler("res", Commands.command_resolve_exploration2))
+        dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration2))
         dp.add_handler(CommandHandler("continue", Commands.command_continue))
                 
         dp.add_handler(CommandHandler("save", Commands.save))
