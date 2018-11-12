@@ -1418,7 +1418,7 @@ def load_game(cid):
 				temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
 				
 			game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
-		#bot.send_message(cid, game.print_roles())
+		bot.send_message(cid, game)
 		return game
 	else:
 		log.info("Game Not Found")
