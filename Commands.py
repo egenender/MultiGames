@@ -184,6 +184,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	else:
 		game.board.state.adquirir_final = True
 		# Si es final, solo gain_skill es final
+		# TODO hacer que el comando se ponga en cola para ejecutar despues.
 		'''
 		
 		if "comando_argumentos" in comando:
