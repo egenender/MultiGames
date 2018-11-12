@@ -1402,11 +1402,11 @@ def load_game(cid):
 		# For some reason the decoding fails when bringing the dict playerlist and it changes it id from int to string.
 		# So I have to change it back the ID to int.
 		# Aca no se usa ya que decidi usar str en uid
-		'''
+		
 		temp_player_list = {}		
 		for uid in game.playerlist:
 			temp_player_list[int(uid)] = game.playerlist[uid]
-		'''
+		
 		# Si existe la lista...
 		if game.board.state.acciones_carta_actual:
 			temp_acciones_carta_actual = {}
