@@ -978,7 +978,8 @@ def main():
         '''
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback=Commands.execute_command))
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
-
+        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
+        
         # log all errors
         dp.add_error_handler(error)
 
