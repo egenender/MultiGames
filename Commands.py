@@ -354,7 +354,7 @@ def after_command(bot, cid):
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
 def after_ruta_achicada(bot, cid, uid):
-	
+	sleep(3)
 	game = get_game(cid)
 	if not game.board.cartasExplorationActual:		
 		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia DÍA/NOCHE")
