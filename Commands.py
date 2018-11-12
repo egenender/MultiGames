@@ -965,6 +965,7 @@ def command_reglas(bot, update):
 	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
 
 def command_lose_camp(bot, update, args):
+	log.info(args)
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
@@ -985,6 +986,7 @@ def command_lose_camp(bot, update, args):
 		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_compass(bot, update, args):
+	log.info(args)
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
@@ -1005,6 +1007,7 @@ def command_lose_compass(bot, update, args):
 		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_leaf(bot, update, args):
+	log.info(args)
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
