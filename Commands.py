@@ -347,7 +347,7 @@ def load(bot, update):
 	if game:
 		GamesController.games[cid] = game
 		bot.send_message(cid, "Juego Cargado exitosamente")
-		bot.send_message(cid, game)
+		bot.send_message(cid, game.board.state.acciones_carta_actual)
 		#bot.send_message(game.cid, game.board.print_board(game.playerlist))				
 		# Remember the current player that he has to act
 		#MainController.start_round(bot, game)
