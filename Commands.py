@@ -442,10 +442,7 @@ def command_drawcard(bot, update, args):
 		cantidad = int(args[0] if args else 1)		
 		#log.info(game.board.cartasAventura)
 		for i in range(cantidad):
-			draw_card_cartasAventura(game, player.hand)		
-		#log.info(game.board.cartasAventura)
-		#cid = '-1001206290323'
-		#log.info(player.hand)
+			draw_card_cartasAventura(game, player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		command_showhand(bot, update)
 		after_command(bot, cid)
@@ -458,7 +455,6 @@ def command_showhand(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		#cid = '-1001206290323'
 		bot.send_message(cid, "Mano jugador actualizada.")
 		showImages(bot, cid, player.hand)
 		
@@ -471,11 +467,8 @@ def command_showskills(bot, update):
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		bot.send_message(cid, game.playerlist)
-		bot.send_message(cid, uid)
+			return		
 		player = game.playerlist[uid]
-		#cid = '-1001206290323'
 		if not player.skills:
 			bot.send_message(cid, "El jugador no tiene skills.")
 		else:
@@ -497,14 +490,6 @@ def command_increase_progreso(bot, update, args):
 		else:
 			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
 		after_command(bot, cid)
-		'''
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		if not player.skills:
-			bot.send_message(cid, "El jugador no tiene skills.")
-		else:
-			showImages(bot, cid, player.skills)
-		'''
 			
 def command_losebullet(bot, update, args):
 	try:
@@ -517,9 +502,7 @@ def command_losebullet(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.bullets -= 1;		
-		#ommand_showstats(bot, update)
+		player.bullets -= 1;
 		after_command(bot, cid)
 		
 def command_gainbullet(bot, update, args):
@@ -533,9 +516,7 @@ def command_gainbullet(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		#cid = '-1001206290323'
 		player.bullets += 1;
-		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_losefood(bot, update, args):
@@ -551,7 +532,7 @@ def command_losefood(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.food -= 1;
-		#ommand_showstats(bot, update)
+		
 		after_command(bot, cid)
 		
 def command_gainfood(bot, update, args):
@@ -565,9 +546,7 @@ def command_gainfood(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		#cid = '-1001206290323'
 		player.food += 1;
-		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 
 def command_lose_life(bot, update, args):
@@ -1407,7 +1386,7 @@ def load_game(cid):
 		
 		temp_player_list = {}		
 		for uid in game.playerlist:
-			temp_player_list[int(uid)] = game.playerlist[uid]
+			temp_player_list[str(uid)] = game.playerlist[uid]
 		
 		# Si existe la lista...
 		if game.board.state.acciones_carta_actual:
