@@ -55,6 +55,7 @@ conn = psycopg2.connect(
 def execute_actions(bot, cid, uid):
 	game, player = get_base_data2(cid, uid)
 	if game is not None:
+		sleep(3)
 		#try:
 		bot.send_message(cid, "Init Execute Actions")		
 		acciones = game.board.state.acciones_carta_actual
