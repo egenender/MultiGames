@@ -13,6 +13,7 @@ class State(object):
         self.index_comando_actual = 0
         self.comando_pedido = False
         self.comando_realizado = False
+        self.adquirir_final = False
         # Borrar luego al hacer limpieza del bot
         self.liberal_track = 0
         self.fascist_track = 0
