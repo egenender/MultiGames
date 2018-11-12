@@ -158,12 +158,13 @@ def elegir_opcion_skill(bot, update):
 	regex = re.search("(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 	
-	game = get_game(cid)
+	game, player = get_base_data2(cid, uid)
 	game.board.state.index_opcion_actual = int(opcion)
 	
+	index_player_skill = player.skills.index(int(opcion))
 	#bot.delete_message(callback.chat.id, callback.message.message_id)
-	bot.edit_message_text("Has elegido la opcion: %s" % opcion, cid, callback.message.message_id)
-	execute_actions(bot, cid, uid)
+	bot.edit_message_text("Has elegido la carta: %s" % opcion, cid, callback.message.message_id)
+	command_use_skill(bot, update, [index_player_skill, cid, uid])
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
 
@@ -863,6 +864,7 @@ def command_use_skill(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		# Si no se pasa parametro o paso -1 hago promp para que la elija
+		
 		if not args or args[0] == "-1":
 			for skill in player.skills:
 				txtBoton = "Carta %s" % (skill)
@@ -871,6 +873,7 @@ def command_use_skill(bot, update, args):
 				bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 				btnMarkup = InlineKeyboardMarkup(btns)
+				indice += 1
 			#for uid in game.playerlist:
 			bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
 		else:
