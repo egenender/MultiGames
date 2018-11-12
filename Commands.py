@@ -99,6 +99,16 @@ def execute_actions(bot, cid, uid):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
 					game.board.state.index_accion_actual = 0
 					bot.send_message(cid, "Se ha terminado de resolver la carta")
+					if game.board.state.adquirir_final:
+						command_gain_skill(bot, update, [0, cid, uid])
+						game.board.state.adquirir_final = False
+					else:
+						command_remove_exploration(bot, update, [1,cid,uid])
+						
+						
+						
+					
+					
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
@@ -175,12 +185,16 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 		#for uid in game.playerlist:
 		bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
 	else:
+		game.board.state.adquirir_final = True
 		# Si es final, solo gain_skill es final
+		'''
+		
 		if "comando_argumentos" in comando:
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])	
 		else:
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid] )
-		execute_actions(bot, cid, uid)	
+		execute_actions(bot, cid, uid)
+		'''	
 	#except 
 	
 	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
