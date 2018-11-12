@@ -919,6 +919,7 @@ def command_lose_camp(bot, update, args):
 		player.vida_explorador_brujula  -=2;
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  -=2;
+	after_command(bot, cid)
 	
 def command_lose_compass(bot, update, args):
 	try:
@@ -934,6 +935,7 @@ def command_lose_compass(bot, update, args):
 		player.vida_explorador_brujula  -=1;
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  -=2;
+	after_command(bot, cid)
 	
 def command_lose_leaf(bot, update, args):
 	try:
@@ -949,6 +951,7 @@ def command_lose_leaf(bot, update, args):
 		player.vida_explorador_brujula  -=2;
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  -=1;
+	after_command(bot, cid)
 	
 def command_lose_explorer(bot, update, args):
 	try:
@@ -964,6 +967,7 @@ def command_lose_explorer(bot, update, args):
 		player.vida_explorador_brujula  = 0;
 	if args == "Explorador Hoja":
 		player.vida_explorador_hoja  = 0;
+	after_command(bot, cid)
 
 def get_base_data2(cid, uid):
 	if uid in ADMIN:		
