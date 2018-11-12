@@ -472,8 +472,8 @@ def command_showskills(bot, update):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		bot.send_message(game.playerlist)
-		bot.send_message(uid)
+		bot.send_message(cid, game.playerlist)
+		bot.send_message(cid, uid)
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		if not player.skills:
