@@ -1407,8 +1407,8 @@ def load_game(cid):
 		for uid in game.playerlist:
 			temp_player_list[int(uid)] = game.playerlist[uid]
 		'''
-		# 
-		if not game.board.state.acciones_carta_actual:
+		# Si existe la lista...
+		if game.board.state.acciones_carta_actual:
 			temp_acciones_carta_actual = {}
 			for aid in game.board.state.acciones_carta_actual:			
 				temp_acciones_carta_actual[int(aid)] = game.board.state.acciones_carta_actual[aid]
