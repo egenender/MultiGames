@@ -866,6 +866,7 @@ def command_use_skill(bot, update, args):
 			return
 		# Si no se pasa parametro o paso -1 hago promp para que la elija		
 		if not args:
+			sleep(2)
 			if not player.skills:
 				bot.send_message(cid, "El jugador no tiene skills.")
 				if game.board.state.comando_pedido:
