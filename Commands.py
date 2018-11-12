@@ -59,11 +59,14 @@ def execute_actions(bot, cid, uid):
 		sleep(2)
 		#try:
 		bot.send_message(cid, "Init Execute Actions")		
-		acciones = game.board.state.acciones_carta_actual
-		index_accion_actual = int(game.board.state.index_accion_actual)
-		accion_actual = acciones[index_accion_actual]
+		acciones = game.board.state.acciones_carta_actual		
+		index_accion_actual = game.board.state.index_accion_actual
+		try:
+			accion_actual = acciones[index_accion_actual]
+		except Exception as e:
+			accion_actual = acciones[str(index_accion_actual)]
 		tipo_accion_actual = accion_actual["tipo"]
-		index_opcion_actual = int(game.board.state.index_opcion_actual)
+		index_opcion_actual = game.board.state.index_opcion_actual
 		opciones_accion_actual = accion_actual["opciones"]
 
 		# Veo si hay más de una opcion, si no la hay seteo el index_opcion_actual a 1
@@ -74,7 +77,10 @@ def execute_actions(bot, cid, uid):
 		if index_opcion_actual != 0:
 			
 			#Continuo ejecutando la opcion actual hasta que se le acaben los comandos				
-			opcion_actual = opciones_accion_actual[index_opcion_actual]
+			try:
+				opcion_actual = opciones_accion_actual[index_opcion_actual]
+			except Exception as e:
+				opcion_actual = opciones_accion_actual[str(index_opcion_actual)]
 			comandos_opcion_actual = opcion_actual["comandos"]
 			# Obtengo el ultimo indice de comando y le aumento 1.
 			if (game.board.state.comando_pedido and game.board.state.comando_realizado) or not game.board.state.comando_pedido:
@@ -82,7 +88,7 @@ def execute_actions(bot, cid, uid):
 				game.board.state.comando_pedido = False
 				game.board.state.comando_realizado = False			
 				
-			index_comando_actual = int(game.board.state.index_comando_actual)
+			index_comando_actual = game.board.state.index_comando_actual
 			bot.send_message(cid, "index_opcion_actual init %s/%s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
 			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
 			if index_comando_actual > len(comandos_opcion_actual):
@@ -112,7 +118,10 @@ def execute_actions(bot, cid, uid):
 				sleep(3)
 				game.board.state.comando_realizado = False
 				game.board.state.comando_pedido = True
-				comando_actual = comandos_opcion_actual[index_comando_actual]
+				try:
+					comando_actual = comandos_opcion_actual[index_comando_actual]
+				except Exception as e:
+					comando_actual = comandos_opcion_actual[str(index_comando_actual)]
 				bot.send_message(cid, "Comando a executar %s" % comando_actual )
 				comando = comandos[comando_actual]
 				iniciar_ejecucion_comando(bot, cid, uid, comando)
