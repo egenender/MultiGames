@@ -1,4 +1,4 @@
 TOKEN = "501280363:AAGr5YOn5-HBAKOKJoSSUys6NOfUC-A9PwM"
-ADMIN = [387393551, 271584582, 6473134, 13517295] #your telegram ID
-#Leviatas Bernabe Gonza Eze
+ADMIN = [387393551, 271584582, 6473134, 13517295, 226857151] #your telegram ID
+#Leviatas Bernabe Gonza Eze Lolcese
 STATS = "../stats.json"
