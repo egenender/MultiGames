@@ -346,7 +346,8 @@ def load(bot, update):
 	game = load_game(cid)			
 	if game:
 		GamesController.games[cid] = game
-		bot.send_message(cid, "Juego Cargado exitosamente")				
+		bot.send_message(cid, "Juego Cargado exitosamente")
+		bot.send_message(cid, game)
 		#bot.send_message(game.cid, game.board.print_board(game.playerlist))				
 		# Remember the current player that he has to act
 		#MainController.start_round(bot, game)
@@ -1418,7 +1419,7 @@ def load_game(cid):
 				temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
 				
 			game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
-		bot.send_message(cid, game)
+		#bot.send_message(cid, game)
 		return game
 	else:
 		log.info("Game Not Found")
