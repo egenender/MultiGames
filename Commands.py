@@ -827,7 +827,14 @@ def command_remove_exploration(bot, update, args):
 			after_command(bot, cid)
 			#command_show_exploration(bot, update)
 		except Exception as e:
-			bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
+			if str(e) == "pop index out of range":
+				# Si se ha pedido automaticamente 
+				if game.board.state.comando_pedido:
+					bot.send_message(cid, "Se ha intentado sacar una carta que no existe, considero ejecutada la accion.")
+					after_command(bot, cid)
+				
+			else:
+				bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
 			
 
 def command_remove_last_exploration(bot, update):
