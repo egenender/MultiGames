@@ -97,15 +97,12 @@ def execute_actions(bot, cid, uid):
 				if game.board.state.index_accion_actual > len(acciones):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
 					game.board.state.index_accion_actual = 0
-					
 					bot.send_message(cid, "Se ha terminado de resolver la carta")
 					if game.board.state.adquirir_final:
 						command_gain_skill(bot, update, [0, cid, uid])
 						game.board.state.adquirir_final = False
 					else:
 						command_remove_exploration(bot, None, [1,cid,uid])
-					# Cuando termino pongo en none las acciones de la carta actual
-					game.board.state.acciones_carta_actual = None
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
@@ -346,8 +343,7 @@ def load(bot, update):
 	game = load_game(cid)			
 	if game:
 		GamesController.games[cid] = game
-		bot.send_message(cid, "Juego Cargado exitosamente")
-		bot.send_message(cid, game.board.state.acciones_carta_actual)
+		bot.send_message(cid, "Juego Cargado exitosamente")				
 		#bot.send_message(game.cid, game.board.print_board(game.playerlist))				
 		# Remember the current player that he has to act
 		#MainController.start_round(bot, game)
@@ -442,7 +438,10 @@ def command_drawcard(bot, update, args):
 		cantidad = int(args[0] if args else 1)		
 		#log.info(game.board.cartasAventura)
 		for i in range(cantidad):
-			draw_card_cartasAventura(game, player.hand)
+			draw_card_cartasAventura(game, player.hand)		
+		#log.info(game.board.cartasAventura)
+		#cid = '-1001206290323'
+		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		command_showhand(bot, update)
 		after_command(bot, cid)
@@ -455,6 +454,7 @@ def command_showhand(bot, update):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
+		#cid = '-1001206290323'
 		bot.send_message(cid, "Mano jugador actualizada.")
 		showImages(bot, cid, player.hand)
 		
@@ -467,8 +467,9 @@ def command_showskills(bot, update):
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
-			return		
+			return
 		player = game.playerlist[uid]
+		#cid = '-1001206290323'
 		if not player.skills:
 			bot.send_message(cid, "El jugador no tiene skills.")
 		else:
@@ -490,6 +491,14 @@ def command_increase_progreso(bot, update, args):
 		else:
 			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
 		after_command(bot, cid)
+		'''
+		player = game.playerlist[uid]
+		#cid = '-1001206290323'
+		if not player.skills:
+			bot.send_message(cid, "El jugador no tiene skills.")
+		else:
+			showImages(bot, cid, player.skills)
+		'''
 			
 def command_losebullet(bot, update, args):
 	try:
@@ -502,7 +511,9 @@ def command_losebullet(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		player.bullets -= 1;
+		#cid = '-1001206290323'
+		player.bullets -= 1;		
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_gainbullet(bot, update, args):
@@ -516,7 +527,9 @@ def command_gainbullet(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
+		#cid = '-1001206290323'
 		player.bullets += 1;
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_losefood(bot, update, args):
@@ -532,7 +545,7 @@ def command_losefood(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.food -= 1;
-		
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
 def command_gainfood(bot, update, args):
@@ -546,7 +559,9 @@ def command_gainfood(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
+		#cid = '-1001206290323'
 		player.food += 1;
+		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 
 def command_lose_life(bot, update, args):
@@ -1381,29 +1396,12 @@ def load_game(cid):
 		game = jsonpickle.decode(jsdata)
 		
 		# For some reason the decoding fails when bringing the dict playerlist and it changes it id from int to string.
-		# So I have to change it back the ID to int.
-		# Aca no se usa ya que decidi usar str en uid
-		
+		# So I have to change it back the ID to int.				
 		temp_player_list = {}		
 		for uid in game.playerlist:
-			temp_player_list[str(uid)] = game.playerlist[uid]
-		
-		# Si existe la lista...
-		if game.board.state.acciones_carta_actual:
-			temp_acciones_carta_actual = {}
-			for aid in game.board.state.acciones_carta_actual:			
-				temp_acciones_carta_actual[int(aid)] = game.board.state.acciones_carta_actual[aid]
-				temp_opciones = {}
-				for oid in game.board.state.acciones_carta_actual[aid]["opciones"]:
-					temp_opciones[int(oid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]
-					temp_comandos = {}
-					for commid in game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"]:
-						temp_opciones[int(commid)] = game.board.state.acciones_carta_actual[aid]["opciones"][oid]["comandos"][commid]
-					temp_opciones[int(oid)]["comandos"] = temp_comandos
-				temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
-				
-			game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
-		#bot.send_message(cid, game)
+			temp_player_list[int(uid)] = game.playerlist[uid]
+		game.playerlist = temp_player_list		
+		#bot.send_message(cid, game.print_roles())
 		return game
 	else:
 		log.info("Game Not Found")
