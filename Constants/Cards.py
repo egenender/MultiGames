@@ -160,8 +160,25 @@ cartas_aventura = {
             1 : {
                 "tipo" : "obligatoria",
                 "opciones" : {
-                    1 : "gain_skill",
-                    2 : "gain_bullet"
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "gain_skill",
+                            3 : "swap_rute",
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life",
+                            3 : "gain_progreso"                           
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_explorer"                     
+                        }
+                    }
                 }
             }
         }
