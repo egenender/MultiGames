@@ -986,7 +986,7 @@ def command_lose_camp(bot, update, args):
 		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_compass(bot, update, args):
-	log.info(args)
+	#log.info(args)
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
@@ -994,16 +994,16 @@ def command_lose_compass(bot, update, args):
 	game, plauer = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args == "Explorador Campero":
+	if args[0] == "Explorador Campero":
 		player.vida_explorador_campero  -=2;
 		after_command(bot, cid)
-	if args == "Explorador Brujula":
+	if args[0] == "Explorador Brujula":
 		player.vida_explorador_brujula  -=1;
 		after_command(bot, cid)
-	if args == "Explorador Hoja":
+	if args[0] == "Explorador Hoja":
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
-	if args == "Usar carta skill":
+	if args[0] == "Usar carta skill":
 		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_leaf(bot, update, args):
@@ -1015,16 +1015,16 @@ def command_lose_leaf(bot, update, args):
 	game, plauer = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args == "Explorador Campero":
+	if args[0] == "Explorador Campero":
 		player.vida_explorador_campero  -=2;
 		after_command(bot, cid)
-	if args == "Explorador Brujula":
+	if args[0] == "Explorador Brujula":
 		player.vida_explorador_brujula  -=2;
 		after_command(bot, cid)
-	if args == "Explorador Hoja":
+	if args[0] == "Explorador Hoja":
 		player.vida_explorador_hoja  -=1;
 		after_command(bot, cid)
-	if args == "Usar carta skill":
+	if args[0] == "Usar carta skill":
 		command_use_skill(bot, None, [1,cid,uid])	
 	
 def command_lose_explorer(bot, update, args):
@@ -1035,16 +1035,16 @@ def command_lose_explorer(bot, update, args):
 	game, plauer = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args == "Explorador Campero":
+	if args[0] == "Explorador Campero":
 		player.vida_explorador_campero  = 0;
 		after_command(bot, cid)
-	if args == "Explorador Brujula":
+	if args[0] == "Explorador Brujula":
 		player.vida_explorador_brujula  = 0;
 		after_command(bot, cid)
-	if args == "Explorador Hoja":
+	if args[0] == "Explorador Hoja":
 		player.vida_explorador_hoja  = 0;
 		after_command(bot, cid)
-	if args == "Usar carta skill":
+	if args[0] == "Usar carta skill":
 		command_use_skill(bot, None, [1,cid,uid])
 	
 
