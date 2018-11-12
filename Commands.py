@@ -377,7 +377,7 @@ def command_newgame_lost_expedition(bot, update):
 	try:
 		game = get_game(cid)
 		if game:
-			bot.send_message(cid, "Hay un juego ya creado, borralo con /cancelgame.")
+			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 		else:
 			# Creo el juego si no esta.
 			game = Game(cid, update.message.from_user.id, "solitario")
@@ -678,7 +678,7 @@ def draw_card_cartasAventura(game, destino):
 			#for uid in game.playerlist:
 			#	player = game.playerlist[uid]
 		else:
-			bot.send_message(cid, "Se ha perdido la partida porque se ha mezclado el mazo dos veces. /cancelgame")
+			bot.send_message(cid, "Se ha perdido la partida porque se ha mezclado el mazo dos veces. /delete")
 			
 		
 		
