@@ -1417,7 +1417,7 @@ def load_game(cid):
 					temp_opciones[int(oid)]["comandos"] = temp_comandos
 				temp_acciones_carta_actual[int(aid)]["opciones"] = temp_opciones		
 				
-		game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
+			game.board.state.acciones_carta_actual = temp_acciones_carta_actual		
 		#bot.send_message(cid, game.print_roles())
 		return game
 	else:
