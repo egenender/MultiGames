@@ -138,7 +138,7 @@ def execute_actions(bot, cid, uid):
 					txtBoton += comando_op["comandos"][comando] + " "			
 				txtBoton = txtBoton[:-1]
 				#txtBoton = "%s" % (opcion_comando)
-				datos = strcid + "*opcioncomandos*" + str(opcion_comandos) + "*" + str(uid)
+				datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 				bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
