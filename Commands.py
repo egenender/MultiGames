@@ -970,7 +970,7 @@ def command_lose_camp(bot, update, args):
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
 		cid, uid = args[1], args[2]
-	game, plauer = get_base_data2(cid, uid)	
+	game, player = get_base_data2(cid, uid)	
 	if game is None:
 		return
 	if args == "Explorador Campero":
@@ -1012,7 +1012,7 @@ def command_lose_leaf(bot, update, args):
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
 		cid, uid = args[1], args[2]
-	game, plauer = get_base_data2(cid, uid)
+	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
 	if args[0] == "Explorador Campero":
@@ -1032,7 +1032,7 @@ def command_lose_explorer(bot, update, args):
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
 		cid, uid = args[1], args[2]
-	game, plauer = get_base_data2(cid, uid)
+	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
 	if args[0] == "Explorador Campero":
