@@ -112,6 +112,28 @@ def execute_actions(bot, cid, uid):
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
+					# Si el tipo_accion_actual es opcional se tiene que preguntar si se quiere hacer
+					# Si se da positivo la 
+					#if tipo_accion_actual == "opcional":
+						'''opciones : {
+						    1 : {
+							"comandos" : {
+							    1 : "gain_skill"
+							}
+						    },
+						    2 : {
+							"comandos" : {
+							    1 : "remove_rute"                           
+							}
+						    },
+						    3 : {
+							"comandos" : {
+							    1 : "gain_skill"                          
+							}
+						    }
+						}
+						'''
+							
 					execute_actions(bot, cid, uid)					
 			else:
 				# Ejecuto el proximo comando
@@ -127,27 +149,30 @@ def execute_actions(bot, cid, uid):
 				iniciar_ejecucion_comando(bot, cid, uid, comando)
 		else:
 			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
-			sleep(3)
-			strcid = str(game.cid)
-			btns = []
-			# Creo los botones para elegir al usuario
-			for opcion_comando in opciones_accion_actual:
-				txtBoton = ""
-				comando_op = opciones_accion_actual[opcion_comando]								
-				for comando in comando_op["comandos"]:
-					txtBoton += comando_op["comandos"][comando] + " "			
-				txtBoton = txtBoton[:-1]
-				#txtBoton = "%s" % (opcion_comando)
-				datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
-				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-				bot.send_message(cid, datos)					
-				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-				btnMarkup = InlineKeyboardMarkup(btns)
-			#for uid in game.playerlist:
-			bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
+			send_choose_buttons(game, opciones_accion_actual):
 			
 		#except Exception as e:
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
+		
+def send_choose_buttons(game, opciones_accion_actual):
+	sleep(3)
+	strcid = str(game.cid)
+	btns = []
+	# Creo los botones para elegir al usuario
+	for opcion_comando in opciones_accion_actual:
+		txtBoton = ""
+		comando_op = opciones_accion_actual[opcion_comando]								
+		for comando in comando_op["comandos"]:
+			txtBoton += comando_op["comandos"][comando] + " "			
+		txtBoton = txtBoton[:-1]
+		#txtBoton = "%s" % (opcion_comando)
+		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
+		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+		bot.send_message(cid, datos)					
+		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+		btnMarkup = InlineKeyboardMarkup(btns)
+	#for uid in game.playerlist:
+	bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
 		
 def elegir_opcion_comando(bot, update):	
 	#try:		
