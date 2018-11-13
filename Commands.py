@@ -153,7 +153,7 @@ def execute_actions(bot, cid, uid):
 			
 		#except Exception as e:
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
-		
+
 def send_choose_buttons(game, opciones_accion_actual):
 	sleep(3)
 	strcid = str(game.cid)
@@ -170,7 +170,7 @@ def send_choose_buttons(game, opciones_accion_actual):
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		bot.send_message(cid, datos)					
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-		btnMarkup = InlineKeyboardMarkup(btns)
+	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
 	bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
 		
