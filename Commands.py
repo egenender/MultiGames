@@ -827,7 +827,8 @@ def command_swap_exploration(bot, update, args):
 			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
 			return			
 		if args[0] == "Sí" or args[0] == "No":
-			bot.send_message(cid, "Por favor haga el swap Manual y luego haga /continue")			
+			bot.send_message(cid, "Por favor haga el swap Manual y luego haga /continue")
+			return "Esperar"
 		else:
 			a, b =  int(args[0])-1, int(args[1])-1		
 			game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
