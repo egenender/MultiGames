@@ -14,7 +14,6 @@ class State(object):
         self.comando_pedido = False
         self.comando_realizado = False
         self.adquirir_final = False
-        self.realiza_accion_opcional = False
         # Borrar luego al hacer limpieza del bot
         self.liberal_track = 0
         self.fascist_track = 0
