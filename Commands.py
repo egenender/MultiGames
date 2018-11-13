@@ -820,11 +820,15 @@ def command_swap_exploration(bot, update, args):
 		if len(args) < 2:
 			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
 			return			
-		a, b =  int(args[0])-1, int(args[1])-1		
-		game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
-		bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (a, b))
-		after_command(bot, cid)
-		#command_show_exploration(bot, update)
+		if args[0] == "Si" or args[0] == "No":
+			bot.send_message(cid, "Por favor haga el swap Manual y luego haga /continue")
+			after_command(bot, cid)
+		else:
+			a, b =  int(args[0])-1, int(args[1])-1		
+			game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
+			bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (args[0], args[1]))
+			after_command(bot, cid)
+			#command_show_exploration(bot, update)
 
 # Remove se usara para resolver y para remover cartas por accion de otras cartas		
 def command_remove_exploration(bot, update, args):
