@@ -105,7 +105,8 @@ def execute_actions(bot, cid, uid):
 					game.board.state.index_accion_actual = 0
 					bot.send_message(cid, "Se ha terminado de resolver la carta")
 					if game.board.state.adquirir_final:
-						command_gain_skill(bot, update, [0, cid, uid])
+						command_gain_skill(bot, None, [0, cid, uid])
+						# Pongo en off el flag de adquirir final
 						game.board.state.adquirir_final = False
 					else:
 						command_remove_exploration(bot, None, [1,cid,uid])
