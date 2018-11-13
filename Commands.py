@@ -74,7 +74,9 @@ def execute_actions(bot, cid, uid):
 			index_opcion_actual = 1
 			
 		# Si el tipo_accion_actual es opcional y es la primera vez que entra...
+		bot.send_message(cid, "La accion que se esta ejecutando es de tipo %s" % tipo_accion_actual)
 		if tipo_accion_actual == "opcional":
+			bot.send_message(cid, "Es una accion opcional. El indice es %s" % str(index_opcion_actual))
 			if index_opcion_actual == 0:
 				# Mando una pregunta para elegir accion.
 				opciones_accion_actual : {
