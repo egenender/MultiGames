@@ -115,24 +115,24 @@ def execute_actions(bot, cid, uid):
 					# Si el tipo_accion_actual es opcional se tiene que preguntar si se quiere hacer
 					# Si se da positivo la 
 					#if tipo_accion_actual == "opcional":
-						'''opciones : {
-						    1 : {
-							"comandos" : {
-							    1 : "gain_skill"
-							}
-						    },
-						    2 : {
-							"comandos" : {
-							    1 : "remove_rute"                           
-							}
-						    },
-						    3 : {
-							"comandos" : {
-							    1 : "gain_skill"                          
-							}
-						    }
+					'''opciones : {
+					    1 : {
+						"comandos" : {
+						    1 : "gain_skill"
 						}
-						'''
+					    },
+					    2 : {
+						"comandos" : {
+						    1 : "remove_rute"                           
+						}
+					    },
+					    3 : {
+						"comandos" : {
+						    1 : "gain_skill"                          
+						}
+					    }
+					}
+					'''
 							
 					execute_actions(bot, cid, uid)					
 			else:
