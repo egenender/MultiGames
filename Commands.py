@@ -298,9 +298,12 @@ def execute_command(bot, update):
 	bot.edit_message_text("Has elegido la opcion: %s" % opcion, cid, callback.message.message_id)
 	#ot.send_message(cid, "%s %s %s %s" % (strcid, opcion, comando, struid ))
 	# Directamente lo ejecuto ya que tengo el argumento.
-	getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
-	# Despues de ejecutar continuo las ejecuciones.
-	execute_actions(bot, cid, uid)
+	resultado = getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
+	
+	# Despues de ejecutar continuo las ejecuciones. Solamente si el comando no tiene un retorno.
+	if resultado is None:
+		execute_actions(bot, cid, uid)
+	
 	
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
