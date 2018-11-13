@@ -149,12 +149,12 @@ def execute_actions(bot, cid, uid):
 				iniciar_ejecucion_comando(bot, cid, uid, comando)
 		else:
 			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
-			send_choose_buttons(game, uid, opciones_accion_actual)
+			send_choose_buttons(bot, game, uid, opciones_accion_actual)
 			
 		#except Exception as e:
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 
-def send_choose_buttons(game, uid, opciones_accion_actual):
+def send_choose_buttons(bot, game, uid, opciones_accion_actual):
 	sleep(3)
 	strcid = str(game.cid)
 	btns = []
