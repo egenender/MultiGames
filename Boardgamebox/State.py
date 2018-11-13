@@ -10,10 +10,11 @@ class State(object):
         # Este numero no aumenta, se elije. Si es distinto de 0 es que el jugador ya eligio.
         self.index_opcion_actual = 0
         # Este numero va en aumento hasta que no hay mas comandos que realizar.
-        self.index_comando_actual = 0
+        self.index_comando_actual = 0        
         self.comando_pedido = False
         self.comando_realizado = False
         self.adquirir_final = False
+        self.realiza_accion_opcional = False
         # Borrar luego al hacer limpieza del bot
         self.liberal_track = 0
         self.fascist_track = 0
