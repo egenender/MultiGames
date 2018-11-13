@@ -299,7 +299,7 @@ def execute_command(bot, update):
 	#ot.send_message(cid, "%s %s %s %s" % (strcid, opcion, comando, struid ))
 	# Directamente lo ejecuto ya que tengo el argumento.
 	resultado = getattr(sys.modules[__name__], comando)(bot, update, [opcion, cid, uid])
-	
+	bot.send_message(cid, resultado)
 	# Despues de ejecutar continuo las ejecuciones. Solamente si el comando no tiene un retorno.
 	if resultado is None:
 		execute_actions(bot, cid, uid)
