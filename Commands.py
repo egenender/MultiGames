@@ -241,6 +241,8 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 		bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
 	else:
 		game.board.state.adquirir_final = True
+		after_command(bot, cid)
+		execute_actions(bot, cid, uid)
 		# Si es final, solo gain_skill es final
 		# TODO hacer que el comando se ponga en cola para ejecutar despues.
 		'''
