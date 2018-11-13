@@ -90,6 +90,19 @@ comandos = {
     },
 }
 
+opciones_opcional : {
+    1 : {
+        "comandos" : {
+            1 : "Si"
+        }
+    },
+    2 : {
+        "comandos" : {
+            1 : "No"
+        }
+    }
+}
+
 cartas_aventura = {
     0.5 : {
         "nombre" : "¡Nido Enorme!",
