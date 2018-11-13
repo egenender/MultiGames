@@ -70,9 +70,32 @@ def execute_actions(bot, cid, uid):
 		opciones_accion_actual = accion_actual["opciones"]
 
 		# Veo si hay más de una opcion, si no la hay seteo el index_opcion_actual a 1
-		if len(opciones_accion_actual) == 1:
+		if len(opciones_accion_actual) == 1 and tipo_accion_actual != "opcional":
 			index_opcion_actual = 1
-
+			
+		# Si el tipo_accion_actual es opcional y es la primera vez que entra...
+		if tipo_accion_actual == "opcional":
+			if index_opcion_actual == 0:
+				# Mando una pregunta para elegir accion.
+				opciones_accion_actual : {
+				    1 : {
+					"comandos" : {
+					    1 : "Si"                            
+					}
+				    },
+				    2 : {
+					"comandos" : {
+					    1 : "No"                           
+					}
+				    }
+				}
+				send_choose_buttons(bot, cid, uid, game, opciones_accion_actual)
+				return
+			elif index_opcion_actual == 2:
+				# Si es no pongo la primera opcion y comando ridiculamente alto para terminar la accion.
+				game.board.state.index_opcion_actual = 1
+				game.board.state.index_comando_actual = 99										
+			
 		# Si el jugador ya eligio opcion.
 		if index_opcion_actual != 0:
 			
@@ -96,6 +119,7 @@ def execute_actions(bot, cid, uid):
 				# y reseteo los otros
 				game.board.state.index_comando_actual = 0 
 				game.board.state.index_opcion_actual = 0
+				game.board.state.estado_accion_opcional = 0
 				# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
 				
 				
@@ -113,9 +137,24 @@ def execute_actions(bot, cid, uid):
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
-					# Si el tipo_accion_actual es opcional se tiene que preguntar si se quiere hacer
-					# Si se da positivo la 
-					#if tipo_accion_actual == "opcional":
+					execute_actions(bot, cid, uid)					
+					
+					'''
+					if tipo_accion_actual == "opcional":
+						# Si todavia no hemos elegido si hacerla... pregunto
+						if game.board.state.estado_accion_opcional == 0:
+																					
+						elif game.board.state.estado_accion_opcional == -1:
+							# si se dice que no...
+							# pongo un numero ridiculo de index_comando_actual para que saltee la accion
+							game.board.state.index_comando_actual = 99
+							execute_actions(bot, cid, uid)
+						else:
+							# Si se dice que si se ejecuta
+							execute_actions(bot, cid, uid)
+					else:
+					'''
+						
 					'''opciones : {
 					    1 : {
 						"comandos" : {
@@ -135,8 +174,11 @@ def execute_actions(bot, cid, uid):
 					}
 					'''
 							
-					execute_actions(bot, cid, uid)					
+										
 			else:
+				#Antes de comenzar a ejecutar comandos 
+				
+				
 				# Ejecuto el proximo comando
 				sleep(3)
 				game.board.state.comando_realizado = False
@@ -155,6 +197,47 @@ def execute_actions(bot, cid, uid):
 		#except Exception as e:
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 
+		
+def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
+	sleep(3)
+	strcid = str(game.cid)
+	btns = []
+	# Creo los botones para elegir al usuario
+	for opcion_comando in opciones_accion_actual:
+		txtBoton = ""
+		comando_op = opciones_accion_actual[opcion_comando]								
+		for comando in comando_op["comandos"]:
+			txtBoton += comando_op["comandos"][comando] + " "			
+		txtBoton = txtBoton[:-1]
+		#txtBoton = "%s" % (opcion_comando)
+		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
+		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+		bot.send_message(cid, datos)					
+		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+	btnMarkup = InlineKeyboardMarkup(btns)
+	#for uid in game.playerlist:
+	bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
+		
+def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
+	sleep(3)
+	strcid = str(game.cid)
+	btns = []
+	# Creo los botones para elegir al usuario
+	for opcion_comando in opciones_accion_actual:
+		txtBoton = ""
+		comando_op = opciones_accion_actual[opcion_comando]								
+		for comando in comando_op["comandos"]:
+			txtBoton += comando_op["comandos"][comando] + " "			
+		txtBoton = txtBoton[:-1]
+		#txtBoton = "%s" % (opcion_comando)
+		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
+		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+		bot.send_message(cid, datos)					
+		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+	btnMarkup = InlineKeyboardMarkup(btns)
+	#for uid in game.playerlist:
+	bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)		
+		
 def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 	sleep(3)
 	strcid = str(game.cid)
