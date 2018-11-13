@@ -76,8 +76,8 @@ def execute_actions(bot, cid, uid):
 		# Si el tipo_accion_actual es opcional y es la primera vez que entra...
 		bot.send_message(cid, "La accion que se esta ejecutando es de tipo %s" % tipo_accion_actual)
 		if tipo_accion_actual == "opcional":
-			bot.send_message(cid, "Es una accion opcional. El indice es %s" % str(index_opcion_actual))
-			if index_opcion_actual == 0:
+			#bot.send_message(cid, "Es una accion opcional. El indice es %s" % str(index_opcion_actual))
+			if index_opcion_actual == 0 or index_opcion_actual == "0":				
 				# Mando una pregunta para elegir accion.
 				opciones_accion_actual : {
 				    1 : {
@@ -96,7 +96,7 @@ def execute_actions(bot, cid, uid):
 			elif index_opcion_actual == 2:
 				# Si es no pongo la primera opcion y comando ridiculamente alto para terminar la accion.
 				game.board.state.index_opcion_actual = 1
-				game.board.state.index_comando_actual = 99										
+				game.board.state.index_comando_actual = 99									
 			
 		# Si el jugador ya eligio opcion.
 		if index_opcion_actual != 0:
