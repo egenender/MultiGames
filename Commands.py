@@ -81,16 +81,16 @@ def execute_actions(bot, cid, uid):
 				bot.send_message(cid, "Entrado en elegir si se hace o no la accion opcional")
 				# Mando una pregunta para elegir accion.
 				opciones_opcional : {
-				    1 : {
-					"comandos" : {
-					    1 : "Si"                            
+					1 : {
+						"comandos" : {
+							1 : "Si"
+						}
+					},
+					2 : {
+						"comandos" : {
+							1 : "No"
+						}
 					}
-				    },
-				    2 : {
-					"comandos" : {
-					    1 : "No"                           
-					}
-				    }
 				}
 				bot.send_message(opciones_opcional)
 				send_choose_buttons(bot, cid, uid, game, opciones_opcional)
