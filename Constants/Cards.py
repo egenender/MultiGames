@@ -90,7 +90,7 @@ comandos = {
     },
 }
 
-opciones_opcional : {
+opciones_opcional = {
     1 : {
         "comandos" : {
             1 : "Si"
