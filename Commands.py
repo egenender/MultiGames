@@ -823,7 +823,7 @@ def command_swap_exploration(bot, update, args):
 		if len(args) < 2:
 			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
 			return			
-		if args[0] == "Si" or args[0] == "No":
+		if args[0] == "Sí" or args[0] == "No":
 			bot.send_message(cid, "Por favor haga el swap Manual y luego haga /continue")
 			after_command(bot, cid)
 		else:
