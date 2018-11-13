@@ -26,6 +26,9 @@ from io import BytesIO
 
 # Objetos que uso de prueba estaran en el state
 from Constants.Cards import cartas_aventura
+from Constants.Cards import opciones_opcional
+
+
 from Constants.Cards import comandos
 import random
 import re
@@ -79,19 +82,7 @@ def execute_actions(bot, cid, uid):
 			#bot.send_message(cid, "Es una accion opcional. El indice es %s" % str(index_opcion_actual))
 			if str(index_opcion_actual) == "0":
 				bot.send_message(cid, "Entrado en elegir si se hace o no la accion opcional")
-				# Mando una pregunta para elegir accion.
-				opciones_opcional : {
-					1 : {
-						"comandos" : {
-							1 : "Si"
-						}
-					},
-					2 : {
-						"comandos" : {
-							1 : "No"
-						}
-					}
-				}
+				# Mando una pregunta para elegir accion.				
 				bot.send_message(opciones_opcional)
 				send_choose_buttons(bot, cid, uid, game, opciones_opcional)
 				return
