@@ -80,7 +80,7 @@ def execute_actions(bot, cid, uid):
 			if str(index_opcion_actual) == "0":
 				bot.send_message(cid, "Entrado en elegir si se hace o no la accion opcional")
 				# Mando una pregunta para elegir accion.
-				opciones_accion_actual : {
+				opciones_opcional : {
 				    1 : {
 					"comandos" : {
 					    1 : "Si"                            
@@ -92,7 +92,8 @@ def execute_actions(bot, cid, uid):
 					}
 				    }
 				}
-				send_choose_buttons(bot, cid, uid, game, opciones_accion_actual)
+				bot.send_message(opciones_opcional)
+				send_choose_buttons(bot, cid, uid, game, opciones_opcional)
 				return
 			elif index_opcion_actual == 2:
 				# Si es no pongo la primera opcion y comando ridiculamente alto para terminar la accion.
