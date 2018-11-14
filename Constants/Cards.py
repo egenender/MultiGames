@@ -31,7 +31,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_gain_life",
         "indicacion" : "Elija a un explorador para ganar una vida",
-        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
     },
     "gain_skill" : {
         "tipo" : "final", # Comandos con final se ejecutan al terminar de resolver.
@@ -76,7 +76,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_life",
         "indicacion" : "Elija a un explorador para perder una vida",
-        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
     },
     "lose_food" : {
         "tipo" : "automatico",
@@ -86,7 +86,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_explorer",
         "indicacion" : "Elija a un explorador para morir",
-        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
     },
 }
 
