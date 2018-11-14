@@ -54,19 +54,19 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_camp",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Explorador Campero 1", "Explorador Brujula 2", "Explorador Hoja 2", "Usar carta skill"]
+        "indicacion_argumentos" : ["Explorador Campero 1", "Explorador Brujula 2", "Explorador Hoja 2"], "Usar carta skill"]
     },
     "lose_leaf" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_leaf",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Explorador Campero 2", "Explorador Brujula 2", "Explorador Hoja 1", "Usar carta skill"]
+        "indicacion_argumentos" : ["Explorador Campero 2", "Explorador Brujula 2", "Explorador Hoja 1"], "Usar carta skill"]
     },
     "lose_compass" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_compass",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Explorador Campero 2", "Explorador Brujula 1", "Explorador Hoja 2)", "Usar carta skill"]
+        "indicacion_argumentos" : ["Explorador Campero", "Explorador Brujula", "Explorador Hoja]", "Usar carta skill"]
     },
     "lose_bullet" : {
         "tipo" : "automatico", # Caso especial que no se puede elegir si no se tiene
