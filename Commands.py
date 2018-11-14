@@ -890,7 +890,11 @@ def command_remove_last_exploration(bot, update):
 		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
-		command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)])		
+		if len(game.board.cartasExplorationActual) == 1:
+			bot.send_message(cid, "No se puede quitar la ultima carta de exploración, considero ejecutada la acción.")
+			after_command(bot, cid)
+		else:
+			command_remove_exploration(bot, update, [len(game.board.cartasExplorationActual)])		
 		
 		
 # Resolver es basicamente remover pero la de mas a la izquierda.
