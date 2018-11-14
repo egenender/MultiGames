@@ -1194,3 +1194,26 @@ policies = [
         "fascist",
         "fascist"
     ]
+
+opciones_choose_posible_role = {
+    "Liberal" : {
+        "comandos" : {
+            1 : "Liberal"
+        }
+    },
+    "Fascista" : {
+        "comandos" : {
+            1 : "Fascista"
+        }
+    },
+    "Fascista" : {        
+        "comandos" : {
+            1 : "Hitler"
+        }
+    },
+    "Fascista o Hitler" : {        
+        "comandos" : {
+            1 : "Fascista o Hitler"
+        }
+    }
+}
