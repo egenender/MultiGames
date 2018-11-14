@@ -8,8 +8,8 @@ class Board(object):
         self.state = State()
         self.num_players = playercount
         #Lost Expedition
-        #self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
-        self.cartasAventura =[*cartas_aventura]
+        self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
+        #self.cartasAventura =[*cartas_aventura]
         self.cartasExplorationActual = []
         # Cantidad de veces que se mezclo el mazo.
         self.amount_shuffled = 0
