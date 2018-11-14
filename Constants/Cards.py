@@ -2107,7 +2107,7 @@ cartas_aventura_la_montaña = {
                 "opciones" : {
                     1 : {
                         "comandos" : {
-                            1 : "lose_camp"
+                            1 : "lose_camp",
                             2 : "gain_life"
                         }
                     }
