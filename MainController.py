@@ -66,16 +66,7 @@ def initialize_testdata():
 #
 ##
 
-def start_round(bot, game):        
-        Commands.save_game(game.cid, "Saved Round %d" % (game.board.state.currentround + 1), game)
-        log.info('start_round called')
-        # Starting a new round makes the current round to go up    
-        game.board.state.currentround += 1
-                
-        bot.send_message(game.cid, "Por favor, elijan su acción.")
-        call_to_action(bot, game)
-        # --> calltoaction --> chooseaction --> handle_voting --> count_votes --> voting_aftermath --> draw_policies
-        # --> choose_policy --> pass_two_policies --> choose_policy --> enact_policy --> start_round
+
 
 def call_to_action(bot, game):
         log.info('call_to_action called')
@@ -748,12 +739,51 @@ def print_player_info(player_number):
     elif player_number == 9:
         return "Hay 6 investigadores y 3 cultistas."
 
-def init_game(bot, game, cid, player_number):
+def init_game(bot, game):
         log.info('Game Init called')
-        inform_players(bot, game, cid, player_number)
-        inform_cultist(bot, game, player_number)
+        #TODO hacer que se verifique que tipo de juego se creo.
+        tipo = "Lost Expedition"        
+        
+        if tipo == "Lost Expedition":
+                init_lost_expedition(bot, game)
+
+def start_round(bot, game):        
+        log.info('start_round called')
         
         
+        '''
+        Commands.save_game(game.cid, "Saved Round %d" % (game.board.state.currentround + 1), game)        
+        # Starting a new round makes the current round to go up    
+        game.board.state.currentround += 1
+                
+        bot.send_message(game.cid, "Por favor, elijan su acción.")
+        call_to_action(bot, game)
+        '''
+        # --> calltoaction --> chooseaction --> handle_voting --> count_votes --> voting_aftermath --> draw_policies
+        # --> choose_policy --> pass_two_policies --> choose_policy --> enact_policy --> start_round
+                
+'''
+Solitario: 
+Dia: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano.
+Se ordenan por número.
+Resuelve.
+Pierde 1 comida.
+Noche: Primera de la mano. Poner de mazo o mano hasta completar 6.
+Se puede poner adelante o atras en la ruta.
+Resuelve.
+Pierde 1 comida. Ir a día.
+'''
+
+
+
+def init_lost_expedition(bot, game):
+        log.info('Game init_lost_expedition called')        
+        player_number = len(game.playerlist)
+        # Si es el juego en solitario:
+        # Como estoy probando los pasos iniciales del primer dia los hice y los continuaré aca.
+        if player_number == 1:
+                
+                
 def inform_players(bot, game, cid, player_number):
         log.info('inform_players called')
         bot.send_message(cid,
