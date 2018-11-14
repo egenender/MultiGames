@@ -77,6 +77,8 @@ def init_lost_expedition(bot, game):
         # Si es el juego en solitario:
         # Como estoy probando los pasos iniciales del primer dia los hice y los continuaré aca.
         if player_number == 1:
+                # Aca deberia preguntar dificultad y modulos a usar.
+                # Eso setearia la vida inicial y los personajes que tendria.                
                 player_number = 1
                 
 def start_round(bot, game):        
