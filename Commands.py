@@ -303,7 +303,7 @@ def command_resolve_exploration2(bot, update):
 			game.board.state.acciones_carta_actual = acciones
 			game.board.state.index_accion_actual = 1
 			bot.send_message(cid, "Se inicia la ejecución de la ruta si en algun momento las acciones o comandos no aumentan. Utilizar comando /continue en caso que se trabe y hasta terminar la carta.")
-			
+			showImages(bot, cid, [game.board.cartasExplorationActual[0]])
 			execute_actions(bot, cid, uid)
 			#except Exception as e:
 			#	bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
