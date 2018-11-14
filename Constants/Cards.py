@@ -4,11 +4,15 @@ remove_last_rute
 add_rute
 swap_rute
 
+scout_rute
+
 gain_life
 gain_skill
 gain_food
 gain_bullet
 gain_progreso
+
+gain_mark
 
 lose_camp
 lose_leaf
@@ -20,6 +24,7 @@ lose_food
 lose_life
 
 lose_explorer
+
 '''
 
 comandos = { 
@@ -42,7 +47,11 @@ comandos = {
         "comando" : "command_swap_exploration",
         "indicacion" : "¿Quiere intercambiar dos cartas de ruta?",
         "indicacion_argumentos" : ["Sí", "No"]
-    },    
+    },
+    "scout_rute" : {
+        "tipo" : "automatico",
+        "comando" : "command_scout_exploration"
+    },
     "gain_life" : {
         "tipo" : "indicaciones",
         "comando" : "command_gain_life",
@@ -65,6 +74,12 @@ comandos = {
     "gain_progreso" : {
         "tipo" : "automatico",
         "comando" : "command_increase_progreso"
+    },
+    "gain_mark" : {
+        "tipo" : "indicaciones",
+        "comando" : "command_gain_mark",
+        "indicacion" : "Elija a un explorador para ganar una marca",
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
     },
     "lose_camp" : {
         "tipo" : "indicaciones",
