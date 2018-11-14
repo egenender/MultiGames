@@ -345,8 +345,7 @@ def command_newgame_sql_command(bot, update, args):
 				bot.send_message(cid, 'No se obtuvo nada de la consulta')
 		except Exception as e:
 			bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
-
-	
+			conn.rollback()
 
 # The Lost Expedition
 # Generic commands for all games
@@ -1274,21 +1273,19 @@ def command_startgame(bot, update):
 	game = GamesController.games.get(cid, None)
 	if not game:
 		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
-	elif game.board:
-		bot.send_message(cid, "The game is already running!")
+	#elif game.board:
+	#	bot.send_message(cid, "The game is already running!")
 	elif update.message.from_user.id != game.initiator and bot.getChatMember(cid, update.message.from_user.id).status not in ("administrator", "creator"):
-		bot.send_message(game.cid, "Only the initiator of the game or a group admin can start the game with /startgame")
-	elif len(game.playerlist) < 5:
-		bot.send_message(game.cid, "There are not enough players (min. 5, max. 10). Join the game with /join")
-	else:
-		player_number = len(game.playerlist)
-		MainController.init_game(bot, game, game.cid, player_number)		
-		game.board = Board(player_number, game)
-		log.info(game.board)
-		log.info("len(games) Command_startgame: " + str(len(GamesController.games)))
-		game.shuffle_player_sequence()
-		game.board.state.player_counter = 0
-		bot.send_message(game.cid, game.board.print_board(game.playerlist))
+		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")	
+	else:		
+		MainController.init_game(bot, game)
+		
+		#game.board = Board(player_number, game)
+		#log.info(game.board)
+		#log.info("len(games) Command_startgame: " + str(len(GamesController.games)))
+		#game.shuffle_player_sequence()
+		#game.board.state.player_counter = 0
+		#bot.send_message(game.cid, game.board.print_board(game.playerlist))
 		#group_name = update.message.chat.title
 		#bot.send_message(ADMIN, "Game of Secret Hitler started in group %s (%d)" % (group_name, cid))		
 		#MainController.start_round(bot, game)
