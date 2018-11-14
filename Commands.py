@@ -372,13 +372,11 @@ def showImages(bot, cid, cartas):
 	bot.send_photo(cid, photo=bio)
 	
 def save(bot, cid):
-	try:
-		
-		groupName = "Prueba"
-		
+	try:		
+		#groupName = "Prueba"		
 		game = GamesController.games.get(cid, None)
 		gameType = 'LostExpedition'
-		save_game(cid,groupName , game, gameType )
+		save_game(cid, game.groupName, game, gameType )
 		#bot.send_message(cid, 'Se grabo correctamente.')
 		log.info('Se grabo correctamente.')
 	except Exception as e:
@@ -441,13 +439,14 @@ def command_newgame_lost_expedition(bot, update):
 	cid = update.message.chat_id
 	fname = update.message.from_user.first_name
 	uid = update.message.from_user.id
+	groupName = update.message.chat.title
 	try:
 		game = get_game(cid)
 		if game:
 			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 		else:
 			# Creo el juego si no esta.
-			game = Game(cid, update.message.from_user.id, "solitario")
+			game = Game(cid, update.message.from_user.id, "solitario", groupName)
 			GamesController.games[cid] = game
 			# Creo el jugador que creo el juego y lo agrego al juego
 			player = Player(fname, uid)
