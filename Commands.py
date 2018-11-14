@@ -1732,6 +1732,19 @@ def command_startgame_secret_moon(bot, update):
 		#save_game(cid, groupName, game)
 
 # End Secret Moon
+def command_choose_posible_role(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	choose_posible_role(bot, cid, uid)
+def choose_posible_role(bot, cid, uid):
+	multipurpose_choose_buttons(bot, cid, uid, "chooserole", "¿Qué rol quisieras ser?", opciones_choose_posible_role)
+def callback_choose_posible_role(bot, update):
+	callback = update.callback_query
+	log.info('callback_choose_posible_role called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+	bot.edit_message_text("Mensaje Editado: Has elegido el Rol: %s" % opcion, cid, callback.message.message_id)
+	bot.send_message(cid, "Ventana Juego: Has elegido el Rol %s" % opcion)
+	bot.send_message(uid, "Ventana Usuario: Has elegido el Rol %s" % opcion)	
 
 def multipurpose_choose_buttons(bot, cid, uid, comando, mensaje_pregunta, opciones_botones):
 	sleep(3)
@@ -1749,18 +1762,8 @@ def multipurpose_choose_buttons(bot, cid, uid, comando, mensaje_pregunta, opcion
 	#for uid in game.playerlist:
 	bot.send_message(cid, mensaje_pregunta, reply_markup=btnMarkup)
 
-def callback_choose_posible_role(bot, update):
-	callback = update.callback_query
-	log.info('callback_choose_posible_role called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-	bot.edit_message_text("Mensaje Editado: Has elegido el Rol: %s" % opcion, cid, callback.message.message_id)
-	bot.send_message(cid, "Ventana Juego: Has elegido el Rol %s" % opcion)
-	bot.send_message(uid, "Ventana Usuario: Has elegido el Rol %s" % opcion)	
 	
-def choose_posible_role(bot, cid, uid):
-	multipurpose_choose_buttons(bot, cid, uid, "chooserole", "¿Qué rol quisieras ser?", opciones_choose_posible_role)
+	
 
-def command_choose_posible_role(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id
-	multipurpose_choose_buttons(bot, cid, uid)
+
+
