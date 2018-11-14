@@ -2062,8 +2062,393 @@ cartas_aventura = {
     },    
 }
 
+cartas_aventura_la_montaña = {
+    1 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    2 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_camp"
+                            2 : "gain_life"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    3 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "nothing"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    4 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    5 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_bullet"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "gain_food",
+                            2 : "gain_food"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    6 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "nothing"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    7 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "scout_rute",
+                            2 : "add_rute"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    8 : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "scout_rute"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "Cima" : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "scout_rute"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "Campamentos Base" : {
+        "nombre" : "Carta",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_food"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
-
+cartas_aventura_la_marca = {    
+    11.5 : {
+        "nombre" : "Talisman",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill",
+                            2 : "gain_mark"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    31.5 : {
+        "nombre" : "Pozo",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_mark"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "gain_food"                         
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_leaf"                      
+                        }
+                    }
+                }
+            }
+        }
+    },
+    34.5 : {
+        "nombre" : "Charco De Sangre",
+        "plastilla" : "1",
+        "fila" : "0",
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_leaf"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "remove_rute"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "swap_rute",
+                            2 : "gain_mark"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    39.5 : {
+        "nombre" : "Reflejo Oscuro",
+        "plastilla" : "1",
+        "fila" : "0",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "remove_last_rute",
+                            2 : "remove_last_rute"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_progreso"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_mark"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    47.5 : {
+        "nombre" : "Pidra En Pie",
+        "plastilla" : "1",
+        "fila" : "0",
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill"                      
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_mark"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_leaf"
+                        }
+                    }
+                }            
+            }
+        }
+    },
+    48.5 : {
+        "nombre" : "Siervo",
+        "plastilla" : "2",
+        "fila" : "0",
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "remove_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_mark"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 cartas_aventura_fuente_juventud = {
     7.5 : {
