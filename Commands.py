@@ -625,11 +625,11 @@ def command_lose_life(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		if args[0] == "Explorador Campero":
+		if args[0] == "Campero":
 			player.vida_explorador_campero  -=1;
-		if args[0] == "Explorador Brujula":
+		if args[0] == "Brujula":
 			player.vida_explorador_brujula  -=1;
-		if args[0] == "Explorador Hoja":
+		if args[0] == "Hoja":
 			player.vida_explorador_hoja  -=1;		
 		#Command_showstats(bot, update)
 		after_command(bot, cid)
@@ -645,11 +645,11 @@ def command_gain_life(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		if args[0] == "Explorador Campero":
+		if args[0] == "Campero":
 			player.vida_explorador_campero  +=1;
-		if args[0] == "Explorador Brujula":
+		if args[0] == "Brujula":
 			player.vida_explorador_brujula  +=1;
-		if args[0] == "Explorador Hoja":
+		if args[0] == "Hoja":
 			player.vida_explorador_hoja  +=1;		
 		
 		after_command(bot, cid)
@@ -1081,13 +1081,13 @@ def command_lose_explorer(bot, update, args):
 	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args[0] == "Explorador Campero":
+	if args[0] == "Campero":
 		player.vida_explorador_campero  = 0;
 		after_command(bot, cid)
-	if args[0] == "Explorador Brujula":
+	if args[0] == "Brujula":
 		player.vida_explorador_brujula  = 0;
 		after_command(bot, cid)
-	if args[0] == "Explorador Hoja":
+	if args[0] == "Hoja":
 		player.vida_explorador_hoja  = 0;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
