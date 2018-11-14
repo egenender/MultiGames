@@ -168,6 +168,8 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		for comando in comando_op["comandos"]:
 			txtBoton += comando_op["comandos"][comando] + " "			
 		txtBoton = txtBoton[:-1]
+		if len(txtBoton) > 15:
+			txtBoton = txtBoton[:15]		
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
