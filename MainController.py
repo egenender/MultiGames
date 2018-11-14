@@ -52,6 +52,37 @@ cur.execute(query)
 
 debugging = False
 
+'''
+Solitario: 
+Dia: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano.
+Se ordenan por número.
+Resuelve.
+Pierde 1 comida.
+Noche: Primera de la mano. Poner de mazo o mano hasta completar 6.
+Se puede poner adelante o atras en la ruta.
+Resuelve.
+Pierde 1 comida. Ir a día.
+'''
+
+def init_game(bot, game):
+        log.info('Game Init called')
+        #TODO hacer que se verifique que tipo de juego se creo.
+        tipo = "Lost Expedition"        
+        if tipo == "Lost Expedition":
+                init_lost_expedition(bot, game)
+
+def init_lost_expedition(bot, game):
+        log.info('Game init_lost_expedition called')        
+        player_number = len(game.playerlist)
+        # Si es el juego en solitario:
+        # Como estoy probando los pasos iniciales del primer dia los hice y los continuaré aca.
+        if player_number == 1:
+                player_number = 1
+                
+def start_round(bot, game):        
+        log.info('start_round called')
+
+
 def initialize_testdata():
     # Sample game for quicker tests
     testgame = Game(-1001113216265, 15771023)
@@ -739,16 +770,7 @@ def print_player_info(player_number):
     elif player_number == 9:
         return "Hay 6 investigadores y 3 cultistas."
 
-def init_game(bot, game):
-        log.info('Game Init called')
-        #TODO hacer que se verifique que tipo de juego se creo.
-        tipo = "Lost Expedition"        
-        
-        if tipo == "Lost Expedition":
-                init_lost_expedition(bot, game)
 
-def start_round(bot, game):        
-        log.info('start_round called')
         
         
         '''
@@ -762,26 +784,10 @@ def start_round(bot, game):
         # --> calltoaction --> chooseaction --> handle_voting --> count_votes --> voting_aftermath --> draw_policies
         # --> choose_policy --> pass_two_policies --> choose_policy --> enact_policy --> start_round
                 
-'''
-Solitario: 
-Dia: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano.
-Se ordenan por número.
-Resuelve.
-Pierde 1 comida.
-Noche: Primera de la mano. Poner de mazo o mano hasta completar 6.
-Se puede poner adelante o atras en la ruta.
-Resuelve.
-Pierde 1 comida. Ir a día.
-'''
 
 
 
-def init_lost_expedition(bot, game):
-        log.info('Game init_lost_expedition called')        
-        player_number = len(game.playerlist)
-        # Si es el juego en solitario:
-        # Como estoy probando los pasos iniciales del primer dia los hice y los continuaré aca.
-        if player_number == 1:
+
                 
                 
 def inform_players(bot, game, cid, player_number):
