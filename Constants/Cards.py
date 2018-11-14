@@ -1878,7 +1878,7 @@ cartas_aventura = {
                     1 : {
                         "comandos" : {
                             1 : "lose_life",
-                            2 : "lose_food"
+                            2 : "lose_food",
                             3 : "swap_rute"
                         }
                     }
@@ -1913,7 +1913,7 @@ cartas_aventura = {
                     1 : {
                         "comandos" : {
                             1 : "lose_life",
-                            2 : "lose_food"
+                            2 : "lose_food",
                             3 : "remove_last_rute"
                         }
                     }
@@ -2010,7 +2010,7 @@ cartas_aventura = {
                     1 : {
                         "comandos" : {
                             1 : "add_rute",
-                            2 : "add_rute"
+                            2 : "add_rute",
                             3 : "swap_rute"
                         }
                     }
