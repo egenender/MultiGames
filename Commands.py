@@ -911,7 +911,7 @@ def command_gain_skill(bot, update, args):
 		item_to_remove = 0		
 		player.skills.append(game.board.cartasExplorationActual.pop(item_to_remove))
 		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
-		after_ruta_achicada(bot, update)
+		after_ruta_achicada(bot, cid, uid)
 		after_command(bot, cid)
 		#command_show_exploration(bot, update)
 		
