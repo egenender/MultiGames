@@ -1396,123 +1396,653 @@ cartas_aventura = {
         "nombre" : "Pantera Negra",
         "plastilla" : "5",
         "fila" : "2",
-        "columna" : "0"
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "gain_food"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "lose_food",
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life",
+                        }
+                    }
+                }
+            }
+        }        
     },
     40.5 : {
         "nombre" : "¡Idolo De Oro!",
         "plastilla" : "5",
         "fila" : "2",
-        "columna" : "1"
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "gain_skill"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "lose_food",
+                            3 : "gain_life",
+                            4 : "gain_life"
+                        }
+                    }
+                }
+            }
+        }
     },
     41 : {
         "nombre" : "Pecarí",
         "plastilla" : "5",
         "fila" : "2",
-        "columna" : "2"
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill",
+                            2 : "remove_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_leaf",
+                            2 : "gain_food",
+                            3 : "gain_food",
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "gain_food",
+                            3 : "gain_food",
+                        }
+                    }
+                }
+            }
+        }        
     },
     42 : {
         "nombre" : "Awa",
         "plastilla" : "6",
         "fila" : "0",
-        "columna" : "0"
-        
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "gain_life"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "gain_progreso"
+                        }
+                    }
+                }
+            }
+        }                
     },
     43 : {
         "nombre" : "Fiebre",
         "plastilla" : "6",
         "fila" : "0",
-        "columna" : "1"
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "swap_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_camp"
+                        }
+                    }
+                }
+            }
+        }
     },
     44 : {
         "nombre" : "HI'AITO'IHI",
         "plastilla" : "6",
         "fila" : "0", 
-        "columna" : "2"
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "lose_life",
+                            3 : "gain_progreso"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "gain_progreso"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_skill"
+                        }
+                    }
+                }
+            }
+        } 
     },
     45 : {
         "nombre" : "Hierba Mora",
         "plastilla" : "6",
         "fila" : "1", 
-        "columna" : "0"
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "swap_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_leaf"
+                        }
+                    }
+                }
+            }
+        }
     },
     46 : {
         "nombre" : "Refugio Abandonado",
         "plastilla" : "6",
         "fila" : "1", 
-        "columna" : "1"
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_bullet",
+                            2 : "gain_bullet"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "gain_life",
+                            2 : "gain_skill"
+                        }
+                    }
+                }
+            }
+        }
     },
     47 : {
         "nombre" : "Árbol Kapok",
         "plastilla" : "6",
         "fila" : "1", 
-        "columna" : "2"
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "gain_skill"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_compass",
+                            2 : "gain_life",
+                            3 : "remove_last_rute"
+                        }
+                    }
+                }
+            }
+        }
     },
     48 : {
         "nombre" : "Posición Ventajosa",
         "plastilla" : "6",
         "fila" : "2", 
-        "columna" : "0"
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "swap_rute",
+                            3 : "gain_skill"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "gain_food"
+                        }
+                    }
+                }
+            }
+        }
     },
     49 : {
         "nombre" : "Tapirape",
         "plastilla" : "6",
         "fila" : "2", 
-        "columna" : "1"
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_leaf",
+                            2 : "gain_progreso"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_compass",
+                            2 : "gain_skill"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_leaf",
+                            2 : "gain_life"
+                        }
+                    }
+                }
+            }
+        }
     },
     50 : {
         "nombre" : "Puente De Cuerda",
         "plastilla" : "6",
         "fila" : "2", 
-        "columna" : "2"
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "swap_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_compass",
+                            2 : "gain_progreso"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "gain_progreso",
+                            2 : "lose_explorer"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "add_rute"
+                        }
+                    }
+                }
+            }
+        } 
     },
     50.5 : {
         "nombre" : "¡Chicas Listas!",
         "plastilla" : "7",
         "fila" : "0", 
-        "columna" : "0"
-        
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_skill"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "lose_bullet"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "lose_life"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_compass",
+                            2 : "lose_camp",
+                            3 : "lose_bullet"
+                        }
+                    }
+                }
+            }
+        } 
     },
     51 : {
         "nombre" : "Mono",
         "plastilla" : "7",
         "fila" : "0", 
-        "columna" : "1"
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "gain_skill"
+                        }
+                    }
+                }
+            }
+        }
     },
     52 : {
         "nombre" : "Deplome De Terraplén",
         "plastilla" : "7",
         "fila" : "0", 
-        "columna" : "2"   
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_food"
+                            3 : "swap_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_camp"
+                        }
+                    }
+                }
+            }
+        } 
     },
     53 : {
         "nombre" : "Sanguijuelas",
         "plastilla" : "7",
         "fila" : "1", 
-        "columna" : "0"    
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_food"
+                            3 : "remove_last_rute"
+                        }
+                    }
+                }
+            }
+        }
     },
     54 : {
         "nombre" : "Deshidratación",
         "plastilla" : "7",
         "fila" : "1", 
-        "columna" : "1"     
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_camp",
+                            2 : "lose_camp"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "add_rute",
+                            2 : "add_rute"
+                        }
+                    }
+                }
+            }
+        } 
     },
     55 : {
         "nombre" : "Suministros Estropeados",
         "plastilla" : "7",
         "fila" : "1", 
-        "columna" : "2"    
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food"
+                        }
+                    }
+                }
+            }
+        } 
     },
     56 : {
         "nombre" : "Pantano",
         "plastilla" : "7",
         "fila" : "2", 
-        "columna" : "0"     
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_compass"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life"
+                        }
+                    }
+                }
+            }
+        }
     },
     99.5 : {
         "nombre" : "¡Trampa Antigua!",
         "plastilla" : "7",
         "fila" : "2", 
-        "columna" : "1"     
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute",
+                            2 : "add_rute"
+                            3 : "swap_rute"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "gain_progreso",
+                            3 : "gain_progreso",
+                            4 : "gain_progreso"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "gain_progreso"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life",
+                            3 : "gain_progreso",
+                            4 : "gain_progreso"
+                        }
+                    }
+                }
+            }
+        }        
     },    
 }
 
