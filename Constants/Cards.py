@@ -93,12 +93,12 @@ comandos = {
 opciones_opcional = {
     1 : {
         "comandos" : {
-            1 : "Si"
+            1 : "Realizar acción opcional"
         }
     },
     2 : {
         "comandos" : {
-            1 : "No"
+            1 : "No hacer acción opcional"
         }
     }
 }
