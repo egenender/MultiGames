@@ -66,7 +66,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_compass",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Explorador Camperoro", "Explorador Brujularo", "Explorador Hojaro", "Usar carta skill"]
+        "indicacion_argumentos" : ["Explorador Camperor", "Explorador Brujular", "Explorador Hojar", "Usar carta skill"]
     },
     "lose_bullet" : {
         "tipo" : "automatico", # Caso especial que no se puede elegir si no se tiene
