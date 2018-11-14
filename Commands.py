@@ -157,6 +157,7 @@ def execute_actions(bot, cid, uid):
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 
 		
+
 def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 	sleep(3)
 	strcid = str(game.cid)
@@ -171,27 +172,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-		#ot.send_message(cid, datos)					
-		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-	btnMarkup = InlineKeyboardMarkup(btns)
-	#for uid in game.playerlist:
-	bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
-		
-def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
-	sleep(3)
-	strcid = str(game.cid)
-	btns = []
-	# Creo los botones para elegir al usuario
-	for opcion_comando in opciones_accion_actual:
-		txtBoton = ""
-		comando_op = opciones_accion_actual[opcion_comando]								
-		for comando in comando_op["comandos"]:
-			txtBoton += comando_op["comandos"][comando] + " "			
-		txtBoton = txtBoton[:-1]
-		#txtBoton = "%s" % (opcion_comando)
-		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
-		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-		bot.send_message(cid, datos)					
+		#t.send_message(cid, datos)					
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
@@ -211,7 +192,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-		bot.send_message(cid, datos)					
+		#ot.send_message(cid, datos)					
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
@@ -321,7 +302,7 @@ def command_resolve_exploration2(bot, update):
 			# Seteo los indices, las acciones siempre empiezan en 1
 			game.board.state.acciones_carta_actual = acciones
 			game.board.state.index_accion_actual = 1
-			bot.send_message(cid, "Se inicia la ejecución de la ruta si en algun momento alguna carta no dice: Utilizar comando /continue en caso que se trabe y hasta terminar la carta.")
+			bot.send_message(cid, "Se inicia la ejecución de la ruta si en algun momento las acciones o comandos no aumentan. Utilizar comando /continue en caso que se trabe y hasta terminar la carta.")
 			
 			execute_actions(bot, cid, uid)
 			#except Exception as e:
