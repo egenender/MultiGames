@@ -980,6 +980,11 @@ def main():
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
         
+        
+        # Pruebas SH
+        dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
+        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
+        
         # log all errors
         dp.add_error_handler(error)
 
