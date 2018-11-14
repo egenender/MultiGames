@@ -108,7 +108,7 @@ def execute_actions(bot, cid, uid):
 				game.board.state.comando_realizado = False			
 				
 			index_comando_actual = game.board.state.index_comando_actual
-			bot.send_message(cid, "index_opcion_actual init %s/%s" % (str(index_comando_actual), str(len(comandos_opcion_actual))))
+			bot.send_message(cid, "Realizando comando %s/%s de la accion %s" % (str(index_comando_actual), str(len(comandos_opcion_actual)), game.board.state.index_accion_actual))
 			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
 			if index_comando_actual > len(comandos_opcion_actual):
 				# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
@@ -133,44 +133,7 @@ def execute_actions(bot, cid, uid):
 					return
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
-					execute_actions(bot, cid, uid)					
-					
-					'''
-					if tipo_accion_actual == "opcional":
-						# Si todavia no hemos elegido si hacerla... pregunto
-						if game.board.state.estado_accion_opcional == 0:
-																					
-						elif game.board.state.estado_accion_opcional == -1:
-							# si se dice que no...
-							# pongo un numero ridiculo de index_comando_actual para que saltee la accion
-							game.board.state.index_comando_actual = 99
-							execute_actions(bot, cid, uid)
-						else:
-							# Si se dice que si se ejecuta
-							execute_actions(bot, cid, uid)
-					else:
-					'''
-						
-					'''opciones : {
-					    1 : {
-						"comandos" : {
-						    1 : "gain_skill"
-						}
-					    },
-					    2 : {
-						"comandos" : {
-						    1 : "remove_rute"                           
-						}
-					    },
-					    3 : {
-						"comandos" : {
-						    1 : "gain_skill"                          
-						}
-					    }
-					}
-					'''
-							
-										
+					execute_actions(bot, cid, uid)		
 			else:
 				#Antes de comenzar a ejecutar comandos 
 				
@@ -183,7 +146,7 @@ def execute_actions(bot, cid, uid):
 					comando_actual = comandos_opcion_actual[index_comando_actual]
 				except Exception as e:
 					comando_actual = comandos_opcion_actual[str(index_comando_actual)]
-				bot.send_message(cid, "Comando a executar %s" % comando_actual )
+				#t.send_message(cid, "Comando a executar %s" % comando_actual )
 				comando = comandos[comando_actual]
 				iniciar_ejecucion_comando(bot, cid, uid, comando)
 		else:
@@ -208,7 +171,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-		bot.send_message(cid, datos)					
+		#ot.send_message(cid, datos)					
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
