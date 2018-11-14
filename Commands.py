@@ -61,7 +61,7 @@ def execute_actions(bot, cid, uid):
 	if game is not None:
 		sleep(2)
 		#try:
-		bot.send_message(cid, "Init Execute Actions")		
+		#ot.send_message(cid, "Init Execute Actions")		
 		acciones = game.board.state.acciones_carta_actual		
 		index_accion_actual = game.board.state.index_accion_actual
 		try:
@@ -77,11 +77,11 @@ def execute_actions(bot, cid, uid):
 			index_opcion_actual = 1
 			
 		# Si el tipo_accion_actual es opcional y es la primera vez que entra...
-		bot.send_message(cid, "La accion que se esta ejecutando es de tipo %s" % tipo_accion_actual)
+		#t.send_message(cid, "La accion que se esta ejecutando es de tipo %s" % tipo_accion_actual)
 		if tipo_accion_actual == "opcional":
 			#bot.send_message(cid, "Es una accion opcional. El indice es %s" % str(index_opcion_actual))
 			if str(index_opcion_actual) == "0":
-				bot.send_message(cid, "Entrado en elegir si se hace o no la accion opcional")
+				#ot.send_message(cid, "Entrado en elegir si se hace o no la accion opcional")
 				# Mando una pregunta para elegir accion.				
 				#bot.send_message(opciones_opcional)
 				send_choose_buttons(bot, cid, uid, game, opciones_opcional)
