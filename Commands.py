@@ -1014,13 +1014,13 @@ def command_lose_camp(bot, update, args):
 	game, player = get_base_data2(cid, uid)	
 	if game is None:
 		return
-	if args[0] == "Explorador Campero":
+	if args[0] == "Campero -1❤️":
 		player.vida_explorador_campero  -=1;
 		after_command(bot, cid)
-	if args[0] == "Explorador Brujula":
+	if args[0] == "Brujula -2❤️":
 		player.vida_explorador_brujula  -=2;
 		after_command(bot, cid)
-	if args[0] == "Explorador Hoja":
+	if args[0] == "Hoja -2❤️":
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
@@ -1035,13 +1035,13 @@ def command_lose_compass(bot, update, args):
 	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args[0] == "Explorador Campero":
+	if args[0] == "Campero -2❤️":
 		player.vida_explorador_campero  -=2;
 		after_command(bot, cid)
-	if args[0] == "Explorador Brujula":
+	if args[0] == "Brujula -1❤️":
 		player.vida_explorador_brujula  -=1;
 		after_command(bot, cid)
-	if args[0] == "Explorador Hoja":
+	if args[0] == "Hoja -2❤️":
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
@@ -1056,13 +1056,13 @@ def command_lose_leaf(bot, update, args):
 	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args[0] == "Explorador Campero":
+	if args[0] == "Campero -2❤️":
 		player.vida_explorador_campero  -=2;
 		after_command(bot, cid)
-	if args[0] == "Explorador Brujula":
+	if args[0] == "Brujula -2❤️":
 		player.vida_explorador_brujula  -=2;
 		after_command(bot, cid)
-	if args[0] == "Explorador Hoja":
+	if args[0] == "Hoja -1❤️":
 		player.vida_explorador_hoja  -=1;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
