@@ -1,9 +1,25 @@
 '''
-Crear comandos:
-command_lose_camp
-command_lose_compass
-command_lose_leaf
-command_lose_explorer "lose_explorer",
+remove_rute
+remove_last_rute
+add_rute
+swap_rute
+
+gain_life
+gain_skill
+gain_food
+gain_bullet
+gain_progreso
+
+lose_camp
+lose_leaf
+lose_compass
+
+lose_bullet
+lose_food
+
+lose_life
+
+lose_explorer
 '''
 
 comandos = { 
