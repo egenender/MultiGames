@@ -89,6 +89,7 @@ def execute_actions(bot, cid, uid):
 			elif index_opcion_actual == 2:
 				# Si es no pongo la primera opcion y comando ridiculamente alto para terminar la accion.
 				game.board.state.index_opcion_actual = 1
+				index_opcion_actual = 1
 				game.board.state.index_comando_actual = 99									
 			
 		# Si el jugador ya eligio opcion.
