@@ -1746,7 +1746,7 @@ def callback_choose_posible_role(bot, update):
 	bot.send_message(cid, "Ventana Juego: Has elegido el Rol %s" % opcion)
 	bot.send_message(uid, "Ventana Usuario: Has elegido el Rol %s" % opcion)	
 
-def multipurpose_choose_buttons(bot, cid, uid, comando, mensaje_pregunta, opciones_botones):
+def multipurpose_choose_buttons(bot, cid, uid, comando_callback, mensaje_pregunta, opciones_botones):
 	sleep(3)
 	btns = []
 	# Creo los botones para elegir al usuario
@@ -1756,7 +1756,7 @@ def multipurpose_choose_buttons(bot, cid, uid, comando, mensaje_pregunta, opcion
 		for comando in comando_op["comandos"]:
 			txtBoton += comando_op["comandos"][comando] + " "			
 		txtBoton = txtBoton[:-1]
-		datos = str(cid) + "*" + comando + "*" + str(opcion) + "*" + str(uid)
+		datos = str(cid) + "*" + comando_callback + "*" + str(opcion) + "*" + str(uid)
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
