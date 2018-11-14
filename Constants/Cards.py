@@ -2047,6 +2047,358 @@ cartas_aventura = {
 }
 
 
+
+
+cartas_aventura_fuente_juventud = {
+    7.5 : {
+        "nombre" : "Naufragio",
+        "plastilla" : "2",
+        "fila" : "0",
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_bullet"
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "gain_bullet"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    8.5 : {
+        "nombre" : "Cubrir Huellas",
+        "plastilla" : "2",
+        "fila" : "0",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute"                        
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute",
+                            2 : "swap_rute"
+                        }
+                    }
+                }
+            }
+        } 
+    },
+    16.5 : {
+        "nombre" : "Escondido",
+        "plastilla" : "2",
+        "fila" : "0",
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_leaf",
+                            2 : "remove_rute",
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "opcional",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_leaf",
+                            2 : "remove_rute"
+                        }
+                    }
+                }
+            }
+        }        
+    },
+    19.5 : {
+        "nombre" : "¡Carga!",
+        "plastilla" : "1",
+        "fila" : "2",
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet"                      
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "remove_rute"
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    23.5 : {
+        "nombre" : "De Orellana",
+        "plastilla" : "1",
+        "fila" : "2",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "remove_last_rute"                    
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "add_rute"                         
+                        }
+                    }
+                }
+            }
+        }
+    },
+    24.5 : {
+        "nombre" : "Salvado Por Los Pelos",
+        "plastilla" : "1",
+        "fila" : "2",
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "add_rute",
+                            2 : "add_rute"                            
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_compass"                    
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "remove_rute",
+                            3 : "remove_rute"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    26.5 : {
+        "nombre" : "¡Rodeados!",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_bullet",
+                            2 : "lose_bullet"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    33.5 : {
+        "nombre" : "Cazado",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria", # si es de tipo opcional se puede obviar de hacerla
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_food"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "gain_progreso",
+                            2 : "lose_explorer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    43.5 : {
+        "nombre" : "Asalto",
+        "plastilla" : "1",
+        "fila" : "1",
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_camp",
+                            2 : "add_rute"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_life",
+                            2 : "lose_life"                         
+                        }
+                    },
+                    3 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "swap_rute"                         
+                        }
+                    }
+                }
+            }
+        }
+    },
+    44.5 : {
+        "nombre" : "¡Capturado!",
+        "plastilla" : "1",
+        "fila" : "0",
+        "columna" : "2",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_food",
+                            2 : "lose_food",
+                            3 : "lose_food"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "lose_explorer"                         
+                        }
+                    }
+                }
+            }
+        }
+    },
+    52.5 : {
+        "nombre" : "El Templo",
+        "plastilla" : "1",
+        "fila" : "0",
+        "columna" : "1",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_leaf"                            
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "remove_last_rute",
+                            2 : "add_rute"
+                        }
+                    },
+                    2 : {
+                        "comandos" : {
+                            1 : "swap_rute"                           
+                        }
+                    }
+                }
+            }
+        }
+    },
+    56.5 : {
+        "nombre" : "La Fuente",
+        "plastilla" : "1",
+        "fila" : "0",
+        "columna" : "0",
+        "acciones" : {
+            1 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "gain_life",
+                            2 : "swap_rute"                         
+                        }
+                    }
+                }
+            },
+            2 : {
+                "tipo" : "obligatoria",
+                "opciones" : {
+                    1 : {
+                        "comandos" : {
+                            1 : "lose_explorer",
+                            2 : "gain_life",
+                            3 : "gain_life",
+                            4 : "gain_life",
+                            5 : "gain_life"
+                        }
+                    }
+                }            
+            }
+        }
+    }
+}
+
 actions = {
     "Ver" : {
         "costo" : "2",
