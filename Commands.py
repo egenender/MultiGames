@@ -270,10 +270,14 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 				#ot.send_message(cid, datos)	
 				buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
+				# Agrupo en grupos de 3
 				if (i % 3 ==0):
 					btns.append(buttonGroup)
 					buttonGroup = []
 				i += 1
+			# Pongo el resto que haya quedado 1 o 2 elementos
+			if len(buttonGroup) > 0:
+				btns.append(buttonGroup)
 			btnMarkup = InlineKeyboardMarkup(btns)
 		else:
 			for argumento in comando["indicacion_argumentos"]:
