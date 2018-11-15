@@ -156,6 +156,7 @@ modos_juego = {
         "worflow" : {
             "dia" : {
                 "1" : {
+                    "tipo" : "obligatoria",
                     "opciones" : {
                         1 : {
                             # Primero se reparten 6 cartas al jugador
@@ -167,6 +168,7 @@ modos_juego = {
                     }
                 },
                 "2" : {
+                    "tipo" : "obligatoria",
                     "opciones" : {
                         1 : {
                             # Luego se agregan 2 cartas a la ruta desde el mazo.
@@ -178,6 +180,7 @@ modos_juego = {
                     }
                 },
                 "3" : {
+                    "tipo" : "obligatoria",
                     "opciones" : {
                         1 : {
                             # Se le pide al usuario agregar de su mano 2 cartas
@@ -190,6 +193,7 @@ modos_juego = {
                 
                 },
                 "4" : {
+                    "tipo" : "obligatoria",
                     "opciones" : {
                         1 : {
                             # Luego se agregan 1 cartas a la ruta desde el mazo.
@@ -201,6 +205,7 @@ modos_juego = {
                     }                
                 },
                 "5" : {
+                    "tipo" : "obligatoria",
                     "opciones" : {
                         1 : {
                             # Se le pide al usuario agregar de su mano 1 carta
@@ -215,6 +220,7 @@ modos_juego = {
             },
             "noche" : {                
                 "1" : {
+                    "tipo" : "obligatoria",
                     "opciones" : {
                         1 : {
                             # Primera carta se pone de la mano
@@ -226,6 +232,7 @@ modos_juego = {
                     }
                 },
                 "2" : {
+                    "tipo" : "obligatoria",
                     "inicio" : {
                         "setatribute" : {
                             1 : ["state", "cartas_agregadas_deck", 0]
