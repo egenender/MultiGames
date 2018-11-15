@@ -520,7 +520,7 @@ def command_drawcard(bot, update, args):
 		#cid = '-1001206290323'
 		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
-		command_showhand(bot, update, [None, cid, uid])
+		#command_showhand(bot, update, [None, cid, uid])
 		after_command(bot, cid)
 		
 def command_showhand(bot, update, args):	
