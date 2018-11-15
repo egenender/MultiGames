@@ -119,6 +119,20 @@ comandos = {
         "indicacion" : "Elija a un explorador para morir",
         "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
     },
+    
+    
+    "add_rute_hand" : {
+        "tipo" : "indicaciones",
+        "comando" : "command_add_exploration",
+        "indicacion" : "Elija un carta para agregar a la ruta.",
+        "indicacion_argumentos" : []
+    },
+    "draw_card" : {
+        "tipo" : "indicaciones",
+        "comando" : "command_drawcard"        
+    },
+    
+    command_drawcard
 }
 
 opciones_opcional = {
@@ -132,6 +146,123 @@ opciones_opcional = {
             1 : "No hacer acción opcional"
         }
     }
+}
+
+modos_juego = {
+    "solitario" : {
+        "setup" : {
+            "municion" : 3,
+            "comida" : 3,
+            "salud_inicial" : 3
+        },
+        "worflow" : {
+            "dia" : {
+                "1" : {
+                    "opciones" : {
+                        1 : {
+                            # Primero se reparten 6 cartas al jugador
+                            "comandos" : {
+                                1 : "draw_card"
+                            },
+                            "comando_argumentos" : [6]
+                        }
+                    }
+                },
+                "2" : {
+                    "opciones" : {
+                        1 : {
+                            # Luego se agregan 2 cartas a la ruta desde el mazo.
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [2]
+                        }
+                    }
+                },
+                "3" : {
+                    "opciones" : {
+                        1 : {
+                            # Se le pide al usuario agregar de su mano 2 cartas
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [2]
+                        }
+                    }
+                
+                },
+                "4" : {
+                    "opciones" : {
+                        1 : {
+                            # Luego se agregan 1 cartas a la ruta desde el mazo.
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [2]
+                        }
+                    }                
+                },
+                "5" : {
+                    "opciones" : {
+                        1 : {
+                            # Se le pide al usuario agregar de su mano 1 carta
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [2]
+                        }
+                    }                
+                },
+                "sort" : "Ascendente"                
+            },
+            "noche" : {                
+                "1" : {
+                    "opciones" : {
+                        1 : {
+                            # Primera carta se pone de la mano
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [1]
+                        }
+                    }
+                },
+                "2" : {
+                    "opciones" : {
+                        1 : {
+                            # Luego se agregan cartas hasta completar la ruta de 6
+                            "text_boton" : "Agregar del mazo",
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1, "Inicio", "Final"]
+                        },
+                        2 : {
+                            # Luego se agregan 2 cartas a la ruta desde el mazo.
+                            "text_boton" : "Agregar de la mano",
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [1, "Inicio", "Final"]
+                        }
+                    }
+                }
+            }        
+        }
+    },
+    '''
+    "cooperativo" : {
+        "worflow" : {
+        
+        }
+    
+    },
+    "competitivo" : {
+        "worflow" : {
+        
+        }    
+    }
+    '''
 }
 
 cartas_aventura = {
