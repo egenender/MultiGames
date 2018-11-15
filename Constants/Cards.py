@@ -125,7 +125,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_add_exploration",
         "indicacion" : "Elija un carta para agregar a la ruta.",
-        "indicacion_argumentos" : []
+        "indicacion_argumentos" : ["player.hand"]
     },
     "draw_card" : {
         "tipo" : "automatico",
@@ -187,7 +187,7 @@ modos_juego = {
                             "comandos" : {
                                 1 : "add_rute_hand"
                             },
-                            "comando_argumentos" : [2]
+                            "restriccion" : ["player", "hand", "distinct", "0"]
                         }
                     }
                 
