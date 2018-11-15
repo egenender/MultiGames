@@ -140,14 +140,21 @@ def execute_actions(bot, cid, uid):
 				if game.board.state.index_accion_actual > len(acciones):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
 					game.board.state.index_accion_actual = 0
-					bot.send_message(cid, "Se ha terminado de resolver la carta")
-					if game.board.state.adquirir_final:
-						command_gain_skill(bot, None, [0, cid, uid])
-						# Pongo en off el flag de adquirir final
-						game.board.state.adquirir_final = False
+					
+					if game.board.state.ejecutando_carta:
+						game.board.state.ejecutando_carta = False
+						bot.send_message(cid, "Se ha terminado de resolver la carta")									
+						if game.board.state.adquirir_final:
+							command_gain_skill(bot, None, [0, cid, uid])
+							# Pongo en off el flag de adquirir final
+							game.board.state.adquirir_final = False
+						else:
+							command_remove_exploration(bot, None, [1,cid,uid])
+						return
 					else:
-						command_remove_exploration(bot, None, [1,cid,uid])
-					return
+						
+						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")					
+					
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
 					execute_actions(bot, cid, uid)		
@@ -330,6 +337,7 @@ def command_resolve_exploration2(bot, update):
 			game.board.state.index_accion_actual = 1
 			bot.send_message(cid, "Se inicia la ejecución de proxima carta de ruta. Utilizar comando /continue en caso que se trabe. Al final se deberia resolver o adquirir la carta.")
 			showImages(bot, cid, [game.board.cartasExplorationActual[0]])
+			game.board.state.ejecutando_carta = True
 			execute_actions(bot, cid, uid)
 			#except Exception as e:
 			#	bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
