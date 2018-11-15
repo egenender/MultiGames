@@ -1000,8 +1000,11 @@ def command_use_skill(bot, update, args):
 			after_command(bot, cid)
 		#command_show_exploration(bot, update)
 		
-def command_sort_hand(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_sort_hand(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -1009,7 +1012,7 @@ def command_sort_hand(bot, update):
 			return
 		player = game.playerlist[uid]	
 		player.hand.sort()		
-		command_showhand(bot, update)
+		command_showhand(bot, update, args)
 		after_command(bot, cid)
 		
 def command_showstats(bot, update):
