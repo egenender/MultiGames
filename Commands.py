@@ -28,7 +28,7 @@ from io import BytesIO
 from Constants.Cards import cartas_aventura
 from Constants.Cards import opciones_opcional
 from Constants.Cards import opciones_choose_posible_role
-
+from Constants.Cards import modos_juego
 
 from Constants.Cards import comandos
 import random
@@ -53,6 +53,21 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
+
+def test_worflow(bot, update, args):
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	if len(args) > 0:
+		if uid in ADMIN:
+			juego_solitario = modos_juego["solitario"]
+			acciones_juego_solitario_dia = modos_juego["solitario"]["worflow"]["dia"]
+			acciones_juego_solitario_noche = modos_juego["solitario"]["worflow"]["noche"]
+			# Pruebo ejecutar el worflow de dia.
+			index_accion_actual = 1
+			game.board.state.acciones_carta_actual = acciones_juego_solitario_dia
+			game.board.state.index_accion_actual = 1
+			bot.send_message(cid, "Se inicia la ejecución del día. Utilizar comando /continue en caso que se trabe. Al final se debería informar el fin de esta acción.")
+			#showImages(bot, cid, [game.board.cartasExplorationActual[0]])
+			execute_actions(bot, cid, uid)
 
 # Metodo que ira ejecutando las acciones.
 # Si una accion no tiene opciones comenzará a ejecutarla.
@@ -136,9 +151,7 @@ def execute_actions(bot, cid, uid):
 					# Llamada recursiva con nuevo indice de accion actual
 					execute_actions(bot, cid, uid)		
 			else:
-				#Antes de comenzar a ejecutar comandos 
-				
-				
+				#Antes de comenzar a ejecutar comandos
 				# Ejecuto el proximo comando
 				sleep(3)
 				game.board.state.comando_realizado = False
@@ -149,7 +162,13 @@ def execute_actions(bot, cid, uid):
 					comando_actual = comandos_opcion_actual[str(index_comando_actual)]
 				#t.send_message(cid, "Comando a executar %s" % comando_actual )
 				comando = comandos[comando_actual]
-				iniciar_ejecucion_comando(bot, cid, uid, comando)
+				
+				if "comando_argumentos" in opcion_actual:
+					comando_argumentos = opcion_actual["comando_argumentos"]
+				else:
+					comando_argumentos = None
+				
+				iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos)
 		else:
 			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
 			send_choose_buttons(bot, cid, uid, game, opciones_accion_actual)
@@ -214,7 +233,7 @@ def elegir_opcion_skill(bot, update):
 
 
 	
-def iniciar_ejecucion_comando(bot, cid, uid, comando):
+def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 	#try:
 	log.info('execute_comando called: %s' % comando)
 	sleep(3)
@@ -224,10 +243,13 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando):
 	if tipo_comando == "automatico":
 		# Si el command que quiero usar tiene args se los agrego.
 		if "comando_argumentos" in comando:
-			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid]) 
-										
+			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])										
 		else:
-			getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid])
+			if comando_argumentos is not None:
+				getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando_argumentos, cid, uid])
+			else:
+				getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid])
+				
 		# Despues de ejecutar continuo las ejecuciones.
 		execute_actions(bot, cid, uid)
 	elif tipo_comando == "indicaciones":
