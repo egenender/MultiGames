@@ -215,8 +215,7 @@ modos_juego = {
                             "comando_argumentos" : [1]
                         }
                     }                
-                },
-                "sort" : "Ascendente"                
+                }          
             },
             "noche" : {                
                 "1" : {
