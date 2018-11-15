@@ -237,6 +237,7 @@ def elegir_opcion_skill(bot, update):
 def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 	#try:
 	log.info('execute_comando called: %s' % comando)
+	bot.send_message(cid, comando)
 	sleep(3)
 	game, player = get_base_data2(cid, uid)
 	tipo_comando = comando["tipo"]
