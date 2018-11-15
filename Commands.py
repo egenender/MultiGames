@@ -475,8 +475,15 @@ def after_command(bot, cid):
 def after_ruta_achicada(bot, cid, uid):
 	sleep(3)
 	game = get_game(cid)
-	if not game.board.cartasExplorationActual:		
-		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia DÍA/NOCHE")
+	if not game.board.cartasExplorationActual:
+		# Si es de dia se hace de noche y diceversa
+		if game.board.state.esdedia:
+			game.board.state.esdedia = False
+		else:
+			game.board.state.esdedia = True
+		
+		tiempo = "DÍA. Has /dia para continuar" if game.board.state.esdedia else "NOCHE. Has /noche para continuar"
+		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia a %s" % tiempo)
 		bot.send_message(cid, "Se pierde uno de comida (Se pierde comida automaticamente, sino no hay que quitar 1 de vida de alguien y aumentar la comida)")
 		command_losefood(bot, None, [0, cid, uid])
 		
