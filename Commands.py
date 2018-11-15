@@ -520,11 +520,14 @@ def command_drawcard(bot, update, args):
 		#cid = '-1001206290323'
 		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
-		command_showhand(bot, update)
+		command_showhand(bot, update, [None, cid, uid])
 		after_command(bot, cid)
 		
-def command_showhand(bot, update):	
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_showhand(bot, update, args):	
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -822,8 +825,11 @@ def command_add_exploration_deck_first(bot, update, args):
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)		
 		
-def command_show_exploration(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_show_exploration(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
@@ -836,8 +842,11 @@ def command_show_exploration(bot, update):
 			bot.send_message(cid, "Exploracion Actual")
 			showImages(bot, cid, game.board.cartasExplorationActual)
 
-def command_sort_exploration_rute(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+def command_sort_exploration_rute(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	if uid in ADMIN:
 		game = get_game(cid)
 		if not game:
