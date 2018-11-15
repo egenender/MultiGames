@@ -996,8 +996,7 @@ def main():
         dp.add_handler(CommandHandler("continue", Commands.command_continue))
         
         dp.add_handler(CommandHandler("dia", Commands.command_worflow_dia, pass_args = True))
-        worflow_dia
-                
+                        
         dp.add_handler(CommandHandler("save", Commands.save))
         dp.add_handler(CommandHandler("load", Commands.load))
         
