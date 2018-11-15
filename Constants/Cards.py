@@ -196,7 +196,7 @@ modos_juego = {
                             "comandos" : {
                                 1 : "add_rute"
                             },
-                            "comando_argumentos" : [2]
+                            "comando_argumentos" : [1]
                         }
                     }                
                 },
@@ -207,7 +207,7 @@ modos_juego = {
                             "comandos" : {
                                 1 : "add_rute_hand"
                             },
-                            "comando_argumentos" : [2]
+                            "comando_argumentos" : [1]
                         }
                     }                
                 },
@@ -226,6 +226,11 @@ modos_juego = {
                     }
                 },
                 "2" : {
+                    "inicio" : {
+                        "setatribute" : {
+                            1 : ["state", "cartas_agregadas_deck", 0]
+                        }
+                    },
                     "opciones" : {
                         1 : {
                             # Luego se agregan cartas hasta completar la ruta de 6
@@ -233,7 +238,8 @@ modos_juego = {
                             "comandos" : {
                                 1 : "add_rute"
                             },
-                            "comando_argumentos" : [1, "Inicio", "Final"]
+                            "comando_argumentos" : [1, "Inicio", "Final"],
+                            "restriccion" : ["state", "cartas_agregadas_deck", "distinct", 3]
                         },
                         2 : {
                             # Luego se agregan 2 cartas a la ruta desde el mazo.
@@ -241,27 +247,30 @@ modos_juego = {
                             "comandos" : {
                                 1 : "add_rute_hand"
                             },
-                            "comando_argumentos" : [1, "Inicio", "Final"]
+                            "comando_argumentos" : [1, "Inicio", "Final"],
+                            # Player still has elements
+                            "restriccion" : ["player", "hand", "distinct", "0"]
                         }
                     }
                 }
             }        
         }
-    },
-    '''
-    "cooperativo" : {
-        "worflow" : {
-        
-        }
-    
-    },
-    "competitivo" : {
-        "worflow" : {
-        
-        }    
     }
-    '''
 }
+
+'''
+"cooperativo" : {
+    "worflow" : {
+
+    }
+
+},
+"competitivo" : {
+    "worflow" : {
+
+    }    
+}
+'''
 
 cartas_aventura = {
     0.5 : {
