@@ -243,7 +243,8 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 	# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
 	if tipo_comando == "automatico":
 		# Si el command que quiero usar tiene args se los agrego.
-		if "comando_argumentos" in comando:
+		# Le agrego los argumentos default en caso de que el metodo no me traiga algunos ya ingresados.
+		if "comando_argumentos" in comando and comando_argumentos is None:
 			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])										
 		else:
 			if comando_argumentos is not None:
