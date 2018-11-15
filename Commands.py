@@ -515,7 +515,7 @@ def command_newgame_lost_expedition(bot, update):
 			player_number = len(game.playerlist)
 			bot.send_message(cid, "Se creo el juego y el usuario")
 			game.board = Board(player_number, game)			
-			
+			bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 			
 			'''
 			if game.tipo == 'solitario':
