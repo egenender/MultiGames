@@ -959,7 +959,7 @@ def main():
         dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
         
         dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
-        dp.add_handler(CommandHandler("showhand", Commands.command_showhand))
+        dp.add_handler(CommandHandler("showhand", Commands.command_showhand, pass_args = True))
         
         dp.add_handler(CommandHandler("losebullet", Commands.command_losebullet, pass_args = True))
         dp.add_handler(CommandHandler("gainbullet", Commands.command_gainbullet, pass_args = True))
@@ -977,9 +977,9 @@ def main():
         dp.add_handler(CommandHandler("swaprute", Commands.command_swap_exploration, pass_args = True))
         dp.add_handler(CommandHandler("removerute", Commands.command_remove_exploration, pass_args = True))
         dp.add_handler(CommandHandler("removelastrute", Commands.command_remove_last_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("showrute", Commands.command_show_exploration))
-        dp.add_handler(CommandHandler("sortrute", Commands.command_sort_exploration_rute))
-        dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand))
+        dp.add_handler(CommandHandler("showrute", Commands.command_show_exploration, pass_args = True))
+        dp.add_handler(CommandHandler("sortrute", Commands.command_sort_exploration_rute, pass_args = True))
+        dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand, pass_args = True))
         dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
         dp.add_handler(CommandHandler("gainprogreso", Commands.command_increase_progreso, pass_args = True))
         dp.add_handler(CommandHandler("removefirstrute", Commands.command_resolve_exploration))      
