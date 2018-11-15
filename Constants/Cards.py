@@ -185,9 +185,9 @@ modos_juego = {
                         1 : {
                             # Se le pide al usuario agregar de su mano 2 cartas
                             "comandos" : {
-                                1 : "add_rute_hand"
-                            },
-                            "restriccion" : ["player", "hand", "distinct", "0"]
+                                1 : "add_rute_hand",
+                                2 : "add_rute_hand"
+                            }
                         }
                     }
                 
@@ -211,8 +211,7 @@ modos_juego = {
                             # Se le pide al usuario agregar de su mano 1 carta
                             "comandos" : {
                                 1 : "add_rute_hand"
-                            },
-                            "comando_argumentos" : [1]
+                            }
                         }
                     }                
                 }          
