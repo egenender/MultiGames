@@ -261,7 +261,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 		btns = []
 		# Creo los botones para elegir al usuario
 		# TODO Automatizar de donde se saca esta lista
-		if comando["indicacion_argumentos"][0] = "player.hand":
+		if "player.hand" in comando["indicacion_argumentos"]:
 			i = 1
 			for argumento in player.hand:
 				txtBoton = "%s" % (argumento)
