@@ -958,7 +958,7 @@ def command_remove_exploration(bot, update, args):
 				bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
 			
 
-def command_remove_last_exploration(bot, update):
+def command_remove_last_exploration(bot, update, args):
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
