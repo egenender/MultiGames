@@ -875,7 +875,7 @@ def command_sort_exploration_rute(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		game.board.cartasExplorationActual.sort()
-		command_show_exploration(bot, update)
+		command_show_exploration(bot, update, args)
 		after_command(bot, cid)
 
 def command_swap_exploration(bot, update, args):
