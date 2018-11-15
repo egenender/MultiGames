@@ -58,6 +58,7 @@ def command_worflow_dia(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id
 	if len(args) > 0:
 		if uid in ADMIN:
+			bot.send_message(cid, "Se ha ingresado en día")
 			juego_solitario = modos_juego["solitario"]
 			acciones_juego_solitario_dia = modos_juego["solitario"]["worflow"]["dia"]
 			acciones_juego_solitario_noche = modos_juego["solitario"]["worflow"]["noche"]
