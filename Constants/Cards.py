@@ -130,9 +130,7 @@ comandos = {
     "draw_card" : {
         "tipo" : "indicaciones",
         "comando" : "command_drawcard"        
-    },
-    
-    command_drawcard
+    }
 }
 
 opciones_opcional = {
