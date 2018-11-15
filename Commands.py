@@ -263,12 +263,16 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 		# TODO Automatizar de donde se saca esta lista
 		if "player.hand" in comando["indicacion_argumentos"]:
 			i = 1
+			buttonGroup = []
 			for argumento in player.hand:
 				txtBoton = "%s" % (argumento)
 				datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-				#ot.send_message(cid, datos)					
-				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+				#ot.send_message(cid, datos)	
+				buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
+				if (i % 3 ==0):
+					btns.append(buttonGroup)
+					buttonGroup = []
 				i += 1
 			btnMarkup = InlineKeyboardMarkup(btns)
 		else:
