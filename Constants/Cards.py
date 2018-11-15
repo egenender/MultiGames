@@ -2042,6 +2042,7 @@ cartas_aventura = {
                         "comandos" : {
                             1 : "add_rute",
                             2 : "add_rute",
+                            3 : "add_rute",
                             3 : "swap_rute"
                         }
                     }
