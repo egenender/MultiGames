@@ -128,7 +128,7 @@ comandos = {
         "indicacion_argumentos" : []
     },
     "draw_card" : {
-        "tipo" : "indicaciones",
+        "tipo" : "automatico",
         "comando" : "command_drawcard"        
     }
 }
