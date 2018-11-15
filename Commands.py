@@ -260,12 +260,24 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 		strcid = str(game.cid)
 		btns = []
 		# Creo los botones para elegir al usuario
-		for argumento in comando["indicacion_argumentos"]:
-			txtBoton = "%s" % (argumento)
-			datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
-			#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-			#ot.send_message(cid, datos)					
-			btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+		# TODO Automatizar de donde se saca esta lista
+		if comando["indicacion_argumentos"][0] = "player.hand":
+			i = 1
+			for argumento in player.hand:
+				txtBoton = "%s" % (argumento)
+				datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
+				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+				#ot.send_message(cid, datos)					
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+				i += 1
+			btnMarkup = InlineKeyboardMarkup(btns)
+		else:
+			for argumento in comando["indicacion_argumentos"]:
+				txtBoton = "%s" % (argumento)
+				datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
+				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+				#ot.send_message(cid, datos)					
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 			btnMarkup = InlineKeyboardMarkup(btns)
 		#for uid in game.playerlist:
 		bot.send_message(cid, comando["indicacion"], reply_markup=btnMarkup)
