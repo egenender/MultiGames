@@ -54,19 +54,21 @@ conn = psycopg2.connect(
     port=url.port
 )
 
-def command_worflow_dia(bot, update, args):
+def command_continue(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	execute_actions(bot, cid, uid)
+	
+def command_worflow(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id
 	game, player = get_base_data2(cid, uid)	
 	if uid in ADMIN:
-		bot.send_message(cid, "Se ha ingresado en día")
-		juego_solitario = modos_juego["solitario"]
-		acciones_juego_solitario_dia = modos_juego["solitario"]["worflow"]["dia"]
-		acciones_juego_solitario_noche = modos_juego["solitario"]["worflow"]["noche"]
-		# Pruebo ejecutar el worflow de dia.
-		index_accion_actual = 1
-		game.board.state.acciones_carta_actual = acciones_juego_solitario_dia
+		bot.send_message(cid, "Se continua el juego")
+		modo_juego = modos_juego[game.tipo]	
+		tiempo_dia = "dia" if game.board.state.esdedia else "noche"
+		acciones_workflow_actual = modo_juego["worflow"][tiempo_dia]		
+		game.board.state.acciones_carta_actual = acciones_workflow_actual
 		game.board.state.index_accion_actual = 1
-		bot.send_message(cid, "Se inicia la ejecución del día. Utilizar comando /continue en caso que se trabe. Al final se debería informar el fin de esta acción.")
+		bot.send_message(cid, "Se inicia la ejecución del %s. Utilizar /continue en caso que se trabe." % tiempo_dia)
 		#showImages(bot, cid, [game.board.cartasExplorationActual[0]])
 		execute_actions(bot, cid, uid)
 
@@ -314,9 +316,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 	
 	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
 
-def command_continue(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id
-	execute_actions(bot, cid, uid)
+
 	
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
