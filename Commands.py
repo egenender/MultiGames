@@ -842,6 +842,11 @@ def command_add_exploration_deck(bot, update, args):
 		for i in range(cantidad):			
 			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
 		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo" % cantidad)
+		
+		# Si es de día se organiza numericamente. Independiente de modo de juego.
+		if game.board.state.esdedia:
+			command_sort_exploration_rute(bot, update, args)
+		
 		after_command(bot, cid)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)
@@ -893,7 +898,7 @@ def command_sort_exploration_rute(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		game.board.cartasExplorationActual.sort()
-		command_show_exploration(bot, update, args)
+		#command_show_exploration(bot, update, args)
 		after_command(bot, cid)
 
 def command_swap_exploration(bot, update, args):
