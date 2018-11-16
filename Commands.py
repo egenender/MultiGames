@@ -199,8 +199,13 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		txtBoton = ""
 		comando_op = opciones_accion_actual[opcion_comando]								
 		for comando in comando_op["comandos"]:
-			txtBoton += comando_op["comandos"][comando] + " "			
-		txtBoton = txtBoton[:-1]
+			cmd = comandos[comando]
+			# Busco si el comando tiene un texto.
+			if "txt_boton" in comandos[comando]:
+				txtBoton += comandos[comando]["txt_boton"] + " "
+			else:
+				txtBoton += comando_op["comandos"][comando] + " "
+		txtBoton = txtBoton[:-1]	
 		if len(txtBoton) > 15:
 			txtBoton = txtBoton[:15]		
 		#txtBoton = "%s" % (opcion_comando)
