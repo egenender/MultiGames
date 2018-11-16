@@ -200,6 +200,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		comando_op = opciones_accion_actual[opcion_comando]								
 		for comando in comando_op["comandos"]:
 			cmd = comandos[comando]
+			log.info(cmd)
 			# Busco si el comando tiene un texto.
 			if "txt_boton" in comandos[comando]:
 				txtBoton += comandos[comando]["txt_boton"] + " "
