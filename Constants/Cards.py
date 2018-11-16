@@ -66,7 +66,8 @@ comandos = {
     },
     "gain_food" : {
         "tipo" : "automatico",
-        "comando" : "command_gainfood",        
+        "comando" : "command_gainfood",
+        "txt_boton" : "+🍲"
     },
     "gain_bullet" : {
         "tipo" : "automatico",
@@ -81,25 +82,29 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_gain_mark",
         "indicacion" : "Elija a un explorador para ganar una marca",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "txt_boton" : "+🐾"
     },
     "lose_camp" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_camp",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Campero -1❤️", "Brujula -2❤️", "Hoja -2❤️", "Usar carta skill"]
+        "indicacion_argumentos" : ["Campero -1❤️", "Brujula -2❤️", "Hoja -2❤️", "Usar carta skill"],
+        "txt_boton" : "-⛺"
     },
     "lose_leaf" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_leaf",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Campero -2❤️", "Brujula -2❤️", "Hoja -1❤️", "Usar carta skill"]
+        "indicacion_argumentos" : ["Campero -2❤️", "Brujula -2❤️", "Hoja -1❤️", "Usar carta skill"],
+        "txt_boton" : "-🍂"
     },
     "lose_compass" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_compass",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Campero -2❤️", "Brujula -1❤️", "Hoja -2❤️", "Usar carta skill"]
+        "indicacion_argumentos" : ["Campero -2❤️", "Brujula -1❤️", "Hoja -2❤️", "Usar carta skill"],
+        "txt_boton" : "-compass"
     },
     "lose_bullet" : {
         "tipo" : "automatico", # Caso especial que no se puede elegir si no se tiene
@@ -115,13 +120,15 @@ comandos = {
     },
     "lose_food" : {
         "tipo" : "automatico",
-        "comando" : "command_losefood"
+        "comando" : "command_losefood",
+        "txt_boton" : "-🍲"
     },
     "lose_explorer" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_explorer",
         "indicacion" : "Elija a un explorador para morir",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "txt_boton" : "💀"
     },
     
     
