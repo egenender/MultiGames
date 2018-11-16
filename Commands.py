@@ -158,7 +158,8 @@ def execute_actions(bot, cid, uid):
 						return
 					else:
 						
-						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")					
+						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")
+						command_show_exploration(bot, None, [1,cid,uid])
 					
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
