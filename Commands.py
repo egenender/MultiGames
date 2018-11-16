@@ -339,6 +339,9 @@ def command_resolve_exploration2(bot, update):
 			# Seteo los indices, las acciones siempre empiezan en 1
 			game.board.state.acciones_carta_actual = acciones
 			game.board.state.index_accion_actual = 1
+			game.board.state.index_comando_actual = 0 
+			game.board.state.index_opcion_actual = 0
+			
 			bot.send_message(cid, "Se inicia la ejecución de proxima carta de ruta. Utilizar comando /continue en caso que se trabe. Al final se deberia resolver o adquirir la carta.")
 			showImages(bot, cid, [game.board.cartasExplorationActual[0]])
 			game.board.state.ejecutando_carta = True
