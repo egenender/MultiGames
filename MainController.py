@@ -995,7 +995,8 @@ def main():
         dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration2))
         dp.add_handler(CommandHandler("continue", Commands.command_continue))
         
-        dp.add_handler(CommandHandler("dia", Commands.command_worflow_dia, pass_args = True))
+        dp.add_handler(CommandHandler("dia", Commands.command_worflow, pass_args = True))
+        dp.add_handler(CommandHandler("noche", Commands.command_worflow, pass_args = True))
                         
         dp.add_handler(CommandHandler("save", Commands.save))
         dp.add_handler(CommandHandler("load", Commands.load))
