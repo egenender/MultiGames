@@ -56,7 +56,8 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_gain_life",
         "indicacion" : "Elija a un explorador para ganar una vida",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "txt_boton" : "+❤️"
     },
     "gain_skill" : {
         "tipo" : "final", # Comandos con final se ejecutan al terminar de resolver.
@@ -69,7 +70,8 @@ comandos = {
     },
     "gain_bullet" : {
         "tipo" : "automatico",
-        "comando" : "command_gainbullet"
+        "comando" : "command_gainbullet",
+        "txt_boton" : "+🔫"
     },
     "gain_progreso" : {
         "tipo" : "automatico",
@@ -101,13 +103,15 @@ comandos = {
     },
     "lose_bullet" : {
         "tipo" : "automatico", # Caso especial que no se puede elegir si no se tiene
-        "comando" : "command_losebullet"
+        "comando" : "command_losebullet",
+        "txt_boton" : "-🔫"
     },
     "lose_life" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_life",
         "indicacion" : "Elija a un explorador para perder una vida",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"]
+        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "txt_boton" : "-❤️"
     },
     "lose_food" : {
         "tipo" : "automatico",
