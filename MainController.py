@@ -886,7 +886,7 @@ def error(bot, update, error):
 		try:
 			logger.warning("El chat es: %s del usuario %s" % (update.message.chat.id, update.effective_user.id))
 			#"%s" por el usuario "%s"' % (update.message.chat.id, update.message.from.id))
-			#Commands.command_continue(bot, update, [None, update.message.chat.id, update.message.from.id])
+			Commands.command_continue(bot, update, [None, update.message.chat.id, update.effective_user.id])
 		except Exception as e:
 			logger.warning('Error al tratar de obtener cid y uid. Error: %s' % str(e))                
 
