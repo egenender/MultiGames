@@ -880,8 +880,19 @@ def shuffle_policy_pile(bot, game):
 
 
 def error(bot, update, error):
-    #bot.send_message(387393551, 'Update "%s" caused error "%s"' % (update, error) ) 
-    logger.warning('Update "%s" caused error "%s"' % (update, error))
+        #bot.send_message(387393551, 'Update "%s" caused error "%s"' % (update, error) ) 
+        # Voy a re intentar automaticamente hasta X cantidad de veces
+        if str(error) == "Timed out":
+                try:
+			logger.warning('El chat es "%s" por el usuario "%s"' % (update.message.chat.id, update.message.from.id))
+                        #Commands.command_continue(bot, update, [None, update.message.chat.id, update.message.from.id])
+		except Exception as e:
+                        logger.warning('Error al tratar de obtener cid y uid')                
+                
+        logger.warning('Update "%s" caused error "%s"' % (update, error))
+        
+        
+        
         
 def main():
         GamesController.init() #Call only once
@@ -993,7 +1004,7 @@ def main():
         dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer, pass_args = True))
                 
         dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration2))
-        dp.add_handler(CommandHandler("continue", Commands.command_continue))
+        dp.add_handler(CommandHandler("continue", Commands.command_continue, pass_args = True))
         
         dp.add_handler(CommandHandler("dia", Commands.command_worflow, pass_args = True))
         dp.add_handler(CommandHandler("noche", Commands.command_worflow, pass_args = True))
