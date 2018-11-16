@@ -54,8 +54,11 @@ conn = psycopg2.connect(
     port=url.port
 )
 
-def command_continue(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id
+def command_continue(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]
 	execute_actions(bot, cid, uid)
 	
 def command_worflow(bot, update, args):
