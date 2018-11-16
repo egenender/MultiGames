@@ -1024,7 +1024,7 @@ def command_use_skill(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		# Si no se pasa parametro o paso -1 hago promp para que la elija		
-		if not args:
+		if args and args[0] == -1:
 			sleep(2)
 			if not player.skills:
 				bot.send_message(cid, "El jugador no tiene skills.")
@@ -1124,7 +1124,7 @@ def command_lose_camp(bot, update, args):
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [1,cid,uid])	
+		command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_compass(bot, update, args):
 	#log.info(args)
@@ -1145,7 +1145,7 @@ def command_lose_compass(bot, update, args):
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [1,cid,uid])	
+		command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_leaf(bot, update, args):
 	log.info(args)
@@ -1166,7 +1166,7 @@ def command_lose_leaf(bot, update, args):
 		player.vida_explorador_hoja  -=1;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [1,cid,uid])	
+		command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_explorer(bot, update, args):
 	try:
