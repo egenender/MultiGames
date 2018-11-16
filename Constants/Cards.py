@@ -326,12 +326,8 @@ cartas_aventura = {
                     },
                     2 : {
                         "comandos" : {
-                            1 : "remove_rute"                           
-                        }
-                    },
-                    3 : {
-                        "comandos" : {
-                            1 : "gain_skill"                          
+                            1 : "gain_bullet",
+                            2 : "gain_bullet",
                         }
                     }
                 }
