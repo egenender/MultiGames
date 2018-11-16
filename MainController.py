@@ -884,7 +884,7 @@ def error(bot, update, error):
         # Voy a re intentar automaticamente hasta X cantidad de veces
 	if str(error) == "Timed out":
 		try:
-			logger.warning("El chat es: %s" % (update.message.chat.id))
+			logger.warning("El chat es: %s del usuario %s" % (update.message.chat.id, update.message.from.id))
 			#"%s" por el usuario "%s"' % (update.message.chat.id, update.message.from.id))
 			#Commands.command_continue(bot, update, [None, update.message.chat.id, update.message.from.id])
 		except Exception as e:
