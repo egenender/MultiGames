@@ -594,7 +594,7 @@ def command_showhand(bot, update, args):
 		#cid = '-1001206290323'
 		if not player.hand:
 			bot.send_message(cid, "El jugador no tiene cartas")
-		elsE:
+		else:
 			bot.send_message(cid, "Mano jugador")
 			showImages(bot, cid, player.hand)
 		
