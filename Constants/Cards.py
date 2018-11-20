@@ -45,6 +45,12 @@ comandos = {
         "comando_argumentos" : [1],
         "txt_boton" : "+rute"
     },
+    "add_rute_first" : {
+        "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+        "comando" : "command_add_exploration_deck",
+        "comando_argumentos" : [1],
+        "txt_boton" : "+ Mazo Princpio"
+    },
     "swap_rute" : {
         "tipo" : "indicaciones",
         "comando" : "command_swap_exploration",
@@ -142,6 +148,12 @@ comandos = {
         "comando" : "command_add_exploration",
         "indicacion" : "Elija un carta para agregar a la ruta.",
         "indicacion_argumentos" : ["player.hand"]
+    },
+    "add_rute_hand_first" : {
+        "tipo" : "indicaciones",
+        "comando" : "command_add_exploration",
+        "indicacion" : "Elija un carta para agregar al principio de la ruta.",
+        "indicacion_argumentos" : ["player.hand"],
     },
     "draw_card" : {
         "tipo" : "automatico",
@@ -246,31 +258,147 @@ modos_juego = {
                     }
                 },
                 "2" : {
-                    "tipo" : "obligatoria",
-                    "inicio" : {
-                        "setatribute" : {
-                            1 : ["state", "cartas_agregadas_deck", 0]
-                        }
-                    },
+                    "tipo" : "obligatoria",                    
                     "opciones" : {
                         1 : {
-                            # Luego se agregan cartas hasta completar la ruta de 6
-                            "text_boton" : "Agregar del mazo",
                             "comandos" : {
                                 1 : "add_rute"
                             },
-                            "comando_argumentos" : [1, "Inicio", "Final"],
-                            "restriccion" : ["state", "cartas_agregadas_deck", "distinct", 3]
+                            "comando_argumentos" : [1],
                         },
                         2 : {
-                            # Luego se agregan 2 cartas a la ruta desde el mazo.
-                            "text_boton" : "Agregar de la mano",
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
                             "comandos" : {
                                 1 : "add_rute_hand"
                             },
-                            "comando_argumentos" : [1, "Inicio", "Final"],
-                            # Player still has elements
-                            "restriccion" : ["player", "hand", "distinct", "0"]
+                            "comando_argumentos" : [1],
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "comando_argumentos" : [1],
+                        }
+                    }
+                },
+                "3" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "comando_argumentos" : [1],
+                        }
+                    }
+                },
+                "4" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "comando_argumentos" : [1],
+                        }
+                    }
+                },
+                "5" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "comando_argumentos" : [1],
+                        }
+                    }
+                },
+                "6" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "comando_argumentos" : [1],
                         }
                     }
                 }
