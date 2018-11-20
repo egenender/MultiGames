@@ -978,8 +978,8 @@ cartas_aventura = {
                     1 : {
                         "comandos" : {
                             1 : "lose_life",
-                            1 : "remove_rute",
-                            1 : "add_rute"
+                            2 : "remove_rute",
+                            3 : "add_rute"
                         }
                     }
                 }
