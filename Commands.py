@@ -194,18 +194,18 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 	sleep(3)
 	strcid = str(game.cid)
 	btns = []
+	player = game.playerlist[uid]
 	# Creo los botones para elegir al usuario
 	for opcion_comando in opciones_accion_actual:
+		
+							
 		txtBoton = ""
 		comando_op = opciones_accion_actual[opcion_comando]								
-		for comando in comando_op["comandos"]:
-			
+		for comando in comando_op["comandos"]:			
 			if comando_op["comandos"][comando] in comandos:
 				cmd = comandos[comando_op["comandos"][comando]]
 			else:
 				cmd = None
-				
-			
 			# Busco si el comando tiene un texto.
 			if cmd is not None and "txt_boton" in cmd:
 				txtBoton += cmd["txt_boton"] + " "
@@ -217,12 +217,29 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-		#ot.send_message(cid, datos)					
-		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+		#ot.send_message(cid, datos)	
+		
+		# Me fijo si la opcion tiene alguna restriccion, en ese caso la verifico
+		# Ejemplo "restriccion" : ["player", "hand", "distinct", "0"]
+		if "restriccion" in comando_op:
+			atributo = get_atribute(comando_op["restriccion"], game, player)
+			
+			if not verify_restriction(atributo, comando_op["restriccion"][2], comando_op["restriccion"][3]):
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+		else:
+			btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
 	bot.send_message(cid, "Elija una de las opciones:", reply_markup=btnMarkup)
-		
+
+def get_atribute(restriccion, game, player):
+	if restriccion[0] == "player":
+		return getattr(player, restriccion[1])
+
+def verify_restriction(atributo, tipo, cumple_restriccion):
+	if tipo == "len":
+		return len(atributo) == cumple_restriccion
+	
 def elegir_opcion_comando(bot, update):	
 	#try:		
 	callback = update.callback_query
