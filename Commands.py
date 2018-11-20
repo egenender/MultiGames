@@ -590,8 +590,11 @@ def command_showhand(bot, update, args):
 			return
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
-		bot.send_message(cid, "Mano jugador")
-		showImages(bot, cid, player.hand)
+		if not player.hand):
+			bot.send_message(cid, "El jugador no tiene cartas")
+		elsE:
+			bot.send_message(cid, "Mano jugador")
+			showImages(bot, cid, player.hand)
 		
 def command_showskills(bot, update):	
 	try:
