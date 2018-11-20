@@ -655,6 +655,7 @@ def command_losebullet(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.bullets -= 1;		
+		bot.send_message(cid, "Se ha perdido una bala")
 		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
@@ -671,6 +672,7 @@ def command_gainbullet(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.bullets += 1;
+		bot.send_message(cid, "Se ha ganado una bala")
 		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
@@ -687,6 +689,7 @@ def command_losefood(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.food -= 1;
+		bot.send_message(cid, "Se ha perdido uno de comida")
 		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 		
@@ -703,6 +706,7 @@ def command_gainfood(bot, update, args):
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
 		player.food += 1;
+		bot.send_message(cid, "Se ha ganado uno de comida")
 		#ommand_showstats(bot, update)
 		after_command(bot, cid)
 
