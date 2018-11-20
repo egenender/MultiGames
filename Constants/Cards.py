@@ -31,16 +31,19 @@ comandos = {
     "remove_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
         "comando" : "command_remove_exploration",
-        "comando_argumentos" : [2]
+        "comando_argumentos" : [2],
+        "txt_boton" : "-rute"
     },
     "remove_last_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
-        "comando" : "command_remove_last_exploration"        
+        "comando" : "command_remove_last_exploration",
+        "txt_boton" : "-last rute"
     },
     "add_rute" : {
         "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
         "comando" : "command_add_exploration_deck",
-        "comando_argumentos" : [1]
+        "comando_argumentos" : [1],
+        "txt_boton" : "+rute"
     },
     "swap_rute" : {
         "tipo" : "indicaciones",
@@ -62,7 +65,8 @@ comandos = {
     "gain_skill" : {
         "tipo" : "final", # Comandos con final se ejecutan al terminar de resolver.
         "comando" : "command_gain_skill",
-        "comando_argumentos" : []
+        "comando_argumentos" : [],
+        "txt_boton" : "+skill"
     },
     "gain_food" : {
         "tipo" : "automatico",
