@@ -40,16 +40,16 @@ comandos = {
         "txt_boton" : "-last rute"
     },
     "add_rute" : {
-        "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+        "tipo" : "automatico",
         "comando" : "command_add_exploration_deck",
         "comando_argumentos" : [1],
         "txt_boton" : "+rute"
     },
     "add_rute_first" : {
-        "tipo" : "automatico", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
-        "comando" : "command_add_exploration_deck",
+        "tipo" : "automatico",
+        "comando" : "command_add_exploration_deck_first",
         "comando_argumentos" : [1],
-        "txt_boton" : "+ Mazo Princpio"
+        "txt_boton" : "+rute first"
     },
     "swap_rute" : {
         "tipo" : "indicaciones",
@@ -151,7 +151,7 @@ comandos = {
     },
     "add_rute_hand_first" : {
         "tipo" : "indicaciones",
-        "comando" : "command_add_exploration",
+        "comando" : "command_add_exploration_first",
         "indicacion" : "Elija un carta para agregar al principio de la ruta.",
         "indicacion_argumentos" : ["player.hand"],
     },
