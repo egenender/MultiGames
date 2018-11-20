@@ -578,6 +578,8 @@ def command_drawcard(bot, update, args):
 		#log.info(player.hand)
 		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
 		#command_showhand(bot, update, [None, cid, uid])
+		# Ordeno las cartas del jugador
+		player.hand.sort()
 		after_command(bot, cid)
 		
 def command_showhand(bot, update, args):	
