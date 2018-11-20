@@ -76,7 +76,8 @@ comandos = {
     },
     "gain_progreso" : {
         "tipo" : "automatico",
-        "comando" : "command_increase_progreso"
+        "comando" : "command_increase_progreso",
+        "txt_boton" : "+🚶"
     },
     "gain_mark" : {
         "tipo" : "indicaciones",
