@@ -237,9 +237,9 @@ def get_atribute(restriccion, game, player):
 	if restriccion[0] == "player":
 		return getattr(player, restriccion[1])
 
-def verify_restriction(atributo, tipo, cumple_restriccion):
+def verify_restriction(atributo, tipo, restriccion):
 	if tipo == "len":
-		return len(atributo) == cumple_restriccion
+		return str(len(atributo)) == restriccion
 	
 def elegir_opcion_comando(bot, update):	
 	#try:		
