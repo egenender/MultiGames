@@ -486,7 +486,9 @@ def get_game(cid):
 def after_command(bot, cid):
 	save(bot, cid)
 	game = get_game(cid)
-	game.board.state.comando_realizado = True
+	# Logica normal, solamente pongo algo como realizado si algo fue pedido.
+	if game.board.state.comando_pedido:
+		game.board.state.comando_realizado = True
 	
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
