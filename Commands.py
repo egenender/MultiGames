@@ -820,6 +820,8 @@ def command_add_exploration_first(bot, update, args):
 		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
 		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
 		after_command(bot, update)
+		if game.board.state.esdedia:
+			command_sort_exploration_rute(bot, update, args)
 		#command_showhand(bot, update)
 		#command_show_exploration(bot, update)		
 		
