@@ -770,7 +770,7 @@ def command_vida_explorador_brujula(bot, update, args):
 		#cid = '-1001206290323'
 		player.vida_explorador_brujula  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 		
 def command_vida_explorador_hoja(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id	
@@ -783,7 +783,7 @@ def command_vida_explorador_hoja(bot, update, args):
 		#cid = '-1001206290323'
 		player.vida_explorador_hoja  -= int(args[0] if args else 1);
 		command_showstats(bot, update)
-		after_command(bot, update)
+		after_command(bot, cid)
 
 def command_add_exploration(bot, update, args):
 	try:
@@ -824,7 +824,7 @@ def command_add_exploration_first(bot, update, args):
 		carta = int(args[0] if args else 1)-1
 		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
 		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
-		after_command(bot, update)
+		after_command(bot, cid)
 		if game.board.state.esdedia:
 			command_sort_exploration_rute(bot, update, args)
 		#command_showhand(bot, update)
