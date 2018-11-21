@@ -252,7 +252,7 @@ def get_atribute(restriccion, game, player):
 def verify_restriction(atributo, tipo, restriccion):
 	if tipo == "len":
 		return str(len(atributo)) == restriccion
-	elif tipo = "igual":
+	elif tipo == "igual":
 		return str(atributo) == restriccion
 	
 def elegir_opcion_comando(bot, update):	
