@@ -59,13 +59,20 @@ def command_continue(bot, update, args):
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
 		cid, uid = args[1], args[2]
-	execute_actions(bot, cid, uid)
+	
+	game = load_game(cid)
+	if game:
+		GamesController.games[cid] = game
+		execute_actions(bot, cid, uid)
+	else:
+		bot.send_message(cid, "No hay juego que continuar")
+	
 	
 def command_worflow(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id
 	game, player = get_base_data2(cid, uid)	
 	if uid in ADMIN:
-		bot.send_message(cid, "Se continua el juego")
+		
 		modo_juego = modos_juego[game.tipo]	
 		tiempo_dia = "dia" if game.board.state.esdedia else "noche"
 		acciones_workflow_actual = modo_juego["worflow"][tiempo_dia]		
