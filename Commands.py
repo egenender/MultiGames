@@ -192,6 +192,7 @@ def execute_actions(bot, cid, uid):
 				
 				if "ejecutar_al_final" in opcion_actual:
 					ejecutar_al_final = opcion_actual["ejecutar_al_final"]
+					bot.send_message(cid, "Deberia ejecutar al final el comando %s" % ejecutar_al_final)
 				else:
 					ejecutar_al_final = None
 				
