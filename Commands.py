@@ -124,7 +124,7 @@ def execute_actions(bot, cid, uid):
 				opcion_actual = opciones_accion_actual[str(index_opcion_actual)]
 			comandos_opcion_actual = opcion_actual["comandos"]
 			# Obtengo el ultimo indice de comando y le aumento 1.
-			if (game.board.state.comando_pedido and game.board.state.comando_realizado) or not game.board.state.comando_pedido:
+			if game.board.state.comando_pedido and game.board.state.comando_realizado:
 				game.board.state.index_comando_actual += 1
 				game.board.state.comando_pedido = False
 				game.board.state.comando_realizado = False			
