@@ -447,7 +447,7 @@ def command_newgame_sql_command(bot, update, args):
 			if cursor.rowcount > 0:
 				bot.send_message(cid, 'Resultado de la consulta:')
 				for table in cursor.fetchall():
-					bot.send_message(cid, table)
+					bot.send_message(cid, table[3])
 			else:
 				bot.send_message(cid, 'No se obtuvo nada de la consulta')
 		except Exception as e:
