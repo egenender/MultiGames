@@ -90,7 +90,7 @@ def command_worflow(bot, update, args):
 def execute_actions(bot, cid, uid):
 	game, player = get_base_data2(cid, uid)
 	if game is not None:
-		sleep(2)
+		#sleep(2)
 		#try:
 		#ot.send_message(cid, "Init Execute Actions")		
 		acciones = game.board.state.acciones_carta_actual		
@@ -139,7 +139,7 @@ def execute_actions(bot, cid, uid):
 				game.board.state.comando_realizado = False			
 				
 			index_comando_actual = game.board.state.index_comando_actual
-			bot.send_message(cid, "Realizando comando %s/%s de la accion %s" % (str(index_comando_actual), str(len(comandos_opcion_actual)), game.board.state.index_accion_actual))
+			#bot.send_message(cid, "Realizando comando %s/%s de la accion %s" % (str(index_comando_actual), str(len(comandos_opcion_actual)), game.board.state.index_accion_actual))
 			# Si es mayor a la cantidad de comandos entonces ya ejecute todos los comandos!
 			if index_comando_actual > len(comandos_opcion_actual):
 				# Vuelvo atras los indices. Voy a la siguiente accion. Para eso aumento el indice de accion actual,
@@ -204,7 +204,7 @@ def execute_actions(bot, cid, uid):
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
 	
 def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
-	sleep(3)
+	#sleep(3)
 	strcid = str(game.cid)
 	btns = []
 	player = game.playerlist[uid]
@@ -294,7 +294,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 	#try:
 	log.info('execute_comando called: %s' % comando)
 	#bot.send_message(cid, comando)
-	sleep(3)
+	#sleep(3)
 	game, player = get_base_data2(cid, uid)
 	tipo_comando = comando["tipo"]
 	# Si el comando es automatico, lo ejecuto sin no deberia pedir argumentos
@@ -524,7 +524,7 @@ def after_command(bot, cid):
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
 def after_ruta_achicada(bot, cid, uid):
-	sleep(3)
+	#sleep(3)
 	game = get_game(cid)
 	if not game.board.cartasExplorationActual:
 		# Si es de dia se hace de noche y diceversa
