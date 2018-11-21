@@ -447,10 +447,8 @@ def command_newgame_sql_command(bot, update, args):
 			if cursor.rowcount > 0:
 				bot.send_message(cid, 'Resultado de la consulta:')
 				for table in cursor.fetchall():
-					bot.send_message(cid, len(str(table)))					
-					
+					#bot.send_message(cid, len(str(table)))
 					tabla_str = str(table)
-					
 					if len(tabla_str) < 4096:
 						bot.send_message(cid, tabla_str)
 					else:
