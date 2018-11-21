@@ -512,12 +512,12 @@ def get_game(cid):
 			None
 
 # Despues de cada comando que actualiza el juego se graba
-def after_command(bot, cid):
-	save(bot, cid)
+def after_command(bot, cid):	
 	game = get_game(cid)
 	# Logica normal, solamente pongo algo como realizado si algo fue pedido.
 	if game.board.state.comando_pedido:
 		game.board.state.comando_realizado = True
+	save(bot, cid)
 	
 #Lost Expedition
 # Comando para hacer luego de que se achica la ruta a explorar
