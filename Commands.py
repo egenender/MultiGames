@@ -311,7 +311,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 				
 		# Si tiene un comando a ejecutar al final del comando...
 		if ejecutar_al_final is not None:
-			getattr(sys.modules[__name__], ejecutar_al_final)(game, player)
+			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)
 		# Despues de ejecutar continuo las ejecuciones.
 		execute_actions(bot, cid, uid)
 	elif tipo_comando == "indicaciones":
@@ -353,14 +353,16 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 		after_command(bot, cid)
 		# Si tiene un comando a ejecutar al final del comando...
 		if ejecutar_al_final is not None:
-			getattr(sys.modules[__name__], ejecutar_al_final)(game, player)
+			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)
 		execute_actions(bot, cid, uid)		
 
-def increase_count_cartas_deck(game, player):
+def increase_count_cartas_deck(bot, game, player):
 	game.board.state.count_cartas_deck += 1
+	save(bot, game.cid)
 	
-def reset_count_cartas_deck(game, player):
+def reset_count_cartas_deck(bot, game, player):
 	game.board.state.count_cartas_deck = 0
+	save(bot, game.cid)
 		
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
