@@ -862,8 +862,12 @@ def command_add_exploration_first(bot, update, args):
 			return
 		player = game.playerlist[uid]
 		#cid = '-1001206290323'
-		# Primera carta de la mano si no pone argumentos
-		carta = int(args[0] if args else 1)-1
+		# Primera carta de la mano si no pone argumentos				
+		try:
+			carta = int(args[0] if args else 1)-1
+		except Exception as e:
+			carta = int(args[0][0] if args[0] else 1)-1
+		
 		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
 		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
 		after_command(bot, cid)
