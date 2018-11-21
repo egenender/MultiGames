@@ -22,9 +22,8 @@ class State(object):
         self.esdedia = True
         # Contador de cuantas cartas se ingresaron del deck (Solo solitario)
         self.count_cartas_deck = 0
-        
-        
-        
+                
+        '''
         # Borrar luego al hacer limpieza del bot
         self.liberal_track = 0
         self.fascist_track = 0
@@ -41,4 +40,5 @@ class State(object):
         self.player_counter = 0
         self.veto_refused = False
         self.not_hitlers = []
-        self.currentround = -1   
+        self.currentround = -1
+        '''
