@@ -14,9 +14,17 @@ class State(object):
         self.comando_pedido = False
         self.comando_realizado = False
         self.adquirir_final = False
-        
+        # Marca si se esta ejecutando una carta
         self.ejecutando_carta = False
+        
+        # Variables de Lost Expedition
+        # Marca si es de dia o de noche
         self.esdedia = True
+        # Contador de cuantas cartas se ingresaron del deck (Solo solitario)
+        self.count_cartas_deck = 0
+        
+        
+        
         # Borrar luego al hacer limpieza del bot
         self.liberal_track = 0
         self.fascist_track = 0
