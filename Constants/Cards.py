@@ -139,7 +139,7 @@ comandos = {
         "comando" : "command_lose_explorer",
         "indicacion" : "Elija a un explorador para morir",
         "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
-        "txt_boton" : "💀"
+        "txt_boton" : "☠"
     },
     
     
@@ -267,12 +267,16 @@ modos_juego = {
                                 1 : "add_rute"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         2 : {
                             "comandos" : {
                                 1 : "add_rute_first"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         3 : {
                             "comandos" : {
@@ -296,12 +300,16 @@ modos_juego = {
                                 1 : "add_rute"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         2 : {
                             "comandos" : {
                                 1 : "add_rute_first"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         3 : {
                             "comandos" : {
@@ -325,12 +333,16 @@ modos_juego = {
                                 1 : "add_rute"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         2 : {
                             "comandos" : {
                                 1 : "add_rute_first"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         3 : {
                             "comandos" : {
@@ -354,12 +366,16 @@ modos_juego = {
                                 1 : "add_rute"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         2 : {
                             "comandos" : {
                                 1 : "add_rute_first"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
                         3 : {
                             "comandos" : {
@@ -383,28 +399,33 @@ modos_juego = {
                                 1 : "add_rute"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "reset_count_cartas_deck"
                         },
                         2 : {
                             "comandos" : {
                                 1 : "add_rute_first"
                             },
                             "comando_argumentos" : [1],
+                            "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
+                            "ejecutar_al_final" : "reset_count_cartas_deck"
                         },
                         3 : {
                             "comandos" : {
                                 1 : "add_rute_hand"
                             },
-                            "restriccion" : ["player", "hand", "len", "0"]
+                            "restriccion" : ["player", "hand", "len", "0"],
+                            "ejecutar_al_final" : "reset_count_cartas_deck"
                         },
                         4 : {
                             "comandos" : {
                                 1 : "add_rute_hand_first"
                             },
-                            "restriccion" : ["player", "hand", "len", "0"]
+                            "restriccion" : ["player", "hand", "len", "0"],
+                            "ejecutar_al_final" : "reset_count_cartas_deck"
                         }
                     }
-                },
-                 
+                },                 
             }        
         }
     }
