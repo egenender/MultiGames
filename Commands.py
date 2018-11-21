@@ -80,6 +80,10 @@ def command_worflow(bot, update, args):
 		acciones_workflow_actual = modo_juego["worflow"][tiempo_dia]		
 		game.board.state.acciones_carta_actual = acciones_workflow_actual
 		game.board.state.index_accion_actual = 1
+		
+		# Hago reset de cartas en deck ya que al ppio no deberia ser, igual esto lo deberia hacer el al final 
+		game.board.state.count_cartas_deck = 0
+		
 		bot.send_message(cid, "Se inicia la ejecución del %s. Utilizar /continue en caso que se trabe." % tiempo_dia)
 		#showImages(bot, cid, [game.board.cartasExplorationActual[0]])
 		execute_actions(bot, cid, uid)
