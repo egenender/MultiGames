@@ -287,7 +287,124 @@ modos_juego = {
                             "restriccion" : ["player", "hand", "len", "0"]
                         }
                     }
-                }
+                },
+                "3" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        }
+                    }
+                },
+                "4" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        }
+                    }
+                },
+                "5" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        }
+                    }
+                },
+                "6" : {
+                    "tipo" : "obligatoria",                    
+                    "opciones" : {
+                        1 : {
+                            "comandos" : {
+                                1 : "add_rute"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        2 : {
+                            "comandos" : {
+                                1 : "add_rute_first"
+                            },
+                            "comando_argumentos" : [1],
+                        },
+                        3 : {
+                            "comandos" : {
+                                1 : "add_rute_hand"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        },
+                        4 : {
+                            "comandos" : {
+                                1 : "add_rute_hand_first"
+                            },
+                            "restriccion" : ["player", "hand", "len", "0"]
+                        }
+                    }
+                },
+                 
             }        
         }
     }
