@@ -148,8 +148,7 @@ def execute_actions(bot, cid, uid):
 				game.board.state.index_opcion_actual = 0
 				game.board.state.estado_accion_opcional = 0
 				# Verifico si hay otra accion a realizar para eso hago lo mismo que con los comandos
-				
-				
+								
 				game.board.state.index_accion_actual += 1
 				if game.board.state.index_accion_actual > len(acciones):
 					# Si ya se hicieron todas las acciones vuelvo el indice a 0 y terminamos!
@@ -191,7 +190,12 @@ def execute_actions(bot, cid, uid):
 				else:
 					comando_argumentos = None
 				
-				iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos)
+				if "ejecutar_al_final" in opcion_actual:
+					ejecutar_al_final = opcion_actual["ejecutar_al_final"]
+				else:
+					ejecutar_al_final = None
+				
+				iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_final)
 		else:
 			# En el caso de que haya varias opciones le pido al usuario qwue me diga cual prefiere.
 			send_choose_buttons(bot, cid, uid, game, opciones_accion_actual)
@@ -205,9 +209,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 	btns = []
 	player = game.playerlist[uid]
 	# Creo los botones para elegir al usuario
-	for opcion_comando in opciones_accion_actual:
-		
-							
+	for opcion_comando in opciones_accion_actual:							
 		txtBoton = ""
 		comando_op = opciones_accion_actual[opcion_comando]								
 		for comando in comando_op["comandos"]:			
@@ -231,7 +233,6 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		# Me fijo si la opcion tiene alguna restriccion, en ese caso la verifico
 		# Ejemplo "restriccion" : ["player", "hand", "distinct", "0"]
 		if "restriccion" in comando_op:
-			
 			atributo = get_atribute(comando_op["restriccion"], game, player)
 			bot.send_message(cid, atributo)
 			if not verify_restriction(atributo, comando_op["restriccion"][2], comando_op["restriccion"][3]):
@@ -245,10 +246,14 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 def get_atribute(restriccion, game, player):
 	if restriccion[0] == "player":
 		return getattr(player, restriccion[1])
+	elif restriccion[0] == "state":
+		return getattr(game.board.state, restriccion[1])
 
 def verify_restriction(atributo, tipo, restriccion):
 	if tipo == "len":
 		return str(len(atributo)) == restriccion
+	elif tipo = "igual":
+		return str(atributo) == restriccion
 	
 def elegir_opcion_comando(bot, update):	
 	#try:		
@@ -285,7 +290,7 @@ def elegir_opcion_skill(bot, update):
 
 
 	
-def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
+def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_final):
 	#try:
 	log.info('execute_comando called: %s' % comando)
 	#bot.send_message(cid, comando)
@@ -304,6 +309,9 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 			else:
 				getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid])
 				
+		# Si tiene un comando a ejecutar al final del comando...
+		if ejecutar_al_final is not None:
+			getattr(sys.modules[__name__], ejecutar_al_final)(game, player)
 		# Despues de ejecutar continuo las ejecuciones.
 		execute_actions(bot, cid, uid)
 	elif tipo_comando == "indicaciones":
@@ -343,23 +351,17 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos):
 	else:
 		game.board.state.adquirir_final = True
 		after_command(bot, cid)
-		execute_actions(bot, cid, uid)
-		# Si es final, solo gain_skill es final
-		# TODO hacer que el comando se ponga en cola para ejecutar despues.
-		'''
+		# Si tiene un comando a ejecutar al final del comando...
+		if ejecutar_al_final is not None:
+			getattr(sys.modules[__name__], ejecutar_al_final)(game, player)
+		execute_actions(bot, cid, uid)		
+
+def increase_count_cartas_deck(game, player):
+	game.board.state.count_cartas_deck += 1
+	
+def reset_count_cartas_deck(game, player):
+	game.board.state.count_cartas_deck = 0
 		
-		if "comando_argumentos" in comando:
-			getattr(sys.modules[__name__], comando["comando"])(bot, None, [comando["comando_argumentos"], cid, uid])	
-		else:
-			getattr(sys.modules[__name__], comando["comando"])(bot, None, [None, cid, uid] )
-		execute_actions(bot, cid, uid)
-		'''	
-	#except 
-	
-	#	bot.send_message(cid, 'No se ejecuto el iniciar_ejecucion_comando debido a: '+str(e))
-
-
-	
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
 	cid, uid, game, player = get_base_data(bot, update)
