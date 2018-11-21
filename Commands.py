@@ -449,11 +449,12 @@ def command_newgame_sql_command(bot, update, args):
 				for table in cursor.fetchall():
 					#bot.send_message(cid, len(str(table)))
 					tabla_str = str(table)
+					# Si supera el maximo de caracteres lo parto
 					if len(tabla_str) < 4096:
-						bot.send_message(cid, tabla_str)
+						bot.send_message(cid, table)
 					else:
-						bot.send_message(cid, tabla_str[:-3000])
-						bot.send_message(cid, tabla_str[3000:])
+						bot.send_message(cid, tabla_str[:-4090])
+						bot.send_message(cid, tabla_str[4090:])
 			else:
 				bot.send_message(cid, 'No se obtuvo nada de la consulta')
 		except Exception as e:
