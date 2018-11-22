@@ -977,7 +977,7 @@ cartas_aventura = {
                     }
                 }
             },
-            1 : {
+            2 : {
                 "tipo" : "opcional",
                 "opciones" : {
                     1 : {
