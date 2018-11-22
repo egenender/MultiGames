@@ -793,11 +793,11 @@ def command_lose_life(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		if args[0] == "Campero":
+		if "Campero" in args[0]:
 			player.vida_explorador_campero  -=1;
-		if args[0] == "Brujula":
+		if "Brujula" in args[0]:
 			player.vida_explorador_brujula  -=1;
-		if args[0] == "Hoja":
+		if "Hoja" in args[0]:
 			player.vida_explorador_hoja  -=1;		
 		#Command_showstats(bot, update)
 		after_command(bot, cid)
@@ -813,11 +813,11 @@ def command_gain_life(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		player = game.playerlist[uid]
-		if args[0] == "Campero":
+		if "Campero" in args[0]:
 			player.vida_explorador_campero  +=1;
-		if args[0] == "Brujula":
+		if "Brujula" in args[0]:
 			player.vida_explorador_brujula  +=1;
-		if args[0] == "Hoja":
+		if "Hoja" in args[0]:
 			player.vida_explorador_hoja  +=1;		
 		
 		after_command(bot, cid)
