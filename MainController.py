@@ -69,25 +69,34 @@ Pierde 1 comida. Ir a día.
 def init_game(bot, game):
         log.info('Game Init called')
         #TODO hacer que se verifique que tipo de juego se creo.
+	game.board = Board(player_number, game)
+	player_number = len(game.playerlist)
 	
         if game.tipo == "LostExpedition":
-                init_lost_expedition(bot, game)
+                init_lost_expedition(bot, game, player_number)
+	elif game.tipo == "JustOne":
+		init_just_one(bot, game, player_number)
+		
 
-def init_lost_expedition(bot, game):
+def init_lost_expedition(bot, game,player_number):
 	log.info('Game init_lost_expedition called')	
-	player_number = len(game.playerlist)
-	# Si es el juego en solitario:
-	if player_number == 1:
-		game.board = Board(player_number, game)
+	
+	if player_number == 1:		
 		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 		# Aca deberia preguntar dificultad y modulos a usar.
 		# Eso setearia la vida inicial y los personajes que tendria.
+	else:
+		# Se mezcla el orden de los jugadores.
+		game.shuffle_player_sequence()
+		# TODO Se deberia decir quien es el lider actual 
+		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 		
-		
+def init_just_one(bot, game,player_number):
+	log.info('Game init_lost_expedition called')
+	game.shuffle_player_sequence()		
 		
 def start_round(bot, game):        
         log.info('start_round called')
-
 
 def initialize_testdata():
     # Sample game for quicker tests
