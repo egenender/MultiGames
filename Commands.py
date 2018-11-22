@@ -75,7 +75,7 @@ def command_worflow(bot, update, args):
 	game, player = get_base_data2(cid, uid)	
 	if uid in ADMIN:
 		
-		modo_juego = modos_juego[game.tipo]	
+		modo_juego = modos_juego[game.modo]	
 		tiempo_dia = "dia" if game.board.state.esdedia else "noche"
 		acciones_workflow_actual = modo_juego["worflow"][tiempo_dia]		
 		game.board.state.acciones_carta_actual = acciones_workflow_actual
@@ -570,7 +570,7 @@ def command_newgame_lost_expedition(bot, update):
 			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 		else:
 			# Creo el juego si no esta.
-			game = Game(cid, update.message.from_user.id, "solitario", groupName)
+			game = Game(cid, update.message.from_user.id, "LostExpedition" ,"solitario", groupName)
 			GamesController.games[cid] = game
 			# Creo el jugador que creo el juego y lo agrego al juego
 			player = Player(fname, uid)
