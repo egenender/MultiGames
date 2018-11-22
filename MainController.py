@@ -1038,9 +1038,8 @@ def main():
         # Pruebas SH
         dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
         dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
-	
 	dp.add_handler(CommandHandler("role", Commands.command_configurar_partida))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
 	
         # log all errors
         dp.add_error_handler(error)
