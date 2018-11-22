@@ -17,8 +17,8 @@ class Board(object):
         self.progreso = 1
         self.objetivoprogreso = 9
         
-        self.exploradores_team1 = []
-        self.exploradores_team2 = []
+        self.exploradores_team1 = {}
+        self.exploradores_team2 = {}
         
         self.discards = []
         self.previous = []        
