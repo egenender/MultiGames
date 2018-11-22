@@ -1900,8 +1900,7 @@ def command_newgame(bot, update):
 				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 			else:
 				# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
-				GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)
-				bot.send_message(cid, "Nuevo juego creado! Cada jugador debe unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")
+				GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)				
 				bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
 				configurarpartida(bot, cid, uid)
 	except Exception as e:
@@ -1934,6 +1933,9 @@ def callback_choose_game(bot, update):
 		modulos_disponibles_juego[0]
 		bot.send_message(cid, "Solo hay un modulo y se pone ese %s" % modulos_disponibles_juego[0])
 		game.modo = modulos_disponibles_juego[0]
+		bot.send_message(cid, "Se ha terminado de configurar el juego")
+		bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")
+		save(bot, game.cid)
 	else:
 		frase_regex = "choosemode"
 		pregunta_arriba_botones = "¿Qué modo de juego quieres jugar?"
@@ -1949,6 +1951,7 @@ def callback_choose_mode(bot, update):
 	game = get_game(cid)
 	game.modo = opcion	
 	bot.send_message(cid, "Se ha terminado de configurar el juego")
+	bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")
 	save(bot, game.cid)
 	
 def command_join(bot, update, args):
