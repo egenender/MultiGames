@@ -1985,12 +1985,12 @@ def command_join(bot, update, args):
 				
 				# Si se ha alcanzado el minimo o superado
 				if len(game.playerlist) >= min_jugadores:
-					bot.send_message(game.cid, fname + " se ha unido al juego. Pueden poner /startgame para comenzar")
+					bot.send_message(game.cid, fname + " se ha unido al juego. Hay % jugadores.\nPueden poner /startgame para comenzar" % str(len(game.playerlist)))
 				else:
 					bot.send_message(game.cid, fname + " se ha unido al juego. Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
 		except Exception:
 			bot.send_message(game.cid,
-				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
+				fname + ", I can\'t send you a private message. Please go to @MultiGamesByLevibot and click \"Start\".\nYou then need to send /join again.")
 
 def command_startgame(bot, update):
 	log.info('command_startgame called')
