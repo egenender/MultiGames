@@ -1930,7 +1930,7 @@ def callback_choose_game(bot, update):
 	
 	# Si hay solo un modo de juego, lo pongo. Sino pregunto cual se quiere jugar
 	if len(modulos_disponibles_juego) == 1:	
-		game.modo = modulos_disponibles_juego[next(iter(modulos_disponibles_juego))]
+		game.modo = next(iter(modulos_disponibles_juego))
 		bot.send_message(cid, "Solo hay un modulo y se pone ese %s" % game.modo)
 		bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")
 		save(bot, game.cid)
