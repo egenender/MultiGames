@@ -7,18 +7,7 @@ from Boardgamebox.Board import Board
 from Boardgamebox.State import State
 
 class Game(object):
-    def __init__(self, cid, initiator, groupName):
-        self.playerlist = {}
-        self.player_sequence = []
-        self.cid = cid
-        self.board = None
-        self.initiator = initiator
-        self.dateinitvote = None
-        self.history = []        
-        self.groupName  = groupName
-    
-    
-    def __init__(self, cid, initiator, nombre, modo, groupName):
+    def __init__(self, cid, initiator, groupName, nombre = None, modo = None, ):
         self.playerlist = {}
         self.player_sequence = []
         self.cid = cid
