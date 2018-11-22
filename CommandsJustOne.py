@@ -67,14 +67,14 @@ def command_newgame_justone(bot, update):
 			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 		else:
 			# Creo el juego si no esta.
-			game = Game(cid, update.message.from_user.id, "solitario", groupName)
+			game = Game(cid, update.message.from_user.id, "JustOne" ,"cooperativo", groupName)
 			GamesController.games[cid] = game
 			# Creo el jugador que creo el juego y lo agrego al juego
 			player = Player(fname, uid)
-			game.add_player(uid, player)				
+			game.add_player(uid, player)
 			player_number = len(game.playerlist)
-			bot.send_message(cid, "Se creo el juego y el usuario")
-			game.board = Board(player_number, game)			
+			bot.send_message(cid, "Se creo el juego y se ingreso como jugador al creador")
+			game.board = Board(player_number, game)
 			bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 			
 			'''
