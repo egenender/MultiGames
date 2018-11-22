@@ -72,9 +72,9 @@ def init_game(bot, game):
                 init_lost_expedition(bot, game)
 
 def init_lost_expedition(bot, game):
-	log.info('Game init_lost_expedition called')
+	log.info('Game init_lost_expedition called')	
+	player_number = len(game.playerlist)
 	# Si es el juego en solitario:
-	# Como estoy probando los pasos iniciales del primer dia los hice y los continuaré aca.
 	if player_number == 1:
 		game.board = Board(player_number, game)
 		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
