@@ -1393,76 +1393,9 @@ def command_stats(bot, update):
 	if cid == ADMIN:		
 		bot.send_message(cid, "Estadisticas pronto...")
 
-def command_join(bot, update, args):
-	# I use args for testing. // Remove after?
-	groupName = update.message.chat.title
-	cid = update.message.chat_id
-	groupType = update.message.chat.type
-	game = get_game(cid)
-	if len(args) <= 0:
-		# if not args, use normal behaviour
-		fname = update.message.from_user.first_name
-		uid = update.message.from_user.id
-	else:
-		uid = update.message.from_user.id
-		if uid == ADMIN:
-			for i,k in zip(args[0::2], args[1::2]):
-				fname = i
-				uid = int(k)
-				player = Player(fname, uid)
-				game.add_player(uid, player)
-				log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
-	
-	if groupType not in ['group', 'supergroup']:
-		bot.send_message(cid, "You have to add me to a group first and type /newgame there!")
-	elif not game:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
-	elif game.board:
-		bot.send_message(cid, "The game has started. Please wait for the next game!")
-	elif uid in game.playerlist:
-		bot.send_message(game.cid, "You already joined the game, %s!" % fname)
-	else:
-		#uid = update.message.from_user.id
-		player = Player(fname, uid)
-		try:
-			if game.modo == "Solitario" and len(game.playerlist) > 0:
-				bot.send_message(game.cid, "Solo puede haber un jugador en juegos en solitario")				
-			elif game.modo == "Solitario" and len(game.playerlist) == 0:				
-				game.add_player(uid, player)
-				bot.send_message(game.cid, fname + " se ha unido al juego. Pon /startgame para comenzar")
-			
-			#TODO Deberia para mas jugador verificar el limite de jugadores
-			
-			
-		except Exception:
-			bot.send_message(game.cid,
-				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
 
 
-def command_startgame(bot, update):
-	log.info('command_startgame called')
-	groupName = update.message.chat.title
-	cid = update.message.chat_id
-	game = GamesController.games.get(cid, None)
-	if not game:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
-	#elif game.board:
-	#	bot.send_message(cid, "The game is already running!")
-	elif update.message.from_user.id != game.initiator and bot.getChatMember(cid, update.message.from_user.id).status not in ("administrator", "creator"):
-		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")	
-	else:		
-		MainController.init_game(bot, game)
-		
-		#game.board = Board(player_number, game)
-		#log.info(game.board)
-		#log.info("len(games) Command_startgame: " + str(len(GamesController.games)))
-		#game.shuffle_player_sequence()
-		#game.board.state.player_counter = 0
-		#bot.send_message(game.cid, game.board.print_board(game.playerlist))
-		#group_name = update.message.chat.title
-		#bot.send_message(ADMIN, "Game of Secret Hitler started in group %s (%d)" % (group_name, cid))		
-		#MainController.start_round(bot, game)
-		#save_game(cid, groupName, game)
+
 
 def command_cancelgame(bot, update):
 	log.info('command_cancelgame called')
@@ -1994,7 +1927,7 @@ def callback_choose_game(bot, update):
 	bot.send_message(uid, "Ventana Usuario: Has elegido el juego %s" % opcion)
 	
 	game = get_game(cid)
-	game.nombre = opcion
+	game.tipo = opcion
 	
 	modulos_disponibles_juego = MODULOS_DISPONIBES[opcion]
 	
@@ -2020,5 +1953,66 @@ def callback_choose_mode(bot, update):
 	
 	game = get_game(cid)
 	game.modo = opcion	
-	bot.send_message(uid, "Se ha terminado de configurar el juego")
+	bot.send_message(uid, "Se ha terminado de configurar el juego")	
 	
+def command_join(bot, update, args):
+	# I use args for testing. // Remove after?
+	groupName = update.message.chat.title
+	cid = update.message.chat_id
+	groupType = update.message.chat.type
+	game = get_game(cid)
+	if len(args) <= 0:
+		# if not args, use normal behaviour
+		fname = update.message.from_user.first_name
+		uid = update.message.from_user.id
+	else:
+		uid = update.message.from_user.id
+		if uid == ADMIN:
+			for i,k in zip(args[0::2], args[1::2]):
+				fname = i
+				uid = int(k)
+				player = Player(fname, uid)
+				game.add_player(uid, player)
+				log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
+	
+	if groupType not in ['group', 'supergroup']:
+		bot.send_message(cid, "You have to add me to a group first and type /newgame there!")
+	elif not game:
+		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+	elif game.board:
+		bot.send_message(cid, "The game has started. Please wait for the next game!")
+	elif uid in game.playerlist:
+		bot.send_message(game.cid, "You already joined the game, %s!" % fname)
+	else:
+		#uid = update.message.from_user.id
+		player = Player(fname, uid)
+		try:
+			if game.modo == "Solitario" and len(game.playerlist) > 0:
+				bot.send_message(game.cid, "Solo puede haber un jugador en juegos en solitario")				
+			elif game.modo == "Solitario" and len(game.playerlist) == 0:				
+				game.add_player(uid, player)
+				bot.send_message(game.cid, fname + " se ha unido al juego. Pon /startgame para comenzar")
+			
+			#TODO Deberia para mas jugador verificar el limite de jugadores
+			
+			
+		except Exception:
+			bot.send_message(game.cid,
+				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
+
+def command_startgame(bot, update):
+	log.info('command_startgame called')
+	groupName = update.message.chat.title
+	cid = update.message.chat_id
+	game = GamesController.games.get(cid, None)
+	if not game:
+		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+	#elif game.board:
+	#	bot.send_message(cid, "The game is already running!")
+	elif update.message.from_user.id != game.initiator and bot.getChatMember(cid, update.message.from_user.id).status not in ("administrator", "creator"):
+		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")	
+	else:
+		# Grabo
+		save(bot, game.cid)
+		MainController.init_game(bot, game)
+			
