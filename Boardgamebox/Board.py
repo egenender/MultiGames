@@ -16,9 +16,42 @@ class Board(object):
         # Se comienza en el primer lugar
         self.progreso = 1
         self.objetivoprogreso = 9
+                
+        self.exploradores_team1 = {
+            "Campero" : {
+                "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+                "habilidad" : "Campero",
+                "matable" : True,                
+            },
+            "Brujula" : {
+                "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+                "habilidad" : "Brujula",
+                "matable" : True,                
+            },
+            "Hoja" : {
+                "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+                "habilidad" : "Hoja",
+                "matable" : True,                
+            }
+        }
         
-        self.exploradores_team1 = {}
-        self.exploradores_team2 = {}
+        self.exploradores_team2 = {
+            "Campero" : {
+                "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+                "habilidad" : "Campero",
+                "matable" : True,                
+            },
+            "Brujula" : {
+                "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+                "habilidad" : "Brujula",
+                "matable" : True,                
+            },
+            "Hoja" : {
+                "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
+                "habilidad" : "Hoja",
+                "matable" : True,                
+            }
+        }
         
         self.discards = []
         self.previous = []        
