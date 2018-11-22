@@ -1922,10 +1922,8 @@ def callback_choose_game(bot, update):
 	log.info('callback_choose_posible_role called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-	bot.edit_message_text("Mensaje Editado: Has elegido el juego: %s" % opcion, cid, callback.message.message_id)
-	bot.send_message(cid, "Ventana Juego: Has elegido el juego %s" % opcion)
-	bot.send_message(uid, "Ventana Usuario: Has elegido el juego %s" % opcion)
-	
+	bot.edit_message_text("Has elegido el juego: %s" % opcion, cid, callback.message.message_id)
+		
 	game = get_game(cid)
 	game.tipo = opcion
 	
@@ -1947,10 +1945,7 @@ def callback_choose_mode(bot, update):
 	log.info('callback_choose_posible_role called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-	bot.edit_message_text("Mensaje Editado: Has elegido el modo: %s" % opcion, cid, callback.message.message_id)
-	bot.send_message(cid, "Ventana Juego: Has elegido el modo %s" % opcion)
-	bot.send_message(uid, "Ventana Usuario: Has elegido el modo %s" % opcion)
-	
+	bot.edit_message_text("Has elegido el modo: %s" % opcion, cid, callback.message.message_id)
 	game = get_game(cid)
 	game.modo = opcion	
 	bot.send_message(uid, "Se ha terminado de configurar el juego")	
