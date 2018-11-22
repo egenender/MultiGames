@@ -372,14 +372,14 @@ def get_player_hand_buttons(player, comando, strcid, uid):
 		btns.append(buttonGroup)
 	return InlineKeyboardMarkup(btns)
 
-def get_player_exploradores_buttons(player, comando, strcid, uid):	
+def get_player_exploradores_buttons(player, comando, strcid):	
 	i = 1
 	btns = []
 	buttonGroup = []
 	exploradores_list = ["Campero %d❤️" % player.vida_explorador_campero, "Brujula %d❤️" % player.vida_explorador_brujula , "Hoja %d❤️" % player.vida_explorador_hoja]
 	for argumento in exploradores_list:
 		txtBoton = "%s" % (argumento)
-		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
+		datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(player.uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		#ot.send_message(cid, datos)	
 		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
