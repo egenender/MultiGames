@@ -77,7 +77,7 @@ def init_game(bot, game):
 		init_just_one(bot, game, player_number)
 
 
-def init_lost_expedition(bot, game,player_number):
+def init_lost_expedition(bot, game, player_number):
 	log.info('Game init_lost_expedition called')	
 	
 	if player_number == 1:		
@@ -88,9 +88,9 @@ def init_lost_expedition(bot, game,player_number):
 		# Se mezcla el orden de los jugadores.
 		game.shuffle_player_sequence()
 		# TODO Se deberia decir quien es el lider actual 
-		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
+		bot.send_message(game.cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 		
-def init_just_one(bot, game,player_number):
+def init_just_one(bot, game, player_number):
 	log.info('Game init_lost_expedition called')
 	game.shuffle_player_sequence()		
 		
