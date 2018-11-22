@@ -177,7 +177,7 @@ opciones_opcional = {
 }
 
 modos_juego = {
-    "solitario" : {
+    "Solitario" : {
         "setup" : {
             "municion" : 3,
             "comida" : 3,
