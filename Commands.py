@@ -580,26 +580,15 @@ def command_newgame_lost_expedition(bot, update):
 			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 		else:
 			# Creo el juego si no esta.
-			game = Game(cid, update.message.from_user.id, groupName, "LostExpedition" ,"solitario", )
+			game = Game(cid, update.message.from_user.id, groupName, "LostExpedition" ,"Solitario", )
 			GamesController.games[cid] = game
 			# Creo el jugador que creo el juego y lo agrego al juego
 			player = Player(fname, uid)
 			game.add_player(uid, player)				
 			player_number = len(game.playerlist)
 			bot.send_message(cid, "Se creo el juego y el usuario")
-			game.board = Board(player_number, game)			
-			bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
-			
-			'''
-			if game.tipo == 'solitario':
-				command_drawcard(bot, update, [6])
-				#Si es un juego en solitario comienzo sacando las dos cartas del mazo y las ordeno
-				#bot.send_message(cid, "Se agregan dos cartas a la epxloracion")
-				command_add_exploration_deck(bot, update, [2])
-				#bot.send_message(cid, "Se ordena el mazo de exploración")
-				command_sort_exploration_rute(bot, update)
-				bot.send_message(cid, "Ahora debes jugar dos cartas")
-			'''
+			save(bot, game.cid)
+			MainController.init_game(bot, game)
 				
 	except Exception as e:
 		bot.send_message(cid, 'Error '+str(e))
