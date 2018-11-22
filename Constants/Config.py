@@ -4,7 +4,7 @@ ADMIN = [387393551, 441820689, 445782140] #your telegram ID
 STATS = "../stats.json"
 
 JUEGOS_DISPONIBLES = {        
-        "LostExpedition" : {
+        "LostEExpedition" : {
                 "comandos" : {
                     "LostExpedition" : "Lost Expedition"
                 }
@@ -14,4 +14,32 @@ JUEGOS_DISPONIBLES = {
                     "JustOne" : "Just One"
                 }
         }
+}
+
+MODULOS_DISPONIBES = {        
+        "LostExpedition" : {
+                "Solitario" : {
+                        "comandos" : {
+                            "Solitario" : "Solitario"
+                        }
+                },
+                "Cooperativo" : {                        
+                        "comandos" : {
+                            "Cooperativo" : "Cooperativo"
+                        }
+                },
+                "Competitivo" : {                        
+                        "comandos" : {
+                            "Competitivo" : "Competitivo"
+                        }
+                } 
+        },
+        "JustOne" : {
+                "Cooperativo" : {
+                        "comandos" : {
+                            "Cooperativo" : "Cooperativo"
+                        }
+                } 
+        }
+        
 }
