@@ -1996,7 +1996,7 @@ def command_startgame(bot, update):
 	log.info('command_startgame called')
 	groupName = update.message.chat.title
 	cid = update.message.chat_id
-	game = GamesController.games.get(cid, None)
+	game = get_game(cid)
 	if not game:
 		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
 	#elif game.board:
