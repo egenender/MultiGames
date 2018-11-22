@@ -847,12 +847,14 @@ def command_add_exploration(bot, update, args):
 		#cid = '-1001206290323'
 		# Primera carta de la mano si no pone argumentos
 		carta = int(args[0] if args else 1)-1
-		game.board.cartasExplorationActual.append(player.hand.pop(carta))
-		bot.send_message(cid, "Se ha agregado la carta al final de la ruta")
+		game.board.cartasExplorationActual.append(player.hand.pop(carta))		
 		after_command(bot, cid)
 		# Si es de día se organiza numericamente. Independiente de modo de juego.
-		if game.board.state.esdedia:
+		if game.board.state.esdedia:			
 			command_sort_exploration_rute(bot, update, args)
+			bot.send_message(cid, "Se ha agregado la carta a la ruta y se ha ordenado la ruta")
+		else:
+			bot.send_message(cid, "Se ha agregado la carta al final de la ruta")
 		#command_showhand(bot, update)
 		#command_show_exploration(bot, update)		
 
