@@ -29,7 +29,10 @@ from Constants.Cards import cartas_aventura
 from Constants.Cards import opciones_opcional
 from Constants.Cards import opciones_choose_posible_role
 from Constants.Cards import modos_juego
+
 from Constants.Config import JUEGOS_DISPONIBLES
+from Constants.Config import MODULOS_DISPONIBES
+
 
 from Constants.Cards import comandos
 import random
@@ -1992,3 +1995,33 @@ def callback_choose_game(bot, update):
 	bot.edit_message_text("Mensaje Editado: Has elegido el juego: %s" % opcion, cid, callback.message.message_id)
 	bot.send_message(cid, "Ventana Juego: Has elegido el juego %s" % opcion)
 	bot.send_message(uid, "Ventana Usuario: Has elegido el juego %s" % opcion)
+	
+	game = get_game(cid)
+	game.nombre = opcion
+	
+	modulos_disponibles_juego = MODULOS_DISPONIBES[opcion]
+	
+	# Si hay solo un modo de juego, lo pongo. Sino pregunto cual se quiere jugar
+	if len(modulos_disponibles_juego) == 1:
+		modulos_disponibles_juego[0]
+		bot.send_message(cid, "Solo hay un modulo y se pone ese %s" % modulos_disponibles_juego[0])
+		game.modo = modulos_disponibles_juego[0]
+	else:
+		frase_regex = "choosemode"
+		pregunta_arriba_botones = "¿Qué modo de juego quieres jugar?"
+		chat_donde_se_pregunta = cid
+		multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, modulos_disponibles_juego)
+	
+def callback_choose_mode(bot, update):
+	callback = update.callback_query
+	log.info('callback_choose_posible_role called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+	bot.edit_message_text("Mensaje Editado: Has elegido el modo: %s" % opcion, cid, callback.message.message_id)
+	bot.send_message(cid, "Ventana Juego: Has elegido el modo %s" % opcion)
+	bot.send_message(uid, "Ventana Usuario: Has elegido el modo %s" % opcion)
+	
+	game = get_game(cid)
+	game.modo = opcion	
+	bot.send_message(uid, "Se ha terminado de configurar el juego")
+	
