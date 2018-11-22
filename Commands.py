@@ -1955,6 +1955,7 @@ def command_newgame(bot, update):
 	try:
 		game = GamesController.games.get(cid, None)
 		groupType = update.message.chat.type
+		groupName = update.message.chat.title
 		if groupType not in ['group', 'supergroup']:
 			bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
 		elif game:
@@ -1964,8 +1965,9 @@ def command_newgame(bot, update):
 			game = get_game(cid)
 			if game:
 				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
-			else:				
-				GamesController.games[cid] = Game(cid, update.message.from_user.id)
+			else:
+				# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
+				GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)
 				bot.send_message(cid, "Nuevo juego creado! Cada jugador debe unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")
 				bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
 				configurarpartida(bot, cid, uid)
