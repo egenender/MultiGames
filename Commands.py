@@ -1978,9 +1978,9 @@ def command_configurar_partida(bot, update):
 		
 def configurarpartida(bot, cid, uid):
 	frase_regex = "choosegame"
-	pregunta_arriba_botones = "¿Qué rol quisieras ser?"
+	pregunta_arriba_botones = "¿Qué juego quieres jugar?"
 	chat_donde_se_pregunta = cid
-	multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, opciones_choose_posible_role)
+	multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, JUEGOS_DISPONIBLES)
 	
 def callback_choose_game(bot, update):
 	callback = update.callback_query
