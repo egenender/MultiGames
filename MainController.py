@@ -897,158 +897,161 @@ def error(bot, update, error):
         
         
 def main():
-        GamesController.init() #Call only once
-        #initialize_testdata()
-        
-        #Init DB Create tables if they don't exist   
-        log.info('Init DB in Xapi Bot')
-        conn.autocommit = True
-        cur = conn.cursor()
-        cur.execute(open("DBCreate.sql", "r").read())
-        log.info('DB Created/Updated')
-        conn.autocommit = False
-        '''
-        log.info('Insertando')
-        query = "INSERT INTO users(facebook_id, name , access_token , created) values ('2','3','4',1) RETURNING id;"
-        log.info('Por ejecutar')
-        cur.execute(query)       
-        user_id = cur.fetchone()[0]        
-        log.info(user_id)
-        
-        
-        query = "SELECT ...."
-        cur.execute(query)
-        '''
-        
-        #PORT = int(os.environ.get('PORT', '8443'))
-        updater = Updater(TOKEN)
-        
-        # DEscomentar para Webhook acordarse de cambiar el tipo de bot a web
-        '''
-        updater.start_webhook(listen="0.0.0.0",
-                      port=PORT,
-                      url_path=TOKEN,
-                      key='8ca9c17937b0699c7643b1084d97d2b40a4ceadc75f32d9914ceffcff873')
-        updater.bot.set_webhook("https://multigames.herokuapp.com/" + TOKEN)
-        '''              
-        
-        # Get the dispatcher to register handlers
-        dp = updater.dispatcher
+	GamesController.init() #Call only once
+	#initialize_testdata()
 
-        # on different commands - answer in Telegram
-        dp.add_handler(CommandHandler("start", Commands.command_start))
-        dp.add_handler(CommandHandler("help", Commands.command_help))
-        dp.add_handler(CommandHandler("board", Commands.command_board))
-        dp.add_handler(CommandHandler("rules", Commands.command_rules))
-        dp.add_handler(CommandHandler("ping", Commands.command_ping))
-        dp.add_handler(CommandHandler("symbols", Commands.command_symbols))
-        
-        #dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
-        dp.add_handler(CommandHandler("startgame", Commands.command_startgame))
-        dp.add_handler(CommandHandler("delete", Commands.command_cancelgame))
-        dp.add_handler(CommandHandler("join", Commands.command_join, pass_args = True))
-        dp.add_handler(CommandHandler("history", Commands.command_showhistory))
-        dp.add_handler(CommandHandler("votes", Commands.command_votes))
-        dp.add_handler(CommandHandler("calltovote", Commands.command_calltovote))
-        dp.add_handler(CommandHandler("claim", Commands.command_claim, pass_args = True))
-        dp.add_handler(CommandHandler("infect", Commands.command_infect, pass_args = True))
-        dp.add_handler(CommandHandler("ver", Commands.command_ver, pass_args = True))
-        dp.add_handler(CommandHandler("otra", Commands.command_otra, pass_args = True))
-        dp.add_handler(CommandHandler("limpiar", Commands.command_limpiar, pass_args = True))        
-        dp.add_handler(CommandHandler("calltoaction", Commands.call_to_action))
-        dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
-        
-        # Secret Moon Commands
-        dp.add_handler(CommandHandler("joinsecretmoon", Commands.command_join_secret_moon))
-        dp.add_handler(CommandHandler("newgamesecretmoon", Commands.command_newgame_secret_moon))
-        dp.add_handler(CommandHandler("startgamesecretmoon", Commands.command_startgame_secret_moon))
-        
-        # Comando para 
-        dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
-        
-        # Lost Expedition Commands
-        dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
-        dp.add_handler(CommandHandler("reglas", Commands.command_reglas))
-        dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
-        
-        dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
-        dp.add_handler(CommandHandler("showhand", Commands.command_showhand, pass_args = True))
-        
-        dp.add_handler(CommandHandler("losebullet", Commands.command_losebullet, pass_args = True))
-        dp.add_handler(CommandHandler("gainbullet", Commands.command_gainbullet, pass_args = True))
-        dp.add_handler(CommandHandler("losefood", Commands.command_losefood, pass_args = True))
-        dp.add_handler(CommandHandler("gainfood", Commands.command_gainfood, pass_args = True))        
-        dp.add_handler(CommandHandler("stats", Commands.command_showstats))
-        dp.add_handler(CommandHandler("campero", Commands.command_vida_explorador_campero, pass_args = True))
-        dp.add_handler(CommandHandler("brujula", Commands.command_vida_explorador_brujula, pass_args = True))
-        dp.add_handler(CommandHandler("hoja", Commands.command_vida_explorador_hoja, pass_args = True))
-        #
-        dp.add_handler(CommandHandler("addrutefromhand", Commands.command_add_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("addrutefromdeck", Commands.command_add_exploration_deck, pass_args = True))
-        dp.add_handler(CommandHandler("addrutefromhandfirst", Commands.command_add_exploration_first, pass_args = True))
-        dp.add_handler(CommandHandler("moverutefirst", Commands.command_add_exploration_deck_first, pass_args = True))
-        dp.add_handler(CommandHandler("swaprute", Commands.command_swap_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("removerute", Commands.command_remove_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("removelastrute", Commands.command_remove_last_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("showrute", Commands.command_show_exploration, pass_args = True))
-        dp.add_handler(CommandHandler("sortrute", Commands.command_sort_exploration_rute, pass_args = True))
-        dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand, pass_args = True))
-        dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
-        dp.add_handler(CommandHandler("gainprogreso", Commands.command_increase_progreso, pass_args = True))
-        dp.add_handler(CommandHandler("removefirstrute", Commands.command_resolve_exploration))      
-               
-        dp.add_handler(CommandHandler("gainskill", Commands.command_gain_skill, pass_args = True))
-        dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
-        
-        dp.add_handler(CommandHandler("losecamp", Commands.command_lose_camp, pass_args = True))
-        dp.add_handler(CommandHandler("losecompass", Commands.command_lose_compass, pass_args = True))
-        dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf, pass_args = True))
-        dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer, pass_args = True))
-                
-        dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration2))
-        dp.add_handler(CommandHandler("continue", Commands.command_continue, pass_args = True))
-        
-        dp.add_handler(CommandHandler("dia", Commands.command_worflow, pass_args = True))
-        dp.add_handler(CommandHandler("noche", Commands.command_worflow, pass_args = True))
-                        
-        dp.add_handler(CommandHandler("save", Commands.save))
-        dp.add_handler(CommandHandler("load", Commands.load))
-        
-        #Testing commands
-        dp.add_handler(CommandHandler("ja", Commands.command_ja))
-        dp.add_handler(CommandHandler("nein", Commands.command_nein))
-        dp.add_handler(CommandHandler("elegimos", Commands.command_elegimos, pass_args = True))
-        
-        '''
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_chan_(.*)", callback=nominate_chosen_chancellor))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_insp_(.*)", callback=choose_inspect))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_choo_(.*)", callback=choose_choose))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_kill_(.*)", callback=choose_kill))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(yesveto|noveto)", callback=choose_veto))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(liberal|fascist|veto)", callback=choose_policy))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(Ja|Nein)", callback=handle_voting))
-        
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_action_(.*)", callback=handle_action))
-        '''
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback=Commands.execute_command))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
-        
-        
-        # Pruebas SH
-        dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
-        dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
-        
-        # log all errors
-        dp.add_error_handler(error)
+	#Init DB Create tables if they don't exist   
+	log.info('Init DB in Xapi Bot')
+	conn.autocommit = True
+	cur = conn.cursor()
+	cur.execute(open("DBCreate.sql", "r").read())
+	log.info('DB Created/Updated')
+	conn.autocommit = False
+	'''
+	log.info('Insertando')
+	query = "INSERT INTO users(facebook_id, name , access_token , created) values ('2','3','4',1) RETURNING id;"
+	log.info('Por ejecutar')
+	cur.execute(query)       
+	user_id = cur.fetchone()[0]        
+	log.info(user_id)
 
-        # Start the Bot (Usar si no es WebHook)
-        updater.start_polling()
 
-        # Run the bot until the you presses Ctrl-C or the process receives SIGINT,
-        # SIGTERM or SIGABRT. This should be used most of the time, since
-        # start_polling() is non-blocking and will stop the bot gracefully.
-        updater.idle()
+	query = "SELECT ...."
+	cur.execute(query)
+	'''
+
+	#PORT = int(os.environ.get('PORT', '8443'))
+	updater = Updater(TOKEN)
+
+	# DEscomentar para Webhook acordarse de cambiar el tipo de bot a web
+	'''
+	updater.start_webhook(listen="0.0.0.0",
+		      port=PORT,
+		      url_path=TOKEN,
+		      key='8ca9c17937b0699c7643b1084d97d2b40a4ceadc75f32d9914ceffcff873')
+	updater.bot.set_webhook("https://multigames.herokuapp.com/" + TOKEN)
+	'''              
+
+	# Get the dispatcher to register handlers
+	dp = updater.dispatcher
+
+	# on different commands - answer in Telegram
+	dp.add_handler(CommandHandler("start", Commands.command_start))
+	dp.add_handler(CommandHandler("help", Commands.command_help))
+	dp.add_handler(CommandHandler("board", Commands.command_board))
+	dp.add_handler(CommandHandler("rules", Commands.command_rules))
+	dp.add_handler(CommandHandler("ping", Commands.command_ping))
+	dp.add_handler(CommandHandler("symbols", Commands.command_symbols))
+
+	#dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
+	dp.add_handler(CommandHandler("startgame", Commands.command_startgame))
+	dp.add_handler(CommandHandler("delete", Commands.command_cancelgame))
+	dp.add_handler(CommandHandler("join", Commands.command_join, pass_args = True))
+	dp.add_handler(CommandHandler("history", Commands.command_showhistory))
+	dp.add_handler(CommandHandler("votes", Commands.command_votes))
+	dp.add_handler(CommandHandler("calltovote", Commands.command_calltovote))
+	dp.add_handler(CommandHandler("claim", Commands.command_claim, pass_args = True))
+	dp.add_handler(CommandHandler("infect", Commands.command_infect, pass_args = True))
+	dp.add_handler(CommandHandler("ver", Commands.command_ver, pass_args = True))
+	dp.add_handler(CommandHandler("otra", Commands.command_otra, pass_args = True))
+	dp.add_handler(CommandHandler("limpiar", Commands.command_limpiar, pass_args = True))        
+	dp.add_handler(CommandHandler("calltoaction", Commands.call_to_action))
+	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
+
+	# Secret Moon Commands
+	dp.add_handler(CommandHandler("joinsecretmoon", Commands.command_join_secret_moon))
+	dp.add_handler(CommandHandler("newgamesecretmoon", Commands.command_newgame_secret_moon))
+	dp.add_handler(CommandHandler("startgamesecretmoon", Commands.command_startgame_secret_moon))
+
+	# Comando para 
+	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
+
+	# Lost Expedition Commands
+	dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
+	dp.add_handler(CommandHandler("reglas", Commands.command_reglas))
+	dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
+
+	dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
+	dp.add_handler(CommandHandler("showhand", Commands.command_showhand, pass_args = True))
+
+	dp.add_handler(CommandHandler("losebullet", Commands.command_losebullet, pass_args = True))
+	dp.add_handler(CommandHandler("gainbullet", Commands.command_gainbullet, pass_args = True))
+	dp.add_handler(CommandHandler("losefood", Commands.command_losefood, pass_args = True))
+	dp.add_handler(CommandHandler("gainfood", Commands.command_gainfood, pass_args = True))        
+	dp.add_handler(CommandHandler("stats", Commands.command_showstats))
+	dp.add_handler(CommandHandler("campero", Commands.command_vida_explorador_campero, pass_args = True))
+	dp.add_handler(CommandHandler("brujula", Commands.command_vida_explorador_brujula, pass_args = True))
+	dp.add_handler(CommandHandler("hoja", Commands.command_vida_explorador_hoja, pass_args = True))
+	#
+	dp.add_handler(CommandHandler("addrutefromhand", Commands.command_add_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("addrutefromdeck", Commands.command_add_exploration_deck, pass_args = True))
+	dp.add_handler(CommandHandler("addrutefromhandfirst", Commands.command_add_exploration_first, pass_args = True))
+	dp.add_handler(CommandHandler("moverutefirst", Commands.command_add_exploration_deck_first, pass_args = True))
+	dp.add_handler(CommandHandler("swaprute", Commands.command_swap_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("removerute", Commands.command_remove_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("removelastrute", Commands.command_remove_last_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("showrute", Commands.command_show_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("sortrute", Commands.command_sort_exploration_rute, pass_args = True))
+	dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand, pass_args = True))
+	dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
+	dp.add_handler(CommandHandler("gainprogreso", Commands.command_increase_progreso, pass_args = True))
+	dp.add_handler(CommandHandler("removefirstrute", Commands.command_resolve_exploration))      
+
+	dp.add_handler(CommandHandler("gainskill", Commands.command_gain_skill, pass_args = True))
+	dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
+
+	dp.add_handler(CommandHandler("losecamp", Commands.command_lose_camp, pass_args = True))
+	dp.add_handler(CommandHandler("losecompass", Commands.command_lose_compass, pass_args = True))
+	dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf, pass_args = True))
+	dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer, pass_args = True))
+
+	dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration2))
+	dp.add_handler(CommandHandler("continue", Commands.command_continue, pass_args = True))
+
+	dp.add_handler(CommandHandler("dia", Commands.command_worflow, pass_args = True))
+	dp.add_handler(CommandHandler("noche", Commands.command_worflow, pass_args = True))
+
+	dp.add_handler(CommandHandler("save", Commands.save))
+	dp.add_handler(CommandHandler("load", Commands.load))
+
+	#Testing commands
+	dp.add_handler(CommandHandler("ja", Commands.command_ja))
+	dp.add_handler(CommandHandler("nein", Commands.command_nein))
+	dp.add_handler(CommandHandler("elegimos", Commands.command_elegimos, pass_args = True))
+
+	'''
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_chan_(.*)", callback=nominate_chosen_chancellor))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_insp_(.*)", callback=choose_inspect))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_choo_(.*)", callback=choose_choose))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_kill_(.*)", callback=choose_kill))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(yesveto|noveto)", callback=choose_veto))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(liberal|fascist|veto)", callback=choose_policy))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_(Ja|Nein)", callback=handle_voting))
+
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)_action_(.*)", callback=handle_action))
+	'''
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback=Commands.execute_command))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
+
+
+	# Pruebas SH
+	dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
+
+	dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
+	dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
+	
+	# log all errors
+	dp.add_error_handler(error)
+
+	# Start the Bot (Usar si no es WebHook)
+	updater.start_polling()
+
+	# Run the bot until the you presses Ctrl-C or the process receives SIGINT,
+	# SIGTERM or SIGABRT. This should be used most of the time, since
+	# start_polling() is non-blocking and will stop the bot gracefully.
+	updater.idle()
 
 
 
