@@ -1993,12 +1993,12 @@ def command_join(bot, update, args):
 				# Uno al jugador a la partida
 				game.add_player(uid, player)				
 				save(bot, game.cid)
-				bot.send_message(game.cid,"El jugador se ha unido exitosamente a la partida ahora hay %s jugadores" % str(len(game.playerlist)))
+				
 				# Si se ha alcanzado el minimo o superado
 				if len(game.playerlist) >= min_jugadores:
 					bot.send_message(game.cid, fname + " se ha unido al juego. Pueden poner /startgame para comenzar")
 				else:
-					bot.send_message(game.cid, "Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
+					bot.send_message(game.cid, fname + " se ha unido al juego. Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
 		except Exception:
 			bot.send_message(game.cid,
 				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
