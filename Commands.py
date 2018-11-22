@@ -326,7 +326,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 	elif tipo_comando == "indicaciones":
 		# Genero los botones para preguntar al usuario.
 		strcid = str(game.cid)
-		btns = []
+		
 		# Creo los botones para elegir al usuario
 		# TODO Automatizar de donde se saca esta lista
 		if "player.hand" in comando["indicacion_argumentos"]:			
@@ -334,6 +334,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 		elif "exploradores" in comando["indicacion_argumentos"]:
 			btnMarkup = get_player_exploradores_buttons(player, comando, strcid, uid)
 		else:
+			btns = []
 			for argumento in comando["indicacion_argumentos"]:
 				txtBoton = "%s" % (argumento)
 				datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
@@ -353,7 +354,8 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 
 def get_player_hand_buttons(player, comando, strcid, uid):
 	i = 1
-	buttonGroup = []
+	btns = []
+	buttonGroup = []	
 	for argumento in player.hand:
 		txtBoton = "%s" % (argumento)
 		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
@@ -372,6 +374,7 @@ def get_player_hand_buttons(player, comando, strcid, uid):
 
 def get_player_exploradores_buttons(player, comando, strcid, uid):	
 	i = 1
+	btns = []
 	buttonGroup = []
 	exploradores_list = ["Campero %d❤️" % player.vida_explorador_campero, "Brujula %d❤️" % player.vida_explorador_brujula , "Hoja %d❤️" % player.vida_explorador_hoja]
 	for argumento in exploradores_list:
