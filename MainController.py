@@ -903,7 +903,7 @@ def main():
 	#initialize_testdata()
 
 	#Init DB Create tables if they don't exist   
-	log.info('Init DB in Xapi Bot')
+	log.info('Init DB in MultiGames Bot')
 	conn.autocommit = True
 	cur = conn.cursor()
 	cur.execute(open("DBCreate.sql", "r").read())
