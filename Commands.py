@@ -1948,7 +1948,8 @@ def callback_choose_mode(bot, update):
 	bot.edit_message_text("Has elegido el modo: %s" % opcion, cid, callback.message.message_id)
 	game = get_game(cid)
 	game.modo = opcion	
-	bot.send_message(cid, "Se ha terminado de configurar el juego")	
+	bot.send_message(cid, "Se ha terminado de configurar el juego")
+	save(bot, game.cid)
 	
 def command_join(bot, update, args):
 	# I use args for testing. // Remove after?
@@ -1971,26 +1972,32 @@ def command_join(bot, update, args):
 				log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
 	
 	if groupType not in ['group', 'supergroup']:
-		bot.send_message(cid, "You have to add me to a group first and type /newgame there!")
+		bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
 	elif not game:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+		bot.send_message(cid, "No hay juego en este chat. Crea un nuevo juego con /newgame")
 	elif game.board:
-		bot.send_message(cid, "The game has started. Please wait for the next game!")
+		bot.send_message(cid, "El juego ha comenzado. Por favor espera el proximo juego!")
 	elif uid in game.playerlist:
-		bot.send_message(game.cid, "You already joined the game, %s!" % fname)
+		bot.send_message(game.cid, "Ya te has unido al juego, %s!" % fname)
 	else:
 		#uid = update.message.from_user.id
 		player = Player(fname, uid)
 		try:
-			if game.modo == "Solitario" and len(game.playerlist) > 0:
-				bot.send_message(game.cid, "Solo puede haber un jugador en juegos en solitario")				
-			elif game.modo == "Solitario" and len(game.playerlist) == 0:				
+			max_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["max_jugadores"]
+			min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
+			
+			# Si se ha alcanzado el maximo de jugadores no te puedes unir.
+			if len(game.playerlist) == max_jugadores:
+				bot.send_message(game.cid, "Se ha alcanzado previamente el maximo de jugadores. Espera el proximo juego!")
+			else:
+				# Uno al jugador a la partida
 				game.add_player(uid, player)
-				bot.send_message(game.cid, fname + " se ha unido al juego. Pon /startgame para comenzar")
-			
-			#TODO Deberia para mas jugador verificar el limite de jugadores
-			
-			
+				save(bot, game.cid)
+				# Si se ha alcanzado el minimo o superado
+				if len(game.playerlist) >= min_jugadores:
+					bot.send_message(game.cid, fname + " se ha unido al juego. Pueden poner /startgame para comenzar")
+				else:
+					bot.send_message(game.cid, "Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
 		except Exception:
 			bot.send_message(game.cid,
 				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
@@ -2007,7 +2014,13 @@ def command_startgame(bot, update):
 	elif update.message.from_user.id != game.initiator and bot.getChatMember(cid, update.message.from_user.id).status not in ("administrator", "creator"):
 		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")	
 	else:
-		# Grabo
-		save(bot, game.cid)
-		MainController.init_game(bot, game)
+		
+		# Verifico si la configuracion ha terminado y se han unido los jugadores necesarios		
+		min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
+		
+		if len(game.playerlist) >= min_jugadores:
+			save(bot, game.cid)
+			MainController.init_game(bot, game)
+		else:
+			bot.send_message(game.cid, "Falta el numero mínimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))
 			
