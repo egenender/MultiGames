@@ -16,7 +16,7 @@ import Commands
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
 from Boardgamebox.Game import Game
-from Boardgamebox.Player import Playe
+from Boardgamebox.Player import Player
 from Boardgamebox.Board import Board
 
 import GamesController
