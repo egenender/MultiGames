@@ -21,7 +21,9 @@ MODULOS_DISPONIBES = {
                 "Solitario" : {
                         "comandos" : {
                             "Solitario" : "Solitario"
-                        }
+                        },
+                        "min_jugadores" : 1,
+                        "max_jugadores" : 1
                 },
                 "Cooperativo" : {                        
                         "comandos" : {
