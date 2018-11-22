@@ -65,7 +65,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_gain_life",
         "indicacion" : "Elija a un explorador para ganar una vida",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "indicacion_argumentos" : ["exploradores],
         "txt_boton" : "+❤️"
     },
     "gain_skill" : {
@@ -93,7 +93,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_gain_mark",
         "indicacion" : "Elija a un explorador para ganar una marca",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "indicacion_argumentos" : ["exploradores],
         "txt_boton" : "+🐾"
     },
     "lose_camp" : {
@@ -126,7 +126,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_life",
         "indicacion" : "Elija a un explorador para perder una vida",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "indicacion_argumentos" : ["exploradores],
         "txt_boton" : "-❤️"
     },
     "lose_food" : {
@@ -138,7 +138,7 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_explorer",
         "indicacion" : "Elija a un explorador para morir",
-        "indicacion_argumentos" : ["Campero", "Brujula", "Hoja"],
+        "indicacion_argumentos" : ["exploradores],
         "txt_boton" : "☠"
     },
     
