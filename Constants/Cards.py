@@ -720,7 +720,7 @@ cartas_aventura = {
                 "opciones" : {
                     1 : {
                         "comandos" : {
-                            1 : "lose_food"                        
+                            1 : "gain_food"                        
                         }
                     }
                 }
