@@ -330,9 +330,9 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 		# Creo los botones para elegir al usuario
 		# TODO Automatizar de donde se saca esta lista
 		if "player.hand" in comando["indicacion_argumentos"]:			
-			btnMarkup = get_player_hand_buttons(player, comando, strcid, uid)
+			btnMarkup = get_player_hand_buttons(player, comando, strcid)
 		elif "exploradores" in comando["indicacion_argumentos"]:
-			btnMarkup = get_player_exploradores_buttons(player, comando, strcid, uid)
+			btnMarkup = get_player_exploradores_buttons(player, comando, strcid)
 		else:
 			btns = []
 			for argumento in comando["indicacion_argumentos"]:
@@ -352,13 +352,13 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)
 		execute_actions(bot, cid, uid)		
 
-def get_player_hand_buttons(player, comando, strcid, uid):
+def get_player_hand_buttons(player, comando, strcid):
 	i = 1
 	btns = []
 	buttonGroup = []	
 	for argumento in player.hand:
 		txtBoton = "%s" % (argumento)
-		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
+		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(player.uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		#ot.send_message(cid, datos)	
 		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
