@@ -68,7 +68,7 @@ def init_game(bot, game):
         log.info('Game Init called')
         #TODO hacer que se verifique que tipo de juego se creo.
 	
-        if game.tipo == "Lost Expedition":
+        if game.tipo == "LostExpedition":
                 init_lost_expedition(bot, game)
 
 def init_lost_expedition(bot, game):
