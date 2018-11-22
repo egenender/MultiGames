@@ -81,7 +81,7 @@ def init_lost_expedition(bot, game, player_number):
 	log.info('Game init_lost_expedition called')	
 	
 	if player_number == 1:		
-		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
+		bot.send_message(game.cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 		# Aca deberia preguntar dificultad y modulos a usar.
 		# Eso setearia la vida inicial y los personajes que tendria.
 	else:
