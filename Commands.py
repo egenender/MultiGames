@@ -329,24 +329,10 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 		btns = []
 		# Creo los botones para elegir al usuario
 		# TODO Automatizar de donde se saca esta lista
-		if "player.hand" in comando["indicacion_argumentos"]:
-			i = 1
-			buttonGroup = []
-			for argumento in player.hand:
-				txtBoton = "%s" % (argumento)
-				datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
-				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-				#ot.send_message(cid, datos)	
-				buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
-				# Agrupo en grupos de 3
-				if (i % 3 ==0):
-					btns.append(buttonGroup)
-					buttonGroup = []
-				i += 1
-			# Pongo el resto que haya quedado 1 o 2 elementos
-			if len(buttonGroup) > 0:
-				btns.append(buttonGroup)
-			btnMarkup = InlineKeyboardMarkup(btns)
+		if "player.hand" in comando["indicacion_argumentos"]:			
+			btnMarkup = get_player_hand_buttons(player, comando, strcid, uid)
+		elif "exploradores" in comando["indicacion_argumentos"]:
+			btnMarkup = get_player_exploradores_buttons(player, comando, strcid, uid)
 		else:
 			for argumento in comando["indicacion_argumentos"]:
 				txtBoton = "%s" % (argumento)
@@ -365,6 +351,45 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)
 		execute_actions(bot, cid, uid)		
 
+def get_player_hand_buttons(player, comando, strcid, uid):
+	i = 1
+	buttonGroup = []
+	for argumento in player.hand:
+		txtBoton = "%s" % (argumento)
+		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
+		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+		#ot.send_message(cid, datos)	
+		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
+		# Agrupo en grupos de 3
+		if (i % 3 ==0):
+			btns.append(buttonGroup)
+			buttonGroup = []
+		i += 1
+	# Pongo el resto que haya quedado 1 o 2 elementos
+	if len(buttonGroup) > 0:
+		btns.append(buttonGroup)
+	return InlineKeyboardMarkup(btns)
+
+def get_player_exploradores_buttons(player, comando, strcid, uid):	
+	i = 1
+	buttonGroup = []
+	exploradores_list = ["Campero %d❤️" % player.vida_explorador_campero, "Brujula %d❤️" % player.vida_explorador_brujula , "Hoja %d❤️" % player.vida_explorador_hoja]
+	for argumento in exploradores_list:
+		txtBoton = "%s" % (argumento)
+		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(uid)
+		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+		#ot.send_message(cid, datos)	
+		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
+		# Agrupo en grupos de 3
+		if (i % 3 ==0):
+			btns.append(buttonGroup)
+			buttonGroup = []
+		i += 1
+	# Pongo el resto que haya quedado 1 o 2 elementos
+	if len(buttonGroup) > 0:
+		btns.append(buttonGroup)
+	return InlineKeyboardMarkup(btns)
+	
 def increase_count_cartas_deck(bot, game, player):
 	game.board.state.count_cartas_deck += 1
 	save(bot, game.cid)
