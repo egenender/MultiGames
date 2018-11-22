@@ -1398,7 +1398,7 @@ def command_join(bot, update, args):
 	groupName = update.message.chat.title
 	cid = update.message.chat_id
 	groupType = update.message.chat.type
-	game = GamesController.games.get(cid, None)
+	game = get_game(cid)
 	if len(args) <= 0:
 		# if not args, use normal behaviour
 		fname = update.message.from_user.first_name
@@ -1421,22 +1421,19 @@ def command_join(bot, update, args):
 		bot.send_message(cid, "The game has started. Please wait for the next game!")
 	elif uid in game.playerlist:
 		bot.send_message(game.cid, "You already joined the game, %s!" % fname)
-	elif len(game.playerlist) >= 9:
-		bot.send_message(game.cid, "You have reached the maximum amount of players. Please start the game with /startgame!")
 	else:
 		#uid = update.message.from_user.id
 		player = Player(fname, uid)
 		try:
-			#Commented to dont disturb player during testing uncomment in production
-			bot.send_message(uid, "You joined a game in %s. I will soon tell you your secret role." % groupName)			 
-			game.add_player(uid, player)
-			log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
-			if len(game.playerlist) > 4:
-				bot.send_message(game.cid, fname + " has joined the game. Type /startgame if this was the last player and you want to start with %d players!" % len(game.playerlist))
-			elif len(game.playerlist) == 1:
-				bot.send_message(game.cid, "%s has joined the game. There is currently %d player in the game and you need 5-10 players." % (fname, len(game.playerlist)))
-			else:
-				bot.send_message(game.cid, "%s has joined the game. There are currently %d players in the game and you need 5-10 players." % (fname, len(game.playerlist)))
+			if game.modo == "Solitario" and len(game.playerlist) > 0:
+				bot.send_message(game.cid, "Solo puede haber un jugador en juegos en solitario")				
+			elif game.modo == "Solitario" and len(game.playerlist) == 0:				
+				game.add_player(uid, player)
+				bot.send_message(game.cid, fname + " se ha unido al juego. Pon /startgame para comenzar")
+			
+			#TODO Deberia para mas jugador verificar el limite de jugadores
+			
+			
 		except Exception:
 			bot.send_message(game.cid,
 				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
