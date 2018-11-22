@@ -1217,13 +1217,13 @@ def command_lose_camp(bot, update, args):
 	game, player = get_base_data2(cid, uid)	
 	if game is None:
 		return
-	if args[0] == "Campero -1❤️":
+	if "Campero" in args[0]:
 		player.vida_explorador_campero  -=1;
 		after_command(bot, cid)
-	if args[0] == "Brujula -2❤️":
+	if "Brujula" in args[0]:
 		player.vida_explorador_brujula  -=2;
 		after_command(bot, cid)
-	if args[0] == "Hoja -2❤️":
+	if "Hoja" in args[0]:
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
@@ -1238,13 +1238,13 @@ def command_lose_compass(bot, update, args):
 	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args[0] == "Campero -2❤️":
+	if "Campero" in args[0]:
 		player.vida_explorador_campero  -=2;
 		after_command(bot, cid)
-	if args[0] == "Brujula -1❤️":
+	if "Brujula" in args[0]:
 		player.vida_explorador_brujula  -=1;
 		after_command(bot, cid)
-	if args[0] == "Hoja -2❤️":
+	if "Hoja" in args[0]:
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
@@ -1259,13 +1259,13 @@ def command_lose_leaf(bot, update, args):
 	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args[0] == "Campero -2❤️":
+	if "Campero" in args[0]:
 		player.vida_explorador_campero  -=2;
 		after_command(bot, cid)
-	if args[0] == "Brujula -2❤️":
+	if "Brujula" in args[0]:
 		player.vida_explorador_brujula  -=2;
 		after_command(bot, cid)
-	if args[0] == "Hoja -1❤️":
+	if "Hoja" in args[0]:
 		player.vida_explorador_hoja  -=1;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
@@ -1279,18 +1279,15 @@ def command_lose_explorer(bot, update, args):
 	game, player = get_base_data2(cid, uid)
 	if game is None:
 		return
-	if args[0] == "Campero":
+	if "Campero" in args[0]:
 		player.vida_explorador_campero  = 0;
 		after_command(bot, cid)
-	if args[0] == "Brujula":
+	if "Brujula" in args[0]:
 		player.vida_explorador_brujula  = 0;
 		after_command(bot, cid)
-	if args[0] == "Hoja":
+	if "Hoja" in args[0]:
 		player.vida_explorador_hoja  = 0;
 		after_command(bot, cid)
-	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [1,cid,uid])
-	
 
 def get_base_data2(cid, uid):
 	if uid in ADMIN:		
@@ -1368,13 +1365,6 @@ symbols = [
     u"\U0001F54A" + ' Liberals win',  # dove
     u"\u2620" + ' Fascists win'  # skull
 ]
-
-
-		
-		
-
-	
-
 
 def command_board(bot, update):
 	cid = update.message.chat_id
