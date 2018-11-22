@@ -29,6 +29,7 @@ from Constants.Cards import cartas_aventura
 from Constants.Cards import opciones_opcional
 from Constants.Cards import opciones_choose_posible_role
 from Constants.Cards import modos_juego
+from Constants.Config import JUEGOS_DISPONIBLES
 
 from Constants.Cards import comandos
 import random
@@ -558,6 +559,12 @@ def command_hoja_ayuda(bot, update):
 	bot.send_message(cid, help_text)
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
+
+
+
+
+
+
 
 def command_newgame_lost_expedition(bot, update):  
 	cid = update.message.chat_id
@@ -1908,7 +1915,10 @@ def command_choose_posible_role(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id
 	choose_posible_role(bot, cid, uid)
 def choose_posible_role(bot, cid, uid):
-	multipurpose_choose_buttons(bot, cid, uid, "chooserole", "¿Qué rol quisieras ser?", opciones_choose_posible_role)
+	frase_regex = "chooserole"
+	pregunta_arriba_botones = "¿Qué rol quisieras ser?"
+	chat_donde_se_pregunta = uid
+	multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, opciones_choose_posible_role)
 def callback_choose_posible_role(bot, update):
 	callback = update.callback_query
 	log.info('callback_choose_posible_role called: %s' % callback.data)	
@@ -1918,7 +1928,8 @@ def callback_choose_posible_role(bot, update):
 	bot.send_message(cid, "Ventana Juego: Has elegido el Rol %s" % opcion)
 	bot.send_message(uid, "Ventana Usuario: Has elegido el Rol %s" % opcion)	
 
-def multipurpose_choose_buttons(bot, cid, uid, comando_callback, mensaje_pregunta, opciones_botones):
+
+def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callback, mensaje_pregunta, opciones_botones):
 	sleep(3)
 	btns = []
 	# Creo los botones para elegir al usuario
@@ -1932,10 +1943,50 @@ def multipurpose_choose_buttons(bot, cid, uid, comando_callback, mensaje_pregunt
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
-	bot.send_message(cid, mensaje_pregunta, reply_markup=btnMarkup)
+	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)
 
+# Comando para elegir el juego	
+
+
+#Se crea metodo general para crear jeugos
+def command_newgame(bot, update):  
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
+	try:
+		game = GamesController.games.get(cid, None)
+		groupType = update.message.chat.type
+		if groupType not in ['group', 'supergroup']:
+			bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
+		elif game:
+			bot.send_message(cid, "Hay un juego comenzado en este chat. Si quieres terminarlo escribe /delete!")
+		else:			
+			# Busco si hay un juego ya creado
+			game = get_game(cid)
+			if game:
+				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
+			else:				
+				GamesController.games[cid] = Game(cid, update.message.from_user.id)
+				bot.send_message(cid, "Nuevo juego creado! Cada jugador debe unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")
+				bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
+				configurarpartida(bot, cid, uid)
+	except Exception as e:
+		bot.send_message(cid, str(e))
+
+def command_configurar_partida(bot, update):
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	configurarpartida(bot, cid, uid)
+		
+def configurarpartida(bot, cid, uid):
+	frase_regex = "choosegame"
+	pregunta_arriba_botones = "¿Qué rol quisieras ser?"
+	chat_donde_se_pregunta = cid
+	multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, opciones_choose_posible_role)
 	
-	
-
-
-
+def callback_choose_game(bot, update):
+	callback = update.callback_query
+	log.info('callback_choose_posible_role called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+	bot.edit_message_text("Mensaje Editado: Has elegido el juego: %s" % opcion, cid, callback.message.message_id)
+	bot.send_message(cid, "Ventana Juego: Has elegido el juego %s" % opcion)
+	bot.send_message(uid, "Ventana Usuario: Has elegido el juego %s" % opcion)
