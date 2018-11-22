@@ -67,8 +67,8 @@ Pierde 1 comida. Ir a día.
 def init_game(bot, game):
         log.info('Game Init called')
         #TODO hacer que se verifique que tipo de juego se creo.
-        tipo = "Lost Expedition"        
-        if tipo == "Lost Expedition":
+	
+        if game.tipo == "Lost Expedition":
                 init_lost_expedition(bot, game)
 
 def init_lost_expedition(bot, game):
@@ -79,8 +79,9 @@ def init_lost_expedition(bot, game):
         if player_number == 1:
                 # Aca deberia preguntar dificultad y modulos a usar.
                 # Eso setearia la vida inicial y los personajes que tendria.                
-                player_number = 1
-                
+                game.board = Board(player_number, game)
+		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
+		
 def start_round(bot, game):        
         log.info('start_round called')
 
