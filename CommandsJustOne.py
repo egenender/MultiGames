@@ -63,6 +63,7 @@ def command_newgame_justone(bot, update):
 	try:
 		game = get_game(cid)
 		if game:
+		
 			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 		else:
 			# Creo el juego si no esta.
