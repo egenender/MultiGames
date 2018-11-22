@@ -239,7 +239,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 		# Ejemplo "restriccion" : ["player", "hand", "distinct", "0"]
 		if "restriccion" in comando_op:
 			atributo = get_atribute(comando_op["restriccion"], game, player)
-			bot.send_message(cid, atributo)
+			#ot.send_message(cid, atributo)
 			if not verify_restriction(atributo, comando_op["restriccion"][2], comando_op["restriccion"][3]):
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 		else:
