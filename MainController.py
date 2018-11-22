@@ -78,9 +78,10 @@ def init_lost_expedition(bot, game):
         # Como estoy probando los pasos iniciales del primer dia los hice y los continuaré aca.
         if player_number == 1:
                 # Aca deberia preguntar dificultad y modulos a usar.
-                # Eso setearia la vida inicial y los personajes que tendria.                
-                game.board = Board(player_number, game)
+                # Eso setearia la vida inicial y los personajes que tendria.
+		game.board = Board(player_number, game)
 		bot.send_message(cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
+		
 		
 def start_round(bot, game):        
         log.info('start_round called')
