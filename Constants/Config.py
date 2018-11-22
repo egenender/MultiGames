@@ -4,7 +4,7 @@ ADMIN = [387393551, 441820689, 445782140] #your telegram ID
 STATS = "../stats.json"
 
 JUEGOS_DISPONIBLES = {        
-        "LostEExpedition" : {
+        "LostExpedition" : {
                 "comandos" : {
                     "LostExpedition" : "Lost Expedition"
                 }
@@ -41,5 +41,4 @@ MODULOS_DISPONIBES = {
                         }
                 } 
         }
-        
 }
