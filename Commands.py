@@ -1948,7 +1948,7 @@ def callback_choose_mode(bot, update):
 	bot.edit_message_text("Has elegido el modo: %s" % opcion, cid, callback.message.message_id)
 	game = get_game(cid)
 	game.modo = opcion	
-	bot.send_message(uid, "Se ha terminado de configurar el juego")	
+	bot.send_message(cid, "Se ha terminado de configurar el juego")	
 	
 def command_join(bot, update, args):
 	# I use args for testing. // Remove after?
