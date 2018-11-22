@@ -924,7 +924,7 @@ def command_add_exploration_deck(bot, update, args):
 		after_command(bot, cid)
 		
 		# Si es de día se organiza numericamente. Independiente de modo de juego.
-		if game.board.state.esdedia:
+		if game.board.state.esdedia and not game.board.state.comando_pedido :
 			command_sort_exploration_rute(bot, update, args)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)
