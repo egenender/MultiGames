@@ -68,8 +68,8 @@ Pierde 1 comida. Ir a día.
 
 def init_game(bot, game):
 	log.info('Game Init called')
-	game.board = Board(player_number, game)
 	player_number = len(game.playerlist)
+	game.board = Board(player_number, game)	
 
 	if game.tipo == "LostExpedition":
 		init_lost_expedition(bot, game, player_number)
