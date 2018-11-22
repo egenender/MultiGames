@@ -26,19 +26,25 @@ MODULOS_DISPONIBES = {
                 "Cooperativo" : {                        
                         "comandos" : {
                             "Cooperativo" : "Cooperativo"
-                        }
+                        },
+                        "min_jugadores" : 2,
+                        "max_jugadores" : 5
                 },
                 "Competitivo" : {                        
                         "comandos" : {
                             "Competitivo" : "Competitivo"
-                        }
+                        },
+                        "min_jugadores" : 2,
+                        "max_jugadores" : 2
                 } 
         },
         "JustOne" : {
                 "Cooperativo" : {
                         "comandos" : {
                             "Cooperativo" : "Cooperativo"
-                        }
+                        },
+                        "min_jugadores" : 2,
+                        "max_jugadores" : 8
                 } 
         }
 }
