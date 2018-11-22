@@ -1986,12 +1986,15 @@ def command_join(bot, update, args):
 			max_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["max_jugadores"]
 			min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
 			
+			bot.send_message(game.cid, len(game.playerlist))
+			
 			# Si se ha alcanzado el maximo de jugadores no te puedes unir.
 			if len(game.playerlist) == max_jugadores:
 				bot.send_message(game.cid, "Se ha alcanzado previamente el maximo de jugadores. Espera el proximo juego!")
 			else:
 				# Uno al jugador a la partida
 				game.add_player(uid, player)
+				bot.send_message(game.cid,"El jugador se ha unido a la partida ahora hay %s jugadores" % str(len(game.playerlist)))				
 				save(bot, game.cid)
 				# Si se ha alcanzado el minimo o superado
 				if len(game.playerlist) >= min_jugadores:
