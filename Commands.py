@@ -377,7 +377,11 @@ def get_player_exploradores_buttons(player, comando, strcid):
 	btns = []
 	buttonGroup = []
 	exploradores_list = ["Campero %d ❤️" % player.vida_explorador_campero, "Brujula %d ❤️" % player.vida_explorador_brujula , "Hoja %d ❤️" % player.vida_explorador_hoja]
+	
 	for argumento in exploradores_list:
+		# Si esta muerto no puede perder más vida.
+		if "0" in argumento:
+			continue
 		txtBoton = "%s" % (argumento)
 		datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(player.uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
