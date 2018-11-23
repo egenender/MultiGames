@@ -59,17 +59,21 @@ conn = psycopg2.connect(
 )
 
 def command_continue(bot, update, args):
+	
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
 		cid, uid = args[1], args[2]
 	if uid not in ADMIN:
-		bot.send_message(cid, uid)
-		
+		bot.send_message(cid, uid)	
+	
 	game = load_game(cid)
 	if game:
-		GamesController.games[cid] = game
-		execute_actions(bot, cid, uid)
+		GamesController.games[cid] = game		
+		if game.board.state.fase_actual == "execute_actions":
+			execute_actions(bot, cid, uid)
+		else:
+			bot.send_message(cid, "No estas en fase de continue, prueba con /resolve")
 	else:
 		bot.send_message(cid, "No hay juego que continuar")
 	
@@ -442,7 +446,12 @@ def resolve(bot, cid, uid, game, player):
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
 	cid, uid, game, player = get_base_data(bot, update)
-	resolve(cid, uid, game, player)
+	
+	if game.board.state.fase_actual == "resolve":
+		resolve(cid, uid, game, player)		
+	else:
+		bot.send_message(cid, "No estas en fase de resolve, prueba con /continue")
+		
 	#bot.send_message(cid, "El chat ID es %s" % str(cid))
 	
 			
