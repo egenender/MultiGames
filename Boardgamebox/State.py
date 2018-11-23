@@ -22,6 +22,10 @@ class State(object):
         self.esdedia = True
         # Contador de cuantas cartas se ingresaron del deck (Solo solitario)
         self.count_cartas_deck = 0
+        
+        self.amount_shuffled = 0
+        self.progreso = 1
+        self.objetivoprogreso = 9
                 
         '''
         # Borrar luego al hacer limpieza del bot
