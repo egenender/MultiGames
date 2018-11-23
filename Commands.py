@@ -701,11 +701,11 @@ def command_increase_progreso(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		game.board.state.progreso += 1
-		if game.board.state.progreso == game.board.state.objetivoprogreso:
+		game.board.progreso += 1
+		if game.board.progreso == game.board.objetivoprogreso:
 			bot.send_message(cid, "Ganaste")
 		else:
-			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.state.progreso)
+			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
 		after_command(bot, cid)
 		'''
 		player = game.playerlist[uid]
