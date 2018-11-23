@@ -179,14 +179,12 @@ def execute_actions(bot, cid, uid):
 							game.board.state.adquirir_final = False
 						else:
 							command_remove_exploration(bot, None, [1,cid,uid])
-						game.board.state.fase_actual = "resolve"
-						return
 					else:
 						
 						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")
 						command_show_exploration(bot, None, [1,cid,uid])
-						game.board.state.fase_actual = "resolve"
-					
+					game.board.state.fase_actual = "resolve"
+					save(bot, cid)
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
 					execute_actions(bot, cid, uid)		
@@ -447,10 +445,12 @@ def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
 	'''cid, uid = update.message.chat_id, update.message.from_user.id	
 	game = load_game(cid)
+	game, player = get_base_data2(cid, uid)
 	'''
 	
-	cid, uid = update.message.chat_id, update.message.from_user.id
-	game, player = get_base_data2(cid, uid)	
+	# Voy sobre seguro, obtengo de BD la app por si hubo se hizo un resolver que no llego a grabar 
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	game = load_game(cid)
 	
 	if game:
 		if game.board.state.index_accion_actual == 0 or game.board.state.fase_actual == "resolve":			
