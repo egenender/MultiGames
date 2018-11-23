@@ -900,10 +900,11 @@ def error(bot, update, error):
 			#"%s" por el usuario "%s"' % (update.message.chat.id, update.message.from.id))
 			bot.send_message(update.effective_chat.id, "Debido a Time Out se recomienda seguis con /continue si esto no responde probar /dia /noche o /resolve")
 			# Obtengo el juego actual
-			game = Commands.get_game(update.effective_chat.id)
+			'''game = Commands.get_game(update.effective_chat.id)
 			uid = update.effective_user.id
 			if game is not None:
-				recover(bot, update, game, uid)			
+				recover(bot, update, game, uid)
+			'''
 			#Commands.command_continue(bot, update, [None, update.message.chat.id, update.effective_user.id])
 		except Exception as e:
 			logger.warning('Error al tratar de obtener cid y uid. Error: %s' % str(e))                
