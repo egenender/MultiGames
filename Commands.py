@@ -449,10 +449,11 @@ def command_resolve_exploration2(bot, update):
 	game = load_game(cid)
 	'''
 	cid, uid = update.message.chat_id, update.message.from_user.id
-	game, player = get_base_data2(cid, uid)	
+	game = load_game(cid)
+	#game, player = get_base_data2(cid, uid)	
 	
 	if game:
-		if game.board.state.index_accion_actual == 0:# and game.board.state.fase_actual == "resolve":			
+		if game.board.state.index_accion_actual == 0 or game.board.state.fase_actual == "resolve":			
 			player = game.playerlist[uid]
 			resolve(bot, cid, uid, game, player)		
 		else:
