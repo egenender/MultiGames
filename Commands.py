@@ -1165,7 +1165,7 @@ def command_use_skill(bot, update, args):
 			
 			for skill in player.skills:
 				txtBoton = "Carta %s" % (skill)
-				datos = strcid + "*opcionskill*" + str(skill) + "*" + str(uid)
+				datos = str(cid) + "*opcionskill*" + str(skill) + "*" + str(uid)
 				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 				bot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
