@@ -22,9 +22,11 @@ class State(object):
         self.esdedia = True
         # Contador de cuantas cartas se ingresaron del deck (Solo solitario)
         self.count_cartas_deck = 0
-        
+        # Cuantas veces se ha mezclado el mazo
         self.amount_shuffled = 0
+        # Progreso actual de la expedicion TODO: Esto deberia estar en otra parte para el modo competitivo
         self.progreso = 1
+        # Objetivo, creo que es ajustable esto en los modos de dificultad.
         self.objetivoprogreso = 9
                 
         '''
