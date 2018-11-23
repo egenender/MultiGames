@@ -445,15 +445,17 @@ def resolve(bot, cid, uid, game, player):
 	
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
-	cid, uid, game, player = get_base_data(bot, update)
+	cid, uid = update.message.chat_id, update.message.from_user.id	
+	game = load_game(cid)
 	
-	if game.board.state.index_accion_actual == 0 and game.board.state.fase_actual == "resolve":
-		resolve(bot, cid, uid, game, player)		
+	if game:
+		if game.board.state.index_accion_actual == 0 and game.board.state.fase_actual == "resolve":
+			player = game.playerlist[uid]
+			resolve(bot, cid, uid, game, player)		
+		else:
+			bot.send_message(cid, "No estas en fase de resolve, prueba con /continue")
 	else:
-		bot.send_message(cid, "No estas en fase de resolve, prueba con /continue")
-		
-	#bot.send_message(cid, "El chat ID es %s" % str(cid))
-	
+		bot.send_message(cid, "No hay juego que resolver")	
 			
 def execute_command(bot, update):
 	callback = update.callback_query
