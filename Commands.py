@@ -445,8 +445,11 @@ def resolve(bot, cid, uid, game, player):
 	
 def command_resolve_exploration2(bot, update):
 	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
-	cid, uid = update.message.chat_id, update.message.from_user.id	
+	'''cid, uid = update.message.chat_id, update.message.from_user.id	
 	game = load_game(cid)
+	'''
+	cid, uid = update.message.chat_id, update.message.from_user.id
+	game, player = get_base_data2(cid, uid)	
 	
 	if game:
 		if game.board.state.index_accion_actual == 0:# and game.board.state.fase_actual == "resolve":			
