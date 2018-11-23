@@ -577,6 +577,7 @@ def after_command(bot, cid):
 def after_ruta_achicada(bot, cid, uid):
 	#sleep(3)
 	game = get_game(cid)
+	player = game.playerlist[uid]
 	if not game.board.cartasExplorationActual:
 		# Si es de dia se hace de noche y diceversa
 		if game.board.state.esdedia:
@@ -586,8 +587,14 @@ def after_ruta_achicada(bot, cid, uid):
 		
 		tiempo = "DÍA. Has /dia para continuar" if game.board.state.esdedia else "NOCHE. Has /noche para continuar"
 		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia a %s" % tiempo)
-		bot.send_message(cid, "Se pierde uno de comida (Se pierde comida automaticamente, sino no hay que quitar 1 de vida de alguien y aumentar la comida)")
-		command_losefood(bot, None, [0, cid, uid])
+		
+		if player.food != 0:
+			bot.send_message(cid, "Se pierde uno de comida")
+			command_losefood(bot, None, [0, cid, uid])
+		else:
+			bot.send_message(cid, "Como no hay comida alguien tiene habre. (-1 vida)")
+			comando = comandos["lose_life"]
+			iniciar_ejecucion_comando(bot, cid, uid, comando, None, None)
 		
 def command_hoja_ayuda(bot, update):
 	cid = update.message.chat_id
@@ -597,12 +604,6 @@ def command_hoja_ayuda(bot, update):
 	bot.send_message(cid, help_text)
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
-
-
-
-
-
-
 
 def command_newgame_lost_expedition(bot, update):  
 	cid = update.message.chat_id
