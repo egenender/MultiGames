@@ -96,8 +96,12 @@ def command_worflow(bot, update, args):
 # Si una accion no tiene opciones comenzará a ejecutarla.
 # Se hará cada comando uno atras del otro hasta cumplir 
 def execute_actions(bot, cid, uid):
+	
 	game, player = get_base_data2(cid, uid)
 	if game is not None:
+		# Seteo que estoy ejecutando acciones
+		game.board.state.fase_actual = "execute_actions"
+		
 		#sleep(2)
 		#try:
 		#ot.send_message(cid, "Init Execute Actions")		
@@ -164,18 +168,20 @@ def execute_actions(bot, cid, uid):
 					
 					if game.board.state.ejecutando_carta:
 						game.board.state.ejecutando_carta = False
-						bot.send_message(cid, "Se ha terminado de resolver la carta")									
+						bot.send_message(cid, "Se ha terminado de resolver la carta continue con /resolve")									
 						if game.board.state.adquirir_final:
 							command_gain_skill(bot, None, [0, cid, uid])
 							# Pongo en off el flag de adquirir final
 							game.board.state.adquirir_final = False
 						else:
 							command_remove_exploration(bot, None, [1,cid,uid])
+						game.board.state.fase_actual = "resolve"
 						return
 					else:
 						
 						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")
 						command_show_exploration(bot, None, [1,cid,uid])
+						game.board.state.fase_actual = "resolve"
 					
 				else:
 					# Llamada recursiva con nuevo indice de accion actual
@@ -407,11 +413,8 @@ def increase_count_cartas_deck(bot, game, player):
 def reset_count_cartas_deck(bot, game, player):
 	game.board.state.count_cartas_deck = 0
 	save(bot, game.cid)
-		
-def command_resolve_exploration2(bot, update):
-	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
-	cid, uid, game, player = get_base_data(bot, update)
-	#bot.send_message(cid, "El chat ID es %s" % str(cid))
+
+def resolve(bot, cid, uid, game, player):
 	if game is not None:
 		# Busco la carta y obtengo sus acciones		
 		if not game.board.cartasExplorationActual:
@@ -427,13 +430,21 @@ def command_resolve_exploration2(bot, update):
 			game.board.state.index_accion_actual = 1
 			game.board.state.index_comando_actual = 0 
 			game.board.state.index_opcion_actual = 0
-			
+
 			bot.send_message(cid, "Se inicia la ejecución de proxima carta de ruta. Utilizar comando /continue en caso que se trabe. Al final se deberia resolver o adquirir la carta.")
 			showImages(bot, cid, [game.board.cartasExplorationActual[0]])
 			game.board.state.ejecutando_carta = True
 			execute_actions(bot, cid, uid)
 			#except Exception as e:
 			#	bot.send_message(cid, 'No se ejecuto el coommand_resolve_exploration2 debido a: '+str(e))
+
+	
+def command_resolve_exploration2(bot, update):
+	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
+	cid, uid, game, player = get_base_data(bot, update)
+	resolve(cid, uid, game, player)
+	#bot.send_message(cid, "El chat ID es %s" % str(cid))
+	
 			
 def execute_command(bot, update):
 	callback = update.callback_query
