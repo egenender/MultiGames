@@ -1,6 +1,8 @@
 class State(object):
     """Storage object for game state"""
     def __init__(self):
+        self.fase_actual = None       
+        
         # Acciones de la carta actual
         self.acciones_carta_actual = None
         # Marca el indice de la accion que actuialmente se esta ejecutando.
