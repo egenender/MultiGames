@@ -448,7 +448,7 @@ def command_resolve_exploration2(bot, update):
 	cid, uid, game, player = get_base_data(bot, update)
 	
 	if game.board.state.fase_actual == "resolve":
-		resolve(cid, uid, game, player)		
+		resolve(bot, cid, uid, game, player)		
 	else:
 		bot.send_message(cid, "No estas en fase de resolve, prueba con /continue")
 		
