@@ -899,14 +899,31 @@ def error(bot, update, error):
 			logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
 			#"%s" por el usuario "%s"' % (update.message.chat.id, update.message.from.id))
 			bot.send_message(update.effective_chat.id, "Debido a Time Out se recomienda seguis con /continue si esto no responde probar /dia /noche o /resolve")
+			# Obtengo el juego actual
+			game = Commands.get_game(update.effective_chat.id)
+			uid = update.effective_user.id
+			if game is not None:
+				recover(bot, update, game, uid)			
 			#Commands.command_continue(bot, update, [None, update.message.chat.id, update.effective_user.id])
 		except Exception as e:
 			logger.warning('Error al tratar de obtener cid y uid. Error: %s' % str(e))                
 
 	logger.warning('Update "%s" caused error "%s"' % (update, error))
         
-        
-        
+# Metodo para recuperarse despues de un error de time out	
+def recover(bot, update, game, uid):
+	if game.tipo == "LostExpedition":
+		recover_lost_expedition(bot, update, game, uid)
+		
+def recover_lost_expedition(bot, update, game, uid):
+	# Si el juego no esta empezado, o no esta en ninguna fase. No hago nada.
+	if game.board != None:		
+		if game.board.state.fase_actual != None:
+			if game.board.state.fase_actual == "resolve":
+				# Si estaba en resolve quiere decir que hay que hacer el resolve.
+				Commands.resolve(bot, game.cid, uid, game, game.playerlist[uid])
+			elif game.board.state.fase_actual == "resolve":
+				Commands.command_continue(bot, update, [None, game.cid, uid])
         
 def main():
 	GamesController.init() #Call only once
