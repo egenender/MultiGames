@@ -1182,6 +1182,7 @@ def command_use_skill(bot, update, args):
 					btns.append(buttonGroup)
 				btnMarkup = InlineKeyboardMarkup(btns)
 				bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
+				return "Esperar"
 		else:
 			#cid = '-1001206290323'
 			# Defecto saco la de la izquierda
