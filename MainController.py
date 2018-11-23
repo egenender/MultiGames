@@ -922,7 +922,7 @@ def recover_lost_expedition(bot, update, game, uid):
 			if game.board.state.fase_actual == "resolve":
 				# Si estaba en resolve quiere decir que hay que hacer el resolve.
 				Commands.resolve(bot, game.cid, uid, game, game.playerlist[uid])
-			elif game.board.state.fase_actual == "resolve":
+			elif game.board.state.fase_actual == "execute_actions":
 				Commands.command_continue(bot, update, [None, game.cid, uid])
         
 def main():
