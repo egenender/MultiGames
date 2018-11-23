@@ -1162,16 +1162,26 @@ def command_use_skill(bot, update, args):
 				if game.board.state.comando_pedido:
 					execute_actions(bot, cid, uid)
 				# Si se esta ejecutando de forma automaticamente se vuelve
-			
-			for skill in player.skills:
-				txtBoton = "Carta %s" % (skill)
-				datos = str(cid) + "*opcionskill*" + str(skill) + "*" + str(uid)
-				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-				bot.send_message(cid, datos)					
-				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+			else:				
+				i = 1
+				btns = []
+				buttonGroup = []	
+				for skill in player.skills:
+					txtBoton = "Carta %s" % (skill)
+					datos = str(cid) + "*opcionskill*" + str(skill) + "*" + str(uid)
+					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+					#ot.send_message(cid, datos)	
+					buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
+					# Agrupo en grupos de 3
+					if (i % 3 ==0):
+						btns.append(buttonGroup)
+						buttonGroup = []
+					i += 1
+				# Pongo el resto que haya quedado 1 o 2 elementos
+				if len(buttonGroup) > 0:
+					btns.append(buttonGroup)
 				btnMarkup = InlineKeyboardMarkup(btns)
-			#for uid in game.playerlist:
-			bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
+				bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
 		else:
 			#cid = '-1001206290323'
 			# Defecto saco la de la izquierda
