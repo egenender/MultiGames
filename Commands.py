@@ -297,11 +297,9 @@ def elegir_opcion_skill(bot, update):
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
 
-
-	
-def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_final):
+def ejecutar_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_final):
 	#try:
-	log.info('execute_comando called: %s' % comando)
+	log.info('ejecutar_comando called: %s' % comando)
 	#bot.send_message(cid, comando)
 	#sleep(3)
 	game, player = get_base_data2(cid, uid)
@@ -320,9 +318,7 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 				
 		# Si tiene un comando a ejecutar al final del comando...
 		if ejecutar_al_final is not None:
-			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)
-		# Despues de ejecutar continuo las ejecuciones.
-		execute_actions(bot, cid, uid)
+			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)		
 	elif tipo_comando == "indicaciones":
 		# Genero los botones para preguntar al usuario.
 		strcid = str(game.cid)
@@ -350,7 +346,14 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 		# Si tiene un comando a ejecutar al final del comando...
 		if ejecutar_al_final is not None:
 			getattr(sys.modules[__name__], ejecutar_al_final)(bot, game, player)
-		execute_actions(bot, cid, uid)		
+		
+	
+def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_final):
+	ejecutar_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_final)
+	# Despues de ejecutar continuo las ejecuciones si el comando no fue del tipo indicaciones
+	tipo_comando = comando["tipo"]
+	if tipo_comando != "indicaciones":
+		execute_actions(bot, cid, uid)
 
 def get_player_hand_buttons(player, comando, strcid):
 	i = 1
