@@ -701,11 +701,11 @@ def command_increase_progreso(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		game.board.progreso += 1
-		if game.board.progreso == game.board.objetivoprogreso:
+		game.board.state.progreso += 1
+		if game.board.state.progreso == game.board.state.objetivoprogreso:
 			bot.send_message(cid, "Ganaste")
 		else:
-			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
+			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.state.progreso)
 		after_command(bot, cid)
 		'''
 		player = game.playerlist[uid]
@@ -923,8 +923,8 @@ def draw_card_cartasAventura(game, destino):
 	if not game.board.cartasAventura:
 		game.board.cartasAventura = random.sample(game.board.discards, len(game.board.discards))
 		game.board.discards = []
-		game.board.amount_shuffled += 1
-		if game.board.amount_shuffled == 1:
+		game.board.state.amount_shuffled += 1
+		if game.board.state.amount_shuffled == 1:
 			bot.send_message(cid, "Se ha mezclado el mazo y se debe consumir 1 de comida")
 			#for uid in game.playerlist:
 			#	player = game.playerlist[uid]
