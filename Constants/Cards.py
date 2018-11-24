@@ -100,21 +100,21 @@ comandos = {
         "tipo" : "indicaciones",
         "comando" : "command_lose_camp",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Campero -1❤️", "Brujula -2❤️", "Hoja -2❤️", "Usar carta skill"],
+        "indicacion_argumentos" : ["exploradores", "Usar carta skill"],
         "txt_boton" : "-⛺"
     },
     "lose_leaf" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_leaf",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Campero -2❤️", "Brujula -2❤️", "Hoja -1❤️", "Usar carta skill"],
+        "indicacion_argumentos" : ["exploradores", "Usar carta skill"],
         "txt_boton" : "-🍂"
     },
     "lose_compass" : {
         "tipo" : "indicaciones",
         "comando" : "command_lose_compass",
         "indicacion" : "Elija que quiere hacer",
-        "indicacion_argumentos" : ["Campero -2❤️", "Brujula -1❤️", "Hoja -2❤️", "Usar carta skill"],
+        "indicacion_argumentos" : ["exploradores", "Usar carta skill"],
         "txt_boton" : "-compass"
     },
     "lose_bullet" : {
