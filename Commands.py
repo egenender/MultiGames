@@ -1007,8 +1007,11 @@ def command_add_exploration_deck_first(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
 		#cid = '-1001206290323'
-		cantidad = int(args[0] if args else 1)-1		
-		
+				
+		try:
+			cantidad = int(args[0] if args else 1)-1
+		except Exception as e:
+			cantidad = int(args[0][0] if args[0] else 1)-1
 		game.board.cartasExplorationActual.insert(0, game.board.cartasExplorationActual.pop(cantidad))
 		bot.send_message(cid, "Se ha agregado la carta %s al principio de la ruta" % cantidad+1)
 		after_command(bot, cid)
