@@ -239,15 +239,18 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 				txtBoton += cmd["txt_boton"] + " "
 			else:
 				txtBoton += comando_op["comandos"][comando] + " "
-		txtBoton = txtBoton[:-1]	
+		txtBoton = txtBoton[:-1]
+		'''	
+		
 		if len(txtBoton) > 15:
-			txtBoton = txtBoton[:15]		
+			txtBoton = txtBoton[:15]
+		'''		
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		#ot.send_message(cid, datos)	
 		
-		# Me fijo si la opcion tiene alguna restriccion, en ese caso la verifico
+		# Me fijosi la opcion tiene alguna restriccion, en ese caso la verifico
 		# Ejemplo "restriccion" : ["player", "hand", "distinct", "0"]
 		if "restriccion" in comando_op:
 			atributo = get_atribute(comando_op["restriccion"], game, player)
@@ -388,7 +391,7 @@ def get_player_exploradores_buttons(player, comando, strcid):
 	i = 1
 	btns = []
 	buttonGroup = []
-	exploradores_list = ["Campero %d ❤️" % player.vida_explorador_campero, "Brujula %d ❤️" % player.vida_explorador_brujula , "Hoja %d ❤️" % player.vida_explorador_hoja]
+	exploradores_list = ["Campero %d❤️" % player.vida_explorador_campero, "Brujula %d❤️" % player.vida_explorador_brujula , "Hoja %d❤️" % player.vida_explorador_hoja]
 	
 	for argumento in exploradores_list:
 		# Si esta muerto no puede perder más vida.
