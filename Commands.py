@@ -1200,6 +1200,9 @@ def command_use_skill(bot, update, args):
 			game.board.discards.append(player.skills.pop(item_to_remove))
 			bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
 			after_command(bot, cid)
+			if game.board.state.comando_pedido:
+				execute_actions(bot, cid, uid)
+			
 		#command_show_exploration(bot, update)
 		
 def command_sort_hand(bot, update, args):
