@@ -335,6 +335,7 @@ def ejecutar_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_fin
 		# TODO Automatizar de donde se saca esta lista
 		if "player.hand" in comando["indicacion_argumentos"]:			
 			btnMarkup = get_player_hand_buttons(player, comando, strcid)
+			command_showhand(bot, None, [-1, cid, uid])
 		elif "exploradores" in comando["indicacion_argumentos"]:
 			btnMarkup = get_player_exploradores_buttons(player, comando, strcid)
 		else:
