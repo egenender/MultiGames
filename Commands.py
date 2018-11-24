@@ -529,7 +529,7 @@ def command_newgame_sql_command(bot, update, args):
 
 # The Lost Expedition
 # Generic commands for all games
-def showImages(bot, cid, cartas):
+def showImages(bot, cid, cartas, img_caption = ""):
 	images = []
 	for carta in cartas:
 		images.append(get_img_carta(carta))
@@ -550,7 +550,7 @@ def showImages(bot, cid, cartas):
 	bio.name = 'image.jpeg'
 	new_im.save(bio, 'JPEG')
 	bio.seek(0)
-	bot.send_photo(cid, photo=bio)
+	bot.send_photo(cid, photo=bio, caption=img_caption)
 	
 def save(bot, cid):
 	try:		
@@ -702,8 +702,8 @@ def command_showhand(bot, update, args):
 		if not player.hand:
 			bot.send_message(cid, "El jugador no tiene cartas")
 		else:
-			bot.send_message(cid, "Mano jugador")
-			showImages(bot, cid, player.hand)
+			
+			showImages(bot, cid, player.hand, "Mano del Jugador")
 		
 def command_showskills(bot, update):	
 	try:
@@ -720,7 +720,7 @@ def command_showskills(bot, update):
 		if not player.skills:
 			bot.send_message(cid, "El jugador no tiene skills.")
 		else:
-			showImages(bot, cid, player.skills)
+			showImages(bot, cid, player.skills, "Skills jugador")
 
 def command_increase_progreso(bot, update, args):
 	try:
@@ -1026,8 +1026,8 @@ def command_show_exploration(bot, update, args):
 		if not game.board.cartasExplorationActual:
 			bot.send_message(cid, "Exploracion Actual no tiene cartas")
 		else:
-			bot.send_message(cid, "Exploracion Actual")
-			showImages(bot, cid, game.board.cartasExplorationActual)
+			#ot.send_message(cid, "Exploracion Actual")
+			showImages(bot, cid, game.board.cartasExplorationActual, "Exploracion Actual")
 
 def command_sort_exploration_rute(bot, update, args):
 	try:
