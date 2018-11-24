@@ -179,7 +179,7 @@ def execute_actions(bot, cid, uid):
 							game.board.state.adquirir_final = False
 						else:
 							command_remove_exploration(bot, None, [1,cid,uid])
-						bot.send_message(cid, "Se ha terminado de resolver la carta continue con /resolve")
+						bot.send_message(cid, "Se ha terminado de resolver la carta. Si no es la ultima /resolve")
 					else:
 						command_show_exploration(bot, None, [1,cid,uid])
 						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")
