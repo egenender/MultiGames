@@ -340,7 +340,13 @@ def ejecutar_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_fin
 			btnMarkup = get_player_hand_buttons(player, comando, strcid)
 			command_showhand(bot, None, [-1, cid, uid])
 		elif "exploradores" in comando["indicacion_argumentos"]:
-			btnMarkup = get_player_exploradores_buttons(player, comando, strcid)
+			btns = get_player_exploradores_buttons(player, comando, strcid)
+			if "Usar carta skill" in comando["indicacion_argumentos"]:
+				argumento = "Usar carta skill"
+				txtBoton = "%s" % (argumento)
+				datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+			btnMarkup = InlineKeyboardMarkup(btns)
 		else:
 			btns = []
 			for argumento in comando["indicacion_argumentos"]:
@@ -410,7 +416,7 @@ def get_player_exploradores_buttons(player, comando, strcid):
 	# Pongo el resto que haya quedado 1 o 2 elementos
 	if len(buttonGroup) > 0:
 		btns.append(buttonGroup)
-	return InlineKeyboardMarkup(btns)
+	return btns
 	
 def increase_count_cartas_deck(bot, game, player):
 	game.board.state.count_cartas_deck += 1
