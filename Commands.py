@@ -172,17 +172,17 @@ def execute_actions(bot, cid, uid):
 					
 					if game.board.state.ejecutando_carta:
 						game.board.state.ejecutando_carta = False
-						bot.send_message(cid, "Se ha terminado de resolver la carta continue con /resolve")									
+															
 						if game.board.state.adquirir_final:
 							command_gain_skill(bot, None, [0, cid, uid])
 							# Pongo en off el flag de adquirir final
 							game.board.state.adquirir_final = False
 						else:
 							command_remove_exploration(bot, None, [1,cid,uid])
+						bot.send_message(cid, "Se ha terminado de resolver la carta continue con /resolve")
 					else:
-						
-						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")
 						command_show_exploration(bot, None, [1,cid,uid])
+						bot.send_message(cid, "Puede comenzar a resolver la ruta con /resolve")
 					game.board.state.fase_actual = "resolve"
 					save(bot, cid)
 				else:
