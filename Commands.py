@@ -1276,7 +1276,7 @@ def command_lose_camp(bot, update, args):
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [-1,cid,uid])	
+		return command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_compass(bot, update, args):
 	#log.info(args)
@@ -1297,7 +1297,7 @@ def command_lose_compass(bot, update, args):
 		player.vida_explorador_hoja  -=2;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [-1,cid,uid])	
+		return command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_leaf(bot, update, args):
 	log.info(args)
@@ -1318,7 +1318,7 @@ def command_lose_leaf(bot, update, args):
 		player.vida_explorador_hoja  -=1;
 		after_command(bot, cid)
 	if args[0] == "Usar carta skill":
-		command_use_skill(bot, None, [-1,cid,uid])	
+		return command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_explorer(bot, update, args):
 	try:
