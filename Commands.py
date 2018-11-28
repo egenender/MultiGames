@@ -352,7 +352,7 @@ def ejecutar_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_fin
 			for argumento in comando["indicacion_argumentos"]:
 				txtBoton = "%s" % (argumento)
 				datos = strcid + "*exe*" + argumento + "*" + comando["comando"] + "*" + str(uid)
-				#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
+				log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 				#ot.send_message(cid, datos)					
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 			btnMarkup = InlineKeyboardMarkup(btns)
