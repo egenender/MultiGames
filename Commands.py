@@ -473,7 +473,7 @@ def command_resolve_exploration2(bot, update):
 			
 def execute_command(bot, update):
 	callback = update.callback_query
-	log.info('execute_command called: %s' % callback.data)
+	#log.info('execute_command called: %s' % callback.data)
 	regex = re.search("(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback.data)
 	cid = int(regex.group(1))
 	strcid = regex.group(1)	
@@ -1019,7 +1019,7 @@ def command_add_exploration_deck(bot, update, args):
 		except Exception as e:
 			cantidad = int(args[0][0] if args else 1)
 		
-		log.info(game.board.cartasAventura)
+		#log.info(game.board.cartasAventura)
 		for i in range(cantidad):			
 			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
 		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo" % cantidad)
@@ -1300,7 +1300,7 @@ def command_reglas(bot, update):
 	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
 
 def command_lose_camp(bot, update, args):
-	log.info(args)
+	#log.info(args)
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
@@ -1342,7 +1342,7 @@ def command_lose_compass(bot, update, args):
 		return command_use_skill(bot, None, [-1,cid,uid])	
 	
 def command_lose_leaf(bot, update, args):
-	log.info(args)
+	#log.info(args)
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
@@ -1665,10 +1665,10 @@ def load_game(cid):
 		log.info("Game Found")
 		jsdata = dbdata[3]
 		
-		log.info(dbdata[0])
-		log.info(dbdata[1])
-		log.info(dbdata[2])
-		log.info(dbdata[3])
+		#log.info(dbdata[0])
+		#log.info(dbdata[1])
+		#log.info(dbdata[2])
+		#log.info(dbdata[3])
 		#log.info("jsdata = %s" % (jsdata))				
 		game = jsonpickle.decode(jsdata)
 		
