@@ -179,6 +179,9 @@ def execute_actions(bot, cid, uid):
 							game.board.state.adquirir_final = False
 						else:
 							command_remove_exploration(bot, None, [1,cid,uid])
+						# Si todavia hay cartas pido al usuario que continue la ejecucion.
+						if game.board.cartasExplorationActual:
+							bot.send_message(cid, "Se ha terminado de resolver la carta. Continue con /resolve")
 						
 					else:
 						command_show_exploration(bot, None, [1,cid,uid])
@@ -631,9 +634,11 @@ def after_ruta_achicada(bot, cid, uid):
 			bot.send_message(cid, "Como no hay comida alguien tiene habre. (-1 vida)")
 			comando = comandos["lose_life"]
 			iniciar_ejecucion_comando(bot, cid, uid, comando, None, None)
+	'''
 	else:
 		# Deduzco de que la ruta se achica por resolve...
 		bot.send_message(cid, "Se ha terminado de resolver la carta. Continue con /resolve")
+	'''
 		
 def command_hoja_ayuda(bot, update):
 	cid = update.message.chat_id
