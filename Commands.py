@@ -982,7 +982,8 @@ def command_peek_deck(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		top_card = game.board.cartasAventura[0]
-		showImages(bot, cid, [top_card], "Carta de arriba del deck")	
+		showImages(bot, cid, [top_card], "Carta de arriba del deck")
+		after_command(bot, cid)
 			
 def command_add_exploration_deck_option(bot, update, args):
 	try:
