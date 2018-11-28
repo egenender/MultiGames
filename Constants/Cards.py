@@ -146,7 +146,7 @@ comandos = {
     "add_rute_hand" : {
         "tipo" : "indicaciones",
         "comando" : "command_add_exploration",
-        "indicacion" : "Elija un carta para agregar a la ruta. Para ver la ruta haga /showrute",
+        "indicacion" : "Elija un carta para agregar al final de la ruta. Para ver la ruta haga /showrute",
         "indicacion_argumentos" : ["player.hand"],
         "txt_boton" : "Agregar Mano"
     },
