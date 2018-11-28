@@ -632,6 +632,7 @@ def after_ruta_achicada(bot, cid, uid):
 			comando = comandos["lose_life"]
 			iniciar_ejecucion_comando(bot, cid, uid, comando, None, None)
 	else:
+		# Deduzco de que la ruta se achica por resolve...
 		bot.send_message(cid, "Se ha terminado de resolver la carta. Continue con /resolve")
 		
 def command_hoja_ayuda(bot, update):
