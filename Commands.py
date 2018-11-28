@@ -1003,7 +1003,7 @@ def command_add_rute_option(bot, update, args):
 		except Exception as e:
 			opcion = args[0][0] if args else "Al final"
 		if opcion == "Al final":
-			command_add_exploration(bot, update, [1, cid, uid]) 
+			command_add_exploration_deck(bot, update, [1, cid, uid]) 
 		else:
 			command_add_exploration_first(bot, update, [1, cid, uid])
 				
