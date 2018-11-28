@@ -521,16 +521,12 @@ cartas_aventura = {
                     },
                     2 : {
                         "comandos" : {
-                            1 : "lose_life",
-                            2 : "gain_food",
-                            3 : "gain_food"                           
+                            1 : "remove_rute"
                         }
                     },
                     3 : {
                         "comandos" : {
-                            1 : "lose_life",
-                            2 : "gain_food",
-                            3 : "gain_food"                           
+                            1 : "gain_skill"                       
                         }
                     }
                 }
