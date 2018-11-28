@@ -53,8 +53,8 @@ comandos = {
     },
     "add_rute_option" : {
         "tipo" : "indicaciones",
-        "comando" : "command_add_exploration_deck_option",
-        "indicacion" : "En que parte de la ruta quieres agregar la carta",
+        "comando" : "command_add_rute_option",
+        "indicacion" : "¿En que parte de la ruta quieres agregar la carta?",
         "indicacion_argumentos" : ["Al principio", "Al final"],
         "txt_boton" : "Agregar del mazo"
     },
