@@ -1001,7 +1001,7 @@ def command_add_exploration_deck_option(bot, update, args):
 		if opcion == "Al final":
 			command_add_exploration(bot, update, [1, cid, uid]) 
 		else:
-			command_add_exploration_first(bot, update, [1, cid, uid]):
+			command_add_exploration_first(bot, update, [1, cid, uid])
 				
 def command_add_exploration_deck(bot, update, args):
 	try:
