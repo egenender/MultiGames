@@ -1010,7 +1010,7 @@ def command_add_rute_option(bot, update, args):
 		if opcion == "Al final":
 			command_add_exploration_deck(bot, update, [1, cid, uid]) 
 		else:
-			command_add_exploration_deck_first(bot, update, [1, cid, uid])
+			command_add_exploration_deck_first(bot, update, [-1, cid, uid])
 				
 def command_add_exploration_deck(bot, update, args):
 	try:
@@ -1052,13 +1052,9 @@ def command_add_exploration_deck_first(bot, update, args):
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return		
 		#cid = '-1001206290323'
-				
-		try:
-			cantidad = int(args[0] if args else 1)-1
-		except Exception as e:
-			cantidad = int(args[0][0] if args[0] else 1)-1
-		game.board.cartasExplorationActual.insert(0, game.board.cartasExplorationActual.pop(cantidad))
-		bot.send_message(cid, "Se ha agregado la carta %s al principio de la ruta" % str(cantidad+1))
+		# Siempre se agrega de a 1 carta 
+		game.board.cartasExplorationActual.insert(0, game.board.cartasAventura.pop(0))		
+		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
 		after_command(bot, cid)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)		
