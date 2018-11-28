@@ -970,9 +970,39 @@ def draw_card_cartasAventura(game, destino):
 			#	player = game.playerlist[uid]
 		else:
 			bot.send_message(cid, "Se ha perdido la partida porque se ha mezclado el mazo dos veces. /delete")
+
+def command_peek_deck(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		top_card = game.board.cartasAventura[0]
+		showImages(bot, cid, [top_card], "Carta de arriba del deck")	
 			
-		
-		
+def command_add_exploration_deck_option(bot, update, args):
+	try:
+		cid, uid = update.message.chat_id, update.message.from_user.id
+	except Exception as e:
+		cid, uid = args[1], args[2]	
+	if uid in ADMIN:
+		game = get_game(cid)
+		if not game:
+			bot.send_message(cid, "No hay juego creado en este chat")
+			return
+		try:
+			opcion = args[0] if args else "Al final"
+		except Exception as e:
+			opcion = args[0][0] if args else "Al final"
+		if opcion == "Al final":
+			command_add_exploration(bot, update, [1, cid, uid]) 
+		else:
+			command_add_exploration_first(bot, update, [1, cid, uid]):
+				
 def command_add_exploration_deck(bot, update, args):
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
