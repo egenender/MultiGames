@@ -278,7 +278,6 @@ modos_juego = {
                                 1 : "peek_deck",
                                 2 : "add_rute_option"
                             },
-                            "comando_argumentos" : [1],
                             "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
                             "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
@@ -304,7 +303,6 @@ modos_juego = {
                                 1 : "peek_deck",
                                 2 : "add_rute_option"
                             },
-                            "comando_argumentos" : [1],
                             "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
                             "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
@@ -330,7 +328,6 @@ modos_juego = {
                                 1 : "peek_deck",
                                 2 : "add_rute_option"
                             },
-                            "comando_argumentos" : [1],
                             "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
                             "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
@@ -356,7 +353,6 @@ modos_juego = {
                                 1 : "peek_deck",
                                 2 : "add_rute_option"
                             },
-                            "comando_argumentos" : [1],
                             "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
                             "ejecutar_al_final" : "increase_count_cartas_deck"
                         },
@@ -382,7 +378,6 @@ modos_juego = {
                                 1 : "peek_deck",
                                 2 : "add_rute"
                             },
-                            "comando_argumentos" : [1],
                             "restriccion" : ["state", "count_cartas_deck", "igual", "3"],
                             "ejecutar_al_final" : "reset_count_cartas_deck"
                         },                        
