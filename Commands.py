@@ -987,7 +987,7 @@ def command_peek_deck(bot, update, args):
 		showImages(bot, cid, [top_card], "Carta de arriba del deck")
 		after_command(bot, cid)
 			
-def command_add_exploration_deck_option(bot, update, args):
+def command_add_rute_option(bot, update, args):
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
 	except Exception as e:
