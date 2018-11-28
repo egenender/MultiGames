@@ -1053,7 +1053,7 @@ def command_add_exploration_deck_first(bot, update, args):
 		except Exception as e:
 			cantidad = int(args[0][0] if args[0] else 1)-1
 		game.board.cartasExplorationActual.insert(0, game.board.cartasExplorationActual.pop(cantidad))
-		bot.send_message(cid, "Se ha agregado la carta %s al principio de la ruta" % cantidad+1)
+		bot.send_message(cid, "Se ha agregado la carta %d al principio de la ruta" % cantidad+1)
 		after_command(bot, cid)
 		#log.info(game.board.cartasAventura)
 		#command_show_exploration(bot, update)		
