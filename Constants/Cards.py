@@ -3235,12 +3235,12 @@ opciones_choose_posible_role = {
             1 : "Liberal"
         }
     },
-    "Fascista" : {
+    "Fascista" : {        
         "comandos" : {
             1 : "Fascista"
         }
     },
-    "Fascista" : {        
+    "Hitler" : {        
         "comandos" : {
             1 : "Hitler"
         }
