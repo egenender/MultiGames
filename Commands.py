@@ -2134,13 +2134,13 @@ def command_startgame(bot, update):
 			
 def command_roll(bot, update, args):
 	tirada = random.randint(1,101)	
-	if resultado > 97:
+	if tirada > 97:
 		tirada2 = random.randint(1,101)
 		bot.send_message(game.cid, "¡Tu tirada ha sido *%s!* " % (str(tirada+tirada2)), reply_markup=btnMarkup)
-	elif resultado < 4:
+	elif tirada < 4:
 		tirada2 = random.randint(1,101)
 		bot.send_message(game.cid, "¡Tu pifia ha sido *%s*!" % (str(tirada-tirada2)), reply_markup=btnMarkup)
-	elif resultado == 27:
+	elif tirada == 27:
 		bot.send_message(game.cid, "¡Épico!* ", reply_markup=btnMarkup)
 	else:
 		bot.send_message(game.cid, "¡Tu tirada ha sido *%s*!" % (str(tirada)), reply_markup=btnMarkup)
