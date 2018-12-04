@@ -2134,20 +2134,31 @@ def command_startgame(bot, update):
 			
 def command_roll(bot, update, args):	
 	if args:
-		text_tirada = 'Tu tirada de ' + ' '.join(args)
+		text_tirada = '¡Tu tirada de ' + ' '.join(args)
 	else:
-		text_tirada = 'Tu tirada '
+		text_tirada = '¡Tu tirada '
 	
 	cid = update.message.chat_id
+	uid = update.message.from_user.id
+	
 	tirada = random.randint(1,101)	
 	if tirada > 97:
 		tirada2 = random.randint(1,101)
-		bot.send_message(cid, "¡%s es *%s!* " % (text_tirada, str(tirada+tirada2)), ParseMode.MARKDOWN)
+		text_tirada +=  ' es *%s!*' % (str(tirada+tirada2))
 	elif tirada < 4:
 		tirada2 = random.randint(1,101)
-		bot.send_message(cid, "¡%s es *%s*!" % (text_tirada, str(tirada-tirada2)), ParseMode.MARKDOWN)
+		text_tirada +=  ' es *%s!*' % (str(tirada-tirada2))
 	elif tirada == 27:
-		bot.send_message(cid, "¡%s Épico!* " % text_tirada, ParseMode.MARKDOWN)
+		text_tirada +=  ' es *Épico*!' % (str(tirada+tirada2))		
 	else:
-		bot.send_message(cid, "¡%s es *%s*!" % (text_tirada, str(tirada)), ParseMode.MARKDOWN)
+		text_tirada +=  ' es *%s!*' % (str(tirada))
+		
+	bot.send_message(cid, "%s" % (text_tirada), ParseMode.MARKDOWN)
+	
+	# Si hay un juego creado guardo en el historial
+	game = get_game(cid)
+	if game and uid in game.playerlist::
+		player = game.playerlist[uid]
+		texthistory = "jugador %s - %s" % (player.name, text_tirada)
+		game.history.append("%s" % (texthistory))
 		
