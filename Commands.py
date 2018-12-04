@@ -650,28 +650,29 @@ def command_hoja_ayuda(bot, update):
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
 
 def command_newgame_lost_expedition(bot, update):  
-	cid = update.message.chat_id
-	fname = update.message.from_user.first_name
-	uid = update.message.from_user.id
-	groupName = update.message.chat.title
-	try:
-		game = get_game(cid)
-		if game:
-			bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
-		else:
-			# Creo el juego si no esta.
-			game = Game(cid, update.message.from_user.id, groupName, "LostExpedition" ,"Solitario", )
-			GamesController.games[cid] = game
-			# Creo el jugador que creo el juego y lo agrego al juego
-			player = Player(fname, uid)
-			game.add_player(uid, player)				
-			player_number = len(game.playerlist)
-			bot.send_message(cid, "Se creo el juego y el usuario")
-			save(bot, game.cid)
-			MainController.init_game(bot, game)
-				
-	except Exception as e:
-		bot.send_message(cid, 'Error '+str(e))
+	if uid in ADMIN:		
+		cid = update.message.chat_id
+		fname = update.message.from_user.first_name
+		uid = update.message.from_user.id
+		groupName = update.message.chat.title
+		try:
+			game = get_game(cid)
+			if game:
+				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
+			else:
+				# Creo el juego si no esta.
+				game = Game(cid, update.message.from_user.id, groupName, "LostExpedition" ,"Solitario", )
+				GamesController.games[cid] = game
+				# Creo el jugador que creo el juego y lo agrego al juego
+				player = Player(fname, uid)
+				game.add_player(uid, player)				
+				player_number = len(game.playerlist)
+				bot.send_message(cid, "Se creo el juego y el usuario")
+				save(bot, game.cid)
+				MainController.init_game(bot, game)
+
+		except Exception as e:
+			bot.send_message(cid, 'Error '+str(e))
 
 
 		
@@ -1988,28 +1989,29 @@ def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_c
 
 #Se crea metodo general para crear jeugos
 def command_newgame(bot, update):  
-	cid = update.message.chat_id
-	uid = update.message.from_user.id
-	try:
-		game = GamesController.games.get(cid, None)
-		groupType = update.message.chat.type
-		groupName = update.message.chat.title
-		if groupType not in ['group', 'supergroup']:
-			bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
-		elif game:
-			bot.send_message(cid, "Hay un juego comenzado en este chat. Si quieres terminarlo escribe /delete!")
-		else:			
-			# Busco si hay un juego ya creado
-			game = get_game(cid)
-			if game:
-				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
-			else:
-				# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
-				GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)				
-				bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
-				configurarpartida(bot, cid, uid)
-	except Exception as e:
-		bot.send_message(cid, str(e))
+	if uid in ADMIN:
+		cid = update.message.chat_id
+		uid = update.message.from_user.id
+		try:
+			game = GamesController.games.get(cid, None)
+			groupType = update.message.chat.type
+			groupName = update.message.chat.title
+			if groupType not in ['group', 'supergroup']:
+				bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
+			elif game:
+				bot.send_message(cid, "Hay un juego comenzado en este chat. Si quieres terminarlo escribe /delete!")
+			else:			
+				# Busco si hay un juego ya creado
+				game = get_game(cid)
+				if game:
+					bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
+				else:
+					# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
+					GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)				
+					bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
+					configurarpartida(bot, cid, uid)
+		except Exception as e:
+			bot.send_message(cid, str(e))
 
 def command_configurar_partida(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id
@@ -2130,3 +2132,19 @@ def command_startgame(bot, update):
 		else:
 			bot.send_message(game.cid, "Falta el numero mínimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))
 			
+def command_roll(bot, update, args):
+	tirada = random.randint(1,101)	
+	if resultado > 97:
+		tirada2 = random.randint(1,101)
+		bot.send_message(game.cid, "¡Tu tirada ha sido *%s!* " % (str(tirada+tirada2)), reply_markup=btnMarkup)
+	elif resultado < 4:
+		tirada2 = random.randint(1,101)
+		bot.send_message(game.cid, "¡Tu pifia ha sido *%s*!" % (str(tirada-tirada2)), reply_markup=btnMarkup)
+	elif resultado == 27:
+		bot.send_message(game.cid, "¡Épico!* ", reply_markup=btnMarkup)
+	else:
+		bot.send_message(game.cid, "¡Tu tirada ha sido *%s*!" % (str(tirada)), reply_markup=btnMarkup)
+	
+	
+		
+	
