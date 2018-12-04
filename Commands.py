@@ -2081,7 +2081,8 @@ def command_join(bot, update, args):
 		bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
 	elif not game:
 		bot.send_message(cid, "No hay juego en este chat. Crea un nuevo juego con /newgame")
-	elif game.board:
+	elif game.board and not "permitir_ingreso_tardio" in JUEGOS_DISPONIBLES[game.tipo]:
+		# Si el juego se ha comenzado, y no permite ingreso tardio...
 		bot.send_message(cid, "El juego ha comenzado. Por favor espera el proximo juego!")
 	elif uid in game.playerlist:
 		bot.send_message(game.cid, "Ya te has unido al juego, %s!" % fname)
