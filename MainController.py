@@ -970,7 +970,6 @@ def main():
 	dp.add_handler(CommandHandler("help", Commands.command_help))
 	dp.add_handler(CommandHandler("board", Commands.command_board))
 	dp.add_handler(CommandHandler("rules", Commands.command_rules))
-	dp.add_handler(CommandHandler("ping", Commands.command_ping))
 	dp.add_handler(CommandHandler("symbols", Commands.command_symbols))
 
 	dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
@@ -981,11 +980,7 @@ def main():
 	dp.add_handler(CommandHandler("votes", Commands.command_votes))
 	dp.add_handler(CommandHandler("calltovote", Commands.command_calltovote))
 	dp.add_handler(CommandHandler("claim", Commands.command_claim, pass_args = True))
-	dp.add_handler(CommandHandler("infect", Commands.command_infect, pass_args = True))
-	dp.add_handler(CommandHandler("ver", Commands.command_ver, pass_args = True))
-	dp.add_handler(CommandHandler("otra", Commands.command_otra, pass_args = True))
-	dp.add_handler(CommandHandler("limpiar", Commands.command_limpiar, pass_args = True))        
-	dp.add_handler(CommandHandler("calltoaction", Commands.call_to_action))
+	
 	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
 	
 	# Comando para hacer comandos sql desde el chat
@@ -1039,9 +1034,7 @@ def main():
 	dp.add_handler(CommandHandler("save", Commands.save))
 	dp.add_handler(CommandHandler("load", Commands.load))
 
-	#Testing commands
-	dp.add_handler(CommandHandler("ja", Commands.command_ja))
-	dp.add_handler(CommandHandler("nein", Commands.command_nein))
+	#Testing commands	
 	dp.add_handler(CommandHandler("elegimos", Commands.command_elegimos, pass_args = True))
 
 	'''
