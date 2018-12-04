@@ -2134,7 +2134,7 @@ def command_startgame(bot, update):
 			
 def command_roll(bot, update, args):	
 	if args:
-		text_tirada = ' '.join(args)
+		text_tirada = 'Tu tirada de ' + ' '.join(args)
 	else:
 		text_tirada = 'Tu tirada ha sido'
 	
