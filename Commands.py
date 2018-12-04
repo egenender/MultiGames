@@ -1117,21 +1117,40 @@ def command_swap_exploration(bot, update, args):
 		if args[0] == "Sí" or args[0] == "No":
 			if args[0] == "Sí":
 				player = game.playerlist[uid]
-				btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap1", str(cid))
-				bot.send_message(cid, "Elija la primera carta a cambiar", reply_markup=btnMarkup)
 				
+				if game.board.state.swap_cards < 2:
+					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap", str(cid))
+					bot.send_message(cid, "Elija la carta a cambiar", reply_markup=btnMarkup)
+					return "Esperar"
+				else:
+					command_swap_exploration(bot, update, ["Finalizado", cid, uid, game.board.state.swap_cards[0], game.board.state.swap_cards[1])
+					
 				bot.send_message(cid, "Por favor haga el swap Manual y luego haga /continue")
 				return "Esperar"
 			else:
 				bot.send_message(cid, "Se ha decidido no hacer swap")
 				after_command(bot, cid)
 		else:
-			a, b =  int(args[0])-1, int(args[1])-1		
+			try:
+				a, b =  int(args[0])-1, int(args[1])-1
+			else:				
+				a, b =  int(args[3])-1, int(args[4])-1
+				
 			game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
 			bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (args[0], args[1]))
 			after_command(bot, cid)
 			#command_show_exploration(bot, update)
 
+def callback_choose_swap(bot, update):
+	callback = update.callback_query
+	log.info('callback_choose_swap called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*swap\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+	bot.edit_message_text("Has elegido la carta: %s" % opcion, cid, callback.message.message_id)
+	game = get_game(cid)
+	game.board.state.swap_cards.append(int(opcion))
+	command_swap_exploration(bot, update, ["Sí", cid, uid])
+			
 # Remove se usara para resolver y para remover cartas por accion de otras cartas		
 def command_remove_exploration(bot, update, args):
 	try:
