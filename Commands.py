@@ -2133,17 +2133,18 @@ def command_startgame(bot, update):
 			bot.send_message(game.cid, "Falta el numero mínimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))
 			
 def command_roll(bot, update, args):
+	cid = update.message.chat_id
 	tirada = random.randint(1,101)	
 	if tirada > 97:
 		tirada2 = random.randint(1,101)
-		bot.send_message(game.cid, "¡Tu tirada ha sido *%s!* " % (str(tirada+tirada2)), reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Tu tirada ha sido *%s!* " % (str(tirada+tirada2)), reply_markup=btnMarkup)
 	elif tirada < 4:
 		tirada2 = random.randint(1,101)
-		bot.send_message(game.cid, "¡Tu pifia ha sido *%s*!" % (str(tirada-tirada2)), reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Tu pifia ha sido *%s*!" % (str(tirada-tirada2)), reply_markup=btnMarkup)
 	elif tirada == 27:
-		bot.send_message(game.cid, "¡Épico!* ", reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Épico!* ", reply_markup=btnMarkup)
 	else:
-		bot.send_message(game.cid, "¡Tu tirada ha sido *%s*!" % (str(tirada)), reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Tu tirada ha sido *%s*!" % (str(tirada)), reply_markup=btnMarkup)
 	
 	
 		
