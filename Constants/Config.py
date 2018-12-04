@@ -19,8 +19,7 @@ JUEGOS_DISPONIBLES = {
         "SistemaD100" : {
                 "comandos" : {
                     "SistemaD100" : "SistemaD100"
-                },
-                "restriccion" : "ninguna"
+                }
         }
 }
 
