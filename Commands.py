@@ -2137,14 +2137,14 @@ def command_roll(bot, update, args):
 	tirada = random.randint(1,101)	
 	if tirada > 97:
 		tirada2 = random.randint(1,101)
-		bot.send_message(cid, "¡Tu tirada ha sido *%s!* " % (str(tirada+tirada2)), reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Tu tirada ha sido *%s!* " % (str(tirada+tirada2)), ParseMode.MARKDOWN)
 	elif tirada < 4:
 		tirada2 = random.randint(1,101)
-		bot.send_message(cid, "¡Tu pifia ha sido *%s*!" % (str(tirada-tirada2)), reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Tu pifia ha sido *%s*!" % (str(tirada-tirada2)), ParseMode.MARKDOWN)
 	elif tirada == 27:
-		bot.send_message(cid, "¡Épico!* ", reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Épico!* ", ParseMode.MARKDOWN)
 	else:
-		bot.send_message(cid, "¡Tu tirada ha sido *%s*!" % (str(tirada)), reply_markup=btnMarkup)
+		bot.send_message(cid, "¡Tu tirada ha sido *%s*!" % (str(tirada)), ParseMode.MARKDOWN)
 	
 	
 		
