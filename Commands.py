@@ -343,7 +343,8 @@ def ejecutar_comando(bot, cid, uid, comando, comando_argumentos, ejecutar_al_fin
 		# Creo los botones para elegir al usuario
 		# TODO Automatizar de donde se saca esta lista
 		if "player.hand" in comando["indicacion_argumentos"]:			
-			btnMarkup = get_player_hand_buttons(player, comando, strcid)
+			#btnMarkup = get_player_hand_buttons(player, comando, strcid)
+			btnMarkup = get_list_buttons(player.uid, player.hand, comando["comando"], strcid)
 			command_showhand(bot, None, [-1, cid, uid])
 		elif "exploradores" in comando["indicacion_argumentos"]:
 			btns = get_player_exploradores_buttons(player, comando, strcid)
@@ -380,12 +381,15 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 		execute_actions(bot, cid, uid)
 
 def get_player_hand_buttons(player, comando, strcid):
+	return get_list_buttons(player.uid, player.hand, comando["comando"], strcid)
+
+def get_list_buttons(uid, lista, strcomando, strcid):
 	i = 1
 	btns = []
 	buttonGroup = []	
-	for argumento in player.hand:
+	for argumento in lista:
 		txtBoton = "%s" % (argumento)
-		datos = strcid + "*exe*" + str(i) + "*" + comando["comando"] + "*" + str(player.uid)
+		datos = strcid + "*exe*" + str(i) + "*" + strcomando + "*" + str(player.uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		#ot.send_message(cid, datos)	
 		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
@@ -1112,6 +1116,10 @@ def command_swap_exploration(bot, update, args):
 			return			
 		if args[0] == "Sí" or args[0] == "No":
 			if args[0] == "Sí":
+				player = game.playerlist[uid]
+				btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap1", str(cid))
+				bot.send_message(cid, "Elija la primera carta a cambiar", reply_markup=btnMarkup)
+				
 				bot.send_message(cid, "Por favor haga el swap Manual y luego haga /continue")
 				return "Esperar"
 			else:
