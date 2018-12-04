@@ -2159,6 +2159,6 @@ def command_roll(bot, update, args):
 	game = get_game(cid)
 	if game and uid in game.playerlist:
 		player = game.playerlist[uid]
-		texthistory = "jugador %s - %s" % (player.name, text_tirada)
+		texthistory = "Jugador *%s* - %s" % (player.name, text_tirada)
 		game.history.append("%s" % (texthistory))
 		
