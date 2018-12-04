@@ -1123,7 +1123,7 @@ def command_swap_exploration(bot, update, args):
 					bot.send_message(cid, "Elija la carta a cambiar", reply_markup=btnMarkup)
 					return "Esperar"
 				else:
-					command_swap_exploration(bot, update, ["Finalizado", cid, uid, game.board.state.swap_cards[0], game.board.state.swap_cards[1])
+					command_swap_exploration(bot, update, ["Finalizado", cid, uid, game.board.state.swap_cards[0], game.board.state.swap_cards[1]])
 			else:
 				bot.send_message(cid, "Se ha decidido no hacer swap")
 				after_command(bot, cid)
