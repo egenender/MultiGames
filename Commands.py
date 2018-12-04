@@ -1991,27 +1991,26 @@ def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_c
 def command_newgame(bot, update):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
-	if uid in ADMIN:		
-		try:
-			game = GamesController.games.get(cid, None)
-			groupType = update.message.chat.type
-			groupName = update.message.chat.title
-			if groupType not in ['group', 'supergroup']:
-				bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
-			elif game:
-				bot.send_message(cid, "Hay un juego comenzado en este chat. Si quieres terminarlo escribe /delete!")
-			else:			
-				# Busco si hay un juego ya creado
-				game = get_game(cid)
-				if game:
-					bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
-				else:
-					# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
-					GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)				
-					bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
-					configurarpartida(bot, cid, uid)
-		except Exception as e:
-			bot.send_message(cid, str(e))
+	try:
+		game = GamesController.games.get(cid, None)
+		groupType = update.message.chat.type
+		groupName = update.message.chat.title
+		if groupType not in ['group', 'supergroup']:
+			bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
+		elif game:
+			bot.send_message(cid, "Hay un juego comenzado en este chat. Si quieres terminarlo escribe /delete!")
+		else:			
+			# Busco si hay un juego ya creado
+			game = get_game(cid)
+			if game:
+				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
+			else:
+				# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
+				GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)				
+				bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
+				configurarpartida(bot, cid, uid)
+	except Exception as e:
+		bot.send_message(cid, str(e))
 
 def command_configurar_partida(bot, update):
 	cid, uid = update.message.chat_id, update.message.from_user.id
