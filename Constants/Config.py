@@ -61,7 +61,7 @@ MODULOS_DISPONIBES = {
                         "comandos" : {
                             "Cooperativo" : "Cooperativo"
                         },
-                        "min_jugadores" : 2,
+                        "min_jugadores" : 1,
                         "max_jugadores" : 99
                 } 
         }
