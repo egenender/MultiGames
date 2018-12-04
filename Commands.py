@@ -1114,7 +1114,7 @@ def command_swap_exploration(bot, update, args):
 		if len(args) < 2:
 			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
 			return			
-		if args[0] == "Sí" or args[0] == "No":
+		if args[0] == "Sí" or args[0] == "No":			
 			if args[0] == "Sí":
 				player = game.playerlist[uid]
 				
@@ -1130,7 +1130,7 @@ def command_swap_exploration(bot, update, args):
 		else:
 			try:
 				a, b =  int(args[0])-1, int(args[1])-1
-			else:				
+			else:
 				a, b =  int(args[3])-1, int(args[4])-1
 				game.board.state.swap_cards = []
 				
