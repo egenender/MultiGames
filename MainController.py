@@ -1074,6 +1074,8 @@ def main():
 	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
 	
+	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
+	
 	# log all errors
 	dp.add_error_handler(error)
 
