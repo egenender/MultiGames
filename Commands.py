@@ -58,6 +58,9 @@ conn = psycopg2.connect(
     port=url.port
 )
 
+# Secret Moon
+secret_moon_cid = '-1001206290323'
+
 def command_continue(bot, update, args):
 	
 	try:
@@ -1857,93 +1860,7 @@ def command_elegimos(bot, update, args):
 			MainController.count_actions(bot, game)
 		
 
-# Secret Moon
 
-secret_moon_cid = '-1001206290323'
-
-def command_newgame_secret_moon(bot, update, args):  
-	cid = update.message.chat_id
-	
-	try:
-		game = GamesController.games.get(secret_moon_cid, None)		
-		if game:
-			bot.send_message(cid, "There is currently a game running.")
-		else:			
-			#Search game in DB
-			game = load_game(cid)			
-			if game:
-				GamesController.games[cid] = game
-				bot.send_message(cid, "There is currently a game running. If you want to end it please type /cancelgame!")				
-				bot.send_message(game.cid, game.board.print_board(game.playerlist))				
-				# Remember the current player that he has to act
-				MainController.start_round(bot, game)
-			else:
-				GamesController.games[cid] = Game(secret_moon_cid, update.message.from_user.id)
-				bot.send_message(secret_moon_cid, "New game created! Each player has to /joinsecretmoon in my private chat.\nThe initiator of this game (or the admin) can /join too and type /startgamesecretmoon when everyone has joined the game!")
-						
-	except Exception as e:
-		bot.send_message(cid, str(e))
-		
-def command_join_secret_moon(bot, update):
-	# I use args for testing. // Remove after?
-	groupName = update.message.chat.title
-	cid = update.message.chat_id
-	groupType = update.message.chat.type
-	game = GamesController.games.get(cid, None)
-	
-	if not game:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
-	elif game.board:
-		bot.send_message(cid, "The game has started. Please wait for the next game!")
-	elif uid in game.playerlist:
-		bot.send_message(game.cid, "You already joined the game, %s!" % fname)
-	elif len(game.playerlist) >= 7:
-		bot.send_message(game.cid, "You have reached the maximum amount of players. Please start the game with /startgame!")
-	else:
-		#uid = update.message.from_user.id
-		player = Player(fname, uid)
-		try:
-			#Commented to dont disturb player during testing uncomment in production
-			bot.send_message(uid, "You joined a game in %s. I will soon tell you your secret role." % groupName)			 
-			game.add_player(uid, player)
-			log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
-			if len(game.playerlist) > 4:
-				bot.send_message(game.cid, fname + " has joined the game. Type /startgame if this was the last player and you want to start with %d players!" % len(game.playerlist))
-			elif len(game.playerlist) == 1:
-				bot.send_message(game.cid, "%s has joined the game. There is currently %d player in the game and you need 5-8 players." % (fname, len(game.playerlist)))
-			else:
-				bot.send_message(game.cid, "%s has joined the game. There are currently %d players in the game and you need 5-8 players." % (fname, len(game.playerlist)))
-		except Exception:
-			bot.send_message(game.cid,
-				fname + ", I can\'t send you a private message. Please go to @xapi_prototype_bot and click \"Start\".\nYou then need to send /join again.")
-
-			
-def command_startgame_secret_moon(bot, update):
-	log.info('command_startgame called')
-	groupName = update.message.chat.title
-	cid = update.message.chat_id
-	game = GamesController.games.get(secret_moon_cid, None)
-	if not game:
-		bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
-	elif game.board:
-		bot.send_message(cid, "The game is already running!")
-	elif uid != ADMIN:
-		bot.send_message(game.cid, "Only the Master Administrator can start the game")
-	elif len(game.playerlist) < 4:
-		bot.send_message(game.cid, "There are not enough players (min. 5, max. 8). Join the game with /join")
-	else:
-		player_number = len(game.playerlist)
-		MainController.init_game(bot, game, game.cid, player_number)		
-		game.board = Board(player_number, game)
-		log.info(game.board)
-		log.info("len(games) Command_startgame: " + str(len(GamesController.games)))
-		game.shuffle_player_sequence()
-		game.board.state.player_counter = 0
-		bot.send_message(game.cid, game.board.print_board(game.playerlist))
-		#group_name = update.message.chat.title
-		#bot.send_message(ADMIN, "Game of Secret Hitler started in group %s (%d)" % (group_name, cid))		
-		#MainController.start_round(bot, game)
-		#save_game(cid, groupName, game)
 
 # End Secret Moon
 def command_choose_posible_role(bot, update):
