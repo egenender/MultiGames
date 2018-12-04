@@ -649,12 +649,12 @@ def command_hoja_ayuda(bot, update):
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
 	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
 
-def command_newgame_lost_expedition(bot, update):  
-	if uid in ADMIN:		
-		cid = update.message.chat_id
-		fname = update.message.from_user.first_name
-		uid = update.message.from_user.id
-		groupName = update.message.chat.title
+def command_newgame_lost_expedition(bot, update):
+	cid = update.message.chat_id
+	fname = update.message.from_user.first_name
+	uid = update.message.from_user.id
+	groupName = update.message.chat.title
+	if uid in ADMIN:
 		try:
 			game = get_game(cid)
 			if game:
@@ -1993,10 +1993,10 @@ def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_c
 
 
 #Se crea metodo general para crear jeugos
-def command_newgame(bot, update):  
-	if uid in ADMIN:
-		cid = update.message.chat_id
-		uid = update.message.from_user.id
+def command_newgame(bot, update):
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
+	if uid in ADMIN:		
 		try:
 			game = GamesController.games.get(cid, None)
 			groupType = update.message.chat.type
