@@ -1980,8 +1980,7 @@ def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_c
 		txtBoton = txtBoton[:-1]
 		datos = str(cid) + "*" + comando_callback + "*" + str(opcion) + "*" + str(uid)
 		if "restriccion" in comando_op:
-			restriccion = opcion_actual["restriccion"]
-			if restriccion == "admin" and uid in ADMIN:
+			if comando_op["restriccion"] == "admin" and uid in ADMIN:
 				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 		else:
 			btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
@@ -2026,10 +2025,6 @@ def configurarpartida(bot, cid, uid):
 	frase_regex = "choosegame"
 	pregunta_arriba_botones = "¿Qué juego quieres jugar?"
 	chat_donde_se_pregunta = cid
-	
-	# Restrinjo los juegos por usuario
-	
-	
 	multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, JUEGOS_DISPONIBLES)
 	
 def callback_choose_game(bot, update):
