@@ -1476,8 +1476,8 @@ def command_board(bot, update):
 
 def command_start(bot, update):
     cid = update.message.chat_id
-    bot.send_message(cid,"Lost expedition.")
-    command_help(bot, update)
+    bot.send_message(cid,"Bot para multiples juegos. Preguntar al ADMIN por los juegos disponibles")
+    #command_help(bot, update)
 
 
 def command_rules(bot, update):
