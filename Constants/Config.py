@@ -8,7 +8,7 @@ JUEGOS_DISPONIBLES = {
                 "comandos" : {
                     "LostExpedition" : "Lost Expedition"
                 },
-                "restriccion" : "admin"
+                "restriccion" : "admin",                
         },
         "JustOne" : {
                 "comandos" : {
@@ -19,7 +19,8 @@ JUEGOS_DISPONIBLES = {
         "SistemaD100" : {
                 "comandos" : {
                     "SistemaD100" : "SistemaD100"
-                }
+                },
+                "permitir_ingreso_tardio" : True
         }
 }
 
