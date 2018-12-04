@@ -31,9 +31,7 @@ class State(object):
         # Objetivo, creo que es ajustable esto en los modos de dificultad.
         self.objetivoprogreso = 9
         
-        self.swap_card_1 = None
-        self.swap_card_2 = None
-        
+        self.swap_cards = []        
                 
         '''
         # Borrar luego al hacer limpieza del bot
