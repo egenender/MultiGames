@@ -7,12 +7,20 @@ JUEGOS_DISPONIBLES = {
         "LostExpedition" : {
                 "comandos" : {
                     "LostExpedition" : "Lost Expedition"
-                }
+                },
+                "restriccion" : "admin"
         },
         "JustOne" : {
                 "comandos" : {
                     "JustOne" : "Just One"
-                }
+                },
+                "restriccion" : "admin"
+        },
+        "SistemaD100" : {
+                "comandos" : {
+                    "SistemaD100" : "SistemaD100"
+                },
+                "restriccion" : "ninguna"
         }
 }
 
@@ -47,6 +55,15 @@ MODULOS_DISPONIBES = {
                         },
                         "min_jugadores" : 2,
                         "max_jugadores" : 8
+                } 
+        },
+        "SistemaD100" : {
+                "Cooperativo" : {
+                        "comandos" : {
+                            "Cooperativo" : "Cooperativo"
+                        },
+                        "min_jugadores" : 2,
+                        "max_jugadores" : 99
                 } 
         }
 }
