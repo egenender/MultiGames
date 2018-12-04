@@ -1606,27 +1606,23 @@ def command_claim(bot, update, args):
 		#Send message of executing command   
 		cid = update.message.chat_id
 		#Check if there is a current game 
-		if cid in GamesController.games.keys():
+		game = get_game(cid)
+		if game:
 			uid = update.message.from_user.id
-			game = GamesController.games.get(cid, None)			
-			if uid in game.playerlist:				
-				if game.board.state.currentround != 0:
-					if len(args) > 0:
-						#Data is being claimed
-						claimtext = ' '.join(args)
-						claimtexttohistory = "Player %s claims: %s" % (game.playerlist[uid].name, claimtext)
-						bot.send_message(cid, "Your claim: %s was added to the history." % (claimtext))
-						game.history[game.board.state.currentround - 1] += "\n\n%s" % (claimtexttohistory)
-					else:					
-						bot.send_message(cid, "You have to send a message to claim.")
+			if uid in game.playerlist:								
+				if len(args) > 0:
+					#Data is being claimed
+					claimtext = ' '.join(args)
+					claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
+					bot.send_message(cid, "Tu declaración: %s fue agregada al historial." % (claimtext))
+					game.history.append("%s" % (claimtexttohistory))
+				else:					
+					bot.send_message(cid, "Debes mandar un mensaje para hacer una declaración.")
 
-				else:
-					bot.send_message(cid, "You can't claim in the first round")
 			else:
-				bot.send_message(cid, "You must be a player to claim something in the game.")
-				
+				bot.send_message(cid, "Debes ser un jugador del partido para declarar algo.")				
 		else:
-			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+			bot.send_message(cid, "No hay juego en este chat. Crea un nuevo juego con /newgame")
 	except Exception as e:
 		bot.send_message(cid, str(e))
 		log.error("Unknown error: " + str(e))    
