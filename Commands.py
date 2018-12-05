@@ -1119,7 +1119,7 @@ def command_swap_exploration(bot, update, args):
 				player = game.playerlist[uid]
 				
 				if len(game.board.state.swap_cards) < 2:
-					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap", str(cid), "commando")
+					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual[1:], "swap", str(cid), "commando")
 					bot.send_message(cid, "Elija la carta a cambiar", reply_markup=btnMarkup)
 					return "Esperar"
 				else:
@@ -1525,11 +1525,6 @@ def command_stats(bot, update):
 	cid = update.message.chat_id
 	if cid == ADMIN:		
 		bot.send_message(cid, "Estadisticas pronto...")
-
-
-
-
-
 def command_cancelgame(bot, update):
 	log.info('command_cancelgame called')
 	cid = update.message.chat_id	
