@@ -1134,7 +1134,7 @@ def command_swap_exploration(bot, update, args):
 				a, b =  int(args[3])-1, int(args[4])-1				
 			game.board.state.swap_cards = []	
 			game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
-			bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (args[0], args[1]))
+			bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (str(a), str(b)))
 			after_command(bot, cid)
 			#command_show_exploration(bot, update)
 
