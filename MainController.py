@@ -465,7 +465,7 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
 	
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*swap\*(.*)\*([0-9]*)", callback=Commands.callback_choose_swap))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*swap\*([0-9]*)", callback=Commands.callback_choose_swap))
 
 
 	# Pruebas SH
