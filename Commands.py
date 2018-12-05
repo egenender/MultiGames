@@ -1141,7 +1141,7 @@ def command_swap_exploration(bot, update, args):
 def callback_choose_swap(bot, update):
 	callback = update.callback_query
 	log.info('callback_choose_swap called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*swap\*(.*)\*([0-9]*)", callback.data)
+	regex = re.search("(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 	bot.edit_message_text("Has elegido la carta: %s" % opcion, cid, callback.message.message_id)
 	game = get_game(cid)
