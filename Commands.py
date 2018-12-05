@@ -1118,7 +1118,7 @@ def command_swap_exploration(bot, update, args):
 			if args[0] == "Sí":
 				player = game.playerlist[uid]
 				
-				if game.board.state.swap_cards < 2:
+				if len(game.board.state.swap_cards) < 2:
 					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap", str(cid))
 					bot.send_message(cid, "Elija la carta a cambiar", reply_markup=btnMarkup)
 					return "Esperar"
