@@ -1131,7 +1131,8 @@ def command_swap_exploration(bot, update, args):
 			try:
 				a, b =  int(args[0])-1, int(args[1])-1
 			except Exception as e:
-				a, b =  int(args[3])-1, int(args[4])-1				
+				# No se resta 1 porque el indice tendria que ser 1 más debido a que.
+				a, b =  int(args[3]), int(args[4])
 			game.board.state.swap_cards = []	
 			game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
 			bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (str(a), str(b)))
