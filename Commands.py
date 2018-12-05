@@ -383,13 +383,13 @@ def iniciar_ejecucion_comando(bot, cid, uid, comando, comando_argumentos, ejecut
 def get_player_hand_buttons(player, comando, strcid):
 	return get_list_buttons(player.uid, player.hand, comando["comando"], strcid)
 
-def get_list_buttons(uid, lista, strcomando, strcid):
+def get_list_buttons(uid, lista, strcomando, strcid, callback_comando = 'exe'):
 	i = 1
 	btns = []
 	buttonGroup = []	
 	for argumento in lista:
 		txtBoton = "%s" % (argumento)
-		datos = strcid + "*exe*" + str(i) + "*" + strcomando + "*" + str(uid)
+		datos = strcid + "*" + callback_comando + "*" + str(i) + "*" + strcomando + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		#ot.send_message(cid, datos)	
 		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
@@ -1119,7 +1119,7 @@ def command_swap_exploration(bot, update, args):
 				player = game.playerlist[uid]
 				
 				if len(game.board.state.swap_cards) < 2:
-					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap", str(cid))
+					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual, "swap", str(cid), "commando")
 					bot.send_message(cid, "Elija la carta a cambiar", reply_markup=btnMarkup)
 					return "Esperar"
 				else:
