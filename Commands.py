@@ -389,7 +389,7 @@ def get_list_buttons(uid, lista, strcomando, strcid):
 	buttonGroup = []	
 	for argumento in lista:
 		txtBoton = "%s" % (argumento)
-		datos = strcid + "*exe*" + str(i) + "*" + strcomando + "*" + str(player.uid)
+		datos = strcid + "*exe*" + str(i) + "*" + strcomando + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
 		#ot.send_message(cid, datos)	
 		buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
