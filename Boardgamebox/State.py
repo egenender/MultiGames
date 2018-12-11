@@ -1,7 +1,10 @@
 class State(object):
     """Storage object for game state"""
     def __init__(self):
+        # estados generales
         self.fase_actual = None       
+        self.jugador_activo = None
+        
         
         # Acciones de la carta actual
         self.acciones_carta_actual = None
@@ -17,8 +20,7 @@ class State(object):
         self.comando_realizado = False
         self.adquirir_final = False
         # Marca si se esta ejecutando una carta
-        self.ejecutando_carta = False
-        
+        self.ejecutando_carta = False        
         # Variables de Lost Expedition
         # Marca si es de dia o de noche
         self.esdedia = True
@@ -30,9 +32,9 @@ class State(object):
         self.progreso = 1
         # Objetivo, creo que es ajustable esto en los modos de dificultad.
         self.objetivoprogreso = 9
+        self.swap_cards = []
         
-        self.swap_cards = []        
-                
+        
         '''
         # Borrar luego al hacer limpieza del bot
         self.liberal_track = 0
