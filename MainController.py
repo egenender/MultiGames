@@ -114,8 +114,53 @@ def start_round_just_one(bot, game):
 
 def review_clues(bot, game):
 	reviewer_player = game.board.state.reviewer
-	bot.send_message(uid, "La palabra es: %s, propone tu pista con: /pista [Palabra] Ej: /pista Alto")
-			
+	# Armo los botones para que el reviewer los analice.
+	btns = []
+	# Creo los botones para elegir al usuario
+	cid = game.cid
+	uid = reviewer_player.uid
+	comando_callback = 'rechazar'
+	mensaje_pregunta = "Elija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo"
+	# Se ponen todos los botones de pistas 
+	for opcion in game.board.state.last_votes:
+		txtBoton = opcion
+		datos = str(cid) + "*" + comando_callback + "*" + str(opcion) + "*" + str(uid)
+		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])		
+	comando_callback = 'finalizar'
+	datos = str(cid) + "*" + comando_callback + "*" + str("finalizar") + "*" + str(uid)
+	btns.append([InlineKeyboardButton('Finalizar', callback_data=datos)])
+	
+	btnMarkup = InlineKeyboardMarkup(btns)
+	
+	bot.send_message(uid, mensaje_pregunta, reply_markup=btnMarkup)
+
+def callback_review_clues(bot, update):
+	callback = update.callback_query
+	log.info('review_clues_callback called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+	bot.edit_message_text("Has eliminado la pista: %s" % opcion, cid, callback.message.message_id)		
+	game = get_game(cid)	
+	# Remuevo las pistas que son iguales a la elegida
+	game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
+	review_clues(bot, game)
+	
+def callback_review_clues_finalizado(bot, update):
+	callback = update.callback_query
+	log.info('review_clues_finalizado_callback called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+	game = get_game(cid)
+	send_clues(bot, game)	
+	bot.edit_message_text("Has finalizado la revision")		
+	
+	
+def send_clues(bot, game):
+	text = ""
+	for pista in game.board.state.last_votes:
+		text += pista + "\n"
+	bot.send_message(game.cid, "Las pistas son: %s" % text)
+	
 def start_round(bot, game):        
         log.info('start_round called')
 
@@ -485,7 +530,8 @@ def main():
 	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
 	
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=Commands.callback_review_clues))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=Commands.callback_review_clues_finalizado))
 	
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
