@@ -3,8 +3,8 @@ class State(object):
     def __init__(self):
         # estados generales
         self.fase_actual = None       
-        self.jugador_activo = None
-        
+        self.active_player = None
+        self.player_counter = 0
         
         # Acciones de la carta actual
         self.acciones_carta_actual = None
