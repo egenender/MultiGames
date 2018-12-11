@@ -98,7 +98,7 @@ def init_just_one(bot, game, player_number):
 palabras_posibles = ["Europa", "Circo", "Virus", "Cocodrilo", "Mostaza"]
 	
 def start_round_just_one(bot, game):        
-        log.info('start_round called')
+	log.info('start_round called')
 	# Se marca al jugador activo
 	active_player = game.player_sequence[game.board.state.player_counter]
 	reviewer_player = game.player_sequence[game.board.state.player_counter]
