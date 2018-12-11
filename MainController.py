@@ -533,6 +533,7 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=callback_review_clues))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=callback_review_clues_finalizado))
 	
+	
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
 	# log all errors
