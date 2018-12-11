@@ -92,27 +92,34 @@ def init_lost_expedition(bot, game, player_number):
 		
 def init_just_one(bot, game, player_number):
 	log.info('Game init_lost_expedition called')
-	game.shuffle_player_sequence()		
-		
+	game.shuffle_player_sequence()
+	start_round_just_one(bot, game)
+	
+palabras_posibles = ["Europa", "Circo", "Virus", "Cocodrilo", "Mostaza"]
+	
+def start_round_just_one(bot, game):        
+        log.info('start_round called')
+	# Se marca al jugador activo
+	active_player = game.player_sequence[game.board.state.player_counter]
+	reviewer_player = game.player_sequence[game.board.state.player_counter]
+	game.board.state.active_player = active_player
+	game.board.state.reviewer_player = reviewer_player
+	# Le muestro a los jugadores la palabra elegida para el jugador actual
+	random.shuffle(palabras_posibles)	
+	palabra_elegida = palabras_posibles[0]
+	
+	for uid in game.playerlist:
+		if uid != game.board.state.active_player.uid:
+			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /pista [Palabra] Ej: /pista Alto")
+
+def review_clues(bot, game):
+	reviewer_player = game.board.state.reviewer
+	bot.send_message(uid, "La palabra es: %s, propone tu pista con: /pista [Palabra] Ej: /pista Alto")
+			
 def start_round(bot, game):        
         log.info('start_round called')
 
-def initialize_testdata():
-    # Sample game for quicker tests
-    testgame = Game(-1001113216265, 15771023)
-    GamesController.games[-1001113216265] = testgame
-    players = [Player("Александр", 320853702), Player("Gustav", 305333239), Player("Rene", 318940765), Player("Susi", 290308460), Player("Renate", 312027975)]
-    for player in players:
-        testgame.add_player(player.uid, player)
-
-##
-#
-# Beginning of round
-#
-##
-
-
-
+	
 def call_to_action(bot, game):
         log.info('call_to_action called')
         #When voting starts we start the counter to see later with the vote command if we can see you voted.
@@ -466,9 +473,12 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
 	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback=Commands.callback_choose_swap))
-
-
+	
+	
+	dp.add_handler(CommandHandler("clue", Commands.command_clue, pass_args = True))
+	
 	# Pruebas SH
+		
 	dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
 
