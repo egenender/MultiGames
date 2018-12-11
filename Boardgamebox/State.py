@@ -4,6 +4,7 @@ class State(object):
         # estados generales
         self.fase_actual = None       
         self.active_player = None
+        self.reviewer_player = None
         self.player_counter = 0
         self.last_votes = {}
         
