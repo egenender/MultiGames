@@ -2008,3 +2008,60 @@ def command_next_turn(bot, update):
 	cid = update.message.chat_id
 	game = get_game(cid)	
 	MainController.start_next_round(bot, game)
+
+def command_pass(bot, update):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = get_game(cid)
+	MainController.pass_just_one(bot, game)
+
+def command_guess(bot, update, args):
+	try:		
+		#Send message of executing command   
+		cid = update.message.chat_id
+		uid = update.message.from_user.id
+		game = get_game(cid)
+		args_text = ' '.join(args)
+		
+		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
+			#Adivino correctamente! Aumento el puntaje
+			game.board.state.progreso += 1
+			MainController.start_next_round(bot, game)
+		else:
+			#Preguntar al revisor
+			bot.send_message(game.cid, "Revisor confirme por favor!")
+			chat_donde_se_pregunta = uid
+			opciones_botones = {
+				"correcto" : "Si",
+				"incorrecto" : "No"
+			}
+			simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, "reviewerconfirm", "¿Es correcto lo que se adivinó?", opciones_botones)
+			
+	except Exception as e:
+		bot.send_message(uid, str(e))
+		log.error("Unknown error: " + str(e))
+
+def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callback, mensaje_pregunta, opciones_botones):
+	#sleep(3)
+	btns = []
+	# Creo los botones para elegir al usuario
+	for key, value in opciones_botones.items():
+		txtBoton = value
+		datos = str(cid) + "*" + comando_callback + "*" + str(key) + "*" + str(uid)
+		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+	btnMarkup = InlineKeyboardMarkup(btns)
+	#for uid in game.playerlist:
+	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)		
+'''
+def command_guess(bot, update, args):
+	try:		
+		#Send message of executing command   
+		cid = update.message.chat_id
+		uid = update.message.from_user.id
+		game = get_game(cid)
+		args_text = ' '.join(args)
+		
+	except Exception as e:
+		bot.send_message(uid, str(e))
+		log.error("Unknown error: " + str(e))
+'''
