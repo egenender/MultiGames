@@ -1967,9 +1967,9 @@ def command_clue(bot, update, args):
 						bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
 
 				else:
-					bot.send_message(uid, "No puedes hacer claim oculto sin promulgar al menos una política.")
+					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar!.")
 			else:
-				bot.send_message(uid, "No puedes hacer claim oculto si no estas en algun partido.")				
+				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")				
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
