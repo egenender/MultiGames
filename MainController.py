@@ -111,10 +111,14 @@ def next_player_after_active_player(game):
 		return 0
 		
 def start_round_just_one(bot, game):        
-	cid = game.cid
-	
+	cid = game.cid	
 	log.info('start_round called')
 	# Se marca al jugador activo
+	
+	if not game.board.cartas:
+		# Si no quedan cartas se termina el juego y se muestra el puntaje.
+		bot.send_message(cid, "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso-1), ParseMode.MARKDOWN))
+	
 	active_player = game.player_sequence[game.board.state.player_counter]
 	reviewer_player = game.player_sequence[next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
@@ -122,6 +126,7 @@ def start_round_just_one(bot, game):
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	
 	palabra_elegida = game.board.cartas.pop(0)
+	game.board.state.acciones_carta_actual = palabra_elegida
 	bot.send_message(game.cid, "El jugador %s tiene que adivinar" % active_player.name)
 	bot.send_message(game.cid, "El jugador %s revisara las pistas" % reviewer_player.name)
 	game.dateinitvote = datetime.datetime.now()
@@ -205,13 +210,44 @@ def callback_review_clues_finalizado(bot, update):
 		Commands.save(bot, game.cid)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
+
+def callback_reviewer_confirm(bot, update):
+	try:
+		callback = update.callback_query
+		log.info('review_clues_finalizado_callback called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+		game = Commands.get_game(cid)
+		send_clues(bot, game)
+		mensaje_edit = "Gracias!"
+		try:
+			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+		except Exception as e:
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
+			
+		reviewer_player = game.board.state.reviewer_player
+		bot.send_message(game.cid, "El revisor {0} ha determinado que es {1}".format(reviewer_player.name, opcion))
 		
+		if opcion == "correcto":
+			game.board.state.progreso += 1
+		else:
+			# Se elimina la proxima carta del mazo.
+			game.board.cartas.pop(0)
+		Commands.save(bot, game.cid)
+		start_next_round(bot, game)
+	except Exception as e:
+		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
+
 def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
 		text += "*{0}*\n".format(value)
 	mensaje_final = "*[{0}](tg://user?id={1})* es hora de adivinar! Poner /nextturn cuando se vea si se adivino.\nLas pistas son: \n{1}".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
 	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
+
+def pass_just_one(bot, game):
+	start_next_round(bot, game)	
+	
 def start_round(bot, game):        
         log.info('start_round called')
 
@@ -512,6 +548,8 @@ def main():
 	
 	dp.add_handler(CommandHandler("adminclue", Commands.command_forced_clue))
 	dp.add_handler(CommandHandler("nextturn", Commands.command_next_turn))
+	dp.add_handler(CommandHandler("guess", Commands.command_guess, pass_args = True))
+	dp.add_handler(CommandHandler("pass", Commands.command_pass))
 	
 	# Comando para hacer comandos sql desde el chat
 	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
@@ -583,6 +621,7 @@ def main():
 	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=callback_review_clues))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=callback_review_clues_finalizado))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback=callback_reviewer_confirm))
 	
 	
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
