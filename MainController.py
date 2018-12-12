@@ -110,7 +110,7 @@ def start_round_just_one(bot, game):
 	
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
-			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /pista [Palabra] Ej: /pista Alto" % palabra_elegida)
+			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida)
 
 def review_clues(bot, game):
 	reviewer_player = game.board.state.reviewer
