@@ -139,7 +139,7 @@ def start_round_just_one(bot, game):
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
 			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
-			mensaje = "La palabra es: {0}, propone tu pista!".format(palabra_elegida)
+			mensaje = "Nueva palabra en el grupo {1}.\nLa palabra es: {0}, propone tu pista!".format(palabra_elegida, game.groupName)
 			bot.send_message(uid, mensaje)
 			mensaje = "/clue Ejemplo {1}".format(palabra_elegida, str(cid))
 			bot.send_message(uid, mensaje)			
