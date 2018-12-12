@@ -66,4 +66,6 @@ class Board(object):
         for player in player_sequence:
             nombre = player.name.replace("_", " ")
             board += nombre + " " + u"\u27A1\uFE0F" + " "          
+        board = board[:-3]
+        board += u"\U0001F501"
         return board
