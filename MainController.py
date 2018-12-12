@@ -132,7 +132,7 @@ def start_round_just_one(bot, game):
 	Commands.save(bot, game.cid)
 
 def review_clues(bot, game):
-	reviewer_player = game.board.state.reviewer
+	reviewer_player = game.board.state.reviewer_player
 	# Armo los botones para que el reviewer los analice.
 	btns = []
 	# Creo los botones para elegir al usuario
