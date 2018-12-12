@@ -1450,7 +1450,8 @@ def command_prueba(bot, update, args):
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		bot.send_message(uid, "Respondeme", reply_markup=ForceReply())
+		#bot.send_message(uid, "Respondeme", reply_markup=ForceReply())
+		bot.send_message(uid, "/clue algo -312312312")
 
 commands = [  # command description used in the "help" command
 	'/help - Muestra ayuda sobre los comandos',
