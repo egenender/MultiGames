@@ -1970,6 +1970,14 @@ def command_clue(bot, update, args):
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
+
+def command_jugadores(bot, update):	
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
 	
-	
-	
+	game = get_game(cid)
+	jugadoresActuales = "Los jugadores que se han unido al momento son:\n"
+	for uid in game.playerlist:
+		jugadoresActuales += "[%s](tg://user?id=%d)\n" % (game.playerlist[uid].name, uid)
+					
+	bot.send_message(game.cid, jugadoresActuales, ParseMode.MARKDOWN)
