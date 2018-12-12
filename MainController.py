@@ -204,8 +204,8 @@ def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
 		text += "*{0}*\n".format(value)
-	bot.send_message(game.cid, "*%s* es hora de adivinar! Poner /nextturn cuando se vea si se adivino.\nLas pistas son: \n%s" % (game.board.state.active_player, text), ParseMode.MARKDOWN))
-	
+	mensaje_final = "*{0}* es hora de adivinar! Poner /nextturn cuando se vea si se adivino.\nLas pistas son: \n{1}".format(game.board.state.active_player.name, text)
+	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 def start_round(bot, game):        
         log.info('start_round called')
 
