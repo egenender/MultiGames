@@ -180,8 +180,8 @@ def callback_review_clues_finalizado(bot, update):
 	
 def send_clues(bot, game):
 	text = ""
-	for pista in game.board.state.last_votes:
-		text += pista + "\n"
+	for key, value in game.board.state.last_votes.items():
+		text += value + "\n"
 	bot.send_message(game.cid, "Las pistas son: %s" % text)
 	
 def start_round(bot, game):        
