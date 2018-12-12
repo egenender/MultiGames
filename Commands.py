@@ -1580,8 +1580,8 @@ def command_calltovote(bot, update):
 		cid = update.message.chat_id
 		#bot.send_message(cid, "Looking for history...")
 		#Check if there is a current game 
-		if cid in GamesController.games.keys():
-			game = GamesController.games.get(cid, None)
+		game = get_game(cid)
+		if game:			
 			if not game.dateinitvote:
 				# If date of init vote is null, then the voting didnt start          
 				bot.send_message(cid, "The voting didn't start yet.")
@@ -1611,8 +1611,8 @@ def command_showhistory(bot, update):
 		#Send message of executing command   
 		cid = update.message.chat_id
 		#Check if there is a current game 
-		if cid in GamesController.games.keys():
-			game = GamesController.games.get(cid, None)  
+		game = get_game(cid)
+		if game:			
 			#bot.send_message(cid, "Current round: " + str(game.board.state.currentround + 1))
 			uid = update.message.from_user.id
 			history_text = "History:\n\n" 
