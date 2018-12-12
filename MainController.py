@@ -132,6 +132,11 @@ def start_round_just_one(bot, game):
 	Commands.save(bot, game.cid)
 
 def review_clues(bot, game):
+	game.dateinitvote = None
+	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
+	send_reviewer_buttons(bot, game)
+	
+def send_reviewer_buttons(bot, game):
 	reviewer_player = game.board.state.reviewer_player
 	# Armo los botones para que el reviewer los analice.
 	btns = []
@@ -149,10 +154,9 @@ def review_clues(bot, game):
 	datos = str(cid) + "*" + comando_callback + "*" + str("finalizar") + "*" + str(uid)
 	btns.append([InlineKeyboardButton('Finalizar', callback_data=datos)])	
 	btnMarkup = InlineKeyboardMarkup(btns)	
-	bot.send_message(uid, mensaje_pregunta, reply_markup=btnMarkup)
-	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
+	bot.send_message(uid, mensaje_pregunta, reply_markup=btnMarkup)	
 	Commands.save(bot, game.cid)
-
+	
 def callback_review_clues(bot, update):
 	try:
 		callback = update.callback_query
@@ -173,7 +177,7 @@ def callback_review_clues(bot, update):
 		
 		# Si todavia hay pistas...
 		if game.board.state.last_votes:
-			review_clues(bot, game)
+			send_reviewer_buttons(bot, game)
 		else:
 			bot.send_message(game.cid, "Todas las pistas han sido descartadas. Se pasa al siguiente jugador")
 			start_next_round(bot, game)
