@@ -1883,7 +1883,7 @@ def command_join(bot, update, args):
 					bot.send_message(game.cid, fname + " se ha unido al juego. Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
 		except Exception:
 			bot.send_message(game.cid,
-				fname + ", I can\'t send you a private message. Please go to @MultiGamesByLevibot and click \"Start\".\nYou then need to send /join again.")
+				fname + ", no puedo mandarte mensajes privados. Por favor anda a @MultiGamesByLevibot y hace click en \"Start\".\nLuego tiene que hacer /join de nuevo.")
 
 def command_startgame(bot, update):
 	log.info('command_startgame called')
