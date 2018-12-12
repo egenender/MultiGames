@@ -1961,9 +1961,7 @@ def command_clue(bot, update, args):
 						# Verifico si todos los jugadores -1 pusieron pista
 						bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
 						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-							MainController.review_clues(bot, game)
-						else:
-							bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
+							MainController.review_clues(bot, game)						
 					else:
 						bot.send_message(game.cid, "Debes escribir una pista!")
 
