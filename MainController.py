@@ -333,10 +333,8 @@ def count_actions(bot, game):
 def start_next_round(bot, game):
 	log.info('start_next_round called')
 	# start next round if there is no winner (or /cancel)
-	if game.board.state.game_endcode == 0:
-		# start new round		
-		increment_player_counter(game)
-		start_round_just_one(bot, game)
+	increment_player_counter(game)
+	start_round_just_one(bot, game)
 		
 ##
 #
