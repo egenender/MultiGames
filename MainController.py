@@ -101,20 +101,28 @@ def init_just_one(bot, game, player_number):
 		random.shuffle(palabras_posibles)
 		game.board.cartas = palabras_posibles[0:12]
 	start_round_just_one(bot, game)
-	
+
+def next_player_after_active_player(game):
+	#log.info('next_player_after_active_player called')
+	if game.board.state.player_counter < len(game.player_sequence) - 1:
+		return game.board.state.player_counter +1
+	else:
+		return 0
+		
 def start_round_just_one(bot, game):        
 	cid = game.cid
 	
 	log.info('start_round called')
 	# Se marca al jugador activo
 	active_player = game.player_sequence[game.board.state.player_counter]
-	reviewer_player = game.player_sequence[game.board.state.player_counter]
+	reviewer_player = game.player_sequence[next_player_after_active_player[game]]
 	game.board.state.active_player = active_player
 	game.board.state.reviewer_player = reviewer_player
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	
 	palabra_elegida = game.board.cartas.pop(0)
 	bot.send_message(game.cid, "El jugador %s tiene que adivinar" % active_player.name)
+	bot.send_message(game.cid, "El jugador %s revisara las pistas" % reviewer_player.name)
 	game.dateinitvote = datetime.datetime.now()
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
