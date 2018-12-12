@@ -103,6 +103,8 @@ def init_just_one(bot, game, player_number):
 	start_round_just_one(bot, game)
 	
 def start_round_just_one(bot, game):        
+	cid = game.cid
+	
 	log.info('start_round called')
 	# Se marca al jugador activo
 	active_player = game.player_sequence[game.board.state.player_counter]
@@ -116,6 +118,7 @@ def start_round_just_one(bot, game):
 	game.dateinitvote = datetime.datetime.now()
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
+			bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
 			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida)
 	game.dateinitvote = datetime.datetime.now()
 	Commands.save(bot, game.cid)
