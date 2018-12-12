@@ -1964,8 +1964,8 @@ def command_clue(bot, update, args):
 							MainController.review_clues(bot, game)
 						else:
 							bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
-					else:					
-						bot.send_message(game.cid, "Debes escribir una pista!" %)
+					else:
+						bot.send_message(game.cid, "Debes escribir una pista!")
 
 				else:
 					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar!.")
