@@ -115,7 +115,7 @@ def start_round_just_one(bot, game):
 	log.info('start_round called')
 	# Se marca al jugador activo
 	active_player = game.player_sequence[game.board.state.player_counter]
-	reviewer_player = game.player_sequence[next_player_after_active_player[game]]
+	reviewer_player = game.player_sequence[next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
 	game.board.state.reviewer_player = reviewer_player
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
