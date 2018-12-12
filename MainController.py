@@ -486,6 +486,9 @@ def main():
 	
 	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
 	
+	dp.add_handler(CommandHandler("adminclue", Commands.command_forced_clue))
+	
+	
 	# Comando para hacer comandos sql desde el chat
 	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
 
