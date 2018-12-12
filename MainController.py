@@ -214,8 +214,7 @@ def callback_review_clues_finalizado(bot, update):
 		log.info('review_clues_finalizado_callback called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-		game = Commands.get_game(cid)
-		send_clues(bot, game)
+		game = Commands.get_game(cid)		
 		mensaje_edit = "Has finalizado la revision"
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
@@ -224,6 +223,7 @@ def callback_review_clues_finalizado(bot, update):
 			
 		reviewer_player = game.board.state.reviewer_player
 		bot.send_message(game.cid, "El revisor %s ha terminado de revisar las pistas" % reviewer_player.name)
+		send_clues(bot, game)
 		#Commands.save(bot, game.cid)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
