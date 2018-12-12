@@ -66,6 +66,9 @@ Resuelve.
 Pierde 1 comida. Ir a día.
 '''
 
+def player_call(player):
+	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
+
 def init_game(bot, game):
 	log.info('Game Init called')
 	player_number = len(game.playerlist)
