@@ -248,7 +248,7 @@ def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
 		text += "*{0}*\n".format(value)
-	mensaje_final = "[{0}](tg://user?id={1}) es hora de adivinar! Poner /guest Palabra o /pass si no se sabe la palabra\nLas pistas son: \n{1}".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
+	mensaje_final = "[{0}](tg://user?id={1}) es hora de adivinar! Poner /guess Palabra o /pass si no se sabe la palabra\nLas pistas son: \n{1}".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
 	
 	game.board.state.fase_actual = "Adivinando"
 	Commands.save(bot, game.cid)
