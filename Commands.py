@@ -575,9 +575,9 @@ def showImages(bot, cid, cartas, img_caption = ""):
 	
 def save(bot, cid):
 	try:		
-		#groupName = "Prueba"		
+		#groupName = "Prueba"
 		game = GamesController.games.get(cid, None)
-		gameType = 'LostExpedition'
+		gameType = game.tipo
 		save_game(cid, game.groupName, game, gameType )
 		#bot.send_message(cid, 'Se grabo correctamente.')
 		log.info('Se grabo correctamente.')
