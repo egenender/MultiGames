@@ -134,6 +134,7 @@ def start_round_just_one(bot, game):
 
 def review_clues(bot, game):
 	game.dateinitvote = None
+	reviewer_player = game.board.state.reviewer_player
 	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
 	send_reviewer_buttons(bot, game)
 	
