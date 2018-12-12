@@ -61,12 +61,9 @@ class Board(object):
         
         
    
-    def print_board(self, player_list):
-        board = "--- Posesión actual ---\n"
-        
-        for uid in player_list:
-            board += "%s tiene " % (player_list[uid].name)
-            for i in range(player_list[uid].tokens_posesion):
-                board += "\U0001F47F"            
-            board += "\n"            
+    def print_board(self, player_sequence):
+        board = "--- Orden de jugadores ---\n"
+        for player in player_sequence:
+            nombre = player.name.replace("_", " ")
+            board += nombre + " " + u"\u27A1\uFE0F" + " "          
         return board
