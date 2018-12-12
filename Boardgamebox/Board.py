@@ -10,8 +10,7 @@ class Board(object):
         #Lost Expedition        
         if game.tipo == "LostExpedition":
             self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
-            self.cartasExplorationActual = []       
-        
+            self.cartasExplorationActual = []
         # Cantidad de veces que se mezclo el mazo.
         self.amount_shuffled = 0
         # Se comienza en el primer lugar
