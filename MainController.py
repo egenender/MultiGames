@@ -96,10 +96,9 @@ def init_just_one(bot, game, player_number):
 	# Seteo las palabras
 	url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'
 	with open(url_palabras_posibles, 'r') as f:
-		x = f.readlines()
-		palabras_posibles = x
-	random.shuffle(palabras_posibles)
-	game.board.cartas = palabras_posibles[0:12]
+		palabras_posibles = f.readlines()
+		random.shuffle(palabras_posibles)
+		game.board.cartas = palabras_posibles[0:12]
 	start_round_just_one(bot, game)
 	
 def start_round_just_one(bot, game):        
