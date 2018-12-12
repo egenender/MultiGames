@@ -9,7 +9,7 @@ import re
 from random import randrange, choice
 from time import sleep
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler)
 
 import Commands
