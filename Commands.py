@@ -2026,7 +2026,7 @@ def command_guess(bot, update, args):
 		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
 			#Adivino correctamente! Aumento el puntaje
 			game.board.state.progreso += 1
-			bot.send_message(game.cid, "*CORRECTO!!!", ParseMode.MARKDOWN)
+			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)
 			MainController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
