@@ -159,7 +159,7 @@ def callback_review_clues(bot, update):
 	regex = re.search("(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 	bot.edit_message_text("Has eliminado la pista: %s" % opcion, cid, callback.message.message_id)		
-	game = get_game(cid)	
+	game = Commands.get_game(cid)	
 	# Remuevo las pistas que son iguales a la elegida
 	game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
 	review_clues(bot, game)
@@ -171,7 +171,7 @@ def callback_review_clues_finalizado(bot, update):
 	log.info('review_clues_finalizado_callback called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-	game = get_game(cid)
+	game = Commands.get_game(cid)
 	send_clues(bot, game)	
 	bot.edit_message_text("Has finalizado la revision")
 	reviewer_player = game.board.state.reviewer_player
