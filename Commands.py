@@ -1956,7 +1956,7 @@ def command_clue(bot, update, args):
 						#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
 						bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
 						game.board.state.last_votes[uid] = claimtext
-						
+						save(bot, game.cid)
 						# Verifico si todos los jugadores -1 pusieron pista
 						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 							MainController.review_clues(bot, game)
