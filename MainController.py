@@ -100,7 +100,7 @@ def init_just_one(bot, game, player_number):
 		palabras_posibles = f.readlines()
 		random.shuffle(palabras_posibles)		
 		game.board.cartas = palabras_posibles[0:12]
-		game.board.cartas = [w.replace('\\n', '') for w in game.board.cartas]
+		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	start_round_just_one(bot, game)
 
 def next_player_after_active_player(game):
