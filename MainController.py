@@ -117,8 +117,11 @@ def start_round_just_one(bot, game):
 	
 	if not game.board.cartas:
 		# Si no quedan cartas se termina el juego y se muestra el puntaje.
-		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso-1)
+		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso-1)		
+		game.board.state.fase_actual = "Finalizado"
+		Commands.save(bot, game.cid)
 		bot.send_message(cid, mensaje, ParseMode.MARKDOWN)
+		return	
 	active_player = game.player_sequence[game.board.state.player_counter]
 	reviewer_player = game.player_sequence[next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
@@ -133,12 +136,14 @@ def start_round_just_one(bot, game):
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
 			bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
-			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida)
+			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida, reply_markup=ForceReply())			
 	game.dateinitvote = datetime.datetime.now()
+	game.board.state.fase_actual = "Proponiendo Pistas"
 	Commands.save(bot, game.cid)
-
+	
 def review_clues(bot, game):
 	game.dateinitvote = None
+	game.board.state.fase_actual = "Revisando Pistas"
 	reviewer_player = game.board.state.reviewer_player
 	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
 	send_reviewer_buttons(bot, game)
@@ -242,7 +247,11 @@ def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
 		text += "*{0}*\n".format(value)
-	mensaje_final = "*[{0}](tg://user?id={1})* es hora de adivinar! Poner /nextturn cuando se vea si se adivino.\nLas pistas son: \n{1}".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
+	mensaje_final = "*[{0}](tg://user?id={1})* es hora de adivinar! Poner /guest Palabra o /pass si no se sabe la palabra\nLas pistas son: \n{1}".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
+	
+	game.board.state.fase_actual = "Adivinando"
+	Commands.save(bot, game.cid)
+	
 	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 
 def pass_just_one(bot, game):
