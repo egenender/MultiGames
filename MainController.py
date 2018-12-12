@@ -167,10 +167,16 @@ def callback_review_clues(bot, update):
 		
 		game = Commands.get_game(cid)	
 		# Remuevo las pistas que son iguales a la elegida
-		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
-		review_clues(bot, game)
+		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
 		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
 		Commands.save(bot, game.cid)
+		
+		# Si todavia hay pistas...
+		if game.board.state.last_votes:
+			review_clues(bot, game)
+		else:
+			bot.send_message(game.cid, "Todas las pistas han sido descartadas. Se pasa al siguiente jugador")
+			start_next_round(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 	
@@ -197,8 +203,8 @@ def callback_review_clues_finalizado(bot, update):
 def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
-		text += value + "\n"
-	bot.send_message(game.cid, "Las pistas son: \n%s" % text)
+		text += "*{0}*\n".format(value)
+	bot.send_message(game.cid, "*%s* es hora de adivinar!+\n.Las pistas son: \n%s" % (game.board.state.active_player, text), ParseMode.MARKDOWN))
 	
 def start_round(bot, game):        
         log.info('start_round called')
@@ -272,17 +278,13 @@ def count_actions(bot, game):
         bot.send_message(game.cid, "%s\nAhora planifiquen el uso de sus acciones." % (action_text))                    
 
 def start_next_round(bot, game):
-    log.info('start_next_round called')
-    # start next round if there is no winner (or /cancel)
-    if game.board.state.game_endcode == 0:
-        # start new round
-        sleep(5)
-        # if there is no special elected president in between
-        if game.board.state.chosen_president is None:
-            increment_player_counter(game)
-        start_round(bot, game)
-
-
+	log.info('start_next_round called')
+	# start next round if there is no winner (or /cancel)
+	if game.board.state.game_endcode == 0:
+		# start new round		
+		increment_player_counter(game)
+		start_round_just_one(bot, game)
+		
 ##
 #
 # End of round
