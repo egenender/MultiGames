@@ -1998,3 +1998,9 @@ def command_jugadores(bot, update):
 		jugadoresActuales += "[%s](tg://user?id=%d)\n" % (game.playerlist[uid].name, uid)
 					
 	bot.send_message(game.cid, jugadoresActuales, ParseMode.MARKDOWN)
+	
+def command_next_turn(bot, update):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = get_game(cid)	
+	MainController.start_next_round(bot, game)
