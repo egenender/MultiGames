@@ -232,7 +232,7 @@ def callback_reviewer_confirm(bot, update):
 		regex = re.search("(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 		game = Commands.get_game(cid)
-		send_clues(bot, game)
+		#send_clues(bot, game)
 		mensaje_edit = "Gracias!"
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
