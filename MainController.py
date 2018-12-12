@@ -97,7 +97,6 @@ def init_just_one(bot, game, player_number):
 	url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'
 	
 	with open(url_palabras_posibles, 'r') as f:
-		palabras_posibles = []
 		palabras_posibles = f.readlines()
 		random.shuffle(palabras_posibles)
 		game.board.cartas = palabras_posibles[0:12]
@@ -112,7 +111,7 @@ def start_round_just_one(bot, game):
 	game.board.state.reviewer_player = reviewer_player
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	
-	palabra_elegida = palabras_posibles.pop(0)
+	palabra_elegida = game.board.cartas.pop(0)
 	bot.send_message(game.cid, "El jugador %s tiene que adivinar" % active_player.name)
 	game.dateinitvote = datetime.datetime.now()
 	for uid in game.playerlist:
