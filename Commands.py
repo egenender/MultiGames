@@ -1956,6 +1956,9 @@ def command_clue(bot, update, args):
 			#Solamente si el jugador esta en el partido y 
 			if uid in game.playerlist:
 				#Check if there is a current game
+				if game.board == None:
+					bot.send_message(game.cid, "Uno de los juegos en los que estas no comenzo!")					
+				
 				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
 					if len(args) > 0:
 						#Data is being claimed
