@@ -7,9 +7,11 @@ class Board(object):
     def __init__(self, playercount, game):
         self.state = State()
         self.num_players = playercount
-        #Lost Expedition
-        self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
-        self.cartasExplorationActual = []       
+        #Lost Expedition        
+        if game.tipo == "LostExpedition":
+            self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
+            self.cartasExplorationActual = []       
+        
         # Cantidad de veces que se mezclo el mazo.
         self.amount_shuffled = 0
         # Se comienza en el primer lugar
@@ -17,7 +19,7 @@ class Board(object):
         self.objetivoprogreso = 9
         
         self.cartas = []
-                
+        '''                
         self.exploradores_team1 = {
             "Campero" : {
                 "vida" : "3", #Comandos con indicaciones pediran al usuario que actuen y luego volvera a la lista de comandos
@@ -53,6 +55,7 @@ class Board(object):
                 "matable" : True,                
             }
         }
+        '''
         
         self.discards = []
         self.previous = []        
