@@ -107,7 +107,7 @@ def start_round_just_one(bot, game):
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	random.shuffle(palabras_posibles)	
 	palabra_elegida = palabras_posibles[0]
-	
+	bot.send_message(game.cid, "El jugador %s tiene que adivinar" % active_player.name)
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
 			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida)
