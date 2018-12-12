@@ -141,7 +141,7 @@ def review_clues(bot, game):
 	comando_callback = 'rechazar'
 	mensaje_pregunta = "Elija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo"
 	# Se ponen todos los botones de pistas 
-	for key, value in game.board.state.last_votes:
+	for key, value in game.board.state.last_votes.items():
 		txtBoton = value
 		datos = str(cid) + "*" + comando_callback + "*" + str(value) + "*" + str(uid)
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])		
