@@ -159,7 +159,12 @@ def callback_review_clues(bot, update):
 		log.info('review_clues_callback called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-		bot.edit_message_text("Has eliminado la pista: %s" % opcion, cid, callback.message.message_id)		
+		mensaje_edit = "Has eliminado la pista: %s" % opcion
+		try:
+			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+		except Exception as e:
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)		
+		
 		game = Commands.get_game(cid)	
 		# Remuevo las pistas que son iguales a la elegida
 		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
@@ -176,8 +181,13 @@ def callback_review_clues_finalizado(bot, update):
 		regex = re.search("(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 		game = Commands.get_game(cid)
-		send_clues(bot, game)	
-		bot.edit_message_text("Has finalizado la revision")
+		send_clues(bot, game)
+		mensaje_edit = "Has finalizado la revision"
+		try:
+			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+		except Exception as e:
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
+			
 		reviewer_player = game.board.state.reviewer_player
 		bot.send_message(game.cid, "El revisor %s ha terminado de revisar las pistas" % reviewer_player.name)
 		Commands.save(bot, game.cid)
