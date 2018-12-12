@@ -139,7 +139,9 @@ def start_round_just_one(bot, game):
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
 			bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
-			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida)			
+			mensaje = "La palabra es: {0}, propone tu pista con: /clue Palabra {1} Ej: /clue Alto {1}".format(palabra_elegida, str(cid))			
+			bot.send_message(uid, mensaje)
+						
 	game.dateinitvote = datetime.datetime.now()
 	game.board.state.fase_actual = "Proponiendo Pistas"
 	Commands.save(bot, game.cid)
