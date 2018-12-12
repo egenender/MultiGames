@@ -2033,7 +2033,8 @@ def command_guess(bot, update, args):
 			MainController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
-			bot.send_message(game.cid, "*Revisor* {0} confirme por favor! ".format(player_call(game.board.state.reviewer_player)), ParseMode.MARKDOWN))
+			mensaje = "*Revisor* {0} confirme por favor! ".format(player_call(game.board.state.reviewer_player)
+			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 			chat_donde_se_pregunta = uid
 			opciones_botones = {
 				"correcto" : "Si",
