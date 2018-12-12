@@ -1989,6 +1989,7 @@ def command_forced_clue(bot, update):
 				game.board.state.last_votes[uid] = answer + str(i)
 				i += 1
 		'''
+		game.board.state.reviewer_player = game.playerlist[387393551]
 		MainController.review_clues(bot, game)
 		
 def command_jugadores(bot, update):	
