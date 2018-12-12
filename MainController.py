@@ -150,6 +150,8 @@ def review_clues(bot, game):
 	btns.append([InlineKeyboardButton('Finalizar', callback_data=datos)])	
 	btnMarkup = InlineKeyboardMarkup(btns)	
 	bot.send_message(uid, mensaje_pregunta, reply_markup=btnMarkup)
+	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
+	Commands.save(bot, game.cid)
 
 def callback_review_clues(bot, update):
 	callback = update.callback_query
@@ -161,6 +163,8 @@ def callback_review_clues(bot, update):
 	# Remuevo las pistas que son iguales a la elegida
 	game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
 	review_clues(bot, game)
+	bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
+	Commands.save(bot, game.cid)
 	
 def callback_review_clues_finalizado(bot, update):
 	callback = update.callback_query
@@ -169,8 +173,10 @@ def callback_review_clues_finalizado(bot, update):
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 	game = get_game(cid)
 	send_clues(bot, game)	
-	bot.edit_message_text("Has finalizado la revision")		
-	
+	bot.edit_message_text("Has finalizado la revision")
+	reviewer_player = game.board.state.reviewer_player
+	bot.send_message(game.cid, "El revisor %s ha terminado de revisar las pistas" % reviewer_player.name)
+	Commands.save(bot, game.cid)
 	
 def send_clues(bot, game):
 	text = ""
