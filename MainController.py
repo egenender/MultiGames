@@ -456,6 +456,7 @@ def main():
 	dp.add_handler(CommandHandler("board", Commands.command_board))
 	dp.add_handler(CommandHandler("rules", Commands.command_rules))
 	dp.add_handler(CommandHandler("symbols", Commands.command_symbols))
+	dp.add_handler(CommandHandler("players", Commands.command_jugadores))	
 
 	dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
 	dp.add_handler(CommandHandler("startgame", Commands.command_startgame))
