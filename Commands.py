@@ -9,7 +9,7 @@ import urllib.parse
 import sys
 from time import sleep
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
 import MainController
 import GamesController
@@ -1444,20 +1444,13 @@ def get_base_data(bot, update):
 def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
-	uid = update.message.from_user.id
+	cid, uid = update.message.chat_id, update.message.from_user.id
 	if uid in ADMIN:
-		cid = '-1001206290323'
-		#update.message.chat_id
 		game = get_game(cid)
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
-		cartas_juego_actual =  random.sample([*cartas_aventura], len([*cartas_aventura]))		
-		cartas_mañana = []		
-		for i in range(6):
-			cartas_mañana.append(cartas_juego_actual.pop(0))				
-		cartas_mañana.sort()
-		showImages(bot, cid, cartas_mañana)		
+		bot.send_message(cid, "Respondeme", reply_markup=ForceReply())
 
 commands = [  # command description used in the "help" command
 	'/help - Muestra ayuda sobre los comandos',
