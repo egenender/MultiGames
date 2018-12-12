@@ -121,7 +121,10 @@ def start_round_just_one(bot, game):
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(cid, mensaje, ParseMode.MARKDOWN)
-		return	
+		return
+	
+	#Reseteo los votos	
+	game.board.state.last_votes = {}
 	active_player = game.player_sequence[game.board.state.player_counter]
 	reviewer_player = game.player_sequence[next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
