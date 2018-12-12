@@ -1739,7 +1739,7 @@ def callback_choose_posible_role(bot, update):
 
 
 def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callback, mensaje_pregunta, opciones_botones):
-	sleep(3)
+	#sleep(3)
 	btns = []
 	# Creo los botones para elegir al usuario
 	for opcion in opciones_botones:
