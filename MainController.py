@@ -99,7 +99,7 @@ def init_just_one(bot, game, player_number):
 		x = f.readlines()
 		palabras_posibles = x
 	random.shuffle(palabras_posibles)
-	game.boar.cartas = palabras_posibles[0:12]
+	game.board.cartas = palabras_posibles[0:12]
 	start_round_just_one(bot, game)
 	
 def start_round_just_one(bot, game):        
