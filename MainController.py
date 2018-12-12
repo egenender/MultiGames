@@ -154,17 +154,20 @@ def review_clues(bot, game):
 	Commands.save(bot, game.cid)
 
 def callback_review_clues(bot, update):
-	callback = update.callback_query
-	log.info('review_clues_callback called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-	bot.edit_message_text("Has eliminado la pista: %s" % opcion, cid, callback.message.message_id)		
-	game = Commands.get_game(cid)	
-	# Remuevo las pistas que son iguales a la elegida
-	game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
-	review_clues(bot, game)
-	bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
-	Commands.save(bot, game.cid)
+	try:
+		callback = update.callback_query
+		log.info('review_clues_callback called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		bot.edit_message_text("Has eliminado la pista: %s" % opcion, cid, callback.message.message_id)		
+		game = Commands.get_game(cid)	
+		# Remuevo las pistas que son iguales a la elegida
+		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}
+		review_clues(bot, game)
+		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
+		Commands.save(bot, game.cid)
+	except Exception as e:
+			bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 	
 def callback_review_clues_finalizado(bot, update):
 	callback = update.callback_query
@@ -182,7 +185,7 @@ def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
 		text += value + "\n"
-	bot.send_message(game.cid, "Las pistas son: %s" % text)
+	bot.send_message(game.cid, "Las pistas son: \n%s" % text)
 	
 def start_round(bot, game):        
         log.info('start_round called')
