@@ -1942,36 +1942,35 @@ def command_clue(bot, update, args):
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
 		
-		# Cargo todos los partidos de JustOne (Unico que usa clue al momento)
-				
-		# Busco en que juegos esta el jugador
-		for game_key, game in GamesController.games.items():
-			#Solamente si el jugador esta en el partido y 
+		# Para simplificar mando el CHAT_ID del partido junto con la pista
+		
+		if len(args) == 2:			
+			game = get_game(int(args[1]))
+			
 			if uid in game.playerlist:
 				#Check if there is a current game
 				if game.board == None:
-					bot.send_message(game.cid, "Uno de los juegos en los que estas no comenzo!")					
-				
+					bot.send_message(game.cid, "El juego no ha comenzado!")
+					return					
 				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-					if len(args) > 0:
-						#Data is being claimed
-						# TODO Verificar que el usuario no mande pistas con espacios.
-						claimtext = ' '.join(args)
-						#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
-						bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
-						game.board.state.last_votes[uid] = claimtext
-						save(bot, game.cid)
-						# Verifico si todos los jugadores -1 pusieron pista
-						bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
-						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-							MainController.review_clues(bot, game)						
-					else:
-						bot.send_message(game.cid, "Debes escribir una pista!")
-
+					#Data is being claimed
+					# TODO Verificar que el usuario no mande pistas con espacios.
+					claimtext = args[0]
+					#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
+					bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
+					game.board.state.last_votes[uid] = claimtext
+					save(bot, game.cid)
+					# Verifico si todos los jugadores -1 pusieron pista
+					bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
+					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+						MainController.review_clues(bot, game)
 				else:
 					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
 			else:
-				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")				
+				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
+			
+		else:
+			bot.send_message(game.cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA] [CHAT_ID]. Ej: /clue Alto 121212122")
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
