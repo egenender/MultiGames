@@ -1595,7 +1595,7 @@ def command_calltovote(bot, update):
 					history_text = ""
 					for player in game.player_sequence:
 						# If the player is not in last_votes send him reminder
-						if player.uid not in game.board.state.last_votes:
+						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player:
 							history_text += "It's time to vote [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
 					bot.send_message(cid, text=history_text, parse_mode=ParseMode.MARKDOWN)
 				else:
@@ -1949,7 +1949,7 @@ def command_clue(bot, update, args):
 			if uid in game.playerlist:
 				#Check if there is a current game
 				# TODO VErificar que no mande pista el jugador activo
-				if True:
+				if uid != game.board.state.active_player.uid:
 					if len(args) > 0:
 						#Data is being claimed
 						# TODO Verificar que el usuario no mande pistas con espacios.
@@ -1961,8 +1961,10 @@ def command_clue(bot, update, args):
 						# Verifico si todos los jugadores -1 pusieron pista
 						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 							MainController.review_clues(bot, game)
+						else:
+							bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
 					else:					
-						bot.send_message(uid, "Debes mandar un mensaje para hacer una declaración.")
+						bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
 
 				else:
 					bot.send_message(uid, "No puedes hacer claim oculto sin promulgar al menos una política.")
