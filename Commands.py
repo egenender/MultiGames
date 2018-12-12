@@ -1872,6 +1872,7 @@ def command_join(bot, update, args):
 				bot.send_message(game.cid, "Se ha alcanzado previamente el maximo de jugadores. Espera el proximo juego!")
 			else:
 				# Uno al jugador a la partida
+				bot.send_message(uid, "Te has unido a un juego en %s." % groupName)
 				game.add_player(uid, player)				
 				save(bot, game.cid)
 				
