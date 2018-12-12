@@ -182,6 +182,7 @@ def callback_review_clues(bot, update):
 			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)		
 		
 		game = Commands.get_game(cid)	
+		reviewer_player = game.board.state.reviewer_player
 		# Remuevo las pistas que son iguales a la elegida
 		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
 		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
