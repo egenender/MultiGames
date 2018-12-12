@@ -2015,6 +2015,9 @@ def command_pass(bot, update):
 	game = get_game(cid)
 	MainController.pass_just_one(bot, game)
 
+def player_call(player):
+	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
+	
 def command_guess(bot, update, args):
 	try:		
 		#Send message of executing command   
@@ -2030,7 +2033,7 @@ def command_guess(bot, update, args):
 			MainController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
-			bot.send_message(game.cid, "Revisor confirme por favor!")
+			bot.send_message(game.cid, "Revisor confirme por favor! {0}".format(player_call(game.board.state.reviewer_player)))
 			chat_donde_se_pregunta = uid
 			opciones_botones = {
 				"correcto" : "Si",
