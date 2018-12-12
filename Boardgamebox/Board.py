@@ -9,13 +9,14 @@ class Board(object):
         self.num_players = playercount
         #Lost Expedition
         self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
-        #self.cartasAventura =[*cartas_aventura]
-        self.cartasExplorationActual = []
+        self.cartasExplorationActual = []       
         # Cantidad de veces que se mezclo el mazo.
         self.amount_shuffled = 0
         # Se comienza en el primer lugar
         self.progreso = 1
         self.objetivoprogreso = 9
+        
+        self.cartas = []
                 
         self.exploradores_team1 = {
             "Campero" : {
