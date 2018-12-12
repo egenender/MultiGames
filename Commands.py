@@ -1948,14 +1948,15 @@ def command_clue(bot, update, args):
 		#Send message of executing command   
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
-
-		# Busco en que juegos esta el jugador y agrego el historia oculto en los que este. (Futuro se
+		
+		# Cargo todos los partidos de JustOne (Unico que usa clue al momento)
+				
+		# Busco en que juegos esta el jugador
 		for game_key, game in GamesController.games.items():
 			#Solamente si el jugador esta en el partido y 
 			if uid in game.playerlist:
 				#Check if there is a current game
-				# TODO VErificar que no mande pista el jugador activo
-				if uid != game.board.state.active_player.uid:
+				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
 					if len(args) > 0:
 						#Data is being claimed
 						# TODO Verificar que el usuario no mande pistas con espacios.
