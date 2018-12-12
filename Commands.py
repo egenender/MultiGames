@@ -1975,6 +1975,19 @@ def command_clue(bot, update, args):
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
 
+def command_forced_clue(bot, update):
+	uid = update.message.from_user.id
+	if uid in ADMIN:
+		cid = update.message.chat_id
+		game = get_game(cid)
+		answer = "Pista "
+		i = 1
+		for uid in game.playerlist:
+			if uid != game.board.state.active_player.uid:
+				game.board.state.last_votes[uid] = answer + str(i)
+				i += 1
+		MainController.review_clues(bot, game)
+		
 def command_jugadores(bot, update):	
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
