@@ -164,7 +164,7 @@ def send_reviewer_buttons(bot, game):
 	cid = game.cid
 	uid = reviewer_player.uid
 	comando_callback = 'rechazar'
-	mensaje_pregunta = "Elija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo"
+	mensaje_pregunta = "Partida {0}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo".format(game.groupName)
 	# Se ponen todos los botones de pistas 
 	for key, value in game.board.state.last_votes.items():
 		txtBoton = value
