@@ -93,9 +93,14 @@ def init_lost_expedition(bot, game, player_number):
 def init_just_one(bot, game, player_number):
 	log.info('Game init_lost_expedition called')
 	game.shuffle_player_sequence()
+	# Seteo las palabras
+	url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'
+	with open(url_palabras_posibles, 'r') as f:
+    		x = f.readlines()
+		palabras_posibles = x
+	random.shuffle(palabras_posibles)
+	game.boar.cartas = palabras_posibles[0:12]
 	start_round_just_one(bot, game)
-	
-palabras_posibles = ["Europa", "Circo", "Virus", "Cocodrilo", "Mostaza"]
 	
 def start_round_just_one(bot, game):        
 	log.info('start_round called')
@@ -105,13 +110,15 @@ def start_round_just_one(bot, game):
 	game.board.state.active_player = active_player
 	game.board.state.reviewer_player = reviewer_player
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
-	random.shuffle(palabras_posibles)	
-	palabra_elegida = palabras_posibles[0]
+	
+	palabra_elegida = palabras_posibles.pop(0)
 	bot.send_message(game.cid, "El jugador %s tiene que adivinar" % active_player.name)
 	game.dateinitvote = datetime.datetime.now()
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
 			bot.send_message(uid, "La palabra es: %s, propone tu pista con: /clue [Palabra] Ej: /clue Alto" % palabra_elegida)
+	game.dateinitvote = datetime.datetime.now()
+	Commands.save(bot, game.cid)
 
 def review_clues(bot, game):
 	reviewer_player = game.board.state.reviewer
@@ -129,10 +136,8 @@ def review_clues(bot, game):
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])		
 	comando_callback = 'finalizar'
 	datos = str(cid) + "*" + comando_callback + "*" + str("finalizar") + "*" + str(uid)
-	btns.append([InlineKeyboardButton('Finalizar', callback_data=datos)])
-	
-	btnMarkup = InlineKeyboardMarkup(btns)
-	
+	btns.append([InlineKeyboardButton('Finalizar', callback_data=datos)])	
+	btnMarkup = InlineKeyboardMarkup(btns)	
 	bot.send_message(uid, mensaje_pregunta, reply_markup=btnMarkup)
 
 def callback_review_clues(bot, update):
