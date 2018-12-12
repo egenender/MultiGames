@@ -469,7 +469,7 @@ def error(bot, update, error):
 		try:
 			logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
 			#"%s" por el usuario "%s"' % (update.message.chat.id, update.message.from.id))
-			bot.send_message(update.effective_chat.id, "Debido a Time Out se recomienda seguis con /continue si esto no responde probar /dia /noche o /resolve")
+			#bot.send_message(update.effective_chat.id, "Debido a Time Out se recomienda seguis con /continue si esto no responde probar /dia /noche o /resolve")
 			# Obtengo el juego actual
 			'''game = Commands.get_game(update.effective_chat.id)
 			uid = update.effective_user.id
