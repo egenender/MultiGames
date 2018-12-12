@@ -167,20 +167,23 @@ def callback_review_clues(bot, update):
 		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
 		Commands.save(bot, game.cid)
 	except Exception as e:
-			bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 	
 def callback_review_clues_finalizado(bot, update):
-	callback = update.callback_query
-	log.info('review_clues_finalizado_callback called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-	game = Commands.get_game(cid)
-	send_clues(bot, game)	
-	bot.edit_message_text("Has finalizado la revision")
-	reviewer_player = game.board.state.reviewer_player
-	bot.send_message(game.cid, "El revisor %s ha terminado de revisar las pistas" % reviewer_player.name)
-	Commands.save(bot, game.cid)
-	
+	try:
+		callback = update.callback_query
+		log.info('review_clues_finalizado_callback called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+		game = Commands.get_game(cid)
+		send_clues(bot, game)	
+		bot.edit_message_text("Has finalizado la revision")
+		reviewer_player = game.board.state.reviewer_player
+		bot.send_message(game.cid, "El revisor %s ha terminado de revisar las pistas" % reviewer_player.name)
+		Commands.save(bot, game.cid)
+	except Exception as e:
+		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
+		
 def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
