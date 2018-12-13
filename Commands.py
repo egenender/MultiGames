@@ -1499,115 +1499,6 @@ def command_roll(bot, update, args):
 		texthistory = "Jugador *%s* - %s" % (player.name, text_tirada)
 		game.history.append("%s" % (texthistory))
 
-def command_clue(bot, update, args):
-	try:		
-		#Send message of executing command   
-		cid = update.message.chat_id
-		uid = update.message.from_user.id
-		
-		# Para simplificar mando el CHAT_ID del partido junto con la pista
-		
-		if len(args) == 2:			
-			game = get_game(int(args[1]))
-			
-			if uid in game.playerlist:
-				#Check if there is a current game
-				if game.board == None:
-					bot.send_message(game.cid, "El juego no ha comenzado!")
-					return					
-				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-					#Data is being claimed
-					# TODO Verificar que el usuario no mande pistas con espacios.
-					claimtext = args[0]
-					#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
-					bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
-					game.board.state.last_votes[uid] = claimtext
-					save(bot, game.cid)
-					# Verifico si todos los jugadores -1 pusieron pista
-					bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
-					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-						MainController.review_clues(bot, game)
-				else:
-					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
-			else:
-				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
-			
-		else:
-			bot.send_message(game.cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA] [CHAT_ID]. Ej: /clue Alto 121212122")
-	except Exception as e:
-		bot.send_message(uid, str(e))
-		log.error("Unknown error: " + str(e))
-
-def command_forced_clue(bot, update):
-	uid = update.message.from_user.id
-	if uid in ADMIN:
-		cid = update.message.chat_id
-		game = get_game(cid)
-		'''
-		answer = "Pista "
-		i = 1
-		for uid in game.playerlist:
-			if uid != game.board.state.active_player.uid:
-				game.board.state.last_votes[uid] = answer + str(i)
-				i += 1
-		'''
-		game.board.state.reviewer_player = game.playerlist[387393551]
-		MainController.review_clues(bot, game)
-		
-def command_jugadores(bot, update):	
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	
-	game = get_game(cid)
-	jugadoresActuales = "Los jugadores que se han unido al momento son:\n"
-	for uid in game.playerlist:
-		jugadoresActuales += "[%s](tg://user?id=%d)\n" % (game.playerlist[uid].name, uid)
-					
-	bot.send_message(game.cid, jugadoresActuales, ParseMode.MARKDOWN)
-	
-def command_next_turn(bot, update):
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	game = get_game(cid)	
-	MainController.start_next_round(bot, game)
-
-def command_pass(bot, update):
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	game = get_game(cid)
-	MainController.pass_just_one(bot, game)
-
-def player_call(player):
-	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
-	
-def command_guess(bot, update, args):
-	try:		
-		#Send message of executing command   
-		cid = update.message.chat_id
-		uid = update.message.from_user.id
-		game = get_game(cid)
-		args_text = ' '.join(args)
-		
-		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
-			#Adivino correctamente! Aumento el puntaje
-			game.board.state.progreso += 1
-			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)
-			game.board.discards.append(game.board.state.acciones_carta_actual)
-			MainController.start_next_round(bot, game)			
-		else:
-			#Preguntar al revisor
-			mensaje = "*Revisor* {0} confirme por favor!".format(player_call(game.board.state.reviewer_player))
-			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
-			chat_donde_se_pregunta = uid
-			opciones_botones = {
-				"correcto" : "Si",
-				"incorrecto" : "No"
-			}
-			simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó?", opciones_botones)
-			
-	except Exception as e:
-		bot.send_message(uid, str(e))
-		log.error("Unknown error: " + str(e))
 
 def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callback, mensaje_pregunta, opciones_botones):
 	#sleep(3)
@@ -2074,4 +1965,172 @@ def execute_command(bot, update):
 		execute_actions(bot, cid, uid)
 
 
+def command_clue(bot, update, args):
+	try:		
+		#Send message of executing command   
+		try:			
+			cid = update.message.chat_id
+			uid = update.message.from_user.id
+		except Exception as e:
+			cid = args[1]
+			uid = args[2]
+		
+		# Para simplificar mando el CHAT_ID del partido junto con la pista
+		# Permito las dos formas de gregar pistas
+		if len(args) == 2:			
+			game = get_game(int(args[1]))
+			
+			if uid in game.playerlist:
+				#Check if there is a current game
+				if game.board == None:
+					bot.send_message(game.cid, "El juego no ha comenzado!")
+					return					
+				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
+					#Data is being claimed
+					# TODO Verificar que el usuario no mande pistas con espacios.
+					claimtext = args[0]
+					#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
+					bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
+					game.board.state.last_votes[uid] = claimtext
+					save(bot, game.cid)
+					# Verifico si todos los jugadores -1 pusieron pista
+					bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
+					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+						MainController.review_clues(bot, game)
+				else:
+					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
+			else:
+				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
+			
+		else:
+			if len(args) == 1:
+				# Obtengo todos los juegos de base de datos de los que usan clue
+				mensaje_error = ""
+				cursor = conn.cursor()			
+				log.info("Executing in DB")
+				query = "select * from games g where g.tipojuego = 'JustOne'"
+				cursor.execute(query)
+				# Si encuentra partida...
+				if cursor.rowcount > 0:					
+					for table in cursor.fetchall():
+						# Por cada partida encontrada la cargo en games si no esta en el controller.
+						if table[0] not in GamesController.games.keys():
+							load_game(cid)
+					clue_games_restriction = ['JustOne']
+					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
+					btns = []
+					for key, game in clue_games:
+						if uid in game.playerlist and game.board != None:
+							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
+								clue_text = args[0]
+								# Creo el boton el cual eligirá el jugador
+								txtBoton = game.groupName
+								comando_callback = "choosegameclue"
+								datos = str(key) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
+								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+					
+					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
+					if len(btns) != 0:
+						btnMarkup = InlineKeyboardMarkup(btns)
+						bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
+					else:
+						mensaje_error = "No hay partidas en las que puedas hacer /clue"
+						bot.send_message(game.cid, mensaje_error)
+							
+				else:
+					mensaje_error = "No hay partidas vivas en las que puedas hacer /clue"
+					bot.send_message(game.cid, mensaje_error)					
+			else:
+				bot.send_message(game.cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA] [CHAT_ID]. Ej: /clue Alto 121212122")
+	except Exception as e:
+		bot.send_message(uid, str(e))
+		log.error("Unknown error: " + str(e))
+
+def callback_choose_game_clue(bot, update):
+	callback = update.callback_query
+	log.info('callback_choose_mode called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+		
+	game = get_game(cid)
+	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)
+	
+	try:
+		bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+	except Exception as e:
+		bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
+	
+	command_clue(bot, update, [opcion, cid, uid])
+	
+	
+def command_forced_clue(bot, update):
+	uid = update.message.from_user.id
+	if uid in ADMIN:
+		cid = update.message.chat_id
+		game = get_game(cid)
+		'''
+		answer = "Pista "
+		i = 1
+		for uid in game.playerlist:
+			if uid != game.board.state.active_player.uid:
+				game.board.state.last_votes[uid] = answer + str(i)
+				i += 1
+		'''
+		game.board.state.reviewer_player = game.playerlist[387393551]
+		MainController.review_clues(bot, game)
+		
+def command_jugadores(bot, update):	
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	
+	game = get_game(cid)
+	jugadoresActuales = "Los jugadores que se han unido al momento son:\n"
+	for uid in game.playerlist:
+		jugadoresActuales += "[%s](tg://user?id=%d)\n" % (game.playerlist[uid].name, uid)
+					
+	bot.send_message(game.cid, jugadoresActuales, ParseMode.MARKDOWN)
+	
+def command_next_turn(bot, update):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = get_game(cid)	
+	MainController.start_next_round(bot, game)
+
+def command_pass(bot, update):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = get_game(cid)
+	MainController.pass_just_one(bot, game)
+
+def player_call(player):
+	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
+	
+def command_guess(bot, update, args):
+	try:		
+		#Send message of executing command   
+		cid = update.message.chat_id
+		uid = update.message.from_user.id
+		game = get_game(cid)
+		args_text = ' '.join(args)
+		
+		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
+			#Adivino correctamente! Aumento el puntaje
+			game.board.state.progreso += 1
+			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)
+			game.board.discards.append(game.board.state.acciones_carta_actual)
+			MainController.start_next_round(bot, game)			
+		else:
+			#Preguntar al revisor
+			mensaje = "*Revisor* {0} confirme por favor!".format(player_call(game.board.state.reviewer_player))
+			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+			chat_donde_se_pregunta = uid
+			opciones_botones = {
+				"correcto" : "Si",
+				"incorrecto" : "No"
+			}
+			simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó?", opciones_botones)
+			
+	except Exception as e:
+		bot.send_message(uid, str(e))
+		log.error("Unknown error: " + str(e))
 
