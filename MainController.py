@@ -264,6 +264,7 @@ def callback_review_clues(bot, update):
 			send_reviewer_buttons(bot, game)
 		else:
 			bot.send_message(game.cid, "Todas las pistas han sido descartadas. Se pasa al siguiente jugador")
+			bot.send_message(game.cid, "La palabra era: *{0}*.\n".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)			
 			start_next_round(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
@@ -321,6 +322,8 @@ def callback_reviewer_confirm(bot, update):
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
+
+		
 def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
@@ -335,7 +338,7 @@ def send_clues(bot, game):
 
 def pass_just_one(bot, game):
 	start_round_just_one(bot, game)	
-
+	
 def start_next_round(bot, game):
 	log.info('start_next_round called')
 	# start next round if there is no winner (or /cancel)
