@@ -24,6 +24,7 @@ JUEGOS_DISPONIBLES = {
         }
 }
 
+
 HOJAS_AYUDA = {
         "JustOne" : "Pistas *no* validas:\n" + \
 		"*Pista con ortografia diferente.* Ej: Kamiza para Camisa\n" + \
