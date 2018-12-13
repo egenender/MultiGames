@@ -2019,10 +2019,10 @@ def command_clue(bot, update, args):
 							#bot.send_message(uid, "Cargando el juego {0}".format(table[0]))
 							get_game(table[0])
 					clue_games_restriction = ['JustOne']
-					bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
+					#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
-					bot.send_message(uid, len(clue_games))
+					#bot.send_message(uid, len(clue_games))
 					for game_chat_id, game in clue_games.items():
 						#bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
 						if uid in game.playerlist and game.board != None:
@@ -2044,7 +2044,7 @@ def command_clue(bot, update, args):
 							
 				else:
 					mensaje_error = "No hay partidas vivas en las que puedas hacer /clue"
-					bot.send_message(game.cid, mensaje_error)					
+					bot.send_message(cid, mensaje_error)					
 			else:
 				bot.send_message(cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA] [CHAT_ID]. Ej: /clue Alto 121212122")
 	except Exception as e:
