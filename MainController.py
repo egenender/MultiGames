@@ -104,7 +104,6 @@ def init_just_one(bot, game, player_number):
 			"spanish-ficus.txt" : "Español Ficus"
 		}
 		Commands.simple_choose_buttons(bot, cid, cid, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
-
 		'''
 		url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'	
 		with open(url_palabras_posibles, 'r') as f:
