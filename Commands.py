@@ -211,13 +211,14 @@ def after_ruta_achicada(bot, cid, uid):
 	'''
 		
 def command_hoja_ayuda(bot, update):
-	cid = update.message.chat_id
-	help_text = "Eventos amarillos son obligatorios\n" + \
-			"Eventos rojo son obligatorios pero tenes que elegir 1\n"  + \
-			"Eventos Azules son opcionales"
+	cid = update.message.chat_id	
+	game = get_game(cid)		
+	help_text = HOJAS_AYUDA.get(game.tipo)
 	bot.send_message(cid, help_text)
-	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
-	bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
+	
+	if game.tipo = 'LostExpedition':
+		bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))	
+		bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
 
 def command_newgame_lost_expedition(bot, update):
 	cid = update.message.chat_id
