@@ -177,8 +177,8 @@ def start_round_just_one(bot, game):
 	
 	palabra_elegida = game.board.cartas.pop(0)
 	game.board.state.acciones_carta_actual = palabra_elegida
-	bot.send_message(game.cid, "El jugador %s tiene que adivinar" % active_player.name)
-	bot.send_message(game.cid, "El jugador %s revisara las pistas" % reviewer_player.name)
+	bot.send_message(game.cid, "El jugador *%s* tiene que adivinar" % active_player.name, ParseMode.MARKDOWN))
+	bot.send_message(game.cid, "El jugador *%s* revisara las pistas" % reviewer_player.name, ParseMode.MARKDOWN))
 	game.dateinitvote = datetime.datetime.now()
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
@@ -314,7 +314,7 @@ def callback_reviewer_confirm(bot, update):
 			game.board.discards.append(game.board.state.acciones_carta_actual)
 			# Solo descarto si hay cartas
 			if not game.board.cartas:
-				bot.send_message(game.cid, "Se ha eliminado del mazo 1 carta como penalización", ParseMode.MARKDOWN)			
+				bot.send_message(game.cid, "Se ha *eliminado del mazo 1 carta* como penalización", ParseMode.MARKDOWN)			
 				game.board.discards.append(game.board.cartas.pop(0))
 		Commands.save(bot, game.cid)
 		start_next_round(bot, game)
