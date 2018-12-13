@@ -95,6 +95,7 @@ def init_lost_expedition(bot, game, player_number):
 		
 def init_just_one(bot, game, player_number):
 	try:
+		cid = game.cid
 		log.info('Game init_lost_expedition called')
 		game.shuffle_player_sequence()
 		# Seteo las palabras
