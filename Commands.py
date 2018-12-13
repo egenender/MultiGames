@@ -1123,6 +1123,7 @@ def command_votes(bot, update):
 						else:
 							history_text += "%s didn't register a vote.\n" % (game.playerlist[player.uid].name)
 					bot.send_message(cid, history_text)
+					
 				else:
 					bot.send_message(cid, "Five minutes must pass to see the votes") 
 		else:
@@ -1154,6 +1155,8 @@ def command_calltovote(bot, update):
 						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
 							history_text += "It's time to vote [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
 					bot.send_message(cid, text=history_text, parse_mode=ParseMode.MARKDOWN)
+					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+						MainController.review_clues(bot, game)
 				else:
 					bot.send_message(cid, "Five minutes must pass to see call to vote") 
 		else:
