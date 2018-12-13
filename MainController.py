@@ -146,7 +146,7 @@ def start_round_just_one(bot, game):
 			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
 			mensaje = "Nueva palabra en el grupo *{1}*.\nLa palabra es: *{0}*, propone tu pista!".format(palabra_elegida, game.groupName)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
-			mensaje = "/clue Ejemplo {1}".format(palabra_elegida, str(cid))
+			mensaje = "/clue Ejemplo"
 			bot.send_message(uid, mensaje)			
 						
 	game.dateinitvote = datetime.datetime.now()
