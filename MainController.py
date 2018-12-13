@@ -95,6 +95,7 @@ def init_lost_expedition(bot, game, player_number):
 		
 def init_just_one(bot, game, player_number):
 	try:
+		'''
 		cid = game.cid
 		log.info('Game init_lost_expedition called')
 		game.shuffle_player_sequence()
@@ -112,7 +113,7 @@ def init_just_one(bot, game, player_number):
 			game.board.cartas = palabras_posibles[0:12]
 			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 		start_round_just_one(bot, game)
-		'''
+		
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
