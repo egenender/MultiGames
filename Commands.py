@@ -2019,7 +2019,7 @@ def command_clue(bot, update, args):
 					clue_games_restriction = ['JustOne']
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
-					bot.send_message(uid, "llego aca")
+					bot.send_message(uid, "Obtuvo bien los juegos")
 					for key, game in clue_games:
 						if uid in game.playerlist and game.board != None:
 							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
@@ -2029,7 +2029,7 @@ def command_clue(bot, update, args):
 								comando_callback = "choosegameclue"
 								datos = str(key) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
 								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-					
+					bot.send_message(uid, "Creo los botones")
 					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
 					if len(btns) != 0:
 						btnMarkup = InlineKeyboardMarkup(btns)
