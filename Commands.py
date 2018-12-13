@@ -2015,8 +2015,9 @@ def command_clue(bot, update, args):
 					for table in cursor.fetchall():
 						# Por cada partida encontrada la cargo en games si no esta en el controller.
 						if table[0] not in GamesController.games.keys():
-							load_game(cid)
+							load_game(table[0])
 					clue_games_restriction = ['JustOne']
+					bot.send_message(uid, "Obtuvo los juegos")
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
 					bot.send_message(uid, len(clue_games))
