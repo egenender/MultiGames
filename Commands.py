@@ -32,7 +32,7 @@ from Constants.Cards import modos_juego
 
 from Constants.Config import JUEGOS_DISPONIBLES
 from Constants.Config import MODULOS_DISPONIBES
-
+from Constants.Config import HOJAS_AYUDA
 
 from Constants.Cards import comandos
 import random
