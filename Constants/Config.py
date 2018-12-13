@@ -31,7 +31,7 @@ HOJAS_AYUDA = {
 		"*Palabras escritas en otro idioma.* Ej:Black para Negro\n"  + \
 		"*Una palabra de la misma familia* Ej:Principe para Princesa\n"  + \
 		"*Una palabra inventada* Ej:Cositadulz para Paster\n"  + \
-		"*Una palabra foneticamente identica.* Ej: Tuvo para Tubo\m" + \
+		"*Una palabra foneticamente identica.* Ej: Tuvo para Tubo\n" + \
 		"Pistas *identicas*\n" + \
 		"*Dos palabras identicas.*" + \
 		"*Variantes de una misma familia de palabras* Ej: Princesa y Principe" + \
