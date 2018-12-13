@@ -26,16 +26,16 @@ JUEGOS_DISPONIBLES = {
 
 
 HOJAS_AYUDA = {
-        "JustOne" : "Pistas *no* validas:\n" + \
+        "JustOne" : "__Pistas no validas:__\n" + \
 		"*Pista con ortografia diferente.* Ej: Kamiza para Camisa\n" + \
 		"*Palabras escritas en otro idioma.* Ej:Black para Negro\n"  + \
 		"*Una palabra de la misma familia* Ej:Principe para Princesa\n"  + \
 		"*Una palabra inventada* Ej:Cositadulz para Paster\n"  + \
 		"*Una palabra foneticamente identica.* Ej: Tuvo para Tubo\n" + \
 		"Pistas *identicas*\n" + \
-		"*Dos palabras identicas.*" + \
-		"*Variantes de una misma familia de palabras* Ej: Princesa y Principe" + \
-		"*Las variantes de una misma palabra: los plurales, diferencias de genero" + \
+		"__Dos palabras identicas.__\n" + \
+		"*Variantes de una misma familia de palabras* Ej: Princesa y Principe\n" + \
+		"*Las variantes de una misma palabra: los plurales, diferencias de genero\n" + \
 		" y faltas de ortografia no cuenta como diferencias reales* Ej: Principe y Principes" + \
 		"Panadero y Panadera, Tobogán y Tovogan son identicas.",	
         "LostExpedition" : "Eventos amarillos son obligatorios\n" + \
