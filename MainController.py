@@ -158,6 +158,16 @@ def review_clues(bot, game):
 	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
 	send_reviewer_buttons(bot, game)
 	#Commands.save(bot, game.cid)
+
+def remove_same_elements_dict(last_votes):
+	last_votes_to_lower = {key:val.lower() for key, val in last_votes.items()}
+	result = {}
+	for key,val in last_votes_to_lower.items():
+		if val not in result.values():
+			result[key] = val.lower()
+		else:
+			result = {key2:val2 for key2, val2 in result.items() if val2 != val}
+	return {key:val for key, val in last_votes.items() if key in list(result.keys())}
 	
 def send_reviewer_buttons(bot, game):
 	reviewer_player = game.board.state.reviewer_player
@@ -168,7 +178,13 @@ def send_reviewer_buttons(bot, game):
 	uid = reviewer_player.uid
 	comando_callback = 'rechazar'
 	mensaje_pregunta = "Partida {0}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo".format(game.groupName)
-	# Se ponen todos los botones de pistas 
+	# Antes de enviar las pistas elimino las que son iguales no importa el case
+	votes_before_method = len(game.board.state.last_votes)
+	game.board.state.last_votes = remove_same_elements_dict(game.board.state.last_votes)
+	votes_after_method = len(game.board.state.last_votes)
+	if votes_before_method > votes_after_method:
+		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
+	# Se ponen todos los botones de pistas
 	for key, value in game.board.state.last_votes.items():
 		txtBoton = value
 		datos = str(cid) + "*" + comando_callback + "*" + str(value) + "*" + str(uid)
