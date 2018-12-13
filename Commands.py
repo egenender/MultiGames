@@ -2029,14 +2029,14 @@ def command_clue(bot, update, args):
 								comando_callback = "choosegameclue"
 								datos = str(key) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
 								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-					bot.send_message(uid, "Creo los botones")
+					bot.send_message(uid, btns)
 					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
 					if len(btns) != 0:
 						btnMarkup = InlineKeyboardMarkup(btns)
 						bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
 					else:
 						mensaje_error = "No hay partidas en las que puedas hacer /clue"
-						bot.send_message(game.cid, mensaje_error)
+						bot.send_message(uid, mensaje_error)
 							
 				else:
 					mensaje_error = "No hay partidas vivas en las que puedas hacer /clue"
