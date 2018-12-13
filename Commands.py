@@ -2102,6 +2102,7 @@ def command_next_turn(bot, update):
 	MainController.start_next_round(bot, game)
 
 def command_pass(bot, update):
+	log.info('command_pass called')
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
 	game = get_game(cid)
