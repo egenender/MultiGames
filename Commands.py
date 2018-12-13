@@ -235,7 +235,7 @@ def command_newgame_lost_expedition(bot, update):
 				GamesController.games[cid] = game
 				# Creo el jugador que creo el juego y lo agrego al juego
 				player = Player(fname, uid)
-				game.add_player(uid, player)				
+				game.add_player(uid, player, game.tipo)				
 				player_number = len(game.playerlist)
 				bot.send_message(cid, "Se creo el juego y el usuario")
 				save(bot, game.cid)
