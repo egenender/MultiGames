@@ -2029,7 +2029,7 @@ def command_clue(bot, update, args):
 								comando_callback = "choosegameclue"
 								datos = str(key) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
 								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-					bot.send_message(uid, btns)
+					bot.send_message(uid, "Llego a botones")
 					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
 					if len(btns) != 0:
 						btnMarkup = InlineKeyboardMarkup(btns)
