@@ -100,8 +100,8 @@ def init_just_one(bot, game, player_number):
 		game.shuffle_player_sequence()
 		# Seteo las palabras
 		opciones_botones = {
-			"Español Original" : "spanish-original.txt",
-			"Español Ficus" : "spanish-ficus.txt"
+			"spanish-original.txt" : "Español Original",
+			"spanish-ficus.txt" : "Español Ficus"
 		}
 		Commands.simple_choose_buttons(bot, cid, cid, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 
