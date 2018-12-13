@@ -2046,7 +2046,7 @@ def command_clue(bot, update, args):
 					mensaje_error = "No hay partidas vivas en las que puedas hacer /clue"
 					bot.send_message(game.cid, mensaje_error)					
 			else:
-				bot.send_message(game.cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA] [CHAT_ID]. Ej: /clue Alto 121212122")
+				bot.send_message(cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA] [CHAT_ID]. Ej: /clue Alto 121212122")
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
