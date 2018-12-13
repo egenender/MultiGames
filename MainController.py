@@ -331,7 +331,7 @@ def send_clues(bot, game):
 	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 
 def pass_just_one(bot, game):
-	start_next_round(bot, game)	
+	start_round_just_one(bot, game)	
 
 def start_next_round(bot, game):
 	log.info('start_next_round called')
