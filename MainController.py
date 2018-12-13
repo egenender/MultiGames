@@ -97,15 +97,47 @@ def init_just_one(bot, game, player_number):
 	log.info('Game init_lost_expedition called')
 	game.shuffle_player_sequence()
 	# Seteo las palabras
-	url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'
+	opciones_botones = {
+		"Español Original" : "spanish-original.txt",
+		"Español Ficus" : "spanish-ficus.txt"
+	}
+	Commands.simple_choose_buttons(bot, cid, cid, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 	
+	'''
+	url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'	
 	with open(url_palabras_posibles, 'r') as f:
 		palabras_posibles = f.readlines()
 		random.shuffle(palabras_posibles)		
 		game.board.cartas = palabras_posibles[0:12]
 		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	start_round_just_one(bot, game)
+	'''
 
+def callback_finish_config_justone(bot, update):
+	try:
+		callback = update.callback_query
+		log.info('review_clues_callback called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
+		try:
+			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+		except Exception as e:
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)		
+
+		game = Commands.get_game(cid)	
+		url_palabras_posibles = '/app/txt/JustOne/{0}'.format(opcion)	
+		with open(url_palabras_posibles, 'r') as f:
+			palabras_posibles = f.readlines()
+			random.shuffle(palabras_posibles)		
+			game.board.cartas = palabras_posibles[0:12]
+			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
+		start_round_just_one(bot, game)
+		
+	except Exception as e:
+		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
+	
+	
 def next_player_after_active_player(game):
 	#log.info('next_player_after_active_player called')
 	if game.board.state.player_counter < len(game.player_sequence) - 1:
@@ -673,6 +705,7 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game_clue))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback=callback_finish_config_justone))
 	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=callback_review_clues))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=callback_review_clues_finalizado))
