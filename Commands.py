@@ -2017,7 +2017,7 @@ def command_clue(bot, update, args):
 						if table[0] not in GamesController.games.keys():
 							load_game(table[0])
 					clue_games_restriction = ['JustOne']
-					bot.send_message(uid, "Obtuvo los juegos")
+					bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
 					bot.send_message(uid, len(clue_games))
