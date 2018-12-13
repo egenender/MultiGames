@@ -100,8 +100,8 @@ def init_just_one(bot, game, player_number):
 		game.shuffle_player_sequence()
 		# Seteo las palabras
 		opciones_botones = {
-			"spanish-original.txt" : "Español Original",
-			"spanish-ficus.txt" : "Español Ficus"
+			"original" : "Español Original",
+			"ficus" : "Español Ficus"
 		}
 		Commands.simple_choose_buttons(bot, cid, cid, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 		'''
@@ -129,7 +129,7 @@ def callback_finish_config_justone(bot, update):
 			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)		
 
 		game = Commands.get_game(cid)	
-		url_palabras_posibles = '/app/txt/JustOne/{0}'.format(opcion)	
+		url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
 		with open(url_palabras_posibles, 'r') as f:
 			palabras_posibles = f.readlines()
 			random.shuffle(palabras_posibles)		
