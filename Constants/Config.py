@@ -30,7 +30,7 @@ HOJAS_AYUDA = {
 		"*Pista con ortografia diferente.* Ej: Kamiza para Camisa\n" + \
 		"*Palabras escritas en otro idioma.* Ej:Black para Negro\n"  + \
 		"*Una palabra de la misma familia* Ej:Principe para Princesa\n"  + \
-		"*Una palabra inventada* Ej:Cositadulz para Paster\n"  + \
+		"*Una palabra inventada* Ej:Cositadulz para Pastel\n"  + \
 		"*Una palabra foneticamente identica.* Ej: Tuvo para Tubo\n" + \
 		"Pistas *identicas*\n" + \
 		"_Dos palabras identicas._\n" + \
