@@ -1360,7 +1360,7 @@ def configurarpartida(bot, cid, uid):
 	
 def callback_choose_game(bot, update):
 	callback = update.callback_query
-	log.info('callback_choose_posible_role called: %s' % callback.data)	
+	log.info('callback_choose_game called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 	bot.edit_message_text("Has elegido el juego: %s" % opcion, cid, callback.message.message_id)
@@ -1384,7 +1384,7 @@ def callback_choose_game(bot, update):
 	
 def callback_choose_mode(bot, update):
 	callback = update.callback_query
-	log.info('callback_choose_posible_role called: %s' % callback.data)	
+	log.info('callback_choose_mode called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 	bot.edit_message_text("Has elegido el modo: %s" % opcion, cid, callback.message.message_id)
