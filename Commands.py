@@ -1977,7 +1977,7 @@ def command_clue(bot, update, args):
 		
 		# Para simplificar mando el CHAT_ID del partido junto con la pista
 		# Permito las dos formas de gregar pistas
-		if len(args) == 2:			
+		if len(args) > 2:			
 			game = get_game(int(args[1]))
 			
 			if uid in game.playerlist:
