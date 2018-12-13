@@ -1461,6 +1461,9 @@ def command_startgame(bot, update):
 	#	bot.send_message(cid, "The game is already running!")
 	elif update.message.from_user.id != game.initiator and bot.getChatMember(cid, update.message.from_user.id).status not in ("administrator", "creator"):
 		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")	
+	elif game.board:
+		bot.send_message(cid, "El juego ya empezo!")
+		
 	else:
 		
 		# Verifico si la configuracion ha terminado y se han unido los jugadores necesarios		
