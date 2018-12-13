@@ -138,7 +138,7 @@ def callback_finish_config_justone(bot, update):
 		start_round_just_one(bot, game)
 		
 	except Exception as e:
-		bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 	
 	
 def next_player_after_active_player(game):
