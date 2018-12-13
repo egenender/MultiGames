@@ -2019,7 +2019,7 @@ def command_clue(bot, update, args):
 					clue_games_restriction = ['JustOne']
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
-					bot.send_message(uid, "Obtuvo bien los juegos")
+					bot.send_message(uid, len(clue_games))
 					for key, game in clue_games:
 						if uid in game.playerlist and game.board != None:
 							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
