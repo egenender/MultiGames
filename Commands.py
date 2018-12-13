@@ -2023,14 +2023,14 @@ def command_clue(bot, update, args):
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
 					bot.send_message(uid, len(clue_games))
-					for key, game in clue_games:
+					for game_chat_id, game in clue_games:
 						if uid in game.playerlist and game.board != None:
 							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
 								clue_text = args[0]
 								# Creo el boton el cual eligirá el jugador
 								txtBoton = game.groupName
 								comando_callback = "choosegameclue"
-								datos = str(key) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
+								datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
 								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 					bot.send_message(uid, "Llego a botones")
 					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
