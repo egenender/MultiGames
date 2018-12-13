@@ -312,7 +312,10 @@ def callback_reviewer_confirm(bot, update):
 			# Se elimina la proxima carta del mazo.
 			bot.send_message(game.cid, "La palabra era: {0}.\nSe ha eliminado del mazo 1 carta como penalización".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)			
 			game.board.discards.append(game.board.state.acciones_carta_actual)
-			game.board.discards.append(game.board.cartas.pop(0))
+			# Solo descarto si hay cartas
+			if not game.board.cartas:
+				bot.send_message(game.cid, "Se ha eliminado del mazo 1 carta como penalización", ParseMode.MARKDOWN)			
+				game.board.discards.append(game.board.cartas.pop(0))
 		Commands.save(bot, game.cid)
 		start_next_round(bot, game)
 	except Exception as e:
