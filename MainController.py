@@ -117,8 +117,9 @@ def init_just_one(bot, game, player_number):
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
 def callback_finish_config_justone(bot, update):
+	callback = update.callback_query
 	try:
-		callback = update.callback_query
+		
 		log.info('review_clues_callback called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
@@ -139,6 +140,7 @@ def callback_finish_config_justone(bot, update):
 		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)
 	
 	
 def next_player_after_active_player(game):
