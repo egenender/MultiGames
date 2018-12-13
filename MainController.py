@@ -128,6 +128,8 @@ def start_round_just_one(bot, game):
 	
 	#Reseteo los votos	
 	game.board.state.last_votes = {}
+	game.board.state.amount_shuffled = {}
+	
 	active_player = game.player_sequence[game.board.state.player_counter]
 	reviewer_player = game.player_sequence[next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
@@ -167,7 +169,7 @@ def remove_same_elements_dict(last_votes):
 			result[key] = val.lower()
 		else:
 			result = {key2:val2 for key2, val2 in result.items() if val2 != val}
-	return {key:val for key, val in last_votes.items() if key in list(result.keys())}
+	return {key:val for key, val in last_votes.items() if key in list(result.keys())}, {key:val for key, val in last_votes.items() if key not in list(result.keys())}
 	
 def send_reviewer_buttons(bot, game):
 	reviewer_player = game.board.state.reviewer_player
@@ -180,7 +182,9 @@ def send_reviewer_buttons(bot, game):
 	mensaje_pregunta = "Partida {0}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo".format(game.groupName)
 	# Antes de enviar las pistas elimino las que son iguales no importa el case
 	votes_before_method = len(game.board.state.last_votes)
-	game.board.state.last_votes = remove_same_elements_dict(game.board.state.last_votes)
+	# En amount_shuffled guardo las cartas eliminadas
+	game.board.state.last_votes, game.board.state.amount_shuffled = remove_same_elements_dict(game.board.state.last_votes)
+	
 	votes_after_method = len(game.board.state.last_votes)
 	if votes_before_method > votes_after_method:
 		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
@@ -212,6 +216,7 @@ def callback_review_clues(bot, update):
 		reviewer_player = game.board.state.reviewer_player
 		# Remuevo las pistas que son iguales a la elegida
 		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
+		game.board.state.amount_shuffled.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})
 		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
 		#Commands.save(bot, game.cid)
 		
@@ -288,6 +293,19 @@ def send_clues(bot, game):
 
 def pass_just_one(bot, game):
 	start_next_round(bot, game)	
+
+def start_next_round(bot, game):
+	log.info('start_next_round called')
+	# start next round if there is no winner (or /cancel)
+	# Si hubo descartes los muestro antes de comenzar el nuevo turno
+	if game.board.state.amount_shuffled:
+		text_eliminadas = "*Pistas eliminadas*\n"
+		for key, value in game.board.state.amount_shuffled.items():
+			player = game.playerlist[key] 
+			text += "*{1}: {0}*\n".format(value, player.name)			
+		bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
+	increment_player_counter(game)
+	start_round_just_one(bot, game)
 	
 def start_round(bot, game):        
         log.info('start_round called')
@@ -360,11 +378,7 @@ def count_actions(bot, game):
         game.history.append("Round %d\n\n" % (game.board.state.currentround + 1) + action_text)
         bot.send_message(game.cid, "%s\nAhora planifiquen el uso de sus acciones." % (action_text))                    
 
-def start_next_round(bot, game):
-	log.info('start_next_round called')
-	# start next round if there is no winner (or /cancel)
-	increment_player_counter(game)
-	start_round_just_one(bot, game)
+
 		
 ##
 #
