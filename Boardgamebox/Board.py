@@ -69,7 +69,6 @@ class Board(object):
                 board += "*" + nombre + "*" + " " + u"\u27A1\uFE0F" + " "
             else:
                 board += nombre + " " + u"\u27A1\uFE0F" + " "
-            board += nombre + " " + u"\u27A1\uFE0F" + " "          
         board = board[:-3]
         board += u"\U0001F501"
         return board
