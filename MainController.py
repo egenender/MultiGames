@@ -198,7 +198,7 @@ def review_clues(bot, game):
 	reviewer_player = game.board.state.reviewer_player
 	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
 	send_reviewer_buttons(bot, game)
-	#Commands.save(bot, game.cid)
+	Commands.save(bot, game.cid)
 
 def remove_same_elements_dict(last_votes):
 	last_votes_to_lower = {key:val.lower() for key, val in last_votes.items()}
@@ -237,7 +237,7 @@ def send_reviewer_buttons(bot, game):
 	btns.append([InlineKeyboardButton('Finalizar', callback_data=datos)])	
 	btnMarkup = InlineKeyboardMarkup(btns)	
 	bot.send_message(uid, mensaje_pregunta, reply_markup=btnMarkup)	
-	#Commands.save(bot, game.cid)
+	Commands.save(bot, game.cid)
 	
 def callback_review_clues(bot, update):
 	try:
@@ -257,7 +257,7 @@ def callback_review_clues(bot, update):
 		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
 		game.board.state.amount_shuffled.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})
 		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
-		#Commands.save(bot, game.cid)
+		Commands.save(bot, game.cid)
 		
 		# Si todavia hay pistas...
 		if game.board.state.last_votes:
@@ -284,7 +284,7 @@ def callback_review_clues_finalizado(bot, update):
 		reviewer_player = game.board.state.reviewer_player
 		bot.send_message(game.cid, "El revisor %s ha terminado de revisar las pistas" % reviewer_player.name)
 		send_clues(bot, game)
-		#Commands.save(bot, game.cid)
+		Commands.save(bot, game.cid)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
