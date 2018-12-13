@@ -94,24 +94,27 @@ def init_lost_expedition(bot, game, player_number):
 		bot.send_message(game.cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
 		
 def init_just_one(bot, game, player_number):
-	log.info('Game init_lost_expedition called')
-	game.shuffle_player_sequence()
-	# Seteo las palabras
-	opciones_botones = {
-		"Español Original" : "spanish-original.txt",
-		"Español Ficus" : "spanish-ficus.txt"
-	}
-	Commands.simple_choose_buttons(bot, cid, cid, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
-	
-	'''
-	url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'	
-	with open(url_palabras_posibles, 'r') as f:
-		palabras_posibles = f.readlines()
-		random.shuffle(palabras_posibles)		
-		game.board.cartas = palabras_posibles[0:12]
-		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
-	start_round_just_one(bot, game)
-	'''
+	try:
+		log.info('Game init_lost_expedition called')
+		game.shuffle_player_sequence()
+		# Seteo las palabras
+		opciones_botones = {
+			"Español Original" : "spanish-original.txt",
+			"Español Ficus" : "spanish-ficus.txt"
+		}
+		Commands.simple_choose_buttons(bot, cid, cid, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
+
+		'''
+		url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'	
+		with open(url_palabras_posibles, 'r') as f:
+			palabras_posibles = f.readlines()
+			random.shuffle(palabras_posibles)		
+			game.board.cartas = palabras_posibles[0:12]
+			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
+		start_round_just_one(bot, game)
+		'''
+	except Exception as e:
+		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
 def callback_finish_config_justone(bot, update):
 	try:
