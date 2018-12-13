@@ -1,21 +1,22 @@
 class Player(object):
-    def __init__(self, name, uid):
+    def __init__(self, name, uid, game_tipo = 'JustOne'):
         self.name = name
-        self.uid = uid
-        self.role = None
-        self.party = None
-        self.is_dead = False
-        self.inspected_players = {} 
-        self.tokens_posesion = 0
-        self.poseido = False
-        # Lost Expedition atributes
-        self.hand = []
-        self.food = 3
-        self.bullets = 3
-        self.vida_explorador_campero = 3
-        self.vida_explorador_brujula = 3
-        self.vida_explorador_hoja = 3
-        self.skills = []
+        self.uid = uid        
+        if game_tipo != 'JustOne':
+            self.role = None
+            self.party = None
+            self.is_dead = False
+            self.inspected_players = {} 
+            self.tokens_posesion = 0
+            self.poseido = False
+            # Lost Expedition atributes
+            self.hand = []
+            self.food = 3
+            self.bullets = 3
+            self.vida_explorador_campero = 3
+            self.vida_explorador_brujula = 3
+            self.vida_explorador_hoja = 3
+            self.skills = []
     
     def print_stats(self):
         board = "--- Stats Jugador %s ---\n" % self.name
