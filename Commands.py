@@ -215,7 +215,7 @@ def command_hoja_ayuda(bot, update):
 	game = get_game(cid)		
 	help_text = HOJAS_AYUDA.get(game.tipo)
 	bot.send_message(cid, help_text)
-	if game.tipo = 'LostExpedition':
+	if game.tipo == 'LostExpedition':
 		bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))
 		bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
 
