@@ -341,7 +341,7 @@ def start_next_round(bot, game):
 		text_eliminadas = "*Pistas eliminadas*\n"
 		for key, value in game.board.state.amount_shuffled.items():
 			player = game.playerlist[key] 
-			text += "*{1}: {0}*\n".format(value, player.name)			
+			text_eliminadas += "*{1}: {0}*\n".format(value, player.name)			
 		bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
 	increment_player_counter(game)
 	start_round_just_one(bot, game)
