@@ -2024,6 +2024,7 @@ def command_clue(bot, update, args):
 					btns = []
 					bot.send_message(uid, len(clue_games))
 					for game_chat_id, game in clue_games:
+						bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
 						if uid in game.playerlist and game.board != None:
 							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
 								clue_text = args[0]
