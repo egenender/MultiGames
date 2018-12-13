@@ -212,13 +212,15 @@ def after_ruta_achicada(bot, cid, uid):
 
 	
 def command_hoja_ayuda(bot, update):
-	cid = update.message.chat_id	
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
 	game = get_game(cid)	
 	help_text = HOJAS_AYUDA.get(game.tipo)	
-	bot.send_message(cid, help_text, ParseMode.MARKDOWN)
+	chat_send = cid if game.modo == 'Solitario' else uid
+	bot.send_message(chat_send, help_text, ParseMode.MARKDOWN)
 	if game.tipo == 'LostExpedition':
-		bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))
-		bot.send_photo(cid, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
+		bot.send_photo(chat_send, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))
+		bot.send_photo(chat_send, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
 
 def command_newgame_lost_expedition(bot, update):
 	cid = update.message.chat_id
