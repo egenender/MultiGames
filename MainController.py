@@ -110,7 +110,7 @@ def init_just_one(bot, game, player_number):
 		with open(url_palabras_posibles, 'r') as f:
 			palabras_posibles = f.readlines()
 			random.shuffle(palabras_posibles)		
-			game.board.cartas = palabras_posibles[0:12]
+			game.board.cartas = palabras_posibles[0:13]
 			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 		start_round_just_one(bot, game)
 		'''
