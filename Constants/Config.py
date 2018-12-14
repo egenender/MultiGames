@@ -73,7 +73,7 @@ MODULOS_DISPONIBES = {
                             "Cooperativo" : "Cooperativo"
                         },
                         "min_jugadores" : 3,
-                        "max_jugadores" : 8
+                        "max_jugadores" : 7
                 } 
         },
         "SistemaD100" : {
