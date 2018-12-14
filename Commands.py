@@ -1427,7 +1427,7 @@ def command_join(bot, update, args):
 		bot.send_message(game.cid, "Ya te has unido al juego, %s!" % fname)
 	else:
 		#uid = update.message.from_user.id
-		player = Player(fname, uid)
+		player = Player(fname, uid, game.tipo)
 		try:
 			max_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["max_jugadores"]
 			min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
@@ -1438,7 +1438,8 @@ def command_join(bot, update, args):
 			else:
 				# Uno al jugador a la partida
 				bot.send_message(uid, "Te has unido a un juego en %s." % groupName)
-				game.add_player(uid, player)				
+				game.add_player(uid, player)
+				log.info("%s (%d) joined a game in %s (%d) of type %s" % (fname, uid, groupName, game.cid, game.tipo))
 				save(bot, game.cid)
 				
 				# Si se ha alcanzado el minimo o superado
