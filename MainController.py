@@ -381,9 +381,9 @@ def start_next_round(bot, game):
 	# Si hubo descartes los muestro antes de comenzar el nuevo turn
 	try:
 		bot.send_message(ADMIN[0], game.board.state.removed_votes)
-		if game.board.state.removed_votes:game.board.state.removed_votes
-			text_eliminadas = get_pistas_eliminadas(game)
-			bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
+		if game.board.state.removed_votes:game.board.state.removed_votes:
+				text_eliminadas = get_pistas_eliminadas(game)
+				bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(ADMIN[0], game.board.state.amount_shuffled)
 		bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
