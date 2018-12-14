@@ -177,7 +177,9 @@ def start_round_just_one(bot, game):
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	
 	palabra_elegida = game.board.cartas.pop(0)
-	game.board.state.acciones_carta_actual = palabra_elegida
+	game.board.state.acciones_carta_actual = palabra_elegida	
+	
+	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
 	bot.send_message(game.cid, "El jugador *%s* tiene que adivinar" % active_player.name, ParseMode.MARKDOWN)
 	bot.send_message(game.cid, "El jugador *%s* revisara las pistas" % reviewer_player.name, ParseMode.MARKDOWN)
 	game.dateinitvote = datetime.datetime.now()
@@ -321,13 +323,15 @@ def callback_reviewer_confirm(bot, update):
 			if not game.board.cartas:
 				bot.send_message(game.cid, "Se ha *eliminado del mazo 1 carta* como penalización", ParseMode.MARKDOWN)			
 				game.board.discards.append(game.board.cartas.pop(0))
+			else:
+				# Si se falla en la ultima carta la penalizacion es perder 1 punto
+				bot.send_message(game.cid, "Se ha *perdido 1 punto* como penalización", ParseMode.MARKDOWN)
+				game.board.state.progreso -= 1
 		Commands.save(bot, game.cid)
 		start_next_round(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
-
-		
 def send_clues(bot, game):
 	text = ""
 	for key, value in game.board.state.last_votes.items():
