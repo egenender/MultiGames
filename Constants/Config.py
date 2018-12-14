@@ -13,8 +13,7 @@ JUEGOS_DISPONIBLES = {
         "JustOne" : {
                 "comandos" : {
                     "JustOne" : "Just One"
-                },
-                "restriccion" : "admin"
+                }                
         },
         "SistemaD100" : {
                 "comandos" : {
