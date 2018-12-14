@@ -186,8 +186,8 @@ def start_round_just_one(bot, game):
 			mensaje = "Nueva palabra en el grupo *{1}*.\nLa palabra es: *{0}*, propone tu pista!".format(palabra_elegida, game.groupName)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
 			mensaje = "/clue Ejemplo"
-			bot.send_message(uid, mensaje)			
-						
+			bot.send_message(uid, mensaje)
+			
 	game.dateinitvote = datetime.datetime.now()
 	game.board.state.fase_actual = "Proponiendo Pistas"
 	Commands.save(bot, game.cid)
@@ -197,18 +197,15 @@ def review_clues(bot, game):
 	game.board.state.fase_actual = "Revisando Pistas"
 	reviewer_player = game.board.state.reviewer_player
 	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
+	# Antes de enviar las pistas elimino las que son iguales no importa el case
+	votes_before_method = len(game.board.state.last_votes)
+	# En amount_shuffled guardo las cartas eliminadas
+	game.board.state.last_votes, game.board.state.amount_shuffled = remove_same_elements_dict(game.board.state.last_votes)	
+	votes_after_method = len(game.board.state.last_votes)	
+	if votes_before_method > votes_after_method:
+		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
 	send_reviewer_buttons(bot, game)
 	Commands.save(bot, game.cid)
-
-def remove_same_elements_dict(last_votes):
-	last_votes_to_lower = {key:val.lower() for key, val in last_votes.items()}
-	result = {}
-	for key,val in last_votes_to_lower.items():
-		if val not in result.values():
-			result[key] = val.lower()
-		else:
-			result = {key2:val2 for key2, val2 in result.items() if val2 != val}
-	return {key:val for key, val in last_votes.items() if key in list(result.keys())}, {key:val for key, val in last_votes.items() if key not in list(result.keys())}
 	
 def send_reviewer_buttons(bot, game):
 	reviewer_player = game.board.state.reviewer_player
@@ -218,16 +215,9 @@ def send_reviewer_buttons(bot, game):
 	cid = game.cid
 	uid = reviewer_player.uid
 	comando_callback = 'rechazar'
-	mensaje_pregunta = "Partida {0}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo".format(game.groupName)
-	# Antes de enviar las pistas elimino las que son iguales no importa el case
-	votes_before_method = len(game.board.state.last_votes)
-	# En amount_shuffled guardo las cartas eliminadas
-	game.board.state.last_votes, game.board.state.amount_shuffled = remove_same_elements_dict(game.board.state.last_votes)
+	mensaje_pregunta = "Partida {0}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo\n{1}".format(game.groupName, get_pistas_eliminadas(game))
 	
-	votes_after_method = len(game.board.state.last_votes)
-	if votes_before_method > votes_after_method:
-		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
-	# Se ponen todos los botones de pistas
+	# Se ponen todos los botones de pistas que no fueron eliminadas al momento.
 	for key, value in game.board.state.last_votes.items():
 		txtBoton = value
 		datos = str(cid) + "*" + comando_callback + "*" + str(value) + "*" + str(uid)
@@ -338,7 +328,27 @@ def send_clues(bot, game):
 
 def pass_just_one(bot, game):
 	start_round_just_one(bot, game)	
-	
+
+def get_pistas_eliminadas(game):
+	text_eliminadas = ""
+	if game.board.state.amount_shuffled:
+		text_eliminadas += "*Pistas eliminadas*\n"
+		for key, value in game.board.state.amount_shuffled.items():
+			player = game.playerlist[key] 
+			text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
+	return text_eliminadas	
+
+# Remueve repetidos y devuelve ambas listas
+def remove_same_elements_dict(last_votes):
+	last_votes_to_lower = {key:val.lower() for key, val in last_votes.items()}	
+	repeated_keys = []
+	vals = last_votes_to_lower.values()
+	for key, value in last_votes_to_lower.items():
+		if vals.count(value) > 1:
+			repeated_keys.append(key)	
+	return {key:val for key, val in last_votes.items() if key not in repeated_keys}, {key:val for key, val in last_votes.items() if key in repeated_keys}
+
+
 def start_next_round(bot, game):
 	log.info('start_next_round called')
 	# start next round if there is no winner (or /cancel)
