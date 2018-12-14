@@ -351,8 +351,11 @@ def callback_reviewer_confirm(bot, update):
 
 def send_clues(bot, game):
 	text = ""
-	for key, value in game.board.state.last_votes.items():
-		player = game.playerlist[key] 
+	for key, value in game.board.state.last_votes.items():		
+		try:
+			player = game.playerlist[key]
+		except Exception as e:
+			player = game.playerlist[key-1]
 		text += "*{1}: {0}*\n".format(value, player.name)
 	mensaje_final = "[{0}](tg://user?id={1}) es hora de adivinar! Pone /guess Palabra o /pass si no se sabes la palabra\nLas pistas son: \n{2}\n*NO SE PUEDE HABLAR*".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
 	
@@ -370,13 +373,20 @@ def get_pistas_eliminadas(game):
 		if game.board.state.removed_votes:
 			text_eliminadas += "*Pistas eliminadas*\n"
 			for key, value in game.board.state.amount_shuffled.items():
-				player = game.playerlist[key] 
+				try:
+					player = game.playerlist[key]
+				except Exception as e:
+					player = game.playerlist[key-1]
+				
 				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
 	except Exception as e:
 		if game.board.state.amount_shuffled:
 			text_eliminadas += "*Pistas eliminadas*\n"
 			for key, value in game.board.state.amount_shuffled.items():
-				player = game.playerlist[key] 
+				try:
+					player = game.playerlist[key]
+				except Exception as e:
+					player = game.playerlist[key-1] 
 				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
 	return text_eliminadas	
 
