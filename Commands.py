@@ -2148,7 +2148,7 @@ def command_guess(bot, update, args):
 				"correcto" : "Si",
 				"incorrecto" : "No"
 			}
-			simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó?", opciones_botones)
+			simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó? Pista {0}".format(game.board.state.acciones_carta_actual), opciones_botones)
 			
 	except Exception as e:
 		bot.send_message(uid, str(e))
