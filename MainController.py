@@ -198,7 +198,7 @@ def review_clues(bot, game):
 	game.dateinitvote = None
 	game.board.state.fase_actual = "Revisando Pistas"
 	reviewer_player = game.board.state.reviewer_player
-	bot.send_message(game.cid, "El revisor %s esta viendo las pistas" % reviewer_player.name)
+	bot.send_message(game.cid, "El revisor {0} esta viendo las pistas".format(reviewer_player.name), ParseMode.MARKDOWN)
 	# Antes de enviar las pistas elimino las que son iguales no importa el case
 	votes_before_method = len(game.board.state.last_votes)
 	# En amount_shuffled guardo las cartas eliminadas
