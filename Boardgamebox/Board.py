@@ -65,7 +65,7 @@ class Board(object):
         board = ""
         board += "--- *Estado de Partida* ---\n"
         board += "Cartas restantes: {0}\n".format(len(game.board.cartas))
-        board += "Puntaje actual: {0}\n".format(game.board.state.progreso)
+        board += "Puntaje actual: {0}".format(game.board.state.progreso)
         
         board += "\n\n"
         
