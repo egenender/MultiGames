@@ -139,6 +139,7 @@ def callback_finish_config_justone(bot, update):
 			random.shuffle(palabras_posibles)		
 			game.board.cartas = palabras_posibles[0:12]
 			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
+		game.board.state.progreso = 0
 		start_round_just_one(bot, game)
 		
 	except Exception as e:
