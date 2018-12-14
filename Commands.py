@@ -2029,11 +2029,13 @@ def command_clue(bot, update, args):
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
 					#bot.send_message(uid, len(clue_games))
+					
 					for game_chat_id, game in clue_games.items():
 						#bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
 						if uid in game.playerlist and game.board != None:
 							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
 								clue_text = args[0]
+								cid = game_chat_id
 								# Creo el boton el cual eligirá el jugador
 								txtBoton = game.groupName
 								comando_callback = "choosegameclue"
@@ -2042,8 +2044,13 @@ def command_clue(bot, update, args):
 					#bot.send_message(uid, "Llego a botones")
 					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
 					if len(btns) != 0:
-						btnMarkup = InlineKeyboardMarkup(btns)
-						bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
+						if len(btns) == 1:
+							#Si es solo 1 juego lo hago automatico
+							command_clue(bot, update, [args[0], cid, uid])
+							
+						else:
+							btnMarkup = InlineKeyboardMarkup(btns)
+							bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
 					else:
 						mensaje_error = "No hay partidas en las que puedas hacer /clue"
 						bot.send_message(uid, mensaje_error)
