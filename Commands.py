@@ -1998,12 +1998,28 @@ def command_clue(bot, update, args):
 					claimtext = args[0]
 					#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
 					bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
-					game.board.state.last_votes[uid] = claimtext
+					
+					# Si son 3 jugadores se agregan dos pistas 
+					if game.board.num_players == 3:
+						claimtext_pistas = claimtext.split(' ')
+						i = 0
+						for claimtext_pista in claimtext_pistas:
+							game.board.state.last_votes[uid + i] = claimtext_pista
+							i++
+					else:
+						game.board.state.last_votes[uid] = claimtext
+					
 					save(bot, game.cid)
 					# Verifico si todos los jugadores -1 pusieron pista
 					bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
-					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-						MainController.review_clues(bot, game)
+					
+					if game.board.num_players != 3:
+						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+							MainController.review_clues(bot, game)
+					else:
+						# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
+						if len(game.board.state.last_votes) == len(game.player_sequence)+1:
+							MainController.review_clues(bot, game)
 				else:
 					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
 			else:
@@ -2035,7 +2051,7 @@ def command_clue(bot, update, args):
 						#bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
 						if uid in game.playerlist and game.board != None:
 							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-								clue_text = args[0]
+								clue_text = ' '.join(args)
 								cid = game_chat_id
 								# Creo el boton el cual eligirá el jugador
 								txtBoton = game.groupName
@@ -2047,7 +2063,7 @@ def command_clue(bot, update, args):
 					if len(btns) != 0:
 						if len(btns) == 1:
 							#Si es solo 1 juego lo hago automatico
-							command_clue(bot, update, [args[0], cid, uid])
+							command_clue(bot, update, [' '.join(args), cid, uid])
 							
 						else:
 							btnMarkup = InlineKeyboardMarkup(btns)
