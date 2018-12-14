@@ -141,7 +141,7 @@ def save(bot, cid):
 		gameType = game.tipo
 		save_game(cid, game.groupName, game, gameType )
 		#bot.send_message(cid, 'Se grabo correctamente.')
-		log.info('Se grabo correctamente.')
+		#log.info('Se grabo correctamente.')
 	except Exception as e:
 		bot.send_message(cid, 'Error al grabar '+str(e))
 		
@@ -1217,12 +1217,12 @@ def save_game(cid, groupName, game, gameType):
 	try:
 		#Check if game is in DB first
 		cur = conn.cursor()			
-		log.info("Searching Game in DB")
+		#log.info("Searching Game in DB")
 		query = "select * from games where id = %s;"
 		cur.execute(query, [cid])
 		dbdata = cur.fetchone()
 		if cur.rowcount > 0:
-			log.info('Updating Game')
+			#log.info('Updating Game')
 			gamejson = jsonpickle.encode(game)
 			#log.info(gamejson)
 			#query = "UPDATE games SET groupName = %s, data = %s WHERE id = %s RETURNING data;"
@@ -1231,7 +1231,7 @@ def save_game(cid, groupName, game, gameType):
 			#log.info(cur.fetchone()[0])
 			conn.commit()		
 		else:
-			log.info('Saving Game in DB')
+			#log.info('Saving Game in DB')
 			gamejson = jsonpickle.encode(game)
 			#log.info(gamejson)
 			query = "INSERT INTO games(id, groupName, tipojuego, data) VALUES (%s, %s, %s, %s) RETURNING data;"
