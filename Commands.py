@@ -2005,7 +2005,7 @@ def command_clue(bot, update, args):
 						i = 0
 						for claimtext_pista in claimtext_pistas:
 							game.board.state.last_votes[uid + i] = claimtext_pista
-							i++
+							i += 1
 					else:
 						game.board.state.last_votes[uid] = claimtext
 					
