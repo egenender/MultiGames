@@ -161,7 +161,7 @@ def start_round_just_one(bot, game):
 	
 	if not game.board.cartas:
 		# Si no quedan cartas se termina el juego y se muestra el puntaje.
-		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso-1)		
+		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso)		
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(cid, mensaje, ParseMode.MARKDOWN)
