@@ -36,7 +36,7 @@ HOJAS_AYUDA = {
 		"_Dos palabras identicas._\n" + \
 		"*Variantes de una misma familia de palabras* Ej: Princesa y Principe\n" + \
 		"*Las variantes de una misma palabra: los plurales, diferencias de genero" + \
-		" y faltas de ortografia no cuenta como diferencias reales* Ej: Principe y Principes" + \
+		" y faltas de ortografia no cuenta como diferencias reales* Ej: Principe y Principes, " + \
 		"Panadero y Panadera, Tobogán y Tovogan son identicas.",	
         "LostExpedition" : "Eventos amarillos son obligatorios\n" + \
 		"Eventos rojo son obligatorios pero tenes que elegir 1\n"  + \
