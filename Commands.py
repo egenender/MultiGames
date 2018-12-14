@@ -2026,7 +2026,7 @@ def command_clue(bot, update, args):
 				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
 			
 		else:
-			if len(args) > 1:
+			if len(args) > 0:
 				# Obtengo todos los juegos de base de datos de los que usan clue
 				mensaje_error = ""
 				cursor = conn.cursor()			
