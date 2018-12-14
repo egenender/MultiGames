@@ -1412,7 +1412,7 @@ def command_join(bot, update, args):
 			for i,k in zip(args[0::2], args[1::2]):
 				fname = i
 				uid = int(k)
-				player = Player(fname, uid)
+				player = Player(fname, uid, game.tipo)
 				game.add_player(uid, player)
 				log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
 	
