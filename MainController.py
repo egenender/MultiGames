@@ -245,7 +245,7 @@ def send_reviewer_buttons(bot, game):
 	cid = game.cid
 	uid = reviewer_player.uid
 	comando_callback = 'rechazar'
-	mensaje_pregunta = "Partida {0}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo\n{1}".format(game.groupName, get_pistas_eliminadas(game))
+	mensaje_pregunta = "Partida {0}. Pista {2}.\nElija las palabras para anularlas o Finalizar para enviar las pistas restantes al jugador activo\n{1}".format(game.groupName, get_pistas_eliminadas(game), game.board.state.acciones_carta_actual)
 	
 	# Se ponen todos los botones de pistas que no fueron eliminadas al momento.
 	for key, value in game.board.state.last_votes.items():
