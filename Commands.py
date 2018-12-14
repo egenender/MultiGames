@@ -1154,7 +1154,7 @@ def command_calltovote(bot, update):
 						# If the player is not in last_votes send him reminder
 						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
 							history_text += "Tienes que dar una pista [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
-					bot.send_message(cid, text=history_text, ParseMode.MARKDOWN)
+					bot.send_message(cid, history_text, ParseMode.MARKDOWN)
 					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 						MainController.review_clues(bot, game)
 				else:
