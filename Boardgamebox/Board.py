@@ -62,7 +62,7 @@ class Board(object):
         
    
     def print_board(self, game):
-        board = "--- Orden de jugadores ---\n"
+        board = "--- *Orden de jugadores* ---\n"
         for player in game.player_sequence:
             nombre = player.name.replace("_", " ")
             if self.state.active_player == player:
@@ -71,8 +71,8 @@ class Board(object):
                 board += nombre + " " + u"\u27A1\uFE0F" + " "
         board = board[:-3]
         board += u"\U0001F501"
-        board += "\n--- Estado de Partida ---\n"
-        board += "--- *Cartas restantes*: {0} ---\n".format(len(game.board.cartas))
-        board += "--- *Puntaje actual*: {0} ---\n".format(game.board.state.progreso)
+        board += "\n--- *Estado de Partida* ---\n"
+        board += "*Cartas restantes*: {0}\n".format(len(game.board.cartas))
+        board += "*Puntaje actual*: {0}\n".format(game.board.state.progreso)
         
         return board
