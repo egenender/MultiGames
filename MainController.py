@@ -274,14 +274,14 @@ def callback_review_clues(bot, update):
 		game = Commands.get_game(cid)	
 		reviewer_player = game.board.state.reviewer_player
 		# Remuevo las pistas que son iguales a la elegida
-		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
-		
 		
 		try:
 			game.board.state.removed_votes.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})					
 		except Exception as e:
 			bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
 			game.board.state.amount_shuffled.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})
+				
+		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
 			
 		game.board.state.amount_shuffled.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})
 		
