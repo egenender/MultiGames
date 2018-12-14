@@ -1119,10 +1119,10 @@ def command_votes(bot, update):
 					for player in game.player_sequence:
 						# If the player is in the last_votes (He voted), mark him as he registered a vote
 						if player.uid in game.board.state.last_votes:
-							history_text += "%s registered a vote.\n" % (game.playerlist[player.uid].name)
+							history_text += "%s ha dado pista.\n" % (game.playerlist[player.uid].name)
 						else:
-							history_text += "%s didn't register a vote.\n" % (game.playerlist[player.uid].name)
-					bot.send_message(cid, history_text)
+							history_text += "%s *no* ha dado pista.\n" % (game.playerlist[player.uid].name)
+					bot.send_message(cid, history_text, ParseMode.MARKDOWN))
 					
 				else:
 					bot.send_message(cid, "Five minutes must pass to see the votes") 
@@ -1153,8 +1153,8 @@ def command_calltovote(bot, update):
 					for player in game.player_sequence:
 						# If the player is not in last_votes send him reminder
 						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
-							history_text += "It's time to vote [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
-					bot.send_message(cid, text=history_text, parse_mode=ParseMode.MARKDOWN)
+							history_text += "Tienes que dar una pista [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
+					bot.send_message(cid, text=history_text, ParseMode.MARKDOWN)
 					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 						MainController.review_clues(bot, game)
 				else:
