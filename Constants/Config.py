@@ -26,6 +26,7 @@ JUEGOS_DISPONIBLES = {
 
 HOJAS_AYUDA = {
         "JustOne" : "_Pistas no validas:_\n" + \
+		"*Pista con más de 1 palabra.* Ej: El Padrino para Don\n" + \
 		"*Pista con ortografia diferente.* Ej: Kamiza para Camisa\n" + \
 		"*Palabras escritas en otro idioma.* Ej:Black para Negro\n"  + \
 		"*Una palabra de la misma familia* Ej:Principe para Princesa\n"  + \
