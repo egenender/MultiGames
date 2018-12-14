@@ -366,11 +366,18 @@ def pass_just_one(bot, game):
 
 def get_pistas_eliminadas(game):
 	text_eliminadas = ""
-	if game.board.state.amount_shuffled:
-		text_eliminadas += "*Pistas eliminadas*\n"
-		for key, value in game.board.state.amount_shuffled.items():
-			player = game.playerlist[key] 
-			text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
+	try:
+		if game.board.state.removed_votes:
+			text_eliminadas += "*Pistas eliminadas*\n"
+			for key, value in game.board.state.amount_shuffled.items():
+				player = game.playerlist[key] 
+				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
+	except Exception as e:
+		if game.board.state.amount_shuffled:
+			text_eliminadas += "*Pistas eliminadas*\n"
+			for key, value in game.board.state.amount_shuffled.items():
+				player = game.playerlist[key] 
+				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
 	return text_eliminadas	
 
 
@@ -381,9 +388,9 @@ def start_next_round(bot, game):
 	# Si hubo descartes los muestro antes de comenzar el nuevo turn
 	try:
 		bot.send_message(ADMIN[0], game.board.state.removed_votes)
-		if game.board.state.removed_votes:game.board.state.removed_votes:
-				text_eliminadas = get_pistas_eliminadas(game)
-				bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
+		if game.board.state.removed_votes:
+			text_eliminadas = get_pistas_eliminadas(game)
+			bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(ADMIN[0], game.board.state.amount_shuffled)
 		bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
