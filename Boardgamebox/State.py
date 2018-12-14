@@ -7,6 +7,7 @@ class State(object):
         self.reviewer_player = None
         self.player_counter = 0
         self.last_votes = {}
+        self.removed_votes = {}
         
         # Acciones de la carta actual
         self.acciones_carta_actual = None
