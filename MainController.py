@@ -208,16 +208,12 @@ def review_clues(bot, game):
 	bot.send_message(game.cid, "El revisor {0} esta viendo las pistas".format(reviewer_player.name), ParseMode.MARKDOWN)
 	# Antes de enviar las pistas elimino las que son iguales no importa el case
 	votes_before_method = len(game.board.state.last_votes)
-	# En amount_shuffled guardo las cartas eliminadas
-	
-	game.board.state.last_votes, game.board.state.amount_shuffled = remove_same_elements_dict(game.board.state.last_votes)	
-	
+	# En amount_shuffled / removed_votes guardo las cartas eliminadas		
 	try:
 		game.board.state.last_votes, game.board.state.removed_votes = remove_same_elements_dict(game.board.state.last_votes)		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
 		game.board.state.last_votes, game.board.state.amount_shuffled = remove_same_elements_dict(game.board.state.last_votes)
-	
 	
 	votes_after_method = len(game.board.state.last_votes)	
 	if votes_before_method > votes_after_method:
@@ -281,9 +277,7 @@ def callback_review_clues(bot, update):
 			bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
 			game.board.state.amount_shuffled.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})
 				
-		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}		
-			
-		game.board.state.amount_shuffled.update({key:val for key, val in game.board.state.last_votes.items() if val == opcion})
+		game.board.state.last_votes = {key:val for key, val in game.board.state.last_votes.items() if val != opcion}	
 		
 		bot.send_message(game.cid, "El revisor %s ha descartado una pista" % reviewer_player.name)
 		Commands.save(bot, game.cid)
