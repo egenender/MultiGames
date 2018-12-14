@@ -95,7 +95,7 @@ def init_lost_expedition(bot, game, player_number):
 		
 def init_just_one(bot, game, player_number):
 	try:
-		
+		log.info('init_just_one called')
 		cid = game.cid
 		log.info('Game init_lost_expedition called')
 		game.shuffle_player_sequence()
@@ -119,6 +119,7 @@ def init_just_one(bot, game, player_number):
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
 def callback_finish_config_justone(bot, update):
+	log.info('callback_finish_config_justone called')
 	callback = update.callback_query
 	try:
 		
@@ -152,9 +153,9 @@ def next_player_after_active_player(game):
 	else:
 		return 0
 		
-def start_round_just_one(bot, game):        
+def start_round_just_one(bot, game):
+	log.info('start_round_just_one called')
 	cid = game.cid	
-	log.info('start_round called')
 	# Se marca al jugador activo
 	
 	if not game.board.cartas:
@@ -193,6 +194,7 @@ def start_round_just_one(bot, game):
 	Commands.save(bot, game.cid)
 	
 def review_clues(bot, game):
+	log.info('review_clues called')
 	game.dateinitvote = None
 	game.board.state.fase_actual = "Revisando Pistas"
 	reviewer_player = game.board.state.reviewer_player
@@ -206,8 +208,20 @@ def review_clues(bot, game):
 		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
 	send_reviewer_buttons(bot, game)
 	Commands.save(bot, game.cid)
-	
+
+# Remueve repetidos y devuelve ambas listas
+def remove_same_elements_dict(last_votes):
+	last_votes_to_lower = {key:val.lower() for key, val in last_votes.items()}	
+	repeated_keys = []
+	vals = last_votes_to_lower.values()
+	for key, value in last_votes_to_lower.items():
+		if vals.count(value) > 1:
+			repeated_keys.append(key)	
+	return {key:val for key, val in last_votes.items() if key not in repeated_keys}, {key:val for key, val in last_votes.items() if key in repeated_keys}
+
+
 def send_reviewer_buttons(bot, game):
+	log.info('send_reviewer_buttons called')
 	reviewer_player = game.board.state.reviewer_player
 	# Armo los botones para que el reviewer los analice.
 	btns = []
@@ -338,15 +352,6 @@ def get_pistas_eliminadas(game):
 			text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
 	return text_eliminadas	
 
-# Remueve repetidos y devuelve ambas listas
-def remove_same_elements_dict(last_votes):
-	last_votes_to_lower = {key:val.lower() for key, val in last_votes.items()}	
-	repeated_keys = []
-	vals = last_votes_to_lower.values()
-	for key, value in last_votes_to_lower.items():
-		if vals.count(value) > 1:
-			repeated_keys.append(key)	
-	return {key:val for key, val in last_votes.items() if key not in repeated_keys}, {key:val for key, val in last_votes.items() if key in repeated_keys}
 
 
 def start_next_round(bot, game):
