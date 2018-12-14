@@ -1414,7 +1414,7 @@ def command_join(bot, update, args):
 				uid = int(k)
 				player = Player(fname, uid, game.tipo)
 				game.add_player(uid, player)
-				log.info("%s (%d) joined a game in %d" % (fname, uid, game.cid))
+				log.info("%s (%d) joined a game in %d of type %s" % (fname, uid, game.cid, game.tipo))
 	
 	if groupType not in ['group', 'supergroup']:
 		bot.send_message(cid, "Tienes que agregarme a un grupo primero y escribir /newgame allá!")
