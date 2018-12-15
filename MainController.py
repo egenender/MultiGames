@@ -376,7 +376,7 @@ def get_pistas_eliminadas(game):
 	try:
 		if game.board.state.removed_votes:
 			text_eliminadas += "*Pistas eliminadas*\n"
-			for key, value in game.board.state.amount_shuffled.items():
+			for key, value in game.board.state.removed_votes.items():
 				try:
 					player = game.playerlist[key]
 				except Exception as e:
