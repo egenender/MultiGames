@@ -80,3 +80,9 @@ class Game(object):
     
     def jsonify(self):
         return json.dumps(self.__dict__, default= encode_all)
+    
+    def increment_player_counter(game):
+        if game.board.state.player_counter < len(game.player_sequence) - 1:
+            game.board.state.player_counter += 1
+        else:
+            game.board.state.player_counter = 0
