@@ -209,7 +209,7 @@ def review_clues(bot, game):
 	# Antes de enviar las pistas elimino las que son iguales no importa el case
 	votes_before_method = len(game.board.state.last_votes)
 	# En removed_votes guardo las cartas eliminadas		
-	game.board.state.last_votes, game.board.state.removed_votes = helpers.remove_same_elements_dict(game.board.state.last_votes)		
+	game.board.state.last_votes, game.board.state.removed_votes = helper.remove_same_elements_dict(game.board.state.last_votes)		
 	votes_after_method = len(game.board.state.last_votes)	
 	if votes_before_method > votes_after_method:
 		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
