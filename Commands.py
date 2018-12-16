@@ -9,6 +9,8 @@ import urllib.parse
 import sys
 from time import sleep
 
+import Controllers.JustOneController as JustOneController
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
 import MainController
@@ -2015,11 +2017,11 @@ def command_clue(bot, update, args):
 					
 					if game.board.num_players != 3:
 						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-							MainController.review_clues(bot, game)
+							JustOneController.review_clues(bot, game)
 					else:
 						# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
 						if len(game.board.state.last_votes) == len(game.player_sequence)+1:
-							MainController.review_clues(bot, game)
+							JustOneController.review_clues(bot, game)
 				else:
 					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
 			else:
@@ -2112,7 +2114,7 @@ def command_forced_clue(bot, update):
 				i += 1
 		'''
 		game.board.state.reviewer_player = game.playerlist[387393551]
-		MainController.review_clues(bot, game)
+		JustOneController.review_clues(bot, game)
 		
 def command_jugadores(bot, update):	
 	uid = update.message.from_user.id
@@ -2136,7 +2138,7 @@ def command_pass(bot, update):
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
 	game = get_game(cid)
-	MainController.pass_just_one(bot, game)
+	JustOneController.pass_just_one(bot, game)
 
 def player_call(player):
 	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
@@ -2154,7 +2156,7 @@ def command_guess(bot, update, args):
 			game.board.state.progreso += 1
 			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)
 			game.board.discards.append(game.board.state.acciones_carta_actual)
-			MainController.start_next_round(bot, game)			
+			JustOneController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
 			mensaje = "*Revisor* {0} confirme por favor!".format(player_call(game.board.state.reviewer_player))
