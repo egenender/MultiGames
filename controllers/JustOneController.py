@@ -57,30 +57,6 @@ cur.execute(query)
 debugging = False
 
 def init_game(bot, game):
-	log.info('Game Init called')
-	player_number = len(game.playerlist)
-	game.board = Board(player_number, game)	
-	bot.send_message(game.cid, "Juego iniciado")
-	if game.tipo == "LostExpedition":
-		init_lost_expedition(bot, game, player_number)
-	elif game.tipo == "JustOne":
-		init_just_one(bot, game, player_number)
-
-
-def init_lost_expedition(bot, game, player_number):
-	log.info('Game init_lost_expedition called')	
-	
-	if player_number == 1:		
-		bot.send_message(game.cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
-		# Aca deberia preguntar dificultad y modulos a usar.
-		# Eso setearia la vida inicial y los personajes que tendria.
-	else:
-		# Se mezcla el orden de los jugadores.
-		game.shuffle_player_sequence()
-		# TODO Se deberia decir quien es el lider actual 
-		bot.send_message(game.cid, "Vamos a llegar al dorado. Es un hermoso /dia!")
-		
-def init_just_one(bot, game, player_number):
 	try:
 		log.info('init_just_one called')
 		cid = game.cid
@@ -92,19 +68,10 @@ def init_just_one(bot, game, player_number):
 			"ficus" : "Español Ficus"
 		}
 		Commands.simple_choose_buttons(bot, cid, 1234, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
-		'''
-		url_palabras_posibles = '/app/txt/JustOne/spanish-original.txt'	
-		with open(url_palabras_posibles, 'r') as f:
-			palabras_posibles = f.readlines()
-			random.shuffle(palabras_posibles)		
-			game.board.cartas = palabras_posibles[0:13]
-			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
-		start_round_just_one(bot, game)
-		'''
 		
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
-
+		
 def callback_finish_config_justone(bot, update):
 	log.info('callback_finish_config_justone called')
 	callback = update.callback_query
@@ -132,33 +99,18 @@ def callback_finish_config_justone(bot, update):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
-	
-	
-def next_player_after_active_player(game):
-	#log.info('next_player_after_active_player called')
-	if game.board.state.player_counter < len(game.player_sequence) - 1:
-		return game.board.state.player_counter +1
-	else:
-		return 0
 		
 def start_round_just_one(bot, game):
 	log.info('start_round_just_one called')
 	cid = game.cid	
 	# Se marca al jugador activo
 	
-	
-	
 	#Reseteo los votos	
 	game.board.state.last_votes = {}
-	try:
-		game.board.state.removed_votes = {}
-	except Exception as e:
-		bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
-		
-	game.board.state.amount_shuffled = {}
+	game.board.state.removed_votes = {}
 	
 	active_player = game.player_sequence[game.board.state.player_counter]
-	reviewer_player = game.player_sequence[next_player_after_active_player(game)]
+	reviewer_player = game.player_sequence[helper.next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
 	game.board.state.reviewer_player = reviewer_player
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
