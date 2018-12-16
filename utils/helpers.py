@@ -13,3 +13,9 @@ class helper:
 
 	def player_call(player):
 		return "[{0}](tg://user?id={1})".format(player.name, player.uid)
+	
+	def next_player_after_active_player(game):
+		if game.board.state.player_counter < len(game.player_sequence) - 1:
+			return game.board.state.player_counter +1
+		else:
+			return 0
