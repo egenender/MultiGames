@@ -1131,7 +1131,7 @@ def command_votes(bot, update):
 	except Exception as e:
 		bot.send_message(cid, str(e))
 
-def command_calltovote(bot, update):
+def command_call(bot, update):
 	try:
 		#Send message of executing command   
 		cid = update.message.chat_id
