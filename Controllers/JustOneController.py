@@ -336,7 +336,7 @@ def start_next_round(bot, game):
 		Commands.save(bot, game.cid)
 		bot.send_message(cid, mensaje, ParseMode.MARKDOWN)
 		return
-	increment_player_counter(game)
+	helper.increment_player_counter(game)
 	start_round_just_one(bot, game)
 
 
