@@ -10,3 +10,5 @@ def remove_same_elements_dict(last_votes):
 			repeated_keys.append(key)	
 	return {key:val for key, val in last_votes.items() if key not in repeated_keys}, {key:val for key, val in last_votes.items() if key in repeated_keys}
 
+def player_call(player):
+	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
