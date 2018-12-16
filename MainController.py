@@ -60,18 +60,6 @@ cur.execute(query)
 
 debugging = False
 
-'''
-Solitario: 
-Dia: Obten 6 cartas. 2 mazo, 2 mano, 1 mazo, 1 mano.
-Se ordenan por número.
-Resuelve.
-Pierde 1 comida.
-Noche: Primera de la mano. Poner de mazo o mano hasta completar 6.
-Se puede poner adelante o atras en la ruta.
-Resuelve.
-Pierde 1 comida. Ir a día.
-'''
-
 def player_call(player):
 	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
 
