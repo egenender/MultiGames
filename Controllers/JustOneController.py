@@ -297,6 +297,7 @@ def send_clues(bot, game):
 	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 
 def pass_just_one(bot, game):
+	bot.send_message(game.cid, "La palabra era: *{0}*.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 	start_next_round(bot, game)	
 
 def get_pistas_eliminadas(game):
