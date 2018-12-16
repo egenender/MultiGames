@@ -2013,7 +2013,7 @@ def command_clue(bot, update, args):
 					
 					save(bot, game.cid)
 					# Verifico si todos los jugadores -1 pusieron pista
-					bot.send_message(game.cid, "El jugador %s ha puesto una pista." % game.playerlist[uid].name)
+					bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)
 					
 					if game.board.num_players != 3:
 						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
