@@ -19,7 +19,7 @@ from Boardgamebox.Game import Game
 from Boardgamebox.Player import Player
 from Boardgamebox.Board import Board
 
-import utils.helpers
+from utils.helpers import helper
 
 import GamesController
 import datetime
