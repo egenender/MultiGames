@@ -159,13 +159,7 @@ def start_round_just_one(bot, game):
 	cid = game.cid	
 	# Se marca al jugador activo
 	
-	if not game.board.cartas:
-		# Si no quedan cartas se termina el juego y se muestra el puntaje.
-		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso)		
-		game.board.state.fase_actual = "Finalizado"
-		Commands.save(bot, game.cid)
-		bot.send_message(cid, mensaje, ParseMode.MARKDOWN)
-		return
+	
 	
 	#Reseteo los votos	
 	game.board.state.last_votes = {}
@@ -369,7 +363,7 @@ def send_clues(bot, game):
 	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 
 def pass_just_one(bot, game):
-	start_round_just_one(bot, game)	
+	start_next_round(bot, game)	
 
 def get_pistas_eliminadas(game):
 	text_eliminadas = ""
@@ -397,20 +391,17 @@ def get_pistas_eliminadas(game):
 
 
 def start_next_round(bot, game):
-	log.info('start_next_round called')
-	# start next round if there is no winner (or /cancel)
-	# Si hubo descartes los muestro antes de comenzar el nuevo turn
-	try:
-		bot.send_message(ADMIN[0], game.board.state.removed_votes)
-		if game.board.state.removed_votes:
-			text_eliminadas = get_pistas_eliminadas(game)
-			bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
-	except Exception as e:
-		bot.send_message(ADMIN[0], game.board.state.amount_shuffled)
-		bot.send_message(ADMIN[0], 'Fallo al usar removed_votes: '+str(e))
-		if game.board.state.amount_shuffled:
-			text_eliminadas = get_pistas_eliminadas(game)
-			bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
+	bot.send_message(ADMIN[0], game.board.state.removed_votes)
+	if game.board.state.removed_votes:
+		text_eliminadas = get_pistas_eliminadas(game)
+		bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
+	if not game.board.cartas:
+		# Si no quedan cartas se termina el juego y se muestra el puntaje.
+		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso)		
+		game.board.state.fase_actual = "Finalizado"
+		Commands.save(bot, game.cid)
+		bot.send_message(cid, mensaje, ParseMode.MARKDOWN)
+		return
 	increment_player_counter(game)
 	start_round_just_one(bot, game)
 	
