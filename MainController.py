@@ -772,11 +772,13 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game_clue))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback=callback_finish_config_justone))
 	
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=callback_review_clues))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=callback_review_clues_finalizado))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback=callback_reviewer_confirm))
+	
+	# Just One Callbacks de botones
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_config_justone))	
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=JustOneController.callback_review_clues))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=JustOneController.callback_review_clues_finalizado))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback=JustOneController.callback_reviewer_confirm))
 	
 	
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
