@@ -260,13 +260,12 @@ def callback_reviewer_confirm(bot, update):
 			
 		reviewer_player = game.board.state.reviewer_player
 		bot.send_message(game.cid, "El revisor {0} ha determinado que es {1}".format(reviewer_player.name, opcion))
-		
+		bot.send_message(game.cid, "La palabra era: *{0}*.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 		if opcion == "correcto":
 			game.board.state.progreso += 1
 			game.board.discards.append(game.board.state.acciones_carta_actual)
 		else:
 			# Se elimina la proxima carta del mazo.
-			bot.send_message(game.cid, "La palabra era: *{0}*.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)			
 			game.board.discards.append(game.board.state.acciones_carta_actual)
 			# Solo descarto si hay cartas
 			if len(game.board.cartas) != 0:
