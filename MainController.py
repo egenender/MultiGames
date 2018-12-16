@@ -13,13 +13,17 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler)
 
 import Commands
+
+# Importo los controladores de todos los juegos que vaya agregando
+import Controllers.JustOneController
+
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
 from Boardgamebox.Game import Game
 from Boardgamebox.Player import Player
 from Boardgamebox.Board import Board
 
-from utils.helpers import helper
+from Utils.helpers import helper
 
 import GamesController
 import datetime
@@ -79,7 +83,7 @@ def init_game(bot, game):
 	if game.tipo == "LostExpedition":
 		init_lost_expedition(bot, game, player_number)
 	elif game.tipo == "JustOne":
-		init_just_one(bot, game, player_number)
+		JustOneController.init_game(bot, game, player_number)
 
 
 def init_lost_expedition(bot, game, player_number):
