@@ -20,7 +20,7 @@ import Commands
 import Controllers.JustOneController as JustOneController
 
 # Importo los comandos de los juegos que vaya agregando
-import GameCommands.JustoneCommands as JustoneCommands
+import Commands.JustoneCommands as JustoneCommands
 
 
 from Constants.Cards import playerSets, actions
