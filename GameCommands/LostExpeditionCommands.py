@@ -65,6 +65,8 @@ def get_game(cid):
 	return Commands.get_game(cid)
 def save(bot, cid):
 	Commands.save(bot, cid)
+def load_game(cid):
+	return Commands.load_game(cid)
 	
 # Despues de cada comando que actualiza el juego se graba
 def after_command(bot, cid):	
