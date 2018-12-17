@@ -69,7 +69,47 @@ def save(bot, cid):
 	Commands.save(bot, cid)
 def load_game(cid):
 	return Commands.load_game(cid)
-	
+
+def showImages(bot, cid, cartas, img_caption = ""):
+	images = []
+	for carta in cartas:
+		images.append(get_img_carta(carta))
+
+	widths, heights = zip(*(i.size for i in images))
+
+	total_width = sum(widths)
+	max_height = max(heights)
+
+	new_im = Image.new('RGB', (total_width, max_height))
+
+	x_offset = 0
+	for im in images:
+		new_im.paste(im, (x_offset,0))
+		x_offset += im.size[0]
+
+	bio = BytesIO()
+	bio.name = 'image.jpeg'
+	new_im.save(bio, 'JPEG')
+	bio.seek(0)
+	bot.send_photo(cid, photo=bio, caption=img_caption)
+
+def get_img_carta(num_carta):
+	carta = cartas_aventura[num_carta]
+	plastilla, fila, columna = carta["plastilla"], carta["fila"], carta["columna"]	
+	url_img = '/app/img/LostExpedition/plastilla%s.jpg' % (plastilla)		
+	img = Image.open(url_img)
+	width, height = img.size
+	widthCarta, heightCarta = width/3, height/3
+	# Este switch se hace para corresponder al llamado del metodo, sino tendria que haber sido columna, fila.
+	columna, fila = int(fila), int(columna)
+	#log.info(img.size)
+	x, y = (fila*widthCarta), (columna*heightCarta)
+	#log.info(x)
+	#log.info(y)
+	left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
+	cropped = img.crop( ( left, top, right, bottom ) )
+	return cropped
+
 # Despues de cada comando que actualiza el juego se graba
 def after_command(bot, cid):	
 	game = get_game(cid)
@@ -178,7 +218,7 @@ def command_showhand(bot, update, args):
 			bot.send_message(cid, "El jugador no tiene cartas")
 		else:
 			
-			helper.showImages(bot, cid, player.hand, "Mano del Jugador")
+			showImages(bot, cid, player.hand, "Mano del Jugador")
 		
 def command_showskills(bot, update):	
 	try:
