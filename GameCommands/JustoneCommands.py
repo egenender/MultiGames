@@ -111,7 +111,7 @@ def command_call(bot, game):
 			active_player = game.board.state.active_player
 			bot.send_message(game.cid, "{0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player)), ParseMode.MARKDOWN)
 	except Exception as e:
-		bot.send_message(cid, str(e))
+		bot.send_message(game.cid, str(e))
 
 def call_proponiendo_pistas(bot, game):
 	if not game.dateinitvote:
