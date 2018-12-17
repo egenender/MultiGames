@@ -50,5 +50,23 @@ class helper:
 		bio.seek(0)
 		bot.send_photo(cid, photo=bio, caption=img_caption)
 	
+	def get_img_carta(num_carta, url_imagen, fila, columna):
+		# Para cartas en imagenes de 3X3
+		carta = cartas_aventura[num_carta]
+		fila, columna = carta["fila"], carta["columna"]	
+		url_img = url_imagen		
+		img = Image.open(url_img)
+		width, height = img.size
+		widthCarta, heightCarta = width/3, height/3
+		# Este switch se hace para corresponder al llamado del metodo, sino tendria que haber sido columna, fila.
+		columna, fila = int(fila), int(columna)
+		#log.info(img.size)
+		x, y = (fila*widthCarta), (columna*heightCarta)
+		#log.info(x)
+		#log.info(y)
+		left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
+		cropped = img.crop( ( left, top, right, bottom ) )
+		return cropped
+	
 	
 	
