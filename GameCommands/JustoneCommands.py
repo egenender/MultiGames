@@ -116,7 +116,7 @@ def command_call(bot, game):
 def call_proponiendo_pistas(bot, game):
 	if not game.dateinitvote:
 		# If date of init vote is null, then the voting didnt start          
-		bot.send_message(cid, "No es momento de dar pista.")
+		bot.send_message(game.cid, "No es momento de dar pista.")
 	else:
 		#If there is a time, compare it and send history of votes.
 		start = game.dateinitvote
@@ -129,11 +129,11 @@ def call_proponiendo_pistas(bot, game):
 				# If the player is not in last_votes send him reminder
 				if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
 					history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
-			bot.send_message(cid, history_text, ParseMode.MARKDOWN)
+			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
 			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 				MainController.review_clues(bot, game)
 		else:
-			bot.send_message(cid, "5 minutos deben pasar para llamar a call") 
+			bot.send_message(game.cid, "5 minutos deben pasar para llamar a call") 
 
 		
 def command_clue(bot, update, args):
