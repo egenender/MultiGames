@@ -10,12 +10,12 @@ import sys
 from time import sleep
 
 import Controllers.JustOneController as JustOneController
+import GameCommands.JustoneCommands as JustoneCommands
 from Utils.helpers import helper
-
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
-
 import MainController
 import GamesController
+
 from Constants.Config import STATS
 from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
@@ -334,27 +334,10 @@ def command_call(bot, update):
 		#bot.send_message(cid, "Looking for history...")
 		#Check if there is a current game 
 		game = get_game(cid)
+		
 		if game:			
-			if not game.dateinitvote:
-				# If date of init vote is null, then the voting didnt start          
-				bot.send_message(cid, "The voting didn't start yet.")
-			else:
-				#If there is a time, compare it and send history of votes.
-				start = game.dateinitvote
-				stop = datetime.datetime.now()          
-				elapsed = stop - start
-				if elapsed > datetime.timedelta(minutes=1):
-					# Only remember to vote to players that are still in the game
-					history_text = ""
-					for player in game.player_sequence:
-						# If the player is not in last_votes send him reminder
-						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
-							history_text += "Tienes que dar una pista [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
-					bot.send_message(cid, history_text, ParseMode.MARKDOWN)
-					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-						MainController.review_clues(bot, game)
-				else:
-					bot.send_message(cid, "Five minutes must pass to see call to vote") 
+			if game.tipo == "JustOne":
+				JustoneCommands.command_call(bot, game)
 		else:
 			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
 	except Exception as e:
