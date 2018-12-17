@@ -21,7 +21,6 @@ import Controllers.JustOneController as JustOneController
 import GameCommands.JustoneCommands as JustoneCommands
 import GameCommands.LostExpeditionCommands as LostExpeditionCommands
 
-
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
 from Boardgamebox.Game import Game
