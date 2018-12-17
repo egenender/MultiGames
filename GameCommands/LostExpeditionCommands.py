@@ -62,7 +62,7 @@ conn = psycopg2.connect(
 )
 
 def get_game(cid):
-	Commands.get_game(cid)
+	return Commands.get_game(cid)
 
 # Despues de cada comando que actualiza el juego se graba
 def after_command(bot, cid):	
