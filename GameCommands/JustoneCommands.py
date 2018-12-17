@@ -98,6 +98,7 @@ def command_votes(bot, update):
 	except Exception as e:
 		bot.send_message(cid, str(e))
 
+		
 def command_call(bot, game):
 	try:
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
