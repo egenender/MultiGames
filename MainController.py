@@ -13,6 +13,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler)
 
 import Commands
+import Commands.JustoneCommands as JustoneCommands
 
 # Importo los controladores de todos los juegos que vaya agregando
 import Controllers.JustOneController as JustOneController
@@ -375,11 +376,6 @@ def main():
 	
 	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
 	
-	dp.add_handler(CommandHandler("adminclue", Commands.command_forced_clue))
-	dp.add_handler(CommandHandler("nextturn", Commands.command_next_turn))
-	dp.add_handler(CommandHandler("guess", Commands.command_guess, pass_args = True))
-	dp.add_handler(CommandHandler("pass", Commands.command_pass))
-	
 	# Comando para hacer comandos sql desde el chat
 	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
 
@@ -433,31 +429,28 @@ def main():
 	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback=Commands.execute_command))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))
-	
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback=Commands.callback_choose_swap))
 	
-	
-	dp.add_handler(CommandHandler("clue", Commands.command_clue, pass_args = True))
-	
-	# Pruebas SH
-		
-	dp.add_handler(CommandHandler("role", Commands.command_choose_posible_role))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooserole\*(.*)\*([0-9]*)", callback=Commands.callback_choose_posible_role))
-
-	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game_clue))
-	
-	
+	# Handlers de JustOne
+	dp.add_handler(CommandHandler("adminclue", JustoneCommands.command_forced_clue))
+	dp.add_handler(CommandHandler("nextturn", JustoneCommands.command_next_turn))
+	dp.add_handler(CommandHandler("guess", JustoneCommands.command_guess, pass_args = True))
+	dp.add_handler(CommandHandler("pass", JustoneCommands.command_pass))	
+	dp.add_handler(CommandHandler("clue", JustoneCommands.command_clue, pass_args = True))
 	# Just One Callbacks de botones
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_config_justone))	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*rechazar\*(.*)\*([0-9]*)", callback=JustOneController.callback_review_clues))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=JustOneController.callback_review_clues_finalizado))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback=JustOneController.callback_reviewer_confirm))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=JustoneCommands.callback_choose_game_clue))
 	
+	# Configuracion de cualquier partida
+	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
 	
+	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
 	# log all errors
