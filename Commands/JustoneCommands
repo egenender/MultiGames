@@ -21,6 +21,10 @@ from Boardgamebox.Game import Game
 from Boardgamebox.Player import Player
 from Boardgamebox.State import State
 from Constants.Config import ADMIN
+
+from Utils.helpers import helper
+
+
 from collections import namedtuple
 
 from PIL import Image
@@ -115,7 +119,7 @@ def command_call(bot, update):
 					for player in game.player_sequence:
 						# If the player is not in last_votes send him reminder
 						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
-							history_text += "Tienes que dar una pista [%s](tg://user?id=%d).\n" % (game.playerlist[player.uid].name, player.uid)
+							history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
 					bot.send_message(cid, history_text, ParseMode.MARKDOWN)
 					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 						MainController.review_clues(bot, game)
@@ -297,7 +301,7 @@ def command_guess(bot, update, args):
 			JustOneController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
-			mensaje = "*Revisor* {0} confirme por favor!".format(player_call(game.board.state.reviewer_player))
+			mensaje = "*Revisor* {0} confirme por favor!".format(helper.player_call(game.board.state.reviewer_player))
 			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 			chat_donde_se_pregunta = uid
 			opciones_botones = {
