@@ -168,7 +168,7 @@ def command_clue(bot, update, args):
 					else:
 						game.board.state.last_votes[uid] = claimtext
 					
-					save(bot, game.cid)
+					Commands.save(bot, game.cid)
 					# Verifico si todos los jugadores -1 pusieron pista
 					bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)
 					
