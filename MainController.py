@@ -13,11 +13,12 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler)
 
 import Commands
-#import GameCommands.JustoneCommands as JustoneCommands
+#
 
 
 # Importo los controladores de todos los juegos que vaya agregando
 import Controllers.JustOneController as JustOneController
+import GameCommands.JustoneCommands as JustoneCommands
 
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
