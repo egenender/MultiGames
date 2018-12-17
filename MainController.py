@@ -71,7 +71,7 @@ def init_game(bot, game):
 	if game.tipo == "LostExpedition":
 		init_lost_expedition(bot, game, player_number)
 	elif game.tipo == "JustOne":
-		JustOneController.init_game(bot, game, player_number)
+		JustOneController.init_game(bot, game)
 
 
 def init_lost_expedition(bot, game, player_number):
