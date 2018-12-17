@@ -300,26 +300,16 @@ def pass_just_one(bot, game):
 	start_next_round(bot, game)	
 
 def get_pistas_eliminadas(game):
-	text_eliminadas = ""
-	try:
-		if game.board.state.removed_votes:
-			text_eliminadas += "*Pistas eliminadas*\n"
-			for key, value in game.board.state.removed_votes.items():
-				try:
-					player = game.playerlist[key]
-				except Exception as e:
-					player = game.playerlist[key-1]
-				
-				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
-	except Exception as e:
-		if game.board.state.amount_shuffled:
-			text_eliminadas += "*Pistas eliminadas*\n"
-			for key, value in game.board.state.amount_shuffled.items():
-				try:
-					player = game.playerlist[key]
-				except Exception as e:
-					player = game.playerlist[key-1] 
-				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
+	text_eliminadas = ""	
+	if game.board.state.removed_votes:
+		text_eliminadas += "*Pistas eliminadas*\n"
+		for key, value in game.board.state.removed_votes.items():
+			try:
+				player = game.playerlist[key]
+			except Exception as e:
+				player = game.playerlist[key-1]
+
+			text_eliminadas += "*{1}: {0}*\n".format(value, player.name)	
 	return text_eliminadas	
 
 
