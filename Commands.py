@@ -62,23 +62,6 @@ conn = psycopg2.connect(
 
 # Secret Moon
 secret_moon_cid = '-1001206290323'
-	
-def get_img_carta(num_carta):
-	carta = cartas_aventura[num_carta]
-	plastilla, fila, columna = carta["plastilla"], carta["fila"], carta["columna"]	
-	url_img = '/app/img/LostExpedition/plastilla%s.jpg' % (plastilla)		
-	img = Image.open(url_img)
-	width, height = img.size
-	widthCarta, heightCarta = width/3, height/3
-	# Este switch se hace para corresponder al llamado del metodo, sino tendria que haber sido columna, fila.
-	columna, fila = int(fila), int(columna)
-	#log.info(img.size)
-	x, y = (fila*widthCarta), (columna*heightCarta)
-	#log.info(x)
-	#log.info(y)
-	left, top, right, bottom = x, y, widthCarta+x, heightCarta+y
-	cropped = img.crop( ( left, top, right, bottom ) )
-	return cropped
 
 def command_newgame_sql_command(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id
@@ -111,30 +94,6 @@ def command_newgame_sql_command(bot, update, args):
 			bot.send_message(cid, 'No se ejecuto el comando debido a: '+str(e))
 			conn.rollback()
 
-# The Lost Expedition
-# Generic commands for all games
-def showImages(bot, cid, cartas, img_caption = ""):
-	images = []
-	for carta in cartas:
-		images.append(get_img_carta(carta))
-
-	widths, heights = zip(*(i.size for i in images))
-
-	total_width = sum(widths)
-	max_height = max(heights)
-
-	new_im = Image.new('RGB', (total_width, max_height))
-
-	x_offset = 0
-	for im in images:
-		new_im.paste(im, (x_offset,0))
-		x_offset += im.size[0]
-
-	bio = BytesIO()
-	bio.name = 'image.jpeg'
-	new_im.save(bio, 'JPEG')
-	bio.seek(0)
-	bot.send_photo(cid, photo=bio, caption=img_caption)
 	
 def save(bot, cid):
 	try:		
@@ -146,7 +105,6 @@ def save(bot, cid):
 		#log.info('Se grabo correctamente.')
 	except Exception as e:
 		bot.send_message(cid, 'Error al grabar '+str(e))
-		
 
 def load(bot, update):
 	cid = update.message.chat_id
@@ -175,43 +133,6 @@ def get_game(cid):
 		else:
 			None
 
-# Despues de cada comando que actualiza el juego se graba
-def after_command(bot, cid):	
-	game = get_game(cid)
-	# Logica normal, solamente pongo algo como realizado si algo fue pedido.
-	if game.board.state.comando_pedido:
-		game.board.state.comando_realizado = True
-	save(bot, cid)
-	
-#Lost Expedition
-# Comando para hacer luego de que se achica la ruta a explorar
-def after_ruta_achicada(bot, cid, uid):
-	#sleep(3)
-	game = get_game(cid)
-	player = game.playerlist[uid]
-	if not game.board.cartasExplorationActual:
-		# Si es de dia se hace de noche y diceversa
-		if game.board.state.esdedia:
-			game.board.state.esdedia = False
-		else:
-			game.board.state.esdedia = True
-		
-		tiempo = "DÍA. Has /dia para continuar" if game.board.state.esdedia else "NOCHE. Has /noche para continuar"
-		bot.send_message(cid, "Exploracion Actual no tiene cartas. Se cambia a %s" % tiempo)
-		
-		if player.food != 0:
-			bot.send_message(cid, "Se pierde uno de comida")
-			command_losefood(bot, None, [0, cid, uid])
-		else:
-			bot.send_message(cid, "Como no hay comida alguien tiene habre. (-1 vida)")
-			comando = comandos["lose_life"]
-			iniciar_ejecucion_comando(bot, cid, uid, comando, None, None)
-	'''
-	else:
-		# Deduzco de que la ruta se achica por resolve...
-		bot.send_message(cid, "Se ha terminado de resolver la carta. Continue con /resolve")
-	'''
-
 	
 def command_hoja_ayuda(bot, update):
 	cid = update.message.chat_id
@@ -223,645 +144,6 @@ def command_hoja_ayuda(bot, update):
 	if game.tipo == 'LostExpedition':
 		bot.send_photo(chat_send, photo=open('/app/img/LostExpedition/Ayuda01.jpg', 'rb'))
 		bot.send_photo(chat_send, photo=open('/app/img/LostExpedition/Ayuda02.jpg', 'rb'))
-
-def command_newgame_lost_expedition(bot, update):
-	cid = update.message.chat_id
-	fname = update.message.from_user.first_name
-	uid = update.message.from_user.id
-	groupName = update.message.chat.title
-	if uid in ADMIN:
-		try:
-			game = get_game(cid)
-			if game:
-				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
-			else:
-				# Creo el juego si no esta.
-				game = Game(cid, update.message.from_user.id, groupName, "LostExpedition" ,"Solitario", )
-				GamesController.games[cid] = game
-				# Creo el jugador que creo el juego y lo agrego al juego
-				player = Player(fname, uid)
-				game.add_player(uid, player, game.tipo)				
-				player_number = len(game.playerlist)
-				bot.send_message(cid, "Se creo el juego y el usuario")
-				save(bot, game.cid)
-				MainController.init_game(bot, game)
-
-		except Exception as e:
-			bot.send_message(cid, 'Error '+str(e))
-
-
-		
-def command_drawcard(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		#bot.send_message(cid, args)
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		# Si no se paso argumento paso 2 cartas.
-		try:
-			cantidad = int(args[0] if args else 1)
-		except Exception as e:
-			cantidad = int(args[0][0] if args else 1)
-		#log.info(game.board.cartasAventura)
-		for i in range(cantidad):
-			draw_card_cartasAventura(game, player.hand)		
-		#log.info(game.board.cartasAventura)
-		#cid = '-1001206290323'
-		#log.info(player.hand)
-		bot.send_message(cid, "Se han obtenido %s cartas" % cantidad)
-		#command_showhand(bot, update, [None, cid, uid])
-		# Ordeno las cartas del jugador
-		player.hand.sort()
-		after_command(bot, cid)
-		
-def command_showhand(bot, update, args):	
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		if not player.hand:
-			bot.send_message(cid, "El jugador no tiene cartas")
-		else:
-			
-			showImages(bot, cid, player.hand, "Mano del Jugador")
-		
-def command_showskills(bot, update):	
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		if not player.skills:
-			bot.send_message(cid, "El jugador no tiene skills.")
-		else:
-			showImages(bot, cid, player.skills, "Skills jugador")
-
-def command_increase_progreso(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		game.board.progreso += 1
-		if game.board.progreso == game.board.objetivoprogreso:
-			bot.send_message(cid, "Ganaste")
-		else:
-			bot.send_message(cid, "Estas a %s de distancia, el objetivo es 9" % game.board.progreso)
-		after_command(bot, cid)
-		'''
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		if not player.skills:
-			bot.send_message(cid, "El jugador no tiene skills.")
-		else:
-			showImages(bot, cid, player.skills)
-		'''
-			
-def command_losebullet(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.bullets -= 1;		
-		bot.send_message(cid, "Se ha perdido una bala")
-		#ommand_showstats(bot, update)
-		after_command(bot, cid)
-		
-def command_gainbullet(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.bullets += 1;
-		bot.send_message(cid, "Se ha ganado una bala")
-		#ommand_showstats(bot, update)
-		after_command(bot, cid)
-		
-def command_losefood(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.food -= 1;
-		bot.send_message(cid, "Se ha perdido uno de comida")
-		#ommand_showstats(bot, update)
-		after_command(bot, cid)
-		
-def command_gainfood(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.food += 1;
-		bot.send_message(cid, "Se ha ganado uno de comida")
-		#ommand_showstats(bot, update)
-		after_command(bot, cid)
-
-def command_lose_life(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-			
-	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		if "Campero" in args[0]:
-			player.vida_explorador_campero  -=1;
-		if "Brujula" in args[0]:
-			player.vida_explorador_brujula  -=1;
-		if "Hoja" in args[0]:
-			player.vida_explorador_hoja  -=1;		
-		#Command_showstats(bot, update)
-		after_command(bot, cid)
-		
-def command_gain_life(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		if "Campero" in args[0]:
-			player.vida_explorador_campero  +=1;
-		if "Brujula" in args[0]:
-			player.vida_explorador_brujula  +=1;
-		if "Hoja" in args[0]:
-			player.vida_explorador_hoja  +=1;		
-		
-		after_command(bot, cid)
-		
-def command_vida_explorador_campero(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.vida_explorador_campero  -= int(args[0] if args else 1);
-		command_showstats(bot, update)
-		after_command(bot, cid)
-		
-def command_vida_explorador_brujula(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.vida_explorador_brujula  -= int(args[0] if args else 1);
-		command_showstats(bot, update)
-		after_command(bot, cid)
-		
-def command_vida_explorador_hoja(bot, update, args):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		player.vida_explorador_hoja  -= int(args[0] if args else 1);
-		command_showstats(bot, update)
-		after_command(bot, cid)
-
-def command_add_exploration(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		# Primera carta de la mano si no pone argumentos
-		carta = int(args[0] if args else 1)-1
-		game.board.cartasExplorationActual.append(player.hand.pop(carta))		
-		after_command(bot, cid)
-		# Si es de día se organiza numericamente. Independiente de modo de juego.
-		if game.board.state.esdedia:			
-			command_sort_exploration_rute(bot, update, args)
-			bot.send_message(cid, "Se ha agregado la carta a la ruta y se ha ordenado la ruta")
-		else:
-			bot.send_message(cid, "Se ha agregado la carta al final de la ruta")
-		#command_showhand(bot, update)
-		#command_show_exploration(bot, update)		
-
-def command_add_exploration_first(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		# Primera carta de la mano si no pone argumentos				
-		try:
-			carta = int(args[0] if args else 1)-1
-		except Exception as e:
-			carta = int(args[0][0] if args[0] else 1)-1
-		
-		game.board.cartasExplorationActual.insert(0, player.hand.pop(carta))
-		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
-		after_command(bot, cid)
-		if game.board.state.esdedia:
-			command_sort_exploration_rute(bot, update, args)
-		#command_showhand(bot, update)
-		#command_show_exploration(bot, update)		
-		
-
-def draw_card_cartasAventura(game, destino):
-	destino.append(game.board.cartasAventura.pop(0))
-	# Me fijo si hay carta en cartasAventura si no hay más mezclo el descarte en el mazo de aventura
-	if not game.board.cartasAventura:
-		game.board.cartasAventura = random.sample(game.board.discards, len(game.board.discards))
-		game.board.discards = []
-		game.board.state.amount_shuffled += 1
-		if game.board.state.amount_shuffled == 1:
-			bot.send_message(cid, "Se ha mezclado el mazo y se debe consumir 1 de comida")
-			#for uid in game.playerlist:
-			#	player = game.playerlist[uid]
-		else:
-			bot.send_message(cid, "Se ha perdido la partida porque se ha mezclado el mazo dos veces. /delete")
-
-def command_peek_deck(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		top_card = game.board.cartasAventura[0]
-		showImages(bot, cid, [top_card], "Carta de arriba del deck")
-		after_command(bot, cid)
-			
-def command_add_rute_option(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		try:
-			opcion = args[0] if args else "Al final"
-		except Exception as e:
-			opcion = args[0][0] if args else "Al final"
-		if opcion == "Al final":
-			command_add_exploration_deck(bot, update, [1, cid, uid]) 
-		else:
-			command_add_exploration_deck_first(bot, update, [-1, cid, uid])
-				
-def command_add_exploration_deck(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return		
-		#cid = '-1001206290323'
-		try:
-			cantidad = int(args[0] if args else 1)
-		except Exception as e:
-			cantidad = int(args[0][0] if args else 1)
-		
-		#log.info(game.board.cartasAventura)
-		for i in range(cantidad):			
-			draw_card_cartasAventura(game, game.board.cartasExplorationActual)
-		bot.send_message(cid, "Se ha agregado %s cartas al final de la ruta desde el mazo" % cantidad)
-				
-		after_command(bot, cid)
-		
-		# Si es de día se organiza numericamente. Independiente de modo de juego.
-		if game.board.state.esdedia and not game.board.state.comando_pedido :
-			command_sort_exploration_rute(bot, update, args)
-		#log.info(game.board.cartasAventura)
-		#command_show_exploration(bot, update)
-		
-def command_add_exploration_deck_first(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return		
-		#cid = '-1001206290323'
-		# Siempre se agrega de a 1 carta 
-		game.board.cartasExplorationActual.insert(0, game.board.cartasAventura.pop(0))		
-		bot.send_message(cid, "Se ha agregado la carta al principio de la ruta")
-		after_command(bot, cid)
-		#log.info(game.board.cartasAventura)
-		#command_show_exploration(bot, update)		
-		
-def command_show_exploration(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return		
-		#cid = '-1001206290323'		
-		if not game.board.cartasExplorationActual:
-			bot.send_message(cid, "Exploracion Actual no tiene cartas")
-		else:
-			#ot.send_message(cid, "Exploracion Actual")
-			showImages(bot, cid, game.board.cartasExplorationActual, "Exploracion Actual")
-
-def command_sort_exploration_rute(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		game.board.cartasExplorationActual.sort()
-		#command_show_exploration(bot, update, args)
-		after_command(bot, cid)
-		#bot.send_message(cid, "Las cartas de ruta han sido ordenadas.")
-
-def command_swap_exploration(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return		
-		#cid = '-1001206290323'
-		# Me fijo que haya pasado los dos arguemtnso
-		if len(args) < 2:
-			bot.send_message(cid, "Se tienen que ingresar 2 argumentos")
-			return			
-		if args[0] == "Sí" or args[0] == "No":			
-			if args[0] == "Sí":
-				player = game.playerlist[uid]
-				
-				if len(game.board.state.swap_cards) < 2:
-					btnMarkup = get_list_buttons(player.uid, game.board.cartasExplorationActual[1:], "swap", str(cid), "commando")
-					bot.send_message(cid, "Elija la carta a cambiar", reply_markup=btnMarkup)
-					return "Esperar"
-				else:
-					command_swap_exploration(bot, update, ["Finalizado", cid, uid, game.board.state.swap_cards[0], game.board.state.swap_cards[1]])
-			else:
-				bot.send_message(cid, "Se ha decidido no hacer swap")
-				after_command(bot, cid)
-		else:
-			try:
-				a, b =  int(args[0])-1, int(args[1])-1
-			except Exception as e:
-				# No se resta 1 porque el indice tendria que ser 1 más debido a que.
-				a, b =  int(args[3]), int(args[4])
-			game.board.state.swap_cards = []	
-			game.board.cartasExplorationActual[b], game.board.cartasExplorationActual[a] = game.board.cartasExplorationActual[a], game.board.cartasExplorationActual[b]		
-			bot.send_message(cid, "Se han intercambiado las cartas %s y %s de la ruta" % (str(a), str(b)))
-			after_command(bot, cid)			
-			if game.board.state.comando_pedido:
-				execute_actions(bot, cid, uid)
-			#command_show_exploration(bot, update)
-
-def callback_choose_swap(bot, update):
-	callback = update.callback_query
-	log.info('callback_choose_swap called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-	bot.edit_message_text("Has elegido la carta: %s" % opcion, cid, callback.message.message_id)
-	game = get_game(cid)
-	game.board.state.swap_cards.append(int(opcion))
-	command_swap_exploration(bot, update, ["Sí", cid, uid])
-			
-# Remove se usara para resolver y para remover cartas por accion de otras cartas		
-def command_remove_exploration(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		# Defecto saco la de la izquierda
-		try:
-			item_to_remove = int(args[0] if args else 2)-1
-		except Exception as e:
-			item_to_remove = int(args[0][0] if args[0] else 2)-1
-			
-		try:			
-			game.board.discards.append(game.board.cartasExplorationActual.pop(item_to_remove))
-			bot.send_message(cid, "La carta se ha eliminado de la ruta")
-			after_ruta_achicada(bot, cid, uid)
-			after_command(bot, cid)
-			#command_show_exploration(bot, update)
-		except Exception as e:
-			if str(e) == "pop index out of range":
-				# Si se ha pedido automaticamente 
-				if game.board.state.comando_pedido:
-					bot.send_message(cid, "Se ha intentado sacar una carta que no existe, considero ejecutada la accion.")
-					after_command(bot, cid)
-				
-			else:
-				bot.send_message(cid, "El remover carta de exploracion ha fallado debido a: "+str(e))
-			
-
-def command_remove_last_exploration(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if len(game.board.cartasExplorationActual) == 1:
-			bot.send_message(cid, "No se puede quitar la ultima carta de exploración, considero ejecutada la acción.")
-			after_command(bot, cid)
-		else:
-			command_remove_exploration(bot, update, [[len(game.board.cartasExplorationActual)], cid, uid])
-		
-		
-# Resolver es basicamente remover pero la de mas a la izquierda.
-def command_resolve_exploration(bot, update):
-	cid, uid = update.message.chat_id, update.message.from_user.id	
-	if uid in ADMIN:
-		command_remove_exploration(bot, update, [1])
-
-		
-def command_gain_skill(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]	
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]
-		#cid = '-1001206290323'
-		# Defecto saco la de la izquierda
-		item_to_remove = 0		
-		player.skills.append(game.board.cartasExplorationActual.pop(item_to_remove))
-		bot.send_message(cid, "La carta de la ruta ha sido obtenida como skill")
-		after_ruta_achicada(bot, cid, uid)
-		after_command(bot, cid)
-		#command_show_exploration(bot, update)
-		
-def command_use_skill(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		player = game.playerlist[uid]
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		# Si no se pasa parametro o paso -1 hago promp para que la elija		
-		if args and args[0] == -1:
-			sleep(2)
-			if not player.skills:
-				bot.send_message(cid, "El jugador no tiene skills.")
-				if game.board.state.comando_pedido:
-					execute_actions(bot, cid, uid)
-				# Si se esta ejecutando de forma automaticamente se vuelve
-			else:				
-				i = 1
-				btns = []
-				buttonGroup = []	
-				for skill in player.skills:
-					txtBoton = "Carta %s" % (skill)
-					datos = str(cid) + "*opcionskill*" + str(skill) + "*" + str(uid)
-					#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
-					#ot.send_message(cid, datos)	
-					buttonGroup.append(InlineKeyboardButton(txtBoton, callback_data=datos))
-					# Agrupo en grupos de 3
-					if (i % 3 ==0):
-						btns.append(buttonGroup)
-						buttonGroup = []
-					i += 1
-				# Pongo el resto que haya quedado 1 o 2 elementos
-				if len(buttonGroup) > 0:
-					btns.append(buttonGroup)
-				btnMarkup = InlineKeyboardMarkup(btns)
-				bot.send_message(cid, "Elija una carta de skill:", reply_markup=btnMarkup)
-				return "Esperar"
-		else:
-			#cid = '-1001206290323'
-			# Defecto saco la de la izquierda
-			item_to_remove = int(args[0])-1		
-			game.board.discards.append(player.skills.pop(item_to_remove))
-			bot.send_message(cid, "La carta de la skill ha sido utilizada y puesta en el descarte.")
-			after_command(bot, cid)
-			if game.board.state.comando_pedido:
-				execute_actions(bot, cid, uid)
-			
-		#command_show_exploration(bot, update)
-		
-def command_sort_hand(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid in ADMIN:
-		game = get_game(cid)
-		if not game:
-			bot.send_message(cid, "No hay juego creado en este chat")
-			return
-		player = game.playerlist[uid]	
-		player.hand.sort()		
-		command_showhand(bot, update, args)
-		after_command(bot, cid)
 		
 def command_showstats(bot, update):
 	log.info('command_showstats called')
@@ -902,87 +184,6 @@ def command_reglas(bot, update):
 			"*Noche*: Primera de la mano. Poner de mazo o mano hasta completar 6.\n*Se puede poner adelante o atras en la ruta.*\nResuelve.\n*Pierde 1 comida.* Ir a día."			
 	
 	bot.send_message(cid, texto_reglas, ParseMode.MARKDOWN)
-
-def command_lose_camp(bot, update, args):
-	#log.info(args)
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	game, player = get_base_data2(cid, uid)	
-	if game is None:
-		return
-	if "Campero" in args[0]:
-		player.vida_explorador_campero  -=1;
-		after_command(bot, cid)
-	if "Brujula" in args[0]:
-		player.vida_explorador_brujula  -=2;
-		after_command(bot, cid)
-	if "Hoja" in args[0]:
-		player.vida_explorador_hoja  -=2;
-		after_command(bot, cid)
-	if args[0] == "Usar carta skill":
-		return command_use_skill(bot, None, [-1,cid,uid])	
-	
-def command_lose_compass(bot, update, args):
-	#log.info(args)
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	game, player = get_base_data2(cid, uid)
-	if game is None:
-		return
-	if "Campero" in args[0]:
-		player.vida_explorador_campero  -=2;
-		after_command(bot, cid)
-	if "Brujula" in args[0]:
-		player.vida_explorador_brujula  -=1;
-		after_command(bot, cid)
-	if "Hoja" in args[0]:
-		player.vida_explorador_hoja  -=2;
-		after_command(bot, cid)
-	if args[0] == "Usar carta skill":
-		return command_use_skill(bot, None, [-1,cid,uid])	
-	
-def command_lose_leaf(bot, update, args):
-	#log.info(args)
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	game, player = get_base_data2(cid, uid)
-	if game is None:
-		return
-	if "Campero" in args[0]:
-		player.vida_explorador_campero  -=2;
-		after_command(bot, cid)
-	if "Brujula" in args[0]:
-		player.vida_explorador_brujula  -=2;
-		after_command(bot, cid)
-	if "Hoja" in args[0]:
-		player.vida_explorador_hoja  -=1;
-		after_command(bot, cid)
-	if args[0] == "Usar carta skill":
-		return command_use_skill(bot, None, [-1,cid,uid])	
-	
-def command_lose_explorer(bot, update, args):
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	game, player = get_base_data2(cid, uid)
-	if game is None:
-		return
-	if "Campero" in args[0]:
-		player.vida_explorador_campero  = 0;
-		after_command(bot, cid)
-	if "Brujula" in args[0]:
-		player.vida_explorador_brujula  = 0;
-		after_command(bot, cid)
-	if "Hoja" in args[0]:
-		player.vida_explorador_hoja  = 0;
-		after_command(bot, cid)
 
 def get_base_data2(cid, uid):
 	if uid in ADMIN:		
@@ -1063,12 +264,10 @@ def command_board(bot, update):
 	else:
 		bot.send_message(cid, "There is no running game in this chat. Please start the game with /startgame")
 	
-
 def command_start(bot, update):
     cid = update.message.chat_id
     bot.send_message(cid,"Bot para multiples juegos. Preguntar al ADMIN por los juegos disponibles")
     #command_help(bot, update)
-
 
 def command_rules(bot, update):
     cid = update.message.chat_id
@@ -1076,18 +275,12 @@ def command_rules(bot, update):
     rulesMarkup = InlineKeyboardMarkup(btn)
     bot.send_message(cid, "Read the official Secret Hitler rules:", reply_markup=rulesMarkup)
 
-
-# pings the bot
-def command_ping(bot, update):
-    cid = update.message.chat_id
-    bot.send_message(cid, 'pong - v0.3')
-
-
 # prints statistics, only ADMIN
 def command_stats(bot, update):
 	cid = update.message.chat_id
 	if cid == ADMIN:		
 		bot.send_message(cid, "Estadisticas pronto...")
+		
 def command_cancelgame(bot, update):
 	log.info('command_cancelgame called')
 	cid = update.message.chat_id	
@@ -1325,9 +518,7 @@ def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_c
 	#for uid in game.playerlist:
 	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)
 
-# Comando para elegir el juego	
-
-
+# Comando para elegir el juego
 #Se crea metodo general para crear jeugos
 def command_newgame(bot, update):
 	cid = update.message.chat_id
@@ -1520,19 +711,6 @@ def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callbac
 	btnMarkup = InlineKeyboardMarkup(btns)
 	#for uid in game.playerlist:
 	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)		
-'''
-def command_guess(bot, update, args):
-	try:		
-		#Send message of executing command   
-		cid = update.message.chat_id
-		uid = update.message.from_user.id
-		game = get_game(cid)
-		args_text = ' '.join(args)
-		
-	except Exception as e:
-		bot.send_message(uid, str(e))
-		log.error("Unknown error: " + str(e))
-'''
 
 def command_continue(bot, update, args):
 	
@@ -1553,6 +731,39 @@ def command_continue(bot, update, args):
 	else:
 		bot.send_message(cid, "No hay juego que continuar")
 	
+
+
+def command_jugadores(bot, update):	
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	
+	game = get_game(cid)
+	jugadoresActuales = "Los jugadores que se han unido al momento son:\n"
+	for uid in game.playerlist:
+		jugadoresActuales += "[%s](tg://user?id=%d)\n" % (game.playerlist[uid].name, uid)
+					
+	bot.send_message(game.cid, jugadoresActuales, ParseMode.MARKDOWN)
+	
+def command_next_turn(bot, update):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = get_game(cid)	
+	MainController.start_next_round(bot, game)
+
+def player_call(player):
+	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
+
+
+
+'''
+# Despues de cada comando que actualiza el juego se graba
+def after_command(bot, cid):	
+	game = get_game(cid)
+	# Logica normal, solamente pongo algo como realizado si algo fue pedido.
+	if game.board.state.comando_pedido:
+		game.board.state.comando_realizado = True
+	save(bot, cid)
+
 	
 def command_worflow(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id
@@ -1698,7 +909,7 @@ def execute_actions(bot, cid, uid):
 			
 		#except Exception as e:
 		#	bot.send_message(cid, 'No se ejecuto el execute_actions debido a: '+str(e))
-	
+
 def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 	#sleep(3)
 	strcid = str(game.cid)
@@ -1719,11 +930,7 @@ def send_choose_buttons(bot, cid, uid, game, opciones_accion_actual):
 			else:
 				txtBoton += comando_op["comandos"][comando] + " "
 		txtBoton = txtBoton[:-1]
-		'''	
-		
-		if len(txtBoton) > 15:
-			txtBoton = txtBoton[:15]
-		'''		
+			
 		#txtBoton = "%s" % (opcion_comando)
 		datos = strcid + "*opcioncomandos*" + str(opcion_comando) + "*" + str(uid)
 		#log.info("Se crea boton con datos: %s %s" % (txtBoton, datos))
@@ -1769,7 +976,8 @@ def elegir_opcion_comando(bot, update):
 	execute_actions(bot, cid, uid)
 	#except Exception as e:
 	#		bot.send_message(cid, 'No se ejecuto el elegir_opcion_comando debido a: '+str(e))
-
+'''
+'''		
 def elegir_opcion_skill(bot, update):	
 	#try:		
 	callback = update.callback_query
@@ -1900,14 +1108,7 @@ def get_player_exploradores_buttons(player, comando, strcid):
 	if len(buttonGroup) > 0:
 		btns.append(buttonGroup)
 	return btns
-	
-def increase_count_cartas_deck(bot, game, player):
-	game.board.state.count_cartas_deck += 1
-	save(bot, game.cid)
-	
-def reset_count_cartas_deck(bot, game, player):
-	game.board.state.count_cartas_deck = 0
-	save(bot, game.cid)
+
 
 def resolve(bot, cid, uid, game, player):
 	if game is not None:
@@ -1935,12 +1136,7 @@ def resolve(bot, cid, uid, game, player):
 
 	
 def command_resolve_exploration2(bot, update):
-	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.
-	'''cid, uid = update.message.chat_id, update.message.from_user.id	
-	game = load_game(cid)
-	game, player = get_base_data2(cid, uid)
-	'''
-	
+	# Metodo que da los datos basicos devuelve Game=None Player = None si no hay juego.	
 	# Voy sobre seguro, obtengo de BD la app por si hubo se hizo un resolver que no llego a grabar 
 	cid, uid = update.message.chat_id, update.message.from_user.id	
 	game, player = get_base_data2(cid, uid)
@@ -1972,203 +1168,4 @@ def execute_command(bot, update):
 	# Despues de ejecutar continuo las ejecuciones. Solamente si el comando no tiene un retorno.
 	if resultado is None:
 		execute_actions(bot, cid, uid)
-
-
-def command_clue(bot, update, args):
-	try:		
-		#Send message of executing command   
-		try:			
-			cid = update.message.chat_id
-			uid = update.message.from_user.id
-		except Exception as e:
-			cid = args[1]
-			uid = args[2]
-		
-		# Para simplificar mando el CHAT_ID del partido junto con la pista
-		# Permito las dos formas de gregar pistas
-		if len(args) > 2:			
-			game = get_game(int(args[1]))
-			
-			if uid in game.playerlist:
-				#Check if there is a current game
-				if game.board == None:
-					bot.send_message(game.cid, "El juego no ha comenzado!")
-					return					
-				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-					#Data is being claimed
-					# TODO Verificar que el usuario no mande pistas con espacios.
-					claimtext = args[0]
-					#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
-					bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
-					
-					# Si son 3 jugadores se agregan dos pistas 
-					if game.board.num_players == 3:
-						claimtext_pistas = claimtext.split(' ')
-						i = 0
-						for claimtext_pista in claimtext_pistas:
-							game.board.state.last_votes[uid + i] = claimtext_pista
-							i += 1
-					else:
-						game.board.state.last_votes[uid] = claimtext
-					
-					save(bot, game.cid)
-					# Verifico si todos los jugadores -1 pusieron pista
-					bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)
-					
-					if game.board.num_players != 3:
-						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-							JustOneController.review_clues(bot, game)
-					else:
-						# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
-						if len(game.board.state.last_votes) == len(game.player_sequence)+1:
-							JustOneController.review_clues(bot, game)
-				else:
-					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
-			else:
-				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
-			
-		else:
-			if len(args) > 0:
-				# Obtengo todos los juegos de base de datos de los que usan clue
-				mensaje_error = ""
-				cursor = conn.cursor()			
-				log.info("Executing in DB")
-				query = "select * from games g where g.tipojuego = 'JustOne'"
-				cursor.execute(query)
-				# Si encuentra partida...
-				if cursor.rowcount > 0:					
-					for table in cursor.fetchall():
-						# Por cada partida encontrada la cargo en games si no esta en el controller.
-						#bot.send_message(uid, table[0])
-						if table[0] not in GamesController.games.keys():
-							#bot.send_message(uid, "Cargando el juego {0}".format(table[0]))
-							get_game(table[0])
-					clue_games_restriction = ['JustOne']
-					#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
-					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
-					btns = []
-					#bot.send_message(uid, len(clue_games))
-					
-					for game_chat_id, game in clue_games.items():
-						#bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
-						if uid in game.playerlist and game.board != None:
-							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-								clue_text = ' '.join(args)
-								cid = game_chat_id
-								# Creo el boton el cual eligirá el jugador
-								txtBoton = game.groupName
-								comando_callback = "choosegameclue"
-								datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
-								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-					#bot.send_message(uid, "Llego a botones")
-					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
-					if len(btns) != 0:
-						if len(btns) == 1:
-							#Si es solo 1 juego lo hago automatico
-							command_clue(bot, update, [' '.join(args), cid, uid])
-							
-						else:
-							btnMarkup = InlineKeyboardMarkup(btns)
-							bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
-					else:
-						mensaje_error = "No hay partidas en las que puedas hacer /clue"
-						bot.send_message(uid, mensaje_error)
-							
-				else:
-					mensaje_error = "No hay partidas vivas en las que puedas hacer /clue"
-					bot.send_message(cid, mensaje_error)					
-			else:
-				bot.send_message(cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA]. Ej: /clue Alto")
-	except Exception as e:
-		bot.send_message(uid, str(e))
-		log.error("Unknown error: " + str(e))
-
-def callback_choose_game_clue(bot, update):
-	callback = update.callback_query
-	log.info('callback_choose_mode called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback.data)
-	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-		
-	game = get_game(cid)
-	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)
-	
-	try:
-		bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
-	except Exception as e:
-		bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
-	
-	command_clue(bot, update, [opcion, cid, uid])
-	
-	
-def command_forced_clue(bot, update):
-	uid = update.message.from_user.id
-	if uid in ADMIN:
-		cid = update.message.chat_id
-		game = get_game(cid)
-		'''
-		answer = "Pista "
-		i = 1
-		for uid in game.playerlist:
-			if uid != game.board.state.active_player.uid:
-				game.board.state.last_votes[uid] = answer + str(i)
-				i += 1
-		'''
-		game.board.state.reviewer_player = game.playerlist[387393551]
-		JustOneController.review_clues(bot, game)
-		
-def command_jugadores(bot, update):	
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	
-	game = get_game(cid)
-	jugadoresActuales = "Los jugadores que se han unido al momento son:\n"
-	for uid in game.playerlist:
-		jugadoresActuales += "[%s](tg://user?id=%d)\n" % (game.playerlist[uid].name, uid)
-					
-	bot.send_message(game.cid, jugadoresActuales, ParseMode.MARKDOWN)
-	
-def command_next_turn(bot, update):
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	game = get_game(cid)	
-	MainController.start_next_round(bot, game)
-
-def command_pass(bot, update):
-	log.info('command_pass called')
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	game = get_game(cid)
-	JustOneController.pass_just_one(bot, game)
-
-def player_call(player):
-	return "[{0}](tg://user?id={1})".format(player.name, player.uid)
-	
-def command_guess(bot, update, args):
-	try:		
-		#Send message of executing command   
-		cid = update.message.chat_id
-		uid = update.message.from_user.id
-		game = get_game(cid)
-		args_text = ' '.join(args)
-		
-		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
-			#Adivino correctamente! Aumento el puntaje
-			game.board.state.progreso += 1
-			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)
-			game.board.discards.append(game.board.state.acciones_carta_actual)
-			JustOneController.start_next_round(bot, game)			
-		else:
-			#Preguntar al revisor
-			mensaje = "*Revisor* {0} confirme por favor!".format(player_call(game.board.state.reviewer_player))
-			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
-			chat_donde_se_pregunta = uid
-			opciones_botones = {
-				"correcto" : "Si",
-				"incorrecto" : "No"
-			}
-			simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó? Pista {0}".format(game.board.state.acciones_carta_actual), opciones_botones)
-			
-	except Exception as e:
-		bot.send_message(uid, str(e))
-		log.error("Unknown error: " + str(e))
-
+'''
