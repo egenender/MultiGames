@@ -1,4 +1,6 @@
 __author__ = "Eduardo Peluffo"
+from PIL import Image
+from io import BytesIO
 
 class helper:	
 	# Remueve repetidos y devuelve ambas listas
@@ -24,3 +26,29 @@ class helper:
 			game.board.state.player_counter += 1
 		else:
 			game.board.state.player_counter = 0
+	
+	def showImages(bot, cid, cartas, img_caption = ""):
+		images = []
+		for carta in cartas:
+			images.append(get_img_carta(carta))
+
+		widths, heights = zip(*(i.size for i in images))
+
+		total_width = sum(widths)
+		max_height = max(heights)
+
+		new_im = Image.new('RGB', (total_width, max_height))
+
+		x_offset = 0
+		for im in images:
+			new_im.paste(im, (x_offset,0))
+			x_offset += im.size[0]
+
+		bio = BytesIO()
+		bio.name = 'image.jpeg'
+		new_im.save(bio, 'JPEG')
+		bio.seek(0)
+		bot.send_photo(cid, photo=bio, caption=img_caption)
+	
+	
+	
