@@ -1,6 +1,7 @@
 __author__ = "Eduardo Peluffo"
 from PIL import Image
 from io import BytesIO
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 class helper:	
 	# Remueve repetidos y devuelve ambas listas
@@ -15,6 +16,18 @@ class helper:
 
 	def player_call(player):
 		return "[{0}](tg://user?id={1})".format(player.name, player.uid)
+	
+	def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callback, mensaje_pregunta, opciones_botones):
+		#sleep(3)
+		btns = []
+		# Creo los botones para elegir al usuario
+		for key, value in opciones_botones.items():
+			txtBoton = value
+			datos = str(cid) + "*" + comando_callback + "*" + str(key) + "*" + str(uid)
+			btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+		btnMarkup = InlineKeyboardMarkup(btns)
+		#for uid in game.playerlist:
+		bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)
 	
 	def next_player_after_active_player(game):
 		if game.board.state.player_counter < len(game.player_sequence) - 1:
