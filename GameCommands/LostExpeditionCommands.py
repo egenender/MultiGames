@@ -10,6 +10,7 @@ import sys
 from time import sleep
 
 import Controllers.JustOneController as JustOneController
+import Commands
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
@@ -59,6 +60,9 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
+
+def get_game(cid):
+	Commands.get_game(cid)
 
 # Despues de cada comando que actualiza el juego se graba
 def after_command(bot, cid):	
