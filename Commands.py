@@ -337,7 +337,7 @@ def command_call(bot, update):
 		
 		if game:			
 			if game.tipo == "JustOne":
-				JustoneCommands.command_call(bot, game)
+				#JustoneCommands.command_call(bot, game)
 		else:
 			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
 	except Exception as e:
