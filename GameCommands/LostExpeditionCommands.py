@@ -9,13 +9,8 @@ import urllib.parse
 import sys
 from time import sleep
 
-import Controllers.JustOneController as JustOneController
-import Commands
-
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
-import MainController
-import GamesController
 from Constants.Config import STATS
 from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
@@ -26,6 +21,13 @@ from collections import namedtuple
 
 from PIL import Image
 from io import BytesIO
+
+# Clases mias
+import MainController
+import GamesController
+import Controllers.JustOneController as JustOneController
+import Commands
+from Utils.helpers import helper
 
 # Objetos que uso de prueba estaran en el state
 from Constants.Cards import cartas_aventura
@@ -176,7 +178,7 @@ def command_showhand(bot, update, args):
 			bot.send_message(cid, "El jugador no tiene cartas")
 		else:
 			
-			showImages(bot, cid, player.hand, "Mano del Jugador")
+			helper.showImages(bot, cid, player.hand, "Mano del Jugador")
 		
 def command_showskills(bot, update):	
 	try:
