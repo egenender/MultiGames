@@ -10,7 +10,6 @@ import sys
 from time import sleep
 
 import Controllers.JustOneController as JustOneController
-import GameCommands.JustoneCommands as JustoneCommands
 from Utils.helpers import helper
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 import MainController
@@ -328,6 +327,8 @@ def command_votes(bot, update):
 		bot.send_message(cid, str(e))
 
 def command_call(bot, update):
+	import GameCommands.JustoneCommands as JustoneCommands
+	
 	try:
 		#Send message of executing command   
 		cid = update.message.chat_id
@@ -337,7 +338,7 @@ def command_call(bot, update):
 		
 		if game:			
 			if game.tipo == "JustOne":
-				#JustoneCommands.command_call(bot, game)
+				JustoneCommands.command_call(bot, game)
 		else:
 			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
 	except Exception as e:
