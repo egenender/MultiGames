@@ -19,6 +19,7 @@ import Controllers.JustOneController as JustOneController
 
 # Importo los comandos de los juegos que vaya agregando
 import GameCommands.JustoneCommands as JustoneCommands
+import GameCommands.LostExpeditionCommands as LostExpeditionCommands
 
 
 from Constants.Cards import playerSets, actions
@@ -366,8 +367,7 @@ def main():
 	dp.add_handler(CommandHandler("board", Commands.command_board))
 	dp.add_handler(CommandHandler("rules", Commands.command_rules))
 	dp.add_handler(CommandHandler("symbols", Commands.command_symbols))
-	dp.add_handler(CommandHandler("players", Commands.command_jugadores))	
-
+	dp.add_handler(CommandHandler("players", Commands.command_jugadores))
 	dp.add_handler(CommandHandler("newgame", Commands.command_newgame))
 	dp.add_handler(CommandHandler("startgame", Commands.command_startgame))
 	dp.add_handler(CommandHandler("delete", Commands.command_cancelgame))
@@ -375,66 +375,61 @@ def main():
 	dp.add_handler(CommandHandler("history", Commands.command_showhistory))
 	dp.add_handler(CommandHandler("votes", Commands.command_votes))
 	dp.add_handler(CommandHandler("call", Commands.command_call))
-	dp.add_handler(CommandHandler("claim", Commands.command_claim, pass_args = True))
-	
-	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))
-	
+	dp.add_handler(CommandHandler("claim", Commands.command_claim, pass_args = True))	
+	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))	
 	# Comando para hacer comandos sql desde el chat
-	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True)) 
-
-	# Lost Expedition Commands
+	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True))
 	dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
-	dp.add_handler(CommandHandler("reglas", Commands.command_reglas))
-	dp.add_handler(CommandHandler("newgamelostexpedition", Commands.command_newgame_lost_expedition))
-
-	dp.add_handler(CommandHandler("drawcard", Commands.command_drawcard, pass_args = True))
-	dp.add_handler(CommandHandler("showhand", Commands.command_showhand, pass_args = True))
-
-	dp.add_handler(CommandHandler("losebullet", Commands.command_losebullet, pass_args = True))
-	dp.add_handler(CommandHandler("gainbullet", Commands.command_gainbullet, pass_args = True))
-	dp.add_handler(CommandHandler("losefood", Commands.command_losefood, pass_args = True))
-	dp.add_handler(CommandHandler("gainfood", Commands.command_gainfood, pass_args = True))        
-	dp.add_handler(CommandHandler("stats", Commands.command_showstats))
-	dp.add_handler(CommandHandler("campero", Commands.command_vida_explorador_campero, pass_args = True))
-	dp.add_handler(CommandHandler("brujula", Commands.command_vida_explorador_brujula, pass_args = True))
-	dp.add_handler(CommandHandler("hoja", Commands.command_vida_explorador_hoja, pass_args = True))
-	#
-	dp.add_handler(CommandHandler("addrutefromhand", Commands.command_add_exploration, pass_args = True))
-	dp.add_handler(CommandHandler("addrutefromdeck", Commands.command_add_exploration_deck, pass_args = True))
-	dp.add_handler(CommandHandler("addrutefromhandfirst", Commands.command_add_exploration_first, pass_args = True))
-	dp.add_handler(CommandHandler("moverutefirst", Commands.command_add_exploration_deck_first, pass_args = True))
-	dp.add_handler(CommandHandler("swaprute", Commands.command_swap_exploration, pass_args = True))
-	dp.add_handler(CommandHandler("removerute", Commands.command_remove_exploration, pass_args = True))
-	dp.add_handler(CommandHandler("removelastrute", Commands.command_remove_last_exploration, pass_args = True))
-	dp.add_handler(CommandHandler("showrute", Commands.command_show_exploration, pass_args = True))
-	dp.add_handler(CommandHandler("sortrute", Commands.command_sort_exploration_rute, pass_args = True))
-	dp.add_handler(CommandHandler("sorthand", Commands.command_sort_hand, pass_args = True))
-	dp.add_handler(CommandHandler("showskills", Commands.command_showskills))
-	dp.add_handler(CommandHandler("gainprogreso", Commands.command_increase_progreso, pass_args = True))
-	dp.add_handler(CommandHandler("removefirstrute", Commands.command_resolve_exploration))      
-
-	dp.add_handler(CommandHandler("gainskill", Commands.command_gain_skill, pass_args = True))
-	dp.add_handler(CommandHandler("useskill", Commands.command_use_skill, pass_args = True))
-
-	dp.add_handler(CommandHandler("losecamp", Commands.command_lose_camp, pass_args = True))
-	dp.add_handler(CommandHandler("losecompass", Commands.command_lose_compass, pass_args = True))
-	dp.add_handler(CommandHandler("loseleaf", Commands.command_lose_leaf, pass_args = True))
-	dp.add_handler(CommandHandler("loseexplorer", Commands.command_lose_explorer, pass_args = True))
-
-	dp.add_handler(CommandHandler("resolve", Commands.command_resolve_exploration2))
-	dp.add_handler(CommandHandler("continue", Commands.command_continue, pass_args = True))
-
-	dp.add_handler(CommandHandler("dia", Commands.command_worflow, pass_args = True))
-	dp.add_handler(CommandHandler("noche", Commands.command_worflow, pass_args = True))
-
+	dp.add_handler(CommandHandler("reglas", Commands.command_reglas))	
 	dp.add_handler(CommandHandler("save", Commands.save))
-	dp.add_handler(CommandHandler("load", Commands.load))	
+	dp.add_handler(CommandHandler("load", Commands.load))
 	
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback=Commands.execute_command))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_comando))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=Commands.elegir_opcion_skill))	
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback=Commands.callback_choose_swap))
-	
+	# Configuracion de cualquier partida
+	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
+		
+	# Lost Expedition Commands
+	dp.add_handler(CommandHandler("newgamelostexpedition", LostExpeditionCommands.command_newgame_lost_expedition))
+	dp.add_handler(CommandHandler("drawcard", LostExpeditionCommands.command_drawcard, pass_args = True))
+	dp.add_handler(CommandHandler("showhand", LostExpeditionCommands.command_showhand, pass_args = True))
+	dp.add_handler(CommandHandler("losebullet", LostExpeditionCommands.command_losebullet, pass_args = True))
+	dp.add_handler(CommandHandler("gainbullet", LostExpeditionCommands.command_gainbullet, pass_args = True))
+	dp.add_handler(CommandHandler("losefood", LostExpeditionCommands.command_losefood, pass_args = True))
+	dp.add_handler(CommandHandler("gainfood", LostExpeditionCommands.command_gainfood, pass_args = True))        
+	dp.add_handler(CommandHandler("stats", LostExpeditionCommands.command_showstats))
+	dp.add_handler(CommandHandler("campero", LostExpeditionCommands.command_vida_explorador_campero, pass_args = True))
+	dp.add_handler(CommandHandler("brujula", LostExpeditionCommands.command_vida_explorador_brujula, pass_args = True))
+	dp.add_handler(CommandHandler("hoja", LostExpeditionCommands.command_vida_explorador_hoja, pass_args = True))
+	dp.add_handler(CommandHandler("addrutefromhand", LostExpeditionCommands.command_add_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("addrutefromdeck", LostExpeditionCommands.command_add_exploration_deck, pass_args = True))
+	dp.add_handler(CommandHandler("addrutefromhandfirst", LostExpeditionCommands.command_add_exploration_first, pass_args = True))
+	dp.add_handler(CommandHandler("moverutefirst", LostExpeditionCommands.command_add_exploration_deck_first, pass_args = True))
+	dp.add_handler(CommandHandler("swaprute", LostExpeditionCommands.command_swap_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("removerute", LostExpeditionCommands.command_remove_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("removelastrute", LostExpeditionCommands.command_remove_last_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("showrute", LostExpeditionCommands.command_show_exploration, pass_args = True))
+	dp.add_handler(CommandHandler("sortrute", LostExpeditionCommands.command_sort_exploration_rute, pass_args = True))
+	dp.add_handler(CommandHandler("sorthand", LostExpeditionCommands.command_sort_hand, pass_args = True))
+	dp.add_handler(CommandHandler("showskills", LostExpeditionCommands.command_showskills))
+	dp.add_handler(CommandHandler("gainprogreso", LostExpeditionCommands.command_increase_progreso, pass_args = True))
+	dp.add_handler(CommandHandler("removefirstrute", LostExpeditionCommands.command_resolve_exploration))
+	dp.add_handler(CommandHandler("gainskill", LostExpeditionCommands.command_gain_skill, pass_args = True))
+	dp.add_handler(CommandHandler("useskill", LostExpeditionCommands.command_use_skill, pass_args = True))
+	dp.add_handler(CommandHandler("losecamp", LostExpeditionCommands.command_lose_camp, pass_args = True))
+	dp.add_handler(CommandHandler("losecompass", LostExpeditionCommands.command_lose_compass, pass_args = True))
+	dp.add_handler(CommandHandler("loseleaf", LostExpeditionCommands.command_lose_leaf, pass_args = True))
+	dp.add_handler(CommandHandler("loseexplorer", LostExpeditionCommands.command_lose_explorer, pass_args = True))
+	dp.add_handler(CommandHandler("resolve", LostExpeditionCommands.command_resolve_exploration2))
+	dp.add_handler(CommandHandler("continue", LostExpeditionCommands.command_continue, pass_args = True))
+	dp.add_handler(CommandHandler("dia", LostExpeditionCommands.command_worflow, pass_args = True))
+	dp.add_handler(CommandHandler("noche", LostExpeditionCommands.command_worflow, pass_args = True))
+	# Lost Expedition Callbacks de botones
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*exe\*([^_]*)\*(.*)\*([0-9]*)", callback=LostExpeditionCommands.execute_command))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcioncomandos\*(.*)\*([0-9]*)", callback=LostExpeditionCommands.elegir_opcion_comando))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*opcionskill\*(.*)\*([0-9]*)", callback=LostExpeditionCommands.elegir_opcion_skill))	
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback=LostExpeditionCommands.callback_choose_swap))
+			
 	# Handlers de JustOne
 	dp.add_handler(CommandHandler("adminclue", JustoneCommands.command_forced_clue))
 	dp.add_handler(CommandHandler("nextturn", JustoneCommands.command_next_turn))
@@ -447,12 +442,7 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=JustOneController.callback_review_clues_finalizado))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback=JustOneController.callback_reviewer_confirm))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=JustoneCommands.callback_choose_game_clue))
-	
-	# Configuracion de cualquier partida
-	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
-	
+		
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
