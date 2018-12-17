@@ -98,38 +98,42 @@ def command_votes(bot, update):
 	except Exception as e:
 		bot.send_message(cid, str(e))
 
-def command_call(bot, update):
+def command_call(bot, game):
 	try:
-		#Send message of executing command   
-		cid = update.message.chat_id
-		#bot.send_message(cid, "Looking for history...")
-		#Check if there is a current game 
-		game = Commands.get_game(cid)
-		if game:			
-			if not game.dateinitvote:
-				# If date of init vote is null, then the voting didnt start          
-				bot.send_message(cid, "The voting didn't start yet.")
-			else:
-				#If there is a time, compare it and send history of votes.
-				start = game.dateinitvote
-				stop = datetime.datetime.now()          
-				elapsed = stop - start
-				if elapsed > datetime.timedelta(minutes=1):
-					# Only remember to vote to players that are still in the game
-					history_text = ""
-					for player in game.player_sequence:
-						# If the player is not in last_votes send him reminder
-						if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
-							history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
-					bot.send_message(cid, history_text, ParseMode.MARKDOWN)
-					if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-						MainController.review_clues(bot, game)
-				else:
-					bot.send_message(cid, "Five minutes must pass to see call to vote") 
-		else:
-			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
+		if game.board.state.fase_actual == "Proponiendo Pistas":
+			call_proponiendo_pistas(bot, game)
+		elif game.board.state.fase_actual == "Revisando Pistas":
+			reviewer_player = game.board.state.reviewer_player
+			bot.send_message(game.cid, "Revisor {0} recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player)), ParseMode.MARKDOWN)
+		elif game.board.state.fase_actual == "Adivinando":
+			active_player = game.board.state.active_player
+			bot.send_message(game.cid, "{0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player)), ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(cid, str(e))
+
+def call_proponiendo_pistas(bot, game):
+	if not game.dateinitvote:
+		# If date of init vote is null, then the voting didnt start          
+		bot.send_message(cid, "No es momento de dar pista.")
+	else:
+		#If there is a time, compare it and send history of votes.
+		start = game.dateinitvote
+		stop = datetime.datetime.now()          
+		elapsed = stop - start
+		if elapsed > datetime.timedelta(minutes=1):
+			# Only remember to vote to players that are still in the game
+			history_text = ""
+			for player in game.player_sequence:
+				# If the player is not in last_votes send him reminder
+				if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
+					history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
+			bot.send_message(cid, history_text, ParseMode.MARKDOWN)
+			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+				MainController.review_clues(bot, game)
+		else:
+			bot.send_message(cid, "5 minutos deben pasar para llamar a call") 
+
 		
 def command_clue(bot, update, args):
 	try:		
