@@ -10,6 +10,7 @@ import sys
 from time import sleep
 
 import Controllers.JustOneController as JustOneController
+import Commands
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
@@ -103,7 +104,7 @@ def command_call(bot, update):
 		cid = update.message.chat_id
 		#bot.send_message(cid, "Looking for history...")
 		#Check if there is a current game 
-		game = get_game(cid)
+		game = Commands.get_game(cid)
 		if game:			
 			if not game.dateinitvote:
 				# If date of init vote is null, then the voting didnt start          
@@ -143,7 +144,7 @@ def command_clue(bot, update, args):
 		# Para simplificar mando el CHAT_ID del partido junto con la pista
 		# Permito las dos formas de gregar pistas
 		if len(args) > 2:			
-			game = get_game(int(args[1]))
+			game = Commands.get_game(int(args[1]))
 			
 			if uid in game.playerlist:
 				#Check if there is a current game
@@ -198,7 +199,7 @@ def command_clue(bot, update, args):
 						#bot.send_message(uid, table[0])
 						if table[0] not in GamesController.games.keys():
 							#bot.send_message(uid, "Cargando el juego {0}".format(table[0]))
-							get_game(table[0])
+							Commands.get_game(table[0])
 					clue_games_restriction = ['JustOne']
 					#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
@@ -245,7 +246,7 @@ def callback_choose_game_clue(bot, update):
 	regex = re.search("(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 		
-	game = get_game(cid)
+	game = Commands.get_game(cid)
 	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)
 	
 	try:
@@ -275,14 +276,14 @@ def command_forced_clue(bot, update):
 def command_next_turn(bot, update):
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
-	game = get_game(cid)	
+	game = Commands.get_game(cid)	
 	MainController.start_next_round(bot, game)
 
 def command_pass(bot, update):
 	log.info('command_pass called')
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
-	game = get_game(cid)
+	game = Commands.get_game(cid)
 	JustOneController.pass_just_one(bot, game)
 
 def command_guess(bot, update, args):
@@ -290,7 +291,7 @@ def command_guess(bot, update, args):
 		#Send message of executing command   
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
-		game = get_game(cid)
+		game = Commands.get_game(cid)
 		args_text = ' '.join(args)
 		
 		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
