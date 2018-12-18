@@ -336,3 +336,19 @@ def command_guess(bot, update, args):
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
 
+def command_continue(bot, game, uid):
+	try:
+		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
+		if game.board.state.fase_actual == "Proponiendo Pistas":
+			# Vuelvo a mandar la pista
+			JustOneController.call_players_to_clue(bot, game)
+		elif game.board.state.fase_actual == "Revisando Pistas":
+			JustOneController.review_clues(bot, game)
+		elif game.board.state.fase_actual == "Adivinando":
+			active_player = game.board.state.active_player
+			bot.send_message(game.cid, "{0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player)), ParseMode.MARKDOWN)
+		elif game.board.state.fase_actual == "Terminado":
+			bot.send_message(game.cid, "El juego ha terminado has /delete y /newgame", ParseMode.MARKDOWN)
+	except Exception as e:
+		bot.send_message(game.cid, str(e))
+	
