@@ -20,6 +20,12 @@ JUEGOS_DISPONIBLES = {
                     "SistemaD100" : "SistemaD100"
                 },
                 "permitir_ingreso_tardio" : True
+        },
+	"HarryPotter" : {
+                "comandos" : {
+                    "HarryPotter" : "Harry Potter"
+                },
+                "permitir_ingreso_tardio" : True
         }
 }
 
