@@ -1,7 +1,6 @@
 import json
 import logging as log
 import datetime
-#import ast
 import jsonpickle
 import os
 import psycopg2
@@ -9,37 +8,11 @@ import urllib.parse
 import sys
 from time import sleep
 
-import Controllers.JustOneController as JustOneController
 from Utils.helpers import helper
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
-import MainController
-import GamesController
 
-from Constants.Config import STATS
-from Boardgamebox.Board import Board
-from Boardgamebox.Game import Game
-from Boardgamebox.Player import Player
-from Boardgamebox.State import State
-from Constants.Config import ADMIN
-from collections import namedtuple
-
-from PIL import Image
-from io import BytesIO
-
-# Objetos que uso de prueba estaran en el state
-from Constants.Cards import cartas_aventura
-from Constants.Cards import opciones_opcional
-from Constants.Cards import opciones_choose_posible_role
-from Constants.Cards import modos_juego
-
-from Constants.Config import JUEGOS_DISPONIBLES
-from Constants.Config import MODULOS_DISPONIBES
-from Constants.Config import HOJAS_AYUDA
-
-from Constants.Cards import comandos
 import random
 import re
-# Objetos que uso de prueba estaran en el state
 
 # Enable logging
 
