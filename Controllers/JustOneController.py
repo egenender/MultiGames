@@ -316,9 +316,11 @@ def get_pistas_eliminadas(game):
 
 def start_next_round(bot, game):
 	#ot.send_message(ADMIN[0], game.board.state.removed_votes)
+	log.info('init_just_one called')
 	if game.board.state.removed_votes:
 		text_eliminadas = get_pistas_eliminadas(game)
 		bot.send_message(game.cid, text_eliminadas, ParseMode.MARKDOWN)
+	log.info('Verfiing End_Game called')
 	if not game.board.cartas:
 		# Si no quedan cartas se termina el juego y se muestra el puntaje.
 		mensaje = "Juego finalizado! El puntaje fue de: *{0}*".format(game.board.state.progreso)		
