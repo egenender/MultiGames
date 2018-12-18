@@ -303,9 +303,14 @@ def command_guess(bot, update, args):
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
 		game = Commands.get_game(cid)
-		if len(args) < 1:
-			bot.send_message(game.cid, "Se debe ingresar algo para adivinar", ParseMode.MARKDOWN)
+		
+		
+		
+		if len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
+			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo para adivinar", ParseMode.MARKDOWN)
 			return
+		
+		
 		
 		#bot.send_message(ADMIN[0], "Algo")
 		
