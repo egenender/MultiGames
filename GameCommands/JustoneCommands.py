@@ -130,8 +130,13 @@ def call_proponiendo_pistas(bot, game):
 				if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
 					history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
 			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
-			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-				MainController.review_clues(bot, game)
+			if game.board.num_players != 3:
+				if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+					JustOneController.review_clues(bot, game)
+			else:
+				# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
+				if len(game.board.state.last_votes) == len(game.player_sequence)+1:
+					JustOneController.review_clues(bot, game)
 		else:
 			bot.send_message(game.cid, "5 minutos deben pasar para llamar a call") 
 
