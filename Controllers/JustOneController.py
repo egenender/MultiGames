@@ -316,7 +316,7 @@ def get_pistas_eliminadas(game):
 
 def start_next_round(bot, game):
 	#ot.send_message(ADMIN[0], game.board.state.removed_votes)
-	log.info('start_next_round called')
+	bot.send_message(ADMIN[0], 'start_next_round called')
 	bot.send_message(ADMIN[0], game.board.state.removed_votes)
 	if game.board.state.removed_votes:
 		bot.send_message(ADMIN[0], game.board.state.removed_votes)
