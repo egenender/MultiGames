@@ -1008,25 +1008,11 @@ def command_call(bot, update):
 	except Exception as e:
 		bot.send_message(cid, str(e))
 
-def command_continue(bot, update, args):
-	
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid not in ADMIN:
-		bot.send_message(cid, uid)	
-	
-	game = load_game(cid)
-	if game:
-		GamesController.games[cid] = game		
-		if game.board.state.fase_actual == "execute_actions":
-			execute_actions(bot, cid, uid)
-		else:
-			bot.send_message(cid, "No estas en fase de continue, prueba con /resolve")
+def command_continue(bot, game, uid):		
+	if game.board.state.fase_actual == "execute_actions":
+		execute_actions(bot, game.cid, uid)
 	else:
-		bot.send_message(cid, "No hay juego que continuar")
-	
+		bot.send_message(game.cid, "No estas en fase de continue, prueba con /resolve")		
 	
 def command_worflow(bot, update, args):
 	cid, uid = update.message.chat_id, update.message.from_user.id
