@@ -19,7 +19,7 @@ from Boardgamebox.Game import Game
 from Boardgamebox.Player import Player
 from Boardgamebox.State import State
 
-import Commands
+
 
 import random
 import re
@@ -46,7 +46,9 @@ conn = psycopg2.connect(
 # Secret Moon
 secret_moon_cid = '-1001206290323'
 
-def command_roll(bot, game, player):	
+def command_roll(bot, update, args):	
+	import Commands
+	
 	if args:
 		text_tirada = '¡Tu tirada de ' + ' '.join(args)
 	else:
