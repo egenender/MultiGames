@@ -297,6 +297,12 @@ def command_guess(bot, update, args):
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
 		game = Commands.get_game(cid)
+		if len(args) < 1:
+			bot.send_message(game.cid, "Se debe ingresar algo para adivinar", ParseMode.MARKDOWN)
+			return
+		
+		
+		
 		args_text = ' '.join(args)
 		
 		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
@@ -314,7 +320,7 @@ def command_guess(bot, update, args):
 				"correcto" : "Si",
 				"incorrecto" : "No"
 			}
-			helper.simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó? Pista {0}".format(game.board.state.acciones_carta_actual), opciones_botones)
+			helper.simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó ({1})? Pista {0}".format(game.board.state.acciones_carta_actual, args_text), opciones_botones)
 			
 	except Exception as e:
 		bot.send_message(uid, str(e))
