@@ -74,7 +74,7 @@ def command_roll(bot, update, args):
 	# Si hay un juego creado guardo en el historial
 	game = Commands.get_game(cid)
 	if game and uid in game.playerlist:
-		bot.send_message(cid, "Grabo en base de datos", ParseMode.MARKDOWN)
+		#bot.send_message(cid, "Grabo en base de datos", ParseMode.MARKDOWN)
 		player = game.playerlist[uid]
 		texthistory = "Jugador *%s* - %s" % (player.name, text_tirada)
 		game.history.append("%s" % (texthistory))
