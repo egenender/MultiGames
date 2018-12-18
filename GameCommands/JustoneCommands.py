@@ -307,7 +307,7 @@ def command_guess(bot, update, args):
 			bot.send_message(game.cid, "Se debe ingresar algo para adivinar", ParseMode.MARKDOWN)
 			return
 		
-		bot.send_message(ADMIN[0], "Algo")
+		#bot.send_message(ADMIN[0], "Algo")
 		
 		args_text = ' '.join(args)
 		
