@@ -294,7 +294,7 @@ def command_pass(bot, update):
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
-	if len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
+	if game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
 	
@@ -308,17 +308,9 @@ def command_guess(bot, update, args):
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
 		game = Commands.get_game(cid)
-		
-		
-		
 		if len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
 			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo para adivinar", ParseMode.MARKDOWN)
 			return
-		
-		
-		
-		#bot.send_message(ADMIN[0], "Algo")
-		
 		args_text = ' '.join(args)
 		
 		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
