@@ -325,6 +325,7 @@ def start_next_round(bot, game):
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+		bot.send_message(game.cid, "Para comenzar un juego nuevo pon el comando /delete y luego /newgame", ParseMode.MARKDOWN)
 		return
 	helper.increment_player_counter(game)
 	start_round_just_one(bot, game)
