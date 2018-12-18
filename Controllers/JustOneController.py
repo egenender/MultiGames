@@ -301,34 +301,18 @@ def pass_just_one(bot, game):
 
 def get_pistas_eliminadas(game):
 	text_eliminadas = ""
-	try:
-		if game.board.state.removed_votes:
-			text_eliminadas += "*Pistas eliminadas*\n"
-			for key, value in game.board.state.removed_votes.items():
-				try:
-					player = game.playerlist[key]
-				except Exception as e:
-					player = game.playerlist[key-1]
+	if game.board.state.removed_votes:
+		text_eliminadas += "*Pistas eliminadas*\n"
+		for key, value in game.board.state.removed_votes.items():
+			try:
+				player = game.playerlist[int(key)]
+			except Exception as e:
+				player = game.playerlist[int(key)-1]
 
-				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
-	except Exception as e:
-		if game.board.state.amount_shuffled:
-			text_eliminadas += "*Pistas eliminadas*\n"
-			for key, value in game.board.state.amount_shuffled.items():
-				try:
-					player = game.playerlist[key]
-				except Exception as e:
-					player = game.playerlist[key-1] 
-				text_eliminadas += "*{1}: {0}*\n".format(value, player.name)
-				
-	return text_eliminadas	
+			text_eliminadas += "*{1}: {0}*\n".format(value, player.name)					
+	return text_eliminadas
 
-
-
-def start_next_round(bot, game):
-	#ot.send_message(ADMIN[0], game.board.state.removed_votes)
-	#bot.send_message(ADMIN[0], 'start_next_round called')
-	#bot.send_message(ADMIN[0], game.board.state.removed_votes)
+def start_next_round(bot, game):	
 	if game.board.state.removed_votes:
 		#bot.send_message(ADMIN[0], game.board.state.removed_votes)
 		text_eliminadas = get_pistas_eliminadas(game)
