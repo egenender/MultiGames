@@ -65,7 +65,8 @@ def init_game(bot, game):
 		# Seteo las palabras
 		opciones_botones = {
 			"original" : "Español Original",
-			"ficus" : "Español Ficus"
+			"ficus" : "Español Ficus",
+			"community" : "Español Community"
 		}
 		Commands.simple_choose_buttons(bot, cid, 1234, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 		
