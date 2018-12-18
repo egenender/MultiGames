@@ -25,6 +25,7 @@ JUEGOS_DISPONIBLES = {
                 "comandos" : {
                     "HarryPotter" : "Harry Potter"
                 },
+		"restriccion" : "admin",
                 "permitir_ingreso_tardio" : True
         }
 }
