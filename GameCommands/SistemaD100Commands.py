@@ -8,7 +8,6 @@ import urllib.parse
 import sys
 from time import sleep
 
-import Controllers.JustOneController as JustOneController
 from Utils.helpers import helper
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
@@ -19,6 +18,8 @@ from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
 from Boardgamebox.Player import Player
 from Boardgamebox.State import State
+
+import Commands
 
 import random
 import re
@@ -45,7 +46,7 @@ conn = psycopg2.connect(
 # Secret Moon
 secret_moon_cid = '-1001206290323'
 
-def command_roll(bot, update, args):	
+def command_roll(bot, game, player):	
 	if args:
 		text_tirada = '¡Tu tirada de ' + ' '.join(args)
 	else:
@@ -69,7 +70,7 @@ def command_roll(bot, update, args):
 	bot.send_message(cid, "%s" % (text_tirada), ParseMode.MARKDOWN)
 	
 	# Si hay un juego creado guardo en el historial
-	game = get_game(cid)
+	game = Commands.get_game(cid)
 	if game and uid in game.playerlist:
 		bot.send_message(cid, "Grabo en base de datos", ParseMode.MARKDOWN)
 		player = game.playerlist[uid]
