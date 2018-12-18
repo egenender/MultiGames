@@ -297,7 +297,8 @@ def command_pass(bot, update):
 	JustOneController.pass_just_one(bot, game)
 
 def command_guess(bot, update, args):
-	try:		
+	try:
+		log.info('command_guess called')
 		#Send message of executing command   
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
@@ -314,7 +315,9 @@ def command_guess(bot, update, args):
 			#Adivino correctamente! Aumento el puntaje
 			game.board.state.progreso += 1
 			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)
+			log.info('After correcto called')
 			game.board.discards.append(game.board.state.acciones_carta_actual)
+			log.info('Entering ')
 			JustOneController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
