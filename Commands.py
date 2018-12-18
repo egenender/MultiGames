@@ -15,6 +15,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 import MainController
 import GamesController
 
+import GameCommands.SistemaD100Commands as SistemaD100Commands
+import GameCommands.HarryPotterCommands as HarryPotterCommands
+
 from Constants.Config import STATS
 from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
@@ -655,35 +658,19 @@ def command_startgame(bot, update):
 			bot.send_message(game.cid, "Falta el numero mínimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))
 			
 def command_roll(bot, update, args):	
-	if args:
-		text_tirada = '¡Tu tirada de ' + ' '.join(args)
-	else:
-		text_tirada = '¡Tu tirada'
-	
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
-	
-	tirada = random.randint(1,101)	
-	if tirada > 97:
-		tirada2 = random.randint(1,101)
-		text_tirada +=  ' es *%s!*' % (str(tirada+tirada2))
-	elif tirada < 4:
-		tirada2 = random.randint(1,101)
-		text_tirada +=  ' es *%s!*' % (str(tirada-tirada2))
-	elif tirada == 27:
-		text_tirada +=  ' es *Épico*!' % (str(tirada+tirada2))		
-	else:
-		text_tirada +=  ' es *%s!*' % (str(tirada))
-		
-	bot.send_message(cid, "%s" % (text_tirada), ParseMode.MARKDOWN)
-	
-	# Si hay un juego creado guardo en el historial
+	# Me fijo si hay una partida, sino por defecto es D100
 	game = get_game(cid)
 	if game and uid in game.playerlist:
-		player = game.playerlist[uid]
-		texthistory = "Jugador *%s* - %s" % (player.name, text_tirada)
-		game.history.append("%s" % (texthistory))
-
+		if game.tipo == "SistemaD100":
+			SistemaD100Commands.command_roll(bot, update, args)
+		elif game.tipo == "HarryPotter":
+			HarryPotterCommands.command_roll(bot, update, args)
+		else:
+			bot.send_message(cid, "*El juego no tiene commando roll*", ParseMode.MARKDOWN)
+	else:
+		SistemaD100Commands.command_roll(bot, update, args)
 
 def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callback, mensaje_pregunta, opciones_botones):
 	#sleep(3)
