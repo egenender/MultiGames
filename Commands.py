@@ -15,8 +15,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 import MainController
 import GamesController
 
-import GameCommands.SistemaD100Commands as SistemaD100Commands
-import GameCommands.HarryPotterCommands as HarryPotterCommands
+
+
+
 
 from Constants.Config import STATS
 from Boardgamebox.Board import Board
@@ -658,6 +659,9 @@ def command_startgame(bot, update):
 			bot.send_message(game.cid, "Falta el numero mínimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))
 			
 def command_roll(bot, update, args):	
+	import GameCommands.SistemaD100Commands as SistemaD100Commands
+	import GameCommands.HarryPotterCommands as HarryPotterCommands
+
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	# Me fijo si hay una partida, sino por defecto es D100
@@ -686,6 +690,8 @@ def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callbac
 	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)		
 
 def command_continue(bot, update, args):
+	import GameCommands.JustoneCommands as JustoneCommands
+	import GameCommands.LostExpeditionCommands as LostExpeditionCommands
 	
 	try:
 		cid, uid = update.message.chat_id, update.message.from_user.id
@@ -697,10 +703,13 @@ def command_continue(bot, update, args):
 	game = load_game(cid)
 	if game:
 		GamesController.games[cid] = game		
-		if game.board.state.fase_actual == "execute_actions":
-			execute_actions(bot, cid, uid)
+		
+		if game.tipo = 'LostExpedition':
+			LostExpeditionCommands.command_continue(bot, game, uid)
+		elif game.tipo = 'JustOne':
+			JustoneCommands.command_continue(bot, game, uid)
 		else:
-			bot.send_message(cid, "No estas en fase de continue, prueba con /resolve")
+			bot.send_message(cid, "El juego no tiene comando continue")			
 	else:
 		bot.send_message(cid, "No hay juego que continuar")
 	
