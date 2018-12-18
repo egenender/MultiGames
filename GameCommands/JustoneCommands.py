@@ -293,6 +293,12 @@ def command_pass(bot, update):
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
+	
+	if len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
+		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
+		return
+	
+	
 	JustOneController.pass_just_one(bot, game)
 
 def command_guess(bot, update, args):
