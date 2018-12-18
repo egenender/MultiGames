@@ -663,6 +663,7 @@ def command_roll(bot, update, args):
 	# Me fijo si hay una partida, sino por defecto es D100
 	game = get_game(cid)
 	if game and uid in game.playerlist:
+		bot.send_message(cid, "*Juego encontrado*", ParseMode.MARKDOWN)
 		if game.tipo == "SistemaD100":
 			SistemaD100Commands.command_roll(bot, update, args)
 		elif game.tipo == "HarryPotter":
