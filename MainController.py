@@ -430,7 +430,7 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*commando\*([^_]*)\*swap\*([0-9]*)", callback=LostExpeditionCommands.callback_choose_swap))
 			
 	# Handlers de JustOne
-	dp.add_handler(CommandHandler("adminclue", JustoneCommands.command_forced_clue))
+	dp.add_handler(CommandHandler("sendclues", JustoneCommands.command_forced_clue))
 	dp.add_handler(CommandHandler("nextturn", JustoneCommands.command_next_turn))
 	dp.add_handler(CommandHandler("guess", JustoneCommands.command_guess, pass_args = True))
 	dp.add_handler(CommandHandler("pass", JustoneCommands.command_pass))	
