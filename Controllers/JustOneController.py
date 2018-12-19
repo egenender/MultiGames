@@ -349,7 +349,11 @@ def callback_finish_game_buttons(bot, update):
 		game = Commands.get_game(cid)
 		
 		# Obtengo el diccionario actual, primero casos no tendre el config y pondre el community
-		dicc = game.get('diccionario','community')
+		try:
+			dicc = game.configs.get('diccionario','community')
+		except Exception as e:
+			dicc = 'community'
+		
 		# Obtengo jugadores
 		players = game.playerlist.copy()
 		tipojuego = game.tipo
