@@ -322,7 +322,7 @@ def recover_lost_expedition(bot, update, game, uid):
 				Commands.command_continue(bot, update, [None, game.cid, uid])
 
 def echo(bot, update):
-	bot.send_message(chat_id=update.message.chat_id, text="Eco!")
+	#bot.send_message(chat_id=update.message.chat_id, text="Eco!")
 	#logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
 	#Solo hace echo si soy yo.
 	#log.info('Echo called')
