@@ -90,13 +90,24 @@ def callback_finish_config_justone(bot, update):
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
 
+# list_total lista con todos los elementos
+# list_a_restar Elementos a restar a list_total
+def list_menos_list(list_total, list_a_restar):
+	return [x for x in list_total if x not in list_a_restar]
+		
 def finish_config(bot, game, opcion):
 	log.info('finish_config called')
 	url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
 	with open(url_palabras_posibles, 'r') as f:
 		palabras_posibles = f.readlines()
-		random.shuffle(palabras_posibles)		
-		game.board.cartas = palabras_posibles[0:13]
+		palabras_posibles_no_repetidas = list_menos_list(palabras_posibles, game.board.discards)
+		# Si no hay palabra posible no repetidas para jugar mezclo todas las palabras posibles
+		if len(palabras_posibles_no_repetidas) < 13:
+			game.board.discards = []
+			palabras_posibles_no_repetidas = palabras_posibles
+		
+		random.shuffle(palabras_posibles_no_repetidas)		
+		game.board.cartas = palabras_posibles_no_repetidas[0:13]
 		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
 	start_round_just_one(bot, game)
@@ -357,12 +368,13 @@ def callback_finish_game_buttons(bot, update):
 		groupName = game.groupName
 		tipojuego = game.tipo
 		modo = game.modo
-		
+		descarte = game.board.discards
 		# Dependiendo de la opcion veo que como lo inicio
 		players = game.playerlist.copy()
 		
 		game = Game(cid, uid, groupName, tipojuego, modo)
-		GamesController.games[cid] = game		
+		GamesController.games[cid] = game
+		game.board.discards = descarte
 		if opcion == "new":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
