@@ -77,8 +77,6 @@ def callback_finish_config_justone(bot, update):
 	log.info('callback_finish_config_justone called')
 	callback = update.callback_query
 	try:
-		
-		log.info('review_clues_callback called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
@@ -324,12 +322,34 @@ def start_next_round(bot, game):
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+		
+		#opciones_botones = { "new" : "(Beta) Nuevo Partido", "new2" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "new3" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
+		#Commands.simple_choose_buttons(bot, cid, 1234, cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
+		
 		bot.send_message(game.cid, "Para comenzar un juego nuevo pon el comando /delete y luego /newgame", ParseMode.MARKDOWN)
 		return
 	helper.increment_player_counter(game)
 	start_round_just_one(bot, game)
 
-
+def callback_finish_game_buttons(bot, update):
+	callback = update.callback_query
+	try:		
+		log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
+		try:
+			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+		except Exception as e:
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)				
+		game = Commands.get_game(cid)
+		
+		# Dependiendo de la opcion veo que 
+		
+	except Exception as e:
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)
+	
 def end_game(bot, game, game_endcode):
         log.info('end_game called')
         ##
