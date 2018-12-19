@@ -428,13 +428,13 @@ def save_game(cid, groupName, game, gameType):
 
 def load_game(cid):
 	cur = conn.cursor()			
-	log.info("Searching Game in DB")
+	#log.info("Searching Game in DB")
 	query = "SELECT * FROM games WHERE id = %s;"
 	cur.execute(query, [cid])
 	dbdata = cur.fetchone()
 
 	if cur.rowcount > 0:
-		log.info("Game Found")
+		#log.info("Game Found")
 		jsdata = dbdata[3]
 		
 		#log.info(dbdata[0])
@@ -459,12 +459,12 @@ def load_game(cid):
 		#bot.send_message(cid, game.print_roles())
 		return game
 	else:
-		log.info("Game Not Found")
+		#log.info("Game Not Found")
 		return None
 
 def delete_game(cid):
 	cur = conn.cursor()
-	log.info("Deleting Game in DB")
+	#log.info("Deleting Game in DB")
 	query = "DELETE FROM games WHERE id = %s;"
 	cur.execute(query, [cid])
 	conn.commit()
