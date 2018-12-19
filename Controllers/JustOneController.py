@@ -62,7 +62,7 @@ def init_game(bot, game):
 		game.shuffle_player_sequence()
 		# Seteo las palabras
 		
-		
+		call_dicc_buttons(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
