@@ -324,11 +324,8 @@ def start_next_round(bot, game):
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
-		
-		#opciones_botones = { "new" : "(Beta) Nuevo Partido", "new2" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "new3" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
-		#Commands.simple_choose_buttons(bot, cid, 1234, cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
-		
-		bot.send_message(game.cid, "Para comenzar un juego nuevo pon el comando /delete y luego /newgame", ParseMode.MARKDOWN)
+		continue_playing(bot, game)
+		#bot.send_message(game.cid, "Para comenzar un juego nuevo pon el comando /delete y luego /newgame", ParseMode.MARKDOWN)
 		return
 	helper.increment_player_counter(game)
 	start_round_just_one(bot, game)
