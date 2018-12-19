@@ -275,8 +275,7 @@ def callback_reviewer_confirm(bot, update):
 			else:
 				# Si se falla en la ultima carta la penalizacion es perder 1 punto
 				bot.send_message(game.cid, "Se ha *perdido 1 punto* como penalización", ParseMode.MARKDOWN)
-				game.board.state.progreso -= 1
-		Commands.save(bot, game.cid)
+				game.board.state.progreso -= 1		
 		start_next_round(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
