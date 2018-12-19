@@ -420,7 +420,7 @@ def main():
 	dp.add_handler(CommandHandler("loseleaf", LostExpeditionCommands.command_lose_leaf, pass_args = True))
 	dp.add_handler(CommandHandler("loseexplorer", LostExpeditionCommands.command_lose_explorer, pass_args = True))
 	dp.add_handler(CommandHandler("resolve", LostExpeditionCommands.command_resolve_exploration2))
-	dp.add_handler(CommandHandler("continue", LostExpeditionCommands.command_continue, pass_args = True))
+	dp.add_handler(CommandHandler("continue", Commands.command_continue, pass_args = True))
 	dp.add_handler(CommandHandler("dia", LostExpeditionCommands.command_worflow, pass_args = True))
 	dp.add_handler(CommandHandler("noche", LostExpeditionCommands.command_worflow, pass_args = True))
 	# Lost Expedition Callbacks de botones
