@@ -693,6 +693,8 @@ def command_continue(bot, update, args):
 	import GameCommands.JustoneCommands as JustoneCommands
 	import GameCommands.LostExpeditionCommands as LostExpeditionCommands
 	
+	log.info('command_continue called')
+	
 	try:
 		cid, uid = update.effective_chat.id, update.effective_user.id
 	except Exception as e:
@@ -701,7 +703,6 @@ def command_continue(bot, update, args):
 	game = load_game(cid)
 	if game:
 		GamesController.games[cid] = game		
-		
 		if game.tipo == 'LostExpedition':
 			LostExpeditionCommands.command_continue(bot, game, uid)
 		elif game.tipo == 'JustOne':
@@ -710,9 +711,7 @@ def command_continue(bot, update, args):
 			bot.send_message(cid, "El juego no tiene comando continue")			
 	else:
 		bot.send_message(cid, "No hay juego que continuar")
-	
-
-
+		
 def command_jugadores(bot, update):	
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
