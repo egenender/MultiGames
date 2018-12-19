@@ -627,7 +627,7 @@ def command_join(bot, update, args):
 				# Si se ha alcanzado el minimo o superado
 				if len(game.playerlist) == max_jugadores:
 					command_startgame(bot, update)
-				if len(game.playerlist) >= min_jugadores:
+				elif len(game.playerlist) >= min_jugadores:
 					bot.send_message(game.cid, fname + " se ha unido al juego. Hay %s/%s jugadores.\nPueden poner /startgame para comenzar" % (str(len(game.playerlist)), max_jugadores))
 				else:
 					bot.send_message(game.cid, fname + " se ha unido al juego. Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
