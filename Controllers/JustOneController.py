@@ -119,9 +119,7 @@ def start_round_just_one(bot, game):
 	palabra_elegida = game.board.cartas.pop(0)
 	game.board.state.acciones_carta_actual = palabra_elegida	
 	
-	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
-	bot.send_message(game.cid, "El jugador *%s* tiene que adivinar" % active_player.name, ParseMode.MARKDOWN)
-	bot.send_message(game.cid, "El jugador *%s* revisara las pistas" % reviewer_player.name, ParseMode.MARKDOWN)
+	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)	
 	game.dateinitvote = datetime.datetime.now()
 	call_players_to_clue(bot, game)			
 	game.dateinitvote = datetime.datetime.now()
