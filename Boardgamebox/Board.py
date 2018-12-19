@@ -79,8 +79,7 @@ class Board(object):
         board = board[:-3]
         board += u"\U0001F501"
         
-        
-        
-        
+        board += "\n\nEl jugador *{0}* tiene que adivinar".format(game.board.state.active_player.name)
+        board += "\n\nEl jugador *{0}* revisara las pistas".format(game.board.state.reviewer_player.name)
         
         return board
