@@ -83,7 +83,7 @@ def callback_finish_config_justone(bot, update):
 			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
 			
 		game = Commands.get_game(cid)
-		game.config['diccionario'] = opcion
+		game.configs['diccionario'] = opcion
 		finish_config(bot, game, opcion)
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
@@ -375,7 +375,7 @@ def callback_finish_game_buttons(bot, update):
 					
 		if opcion == "new2":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
-			game.config['diccionario'] = dicc
+			game.configs['diccionario'] = dicc
 			finish_config(bot, game, dicc)
 		if opcion == "new3":
 			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
