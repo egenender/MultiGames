@@ -214,7 +214,7 @@ def command_clue(bot, update, args):
 					#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
 					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
 					btns = []
-					#bot.send_message(uid, len(clue_games))
+					#bot.send_message(uid, len(clue_games))rdd
 					
 					for game_chat_id, game in clue_games.items():
 						#bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
