@@ -354,24 +354,28 @@ def callback_finish_game_buttons(bot, update):
 		except Exception as e:
 			dicc = 'community'
 		
-		# Obtengo jugadores
-		players = game.playerlist.copy()
+		# Obtengo datos de juego anterior		
+		groupName = game.groupName
 		tipojuego = game.tipo
 		modo = game.modo
 		
-		# Dependiendo de la opcion veo que como lo inicio		
-		
+		# Dependiendo de la opcion veo que como lo inicio
 		game = Game(cid, uid, groupName, tipojuego, modo)
-		GamesController.games[cid] = game
+		GamesController.games[cid] = game		
 		if opcion == "new":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
-			return		
+			return
+		players = game.playerlist.copy()
 		game.playerlist = players
-		game.config['diccionario'] = dicc
+		# StartGame
+		player_number = len(game.playerlist)
+		game.board = Board(player_number, game)
 		game.player_sequence = []
 		game.shuffle_player_sequence()
+					
 		if opcion == "new2":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
+			game.config['diccionario'] = dicc
 			finish_config(bot, game, dicc)
 		if opcion == "new3":
 			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
