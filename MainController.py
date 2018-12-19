@@ -10,7 +10,7 @@ from random import randrange, choice
 from time import sleep
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
-from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler)
+from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters)
 
 import Commands
 
@@ -320,7 +320,13 @@ def recover_lost_expedition(bot, update, game, uid):
 				Commands.resolve(bot, game.cid, uid, game, game.playerlist[uid])
 			elif game.board.state.fase_actual == "execute_actions":
 				Commands.command_continue(bot, update, [None, game.cid, uid])
-        
+
+def echo(bot, update):
+	#logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
+	#Solo hace echo si soy yo.
+	if update.effective_user.id == ADMIN[0]:
+		bot.send_message(ADMIN[0], text=update.message.text)
+
 def main():
 	GamesController.init() #Call only once
 	#initialize_testdata()
@@ -444,6 +450,8 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_game_buttons))	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
+	
+	dp.add_handler(MessageHandler(Filters.text, echo))
 	
 	# log all errors
 	dp.add_error_handler(error)
