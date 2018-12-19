@@ -19,7 +19,10 @@ class Game(object):
         self.tipo = tipo
         # Modo de juego solitario, coopertativo, competitivo...
         self.modo = modo
+        # Nombre del grupo cuando se creo...
         self.groupName  = groupName
+        # Configuraciones variadas...
+        self.configs = {}
     
     def add_player(self, uid, player):
         self.playerlist[uid] = player
