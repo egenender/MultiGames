@@ -322,7 +322,7 @@ def recover_lost_expedition(bot, update, game, uid):
 				Commands.command_continue(bot, update, [None, game.cid, uid])
 
 def echo(bot, update):
-	bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
+	bot.send_message(chat_id=update.message.chat_id, text="Eco!")
 	#logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
 	#Solo hace echo si soy yo.
 	#log.info('Echo called')
@@ -331,7 +331,7 @@ def echo(bot, update):
 	#	#bot.send_message(ADMIN[0], text=update.message.text)
 
 def unknown(bot, update):
-	bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
+	bot.send_message(chat_id=update.message.chat_id, text="No conozco ese comando")
 	
 def main():
 	GamesController.init() #Call only once
@@ -458,7 +458,7 @@ def main():
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 		
 	dp.add_handler(MessageHandler(Filters.command, unknown))
-	
+	dp.add_handler(MessageHandler(Filters.text, echo))
 	#echo_handler = MessageHandler(Filters.text, echo)
 	#dp.add_handler(echo_handler)
 	
