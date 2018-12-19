@@ -308,7 +308,7 @@ def command_guess(bot, update, args):
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
 		game = Commands.get_game(cid)
-		if len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
+		if (len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid) and uid not in ADMIN:
 			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo para adivinar", ParseMode.MARKDOWN)
 			return
 		args_text = ' '.join(args)
