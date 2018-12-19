@@ -362,13 +362,14 @@ def callback_finish_game_buttons(bot, update):
 		modo = game.modo
 		
 		# Dependiendo de la opcion veo que como lo inicio
+		players = game.playerlist.copy()
+		
 		game = Game(cid, uid, groupName, tipojuego, modo)
 		GamesController.games[cid] = game		
 		if opcion == "new":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
-		log.info('Llego hasta la creacion')
-		players = game.playerlist.copy()
+		#log.info('Llego hasta la creacion')		
 		game.playerlist = players
 		# StartGame
 		player_number = len(game.playerlist)
@@ -378,7 +379,7 @@ def callback_finish_game_buttons(bot, update):
 					
 		if opcion == "new2":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
-			log.info('Llego hasta el new2')
+			#log.info('Llego hasta el new2')
 			game.configs['diccionario'] = dicc
 			finish_config(bot, game, dicc)
 		if opcion == "new3":
