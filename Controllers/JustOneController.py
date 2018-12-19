@@ -58,20 +58,17 @@ debugging = False
 
 def init_game(bot, game):
 	try:
-		log.info('init_just_one called')
-		cid = game.cid
-		log.info('Game init_lost_expedition called')
+		log.info('init_just_one called')		
 		game.shuffle_player_sequence()
 		# Seteo las palabras
-		opciones_botones = {
-			"original" : "Español Original",
-			"ficus" : "Español Ficus",
-			"community" : "Español Community"
-		}
-		Commands.simple_choose_buttons(bot, cid, 1234, cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
+		
 		
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
+
+def call_dicc_buttons(bot, game):
+	opciones_botones = { "original" : "Español Original", "ficus" : "Español Ficus", "community" : "Español Community" }
+	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 		
 def callback_finish_config_justone(bot, update):
 	log.info('callback_finish_config_justone called')
@@ -83,21 +80,24 @@ def callback_finish_config_justone(bot, update):
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
 		except Exception as e:
-			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)		
-
-		game = Commands.get_game(cid)	
-		url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
-		with open(url_palabras_posibles, 'r') as f:
-			palabras_posibles = f.readlines()
-			random.shuffle(palabras_posibles)		
-			game.board.cartas = palabras_posibles[0:13]
-			game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
-		game.board.state.progreso = 0
-		start_round_just_one(bot, game)
-		
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
+			
+		game = Commands.get_game(cid)
+		game.config['diccionario'] = opcion
+		finish_config(bot, game, opcion)
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
+
+def finish_config(bot, game, opcion):
+	url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
+	with open(url_palabras_posibles, 'r') as f:
+		palabras_posibles = f.readlines()
+		random.shuffle(palabras_posibles)		
+		game.board.cartas = palabras_posibles[0:13]
+		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
+	game.board.state.progreso = 0
+	start_round_just_one(bot, game)
 		
 def start_round_just_one(bot, game):
 	log.info('start_round_just_one called')
@@ -122,7 +122,7 @@ def start_round_just_one(bot, game):
 	call_players_to_clue(bot, game)			
 	game.dateinitvote = datetime.datetime.now()
 	game.board.state.fase_actual = "Proponiendo Pistas"
-	Commands.save(bot, game.cid)
+	#Commands.save(bot, game.cid)
 
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
@@ -331,6 +331,10 @@ def start_next_round(bot, game):
 	helper.increment_player_counter(game)
 	start_round_just_one(bot, game)
 
+def continue_playing(bot, game):
+	opciones_botones = { "new" : "(Beta) Nuevo Partido", "new2" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "new3" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
+	Commands.simple_choose_buttons(bot, cid, 1234, cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
+	
 def callback_finish_game_buttons(bot, update):
 	callback = update.callback_query
 	try:		
@@ -344,8 +348,33 @@ def callback_finish_game_buttons(bot, update):
 			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)				
 		game = Commands.get_game(cid)
 		
-		# Dependiendo de la opcion veo que 
+		# Obtengo el diccionario actual, primero casos no tendre el config y pondre el community
+		dicc = game.get('diccionario','community')
+		# Obtengo jugadores
+		players = game.playerlist.copy()
+		tipojuego = game.tipo
+		modo = game.modo
 		
+		# Dependiendo de la opcion veo que como lo inicio.
+		if opcion = "new":
+			# Si hago un partido enteramente nuevo, simplemente lo inicio y pido el join			
+			game = Game(cid, uid, groupName, tipojuego, modo)
+			GamesController.games[cid] = game
+			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
+		elif opcion = "new2" or opcion = "new3":
+			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
+			game = Game(cid, uid, groupName, tipojuego, modo)
+			GamesController.games[cid] = game			
+			game.playerlist = players
+			game.config['diccionario'] = dicc
+			game.player_sequence = []
+			game.shuffle_player_sequence()
+			if opcion = "new2":
+				#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
+				finish_config(bot, game, dicc)
+			if opcion = "new3":
+				call_dicc_buttons(bot, game)
+				
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
