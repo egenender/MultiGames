@@ -355,26 +355,23 @@ def callback_finish_game_buttons(bot, update):
 		tipojuego = game.tipo
 		modo = game.modo
 		
-		# Dependiendo de la opcion veo que como lo inicio.
-		if opcion = "new":
-			# Si hago un partido enteramente nuevo, simplemente lo inicio y pido el join			
-			game = Game(cid, uid, groupName, tipojuego, modo)
-			GamesController.games[cid] = game
+		# Dependiendo de la opcion veo que como lo inicio		
+		
+		game = Game(cid, uid, groupName, tipojuego, modo)
+		GamesController.games[cid] = game
+		if opcion == "new":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
-		elif opcion = "new2" or opcion = "new3":
+			return		
+		game.playerlist = players
+		game.config['diccionario'] = dicc
+		game.player_sequence = []
+		game.shuffle_player_sequence()
+		if opcion == "new2":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
-			game = Game(cid, uid, groupName, tipojuego, modo)
-			GamesController.games[cid] = game			
-			game.playerlist = players
-			game.config['diccionario'] = dicc
-			game.player_sequence = []
-			game.shuffle_player_sequence()
-			if opcion = "new2":
-				#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
-				finish_config(bot, game, dicc)
-			if opcion = "new3":
-				call_dicc_buttons(bot, game)
-				
+			finish_config(bot, game, dicc)
+		if opcion == "new3":
+			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
+			call_dicc_buttons(bot, game)				
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
