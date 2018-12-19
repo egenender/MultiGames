@@ -333,7 +333,7 @@ def start_next_round(bot, game):
 
 def continue_playing(bot, game):
 	opciones_botones = { "new" : "(Beta) Nuevo Partido", "new2" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "new3" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
-	Commands.simple_choose_buttons(bot, cid, 1234, cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
+	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
 	
 def callback_finish_game_buttons(bot, update):
 	callback = update.callback_query
