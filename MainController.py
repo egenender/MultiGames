@@ -330,6 +330,9 @@ def echo(bot, update):
 	#	bot.send_message(chat_id=ADMIN[0], text=update.message.text)
 	#	#bot.send_message(ADMIN[0], text=update.message.text)
 
+def unknown(bot, update):
+	bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
+	
 def main():
 	GamesController.init() #Call only once
 	#initialize_testdata()
@@ -453,6 +456,8 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_game_buttons))	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
+		
+	dp.add_handler(MessageHandler(Filters.command, unknown))
 	
 	#echo_handler = MessageHandler(Filters.text, echo)
 	#dp.add_handler(echo_handler)
