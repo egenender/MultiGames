@@ -67,6 +67,7 @@ def init_game(bot, game):
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
 def call_dicc_buttons(bot, game):
+	#log.info('call_dicc_buttons called')
 	opciones_botones = { "original" : "Español Original", "ficus" : "Español Ficus", "community" : "Español Community" }
 	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 		
@@ -90,6 +91,7 @@ def callback_finish_config_justone(bot, update):
 		bot.send_message(ADMIN[0], callback.data)
 
 def finish_config(bot, game, opcion):
+	log.info('finish_config called')
 	url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
 	with open(url_palabras_posibles, 'r') as f:
 		palabras_posibles = f.readlines()
@@ -338,7 +340,7 @@ def continue_playing(bot, game):
 def callback_finish_game_buttons(bot, update):
 	callback = update.callback_query
 	try:		
-		log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
@@ -365,6 +367,7 @@ def callback_finish_game_buttons(bot, update):
 		if opcion == "new":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
+		log.info('Llego hasta la creacion')
 		players = game.playerlist.copy()
 		game.playerlist = players
 		# StartGame
@@ -375,6 +378,7 @@ def callback_finish_game_buttons(bot, update):
 					
 		if opcion == "new2":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
+			log.info('Llego hasta el new2')
 			game.configs['diccionario'] = dicc
 			finish_config(bot, game, dicc)
 		if opcion == "new3":
