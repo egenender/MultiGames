@@ -689,7 +689,7 @@ def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callbac
 	#for uid in game.playerlist:
 	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)		
 
-def command_continue(bot, update, args):
+def command_continue(bot, update):
 	import GameCommands.JustoneCommands as JustoneCommands
 	import GameCommands.LostExpeditionCommands as LostExpeditionCommands
 	
