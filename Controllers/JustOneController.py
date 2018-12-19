@@ -124,7 +124,7 @@ def start_round_just_one(bot, game):
 	call_players_to_clue(bot, game)			
 	game.dateinitvote = datetime.datetime.now()
 	game.board.state.fase_actual = "Proponiendo Pistas"
-	#Commands.save(bot, game.cid)
+	Commands.save(bot, game.cid)
 
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
