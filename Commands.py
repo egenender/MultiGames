@@ -693,12 +693,8 @@ def command_continue(bot, update):
 	import GameCommands.JustoneCommands as JustoneCommands
 	import GameCommands.LostExpeditionCommands as LostExpeditionCommands
 	
-	try:
-		cid, uid = update.message.chat_id, update.message.from_user.id
-	except Exception as e:
-		cid, uid = args[1], args[2]
-	if uid not in ADMIN:
-		bot.send_message(cid, uid)	
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
 	
 	game = load_game(cid)
 	if game:
