@@ -328,7 +328,7 @@ def command_guess(bot, update, args):
 				"correcto" : "Si",
 				"incorrecto" : "No"
 			}
-			helper.simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó ({1})? Pista {0}".format(game.board.state.acciones_carta_actual, args_text), opciones_botones)
+			helper.simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó ({1})? Palabra: {0}".format(game.board.state.acciones_carta_actual, args_text), opciones_botones)
 			
 	except Exception as e:
 		bot.send_message(uid, str(e))
