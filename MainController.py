@@ -454,8 +454,8 @@ def main():
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
-	echo_handler = MessageHandler(Filters.text, echo)
-	dp.add_handler(echo_handler)
+	#echo_handler = MessageHandler(Filters.text, echo)
+	#dp.add_handler(echo_handler)
 	
 	# log all errors
 	dp.add_error_handler(error)
