@@ -324,8 +324,10 @@ def recover_lost_expedition(bot, update, game, uid):
 def echo(bot, update):
 	#logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
 	#Solo hace echo si soy yo.
+	log.info('Echo called')
 	if update.effective_user.id == ADMIN[0]:
-		bot.send_message(ADMIN[0], text=update.message.text)
+		bot.send_message(chat_id=ADMIN[0], text=update.message.text)
+		#bot.send_message(ADMIN[0], text=update.message.text)
 
 def main():
 	GamesController.init() #Call only once
