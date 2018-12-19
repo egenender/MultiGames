@@ -706,6 +706,7 @@ def command_continue(bot, update, args):
 		if game.tipo == 'LostExpedition':
 			LostExpeditionCommands.command_continue(bot, game, uid)
 		elif game.tipo == 'JustOne':
+			log.info('continue Just One Game called')
 			JustoneCommands.command_continue(bot, game, uid)
 		else:
 			bot.send_message(cid, "El juego no tiene comando continue")			
