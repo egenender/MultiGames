@@ -765,7 +765,7 @@ def command_myturn(bot, update, args):
 		try:
 			chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
 			game_pendiente = all_games[chat_id]
-			bot.send_message(uid, myturn_message( game, uid), ParseMode.MARKDOWN)
+			bot.send_message(uid, myturn_message(game_pendiente , uid), ParseMode.MARKDOWN)
 		except Exception as e:
 			bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
 			bot.send_message(ADMIN[0], str(e))
