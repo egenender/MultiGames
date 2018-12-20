@@ -80,6 +80,10 @@ class Board(object):
         board += u"\U0001F501"
         
         board += "\n\nEl jugador *{0}* tiene que adivinar".format(game.board.state.active_player.name)
-        board += "\n\nEl jugador *{0}* revisara las pistas".format(game.board.state.reviewer_player.name
+        board += "\n\nEl jugador *{0}* revisara las pistas".format(game.board.state.reviewer_player.name)
+        if len( game.board.cartas) == 0:
+            board += "\n\n‼️Esta es la ultima carta del mazo‼️"
+        
+        
         
         return board
