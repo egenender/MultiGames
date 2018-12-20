@@ -751,14 +751,25 @@ def command_myturn(bot, update, args):
 	
 	# Independeinte de si pide todos, tengo que obtenerlos a todos para saber cual es el de menos tiempo.
 	all_games_unfiltered = MainController.getGamesByTipo("Todos")	
-	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and game.dateinitvote != None }
+	# Me improtan los juegos que; Este el jugador, hayan sido iniciados, datinivote no sea null y que cumpla reglas del tipo de juego en particular
+	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and verify_my_turn(game, uid) }
 	if len(args) > 0 and args[0].lower() == 'todos':
 		# Le recuerdo al jugador todos los juegos pendientes que tiene
 		for game_chat_id, game in all_games.items():
 			bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game.groupName), ParseMode.MARKDOWN)			
 	else:
 		# Le recuerdo solo el juego que mas tiempo lo viene esperando		
-		chat_id = min(all_games, key=lambda key: all_games[key].dateinitvote)
+		#chat_id = min(all_games, key=lambda key: all_games[key].dateinitvote)
+		chat_id = min(all_games, key=lambda key: datetime.date(9999,10,20) if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
 		game_pendiente = all_games[chat_id]
 		bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game_pendiente.groupName), ParseMode.MARKDOWN)
 		
+def verify_my_turn(game, uid):
+	if game.tipo == 'JustOne':
+		if game.board.state.fase_actual == "Proponiendo Pistas":
+			return uid not in game.board.state.last_votes and uid != game.board.state.active_player.uid
+		elif game.board.state.fase_actual == "Revisando Pistas":
+			return game.board.state.reviewer_player.uid == uid
+		elif game.board.state.fase_actual == "Adivinando":
+			return game.board.state.active_player.uid == uid	
+	return False
