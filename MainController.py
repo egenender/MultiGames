@@ -326,7 +326,7 @@ def getGamesByTipo(opcion):
 	games = None
 	cursor = conn.cursor()			
 	log.info("Executing in DB")
-	if opcion != "Todos"
+	if opcion != "Todos":
 		query = "select * from games g where g.tipojuego = '{0}'".format(opcion)
 	else:
 		query = "select * from games g"
