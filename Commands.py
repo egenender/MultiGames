@@ -760,7 +760,7 @@ def command_myturn(bot, update, args):
 	else:
 		# Le recuerdo solo el juego que mas tiempo lo viene esperando		
 		#chat_id = min(all_games, key=lambda key: all_games[key].dateinitvote)
-		chat_id = min(all_games, key=lambda key: datetime.date(9999,10,20) if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
+		chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
 		game_pendiente = all_games[chat_id]
 		bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game_pendiente.groupName), ParseMode.MARKDOWN)
 		
