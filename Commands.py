@@ -739,4 +739,4 @@ def command_announce(bot, update, args):
 			bot.send_message(game.cid, "Edu, tenes que poner un mensaje", ParseMode.MARKDOWN)
 			return
 		GamesController.announce_text = '‼️Anuncio‼️\n\n{0}'.format(' '.join(args))
-		simple_choose_buttons(bot, cid, uid, uid, "announce", "En que juegos queres anunciar", opciones_botones)
+		simple_choose_buttons(bot, cid, 1234, uid, "announce", "En que juegos queres anunciar", opciones_botones)
