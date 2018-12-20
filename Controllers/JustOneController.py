@@ -147,10 +147,7 @@ def call_players_to_clue(bot, game):
 			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
 			mensaje = "Nueva palabra en el grupo *{1}*.\nAdivina el jugador: *{2}*\nLa palabra es: *{0}*, propone tu pista!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
-			if game.board.num_players != 3:
-				mensaje = "/clue Ejemplo"
-			else:
-				mensaje = "/clue Ejemplo Ejemplo2"
+			mensaje = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
 			bot.send_message(uid, mensaje)
 	
 def review_clues(bot, game):
