@@ -743,3 +743,22 @@ def command_announce(bot, update, args):
 			return
 		GamesController.announce_text = ' '.join(args)
 		simple_choose_buttons(bot, cid, 1234, uid, "announce", "En que juegos queres anunciar", opciones_botones)
+
+# Comando para que el bot nos recuerde los partidos que tenemos 	
+def command_myturn(bot, update, args):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	
+	# Independeinte de si pide todos, tengo que obtenerlos a todos para saber cual es el de menos tiempo.
+	all_games_unfiltered = MainController.getGamesByTipo("Todos")	
+	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and game.dateinitvote != None }
+	if args[0].lower() == 'todos':
+		# Le recuerdo al jugador todos los juegos pendientes que tiene
+		for game_chat_id, game in all_games.items():
+			bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game.groupName), ParseMode.MARKDOWN)			
+	else:
+		# Le recuerdo solo el juego que mas tiempo lo viene esperando		
+		chat_id = min(all_games, key=lambda key: all_games[key].datime)
+		game_pendiente = all_games[chat_id]
+		bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game_pendiente.groupName), ParseMode.MARKDOWN)
+		
