@@ -311,7 +311,7 @@ def callback_announce(bot, update):
 		for game_chat_id, game in games.items():
 			players.update(game.playerlist)
 			
-		for uid, player in games.items():
+		for uid, player in players.items():
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
 		
 		# Mensajes a todos los juegos con el tipo de juego		
