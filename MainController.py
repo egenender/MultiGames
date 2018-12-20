@@ -324,7 +324,11 @@ def recover_lost_expedition(bot, update, game, uid):
 def echo(bot, update):
 	if update.effective_user.id == ADMIN[0]:
 		#bot.send_message(chat_id=ADMIN[0], text=update.message.text)
-		bot.send_message(ADMIN[0], text=update.message.text)
+		# update.effective_chat.id
+		#bot.send_message(ADMIN[0], text=update.message.text)
+		mensaje = update.message.text.replace("Leviatas", "Levi")
+		#bot.send_message(update.effective_chat.id, text=mensaje)
+		bot.edit_message_text(mensaje, update.effective_chat.id, update.message.message_id)
 	#bot.send_message(chat_id=update.message.chat_id, text="Eco!")
 	#logger.warning("El chat es: %s del usuario %s" % (update.effective_chat.id, update.effective_user.id))
 	#Solo hace echo si soy yo.
