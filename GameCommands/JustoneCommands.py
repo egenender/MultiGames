@@ -232,6 +232,9 @@ def command_clue(bot, update, args):
 					if len(btns) != 0:
 						if len(btns) == 1:
 							#Si es solo 1 juego lo hago automatico
+							txtBoton = "Cancel"
+							datos = "-1*choosegameclue*" + clue_text + "*" + str(uid)
+							btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 							command_clue(bot, update, [' '.join(args), cid, uid])
 							
 						else:
@@ -255,14 +258,15 @@ def callback_choose_game_clue(bot, update):
 	log.info('callback_choose_mode called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
-		
+	
+	if cid == -1:
+		bot.edit_message_text("Cancelado", uid, callback.message.message_id)
+		return
+	
 	game = Commands.get_game(cid)
 	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)
 	
-	try:
-		bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
-	except Exception as e:
-		bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
+	bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
 	
 	command_clue(bot, update, [opcion, cid, uid])
 	
