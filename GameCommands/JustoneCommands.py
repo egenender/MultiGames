@@ -231,13 +231,13 @@ def command_clue(bot, update, args):
 					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
 					if len(btns) != 0:
 						if len(btns) == 1:
-							#Si es solo 1 juego lo hago automatico
-							txtBoton = "Cancel"
-							datos = "-1*choosegameclue*" + clue_text + "*" + str(uid)
-							btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+							#Si es solo 1 juego lo hago automatico							
 							command_clue(bot, update, [' '.join(args), cid, uid])
 							
 						else:
+							txtBoton = "Cancel"
+							datos = "-1*choosegameclue*" + clue_text + "*" + str(uid)
+							btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 							btnMarkup = InlineKeyboardMarkup(btns)
 							bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
 					else:
