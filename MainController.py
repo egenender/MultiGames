@@ -196,89 +196,6 @@ def end_game(bot, game, game_endcode):
         del GamesController.games[game.cid]
         Commands.delete_game(game.cid)
         
-
-
-
-def print_player_info(player_number):
-    if player_number == 5:
-        return "Hay 4 investigadores y 1 cultista."
-    elif player_number == 6:
-        return "Hay 4 investigadores y 2 cultistas."
-    elif player_number == 7:
-        return "Hay 5 investigadores y 2 cultistas."
-    elif player_number == 8:
-        return "Hay 6 investigadores y 2 cultistas."
-    elif player_number == 9:
-        return "Hay 6 investigadores y 3 cultistas."
-
-def inform_players(bot, game, cid, player_number):
-        log.info('inform_players called')
-        bot.send_message(cid,
-                "Comencemos el juego con %d jugadores\n%s\nVe a tu chat privado y mira tu rol secreto!" % (
-        player_number, print_player_info(player_number)))
-        available_roles = list(playerSets[player_number]["roles"])
-        
-        # Elijo al jugador poseido        
-        poseidoid = choice(list(game.playerlist))
-        game.playerlist[poseidoid].poseido = True
-                
-        for uid in game.playerlist:
-                random_index = randrange(len(available_roles))
-                #log.info(str(random_index))
-                role = available_roles.pop(random_index)
-                #log.info(str(role))
-                party = get_membership(role)
-                game.playerlist[uid].role = role
-                game.playerlist[uid].party = party
-                # I comment so tyhe player aren't discturbed in testing, uncomment when deploy to production
-                if not debugging:
-                        bot.send_message(uid, "Tu rol secreto es: %s\nEres de los %s" % (role, party))
-                else:
-                        bot.send_message(ADMIN, "Jugador %s su rol es %s. Eres de los %s" % (game.playerlist[uid].name, role, party))
-
-
-def inform_cultist(bot, game, player_number):
-        log.info('inform_fascists called')
-        for uid in game.playerlist:
-                role = game.playerlist[uid].role        
-                if role == "Cultista":
-                        fascists = game.get_cultist()
-                        poseidos = game.get_poseidos()                        
-                        pstring = ""
-                        for p in poseidos:
-                                if p.uid != uid:
-                                        pstring += p.name + ", "
-                        pstring = pstring[:-2]
-                        
-                        if not debugging:
-                                bot.send_message(uid, "El/los jugador/es poseido/s es/son: %s" % pstring)    
-                        else:
-                                bot.send_message(ADMIN, "El/los jugador/es poseido/s es/son: %s" % pstring)  
-                                
-                        if player_number > 5:
-                                fstring = ""
-                                for f in fascists:
-                                        if f.uid != uid:
-                                                fstring += f.name + ", "
-                                fstring = fstring[:-2]
-                        if not debugging:
-                                bot.send_message(uid, "Tus amigos cultistas son: %s" % fstring)
-                elif role == "Investigador":
-                        pass
-                else:
-                        log.error("inform_fascists: can\'t handle the role %s" % role)
-
-
-def get_membership(role):
-    log.info('get_membership called')
-    if role == "Cultista" or role == "Cultista":
-        return "malos"
-    elif role == "Investigador":
-        return "buenos"
-    else:
-        return None
-
-
 def increment_player_counter(game):
     log.info('increment_player_counter called')
     if game.board.state.player_counter < len(game.player_sequence) - 1:
@@ -462,6 +379,8 @@ def main():
 	dp.add_handler(CommandHandler("reglas", Commands.command_reglas))	
 	dp.add_handler(CommandHandler("save", Commands.save))
 	dp.add_handler(CommandHandler("load", Commands.load))
+	# Comando para preguntar los juegos que esperan mi accion.
+	dp.add_handler(CommandHandler("myturn", Commands.command_myturn, pass_args = True))
 	
 	# Configuracion de cualquier partida
 	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
