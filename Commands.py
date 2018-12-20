@@ -806,4 +806,4 @@ def myturn_message(game, uid):
 			active_player = game.board.state.active_player
 			return "Partida: {1} {0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player), game.groupnam)
 	except Exception as e:
-		return str(e))
+		return str(e)
