@@ -375,7 +375,7 @@ def callback_finish_game_buttons(bot, update):
 		
 		game = Game(cid, uid, groupName, tipojuego, modo)
 		GamesController.games[cid] = game
-		game.board.discards = descarte
+		
 		if opcion == "new":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
