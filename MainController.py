@@ -286,6 +286,52 @@ def increment_player_counter(game):
     else:
         game.board.state.player_counter = 0
 
+def callback_announce(bot, update):
+	callback = update.callback_query
+	try:		
+		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*announce\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		
+		mensaje_edit = "Has elegido anunciar en partidos de: {0}".format(opcion)
+		try:
+			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
+		except Exception as e:
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)				
+		
+		games = getGamesByTipo(opcion)
+		
+		for game_chat_id, game in games.items():
+			bot.send_message(game_chat_id, GamesController.announce_text, ParseMode.MARKDOWN)
+		
+	except Exception as e:
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)
+
+def getGamesByTipo(opcion):
+	games = None
+	cursor = conn.cursor()			
+	log.info("Executing in DB")
+	'''if opcion != ""
+		query = "select * from games g where g.tipojuego = 'JustOne'"
+	else:
+		query = "select * from games g"
+	'''
+	query = "select * from games g where g.tipojuego = '{0}'".format(opcion)
+	cursor.execute(query)
+	if cursor.rowcount > 0:
+		# Si encuentro juegos los busco a todos y los cargo en memoria
+		for table in cursor.fetchall():
+			if table[0] not in GamesController.games.keys():
+				Commands.get_game(table[0])
+		# En el futuro hacer que pueda hacer anuncios globales a todos los juegos ?
+		games_restriction = [opcion]
+		#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
+		# Luego aplico
+		games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
+		
+	return games
+		
 def error(bot, update, error):
         #bot.send_message(387393551, 'Update "%s" caused error "%s"' % (update, error) ) 
         # Voy a re intentar automaticamente hasta X cantidad de veces
@@ -406,7 +452,11 @@ def main():
 	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
-		
+	
+	# Herramientas de ADMIN
+	dp.add_handler(CommandHandler("ann", Commands.command_announce, pass_args = True))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*announce\*(.*)\*([0-9]*)", callback=callback_announce))
+	
 	# Lost Expedition Commands
 	dp.add_handler(CommandHandler("newgamelostexpedition", LostExpeditionCommands.command_newgame_lost_expedition))
 	dp.add_handler(CommandHandler("drawcard", LostExpeditionCommands.command_drawcard, pass_args = True))
@@ -460,7 +510,8 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*finalizar\*(.*)\*([0-9]*)", callback=JustOneController.callback_review_clues_finalizado))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback=JustOneController.callback_reviewer_confirm))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=JustoneCommands.callback_choose_game_clue))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_game_buttons))	
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_game_buttons))
+	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 		
