@@ -304,7 +304,7 @@ def callback_announce(bot, update):
 		
 		
 		
-		mensaje = '‼️Anuncio cambios en {0}‼️\n\n{0}'.format(opcion, GamesController.announce_text)
+		mensaje = '‼️Anuncio cambios en {0}‼️\n\n{1}'.format(opcion, GamesController.announce_text)
 		
 		players = {}
 		# Pongo a todos los jugadores en partidos de tal tipo
