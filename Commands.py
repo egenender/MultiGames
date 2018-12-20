@@ -737,9 +737,9 @@ def command_announce(bot, update, args):
 	# Solo Edu puede anunciar
 	if uid == ADMIN[0]:
 		# Lo pongo estatico ya que no anunciare en todos los tipos de juegos.
-		opciones_botones = { "LostExpedition" : "Lost Expedition", "JustOne" : "Just One" }
+		opciones_botones = { "LostExpedition" : "Lost Expedition", "JustOne" : "Just One", "Todos" : "Todos" }
 		if len(args) < 1:
 			bot.send_message(game.cid, "Edu, tenes que poner un mensaje", ParseMode.MARKDOWN)
 			return
-		GamesController.announce_text = '‼️Anuncio‼️\n\n{0}'.format(' '.join(args))
+		GamesController.announce_text = ' '.join(args)
 		simple_choose_buttons(bot, cid, 1234, uid, "announce", "En que juegos queres anunciar", opciones_botones)
