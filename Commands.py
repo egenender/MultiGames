@@ -756,13 +756,13 @@ def command_myturn(bot, update, args):
 	if len(args) > 0 and args[0].lower() == 'todos':
 		# Le recuerdo al jugador todos los juegos pendientes que tiene
 		for game_chat_id, game in all_games.items():
-			bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game.groupName), ParseMode.MARKDOWN)			
+			bot.send_message(uid, "Tienes pendiente el juego en el grupo *{0}*".format(game.groupName), ParseMode.MARKDOWN)			
 	else:
 		# Le recuerdo solo el juego que mas tiempo lo viene esperando		
 		#chat_id = min(all_games, key=lambda key: all_games[key].dateinitvote)
 		chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
 		game_pendiente = all_games[chat_id]
-		bot.send_message(uid, "Tienes pendiente el juego en el grupo {0}".format(game_pendiente.groupName), ParseMode.MARKDOWN)
+		bot.send_message(uid, "Tienes pendiente el juego en el grupo *{0}*".format(game_pendiente.groupName), ParseMode.MARKDOWN)
 		
 def verify_my_turn(game, uid):
 	if game.tipo == 'JustOne':
