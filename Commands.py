@@ -15,10 +15,6 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 import MainController
 import GamesController
 
-
-
-
-
 from Constants.Config import STATS
 from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
@@ -714,7 +710,7 @@ def command_continue(bot, update, args):
 			bot.send_message(cid, "El juego no tiene comando continue")			
 	else:
 		bot.send_message(cid, "No hay juego que continuar")
-		
+	
 def command_jugadores(bot, update):	
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
@@ -731,3 +727,17 @@ def command_next_turn(bot, update):
 	cid = update.message.chat_id
 	game = get_game(cid)	
 	MainController.start_next_round(bot, game)
+	
+def command_announce(bot, update, args):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	# Solo Edu puede anunciar
+	if uid == ADMIN[0]:
+		# Lo pongo estatico ya que no anunciare en todos los tipos de juegos.
+		opciones_botones = { "LostExpedition" : "Lost Expedition", "JustOne" : "Just One" }
+		if len(args) < 1:
+			bot.send_message(game.cid, "Edu, tenes que poner un mensaje", ParseMode.MARKDOWN)
+			return
+		GamesController.announce_text = '‼️Anuncio‼️\n\n{0}'.format(' '.join(args))
+		simple_choose_buttons(bot, cid, uid, uid, "announce", "En que juegos queres anunciar", opciones_botones):
+
