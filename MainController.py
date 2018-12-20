@@ -290,7 +290,7 @@ def callback_announce(bot, update):
 	callback = update.callback_query
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
-		regex = re.search("(-[0-9]*)\*announce\*(.*)\*([0-9]*)", callback.data)
+		regex = re.search("(-?[0-9]*)\*announce\*(.*)\*(-?[0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		
 		mensaje_edit = "Has elegido anunciar en partidos de: {0}".format(opcion)
