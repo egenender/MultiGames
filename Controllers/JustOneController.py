@@ -59,9 +59,8 @@ debugging = False
 def init_game(bot, game):
 	try:
 		log.info('init_just_one called')		
-		game.shuffle_player_sequence()
-		# Seteo las palabras
-		
+		game.shuffle_player_sequence()		
+		# Seteo las palabras	
 		call_dicc_buttons(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
@@ -97,6 +96,10 @@ def list_menos_list(list_total, list_a_restar):
 		
 def finish_config(bot, game, opcion):
 	log.info('finish_config called')
+	# Si vengo de un partido anterior agrego los descartes de la partida anterior.	
+	if game.configs.get('discards', None):
+		game.board.discards = game.configs.get('discards')
+		del game.configs['discards']
 	url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
 	with open(url_palabras_posibles, 'r') as f:
 		palabras_posibles = f.readlines()
@@ -343,8 +346,8 @@ def start_next_round(bot, game):
 	start_round_just_one(bot, game)
 
 def continue_playing(bot, game):
-	opciones_botones = { "new" : "(Beta) Nuevo Partido", "new2" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "new3" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
-	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
+	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Mismo Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "Otro Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
+	Commands.simple_choose_buttons(bot, game.cid, 1, game.cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
 	
 def callback_finish_game_buttons(bot, update):
 	callback = update.callback_query
@@ -372,28 +375,28 @@ def callback_finish_game_buttons(bot, update):
 		descarte = game.board.discards
 		# Dependiendo de la opcion veo que como lo inicio
 		players = game.playerlist.copy()
-		
+		# Creo nuevo juego
 		game = Game(cid, uid, groupName, tipojuego, modo)
 		GamesController.games[cid] = game
-		
-		if opcion == "new":
+		# Guarda los descartes en configs para asi puedo recuperarlos
+		game.configs['discards'] = descarte
+		if opcion == "Nuevo":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
 		#log.info('Llego hasta la creacion')		
 		game.playerlist = players
 		# StartGame
 		player_number = len(game.playerlist)
-		game.board = Board(player_number, game)
-		game.board.discards = descarte
+		game.board = Board(player_number, game)		
 		game.player_sequence = []
 		game.shuffle_player_sequence()
 					
-		if opcion == "new2":
+		if opcion == "Mismo Diccionario":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
 			#log.info('Llego hasta el new2')
 			game.configs['diccionario'] = dicc
 			finish_config(bot, game, dicc)
-		if opcion == "new3":
+		if opcion == "Otro Diccionario":
 			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
 			call_dicc_buttons(bot, game)				
 	except Exception as e:
