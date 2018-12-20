@@ -682,8 +682,8 @@ def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callbac
 	for key, value in opciones_botones.items():
 		txtBoton = value
 		datos = str(cid) + "*" + comando_callback + "*" + str(key) + "*" + str(uid)
-		if comando_callback == "announce":
-			bot.send_message(ADMIN[0], datos)
+		#if comando_callback == "announce":
+		#	bot.send_message(ADMIN[0], datos)
 		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	
