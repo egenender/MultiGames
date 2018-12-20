@@ -383,6 +383,7 @@ def callback_finish_game_buttons(bot, update):
 		# StartGame
 		player_number = len(game.playerlist)
 		game.board = Board(player_number, game)
+		game.board.discards = descarte
 		game.player_sequence = []
 		game.shuffle_player_sequence()
 					
