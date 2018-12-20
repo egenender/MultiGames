@@ -133,7 +133,7 @@ def call_proponiendo_pistas(bot, game):
 					mensaje = "Palabra en el grupo *{1}*.\nAdivina el jugador: *{2}*\nLa palabra es: *{0}*, propone tu pista!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 					bot.send_message(player.uid, mensaje, ParseMode.MARKDOWN)
 					mensaje = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
-					bot.send_message(uid, mensaje)
+					bot.send_message(player.uid, mensaje)
 			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
 			if game.board.num_players != 3 and len(game.board.state.last_votes) == len(game.player_sequence)-1:
 				JustOneController.review_clues(bot, game)
