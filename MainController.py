@@ -302,8 +302,21 @@ def callback_announce(bot, update):
 		
 		games = getGamesByTipo(opcion)
 		
+		
+		
+		mensaje = '‼️Anuncio cambios en {0}‼️\n\n{0}'.format(opcion, GamesController.announce_text)
+		
+		players = {}
+		# Pongo a todos los jugadores en partidos de tal tipo
 		for game_chat_id, game in games.items():
-			bot.send_message(game_chat_id, GamesController.announce_text, ParseMode.MARKDOWN)
+			players.update(game.playerlist)
+			
+		for uid, player in games.items():
+			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
+		
+		# Mensajes a todos los juegos con el tipo de juego		
+		#for game_chat_id, game in games.items():
+		#	bot.send_message(game_chat_id, GamesController.announce_text, ParseMode.MARKDOWN)
 		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
@@ -313,12 +326,11 @@ def getGamesByTipo(opcion):
 	games = None
 	cursor = conn.cursor()			
 	log.info("Executing in DB")
-	'''if opcion != ""
-		query = "select * from games g where g.tipojuego = 'JustOne'"
+	if opcion != "Todos"
+		query = "select * from games g where g.tipojuego = '{0}'".format(opcion)
 	else:
 		query = "select * from games g"
-	'''
-	query = "select * from games g where g.tipojuego = '{0}'".format(opcion)
+	
 	cursor.execute(query)
 	if cursor.rowcount > 0:
 		# Si encuentro juegos los busco a todos y los cargo en memoria
@@ -329,8 +341,10 @@ def getGamesByTipo(opcion):
 		games_restriction = [opcion]
 		#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
 		# Luego aplico
-		games = {key:val for key, val in GamesController.games.items() if val.tipo in games_restriction}
-		
+		if opcion != "Todos":
+			games = {key:val for key, val in GamesController.games.items() if val.tipo in games_restriction}
+		else:
+			games = GamesController.games		
 	return games
 		
 def error(bot, update, error):
