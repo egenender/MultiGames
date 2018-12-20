@@ -286,9 +286,9 @@ def increment_player_counter(game):
     else:
         game.board.state.player_counter = 0
 
-def callback_announce(bot, update):
-	log.info('callback_announce called: %s' % callback.data)
+def callback_announce(bot, update):	
 	callback = update.callback_query
+	log.info('callback_announce called: %s' % callback.data)
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
 		regex = re.search("(-?[0-9]*)\*announce\*(.*)\*(-?[0-9]*)", callback.data)
