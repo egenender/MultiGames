@@ -102,7 +102,7 @@ def finish_config(bot, game, opcion):
 		palabras_posibles = f.readlines()
 		palabras_posibles_no_repetidas = list_menos_list(palabras_posibles, game.board.discards)
 		# Si no hay palabra posible no repetidas para jugar mezclo todas las palabras posibles
-		if len(palabras_posibles_no_repetidas) < 13
+		if len(palabras_posibles_no_repetidas) < 13:
 		    # Quedo bien 
 			game.board.discards = []
 			palabras_posibles_no_repetidas = palabras_posibles
