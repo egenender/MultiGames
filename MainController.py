@@ -329,7 +329,7 @@ def getGamesByTipo(opcion):
 		games_restriction = [opcion]
 		#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
 		# Luego aplico
-		games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
+		games = {key:val for key, val in GamesController.games.items() if val.tipo in games_restriction}
 		
 	return games
 		
