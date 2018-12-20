@@ -287,6 +287,7 @@ def increment_player_counter(game):
         game.board.state.player_counter = 0
 
 def callback_announce(bot, update):
+	log.info('callback_announce called: %s' % callback.data)
 	callback = update.callback_query
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
