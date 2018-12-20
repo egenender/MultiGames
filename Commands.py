@@ -765,7 +765,7 @@ def command_myturn(bot, update, args):
 		try:
 			chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
 			game_pendiente = all_games[chat_id]
-			bot.send_message(uid, "Tienes pendiente el juego en el grupo *{0}*".format(game_pendiente.groupName), ParseMode.MARKDOWN)
+			bot.send_message(uid, myturn_message( game, uid), ParseMode.MARKDOWN)
 		except Exception:
 			bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)	
 
@@ -792,3 +792,18 @@ def verify_my_turn(game, uid):
 		elif game.board.state.fase_actual == "Adivinando":
 			return game.board.state.active_player.uid == uid	
 	return False
+
+def myturn_message(game, uid):
+	try:
+		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
+		if game.board.state.fase_actual == "Proponiendo Pistas":
+			return "Partida: {1} {0} debes dar /clue EJEMPLO para la palabra: *{2}*".format(helper.player_call(game.playerlist[uid]), game.groupname, game.board.state.acciones_carta_actual)
+
+		elif game.board.state.fase_actual == "Revisando Pistas":
+			reviewer_player = game.board.state.reviewer_player
+			return "Partida: {1} Revisor {0} recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player), game.groupname)
+		elif game.board.state.fase_actual == "Adivinando":
+			active_player = game.board.state.active_player
+			return "Partida: {1} {0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player), game.groupnam)
+	except Exception as e:
+		bot.send_message(game.cid, str(e))
