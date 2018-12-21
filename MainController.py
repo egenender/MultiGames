@@ -322,12 +322,14 @@ def add_group(bot, update):
 	groupname = update.message.chat.title
 	bot.send_message(ADMIN[0], "Entro en add new member: {}".format(groupname))
 	#bot.send_message(ADMIN[0], update.message.new_chat_members)
+	'''
 	try:
 		log.info(update.message.new_chat_members)
 	except Exception as e:
 		bot.send_message(ADMIN[0], "Error al logear chat members {0}".format(str(e)))		
+	'''
 	for member in update.message.new_chat_members:
-        	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=member.username, id=member.id, groupname = groupname))
+        	bot.send_message(ADMIN[0], text="{username} {id} add group {groupname}".format(username=member.username, id=member.id, groupname = groupname))
 		
 def remove_group(bot, update):
 	groupname = update.message.chat.title
