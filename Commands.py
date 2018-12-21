@@ -788,6 +788,7 @@ def command_set_config_data(bot, update, args):
 			# Si hay excepcion es que configs no existe
 			game.configs = {}
 			game.configs[args[0]] = args[1]
+			log.info('command_set_config_data successfull: {}{}'.format(args[0], args[1]))
 		
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
@@ -804,7 +805,7 @@ def myturn_message(game, uid):
 	try:
 		group_link_name = game.groupName if get_config_data(game, "link")==None else "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
 		if uid == ADMIN[0]:
-			group_link_name = "[{0}]({1}) {1}".format(game.groupName, get_config_data(game, "link"))
+			group_link_name = "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Proponiendo Pistas":			
 			mensaje_clue_ejemplo = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
