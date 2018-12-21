@@ -753,22 +753,16 @@ def command_myturn(bot, update, args):
 	all_games_unfiltered = MainController.getGamesByTipo("Todos")	
 	# Me improtan los juegos que; Este el jugador, hayan sido iniciados, datinivote no sea null y que cumpla reglas del tipo de juego en particular
 	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and verify_my_turn(game, uid) }
-	if len(args) > 0 and args[0].lower() == 'todos':
-		# Le recuerdo al jugador todos los juegos pendientes que tiene
-		for game_chat_id, game in all_games.items():
-			bot.send_message(uid, "Tienes pendiente el juego en el grupo *{0}*".format(game.groupName), ParseMode.MARKDOWN)			
-		if len(all_games) == 0:
-			bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
-	else:
-		# Le recuerdo solo el juego que mas tiempo lo viene esperando		
-		#chat_id = min(all_games, key=lambda key: all_games[key].dateinitvote)
-		try:
-			chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
-			game_pendiente = all_games[chat_id]
-			bot.send_message(uid, myturn_message(game_pendiente , uid), ParseMode.MARKDOWN)
-		except Exception as e:
-			bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
-			#ot.send_message(ADMIN[0], str(e))
+	
+	# Le recuerdo solo el juego que mas tiempo lo viene esperando		
+	#chat_id = min(all_games, key=lambda key: all_games[key].dateinitvote)
+	try:
+		chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
+		game_pendiente = all_games[chat_id]
+		bot.send_message(uid, myturn_message(game_pendiente , uid), ParseMode.MARKDOWN)
+	except Exception as e:
+		bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
+		#ot.send_message(ADMIN[0], str(e))
 
 def command_myturns(bot, update):
 	uid = update.message.from_user.id
@@ -782,8 +776,14 @@ def command_myturns(bot, update):
 		bot.send_message(uid, myturn_message( game, uid), ParseMode.MARKDOWN)			
 	if len(all_games) == 0:
 		bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
-	
+
+def command_set_config_data(bot, update, args):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id	
+	game = get_game(cid)
+	game.configs[args[0]] = args[1]
 		
+# TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
 	if game.tipo == 'JustOne':
 		if game.board.state.fase_actual == "Proponiendo Pistas":
