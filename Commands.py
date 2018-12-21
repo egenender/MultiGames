@@ -789,7 +789,7 @@ def command_set_config_data(bot, update, args):
 			game.configs = {}
 			game.configs[args[0]] = args[1]
 			log.info('command_set_config_data successfull: {}{}'.format(args[0], args[1]))
-		
+		save(bot, cid)
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
 	if game.tipo == 'JustOne':
