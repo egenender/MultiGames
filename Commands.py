@@ -805,6 +805,8 @@ def myturn_message(game, uid):
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Proponiendo Pistas":
 			group_link_name = game.groupName if get_config_data(game, "link")==None else "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
+			if uid == ADMIN[0]:
+				group_link_name = get_config_data(game, "link")
 			mensaje_clue_ejemplo = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
 			return "Partida: {1} {0} debes dar {3} para la palabra: *{2}*".format(helper.player_call(game.playerlist[uid]), game.groupName, game.board.state.acciones_carta_actual, mensaje_clue_ejemplo)
 
