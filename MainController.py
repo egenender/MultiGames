@@ -317,6 +317,16 @@ def echo(bot, update):
 
 def unknown(bot, update):
 	bot.send_message(chat_id=update.message.chat_id, text="No conozco ese comando")
+
+def add_group(bot, update):
+	for members in update.message.new_chat_members:
+        	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id))
+		
+def remove_group(bot, update):
+	member = update.message.left_chat_member
+	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=member.username, id=member.id))
+	#for members in update.message.left_chat_member:
+        #	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id))
 	
 def main():
 	GamesController.init() #Call only once
@@ -451,6 +461,12 @@ def main():
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 		
 	dp.add_handler(MessageHandler(Filters.command, unknown))
+	
+	# Handler cuando se una una persona al chat.
+	dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, add_group))
+	
+	# Handler cuando se va una persona del chat.
+	dp.add_handler(MessageHandler(Filters.status_update.left_chat_member, remove_group))
 	
 	#dp.add_handler(MessageHandler(Filters.text, echo))
 		
