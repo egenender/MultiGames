@@ -319,12 +319,16 @@ def unknown(bot, update):
 	bot.send_message(chat_id=update.message.chat_id, text="No conozco ese comando")
 
 def add_group(bot, update):
+	bot.send_message(ADMIN[0], "Entro en add new member")
+	groupname = update.message.chat.title
 	for members in update.message.new_chat_members:
-        	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id))
+        	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id, groupname = groupname))
 		
 def remove_group(bot, update):
+	bot.send_message(ADMIN[0], "Entro en remove member")
 	member = update.message.left_chat_member
-	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=member.username, id=member.id))
+	groupname = update.message.chat.title
+	bot.send_message(ADMIN[0], text="{username} {id} left group {groupname}".format(username=member.username, id=member.id, groupname = groupname))
 	#for members in update.message.left_chat_member:
         #	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id))
 	
