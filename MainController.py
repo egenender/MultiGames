@@ -414,6 +414,7 @@ def main():
 	# Herramientas de ADMIN
 	dp.add_handler(CommandHandler("ann", Commands.command_announce, pass_args = True))
 	dp.add_handler(CallbackQueryHandler(pattern="(-?[0-9]*)\*announce\*(.*)\*(-?[0-9]*)", callback=callback_announce))
+	dp.add_handler(CommandHandler("set", Commands.command_set_config_data, pass_args = True))
 	
 	# Lost Expedition Commands
 	dp.add_handler(CommandHandler("newgamelostexpedition", LostExpeditionCommands.command_newgame_lost_expedition))
