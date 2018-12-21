@@ -780,8 +780,9 @@ def command_myturns(bot, update):
 def command_set_config_data(bot, update, args):
 	uid = update.message.from_user.id
 	cid = update.message.chat_id	
-	game = get_game(cid)
-	game.configs[args[0]] = args[1]
+	if uid == ADMIN[0]:
+		game = get_game(cid)
+		game.configs[args[0]] = args[1]
 		
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
