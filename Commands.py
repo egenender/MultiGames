@@ -782,7 +782,12 @@ def command_set_config_data(bot, update, args):
 	cid = update.message.chat_id	
 	if uid == ADMIN[0]:
 		game = get_game(cid)
-		game.configs[args[0]] = args[1]
+		try:
+			game.configs[args[0]] = args[1]
+		except Exception as e:
+			# Si hay excepcion es que configs no existe
+			game.configs = {}
+			game.configs[args[0]] = args[1]
 		
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
@@ -815,6 +820,7 @@ def myturn_message(game, uid):
 def get_config_data(game, config_name):
 	# Si por algun motivo tira excepcion siempre se devuelve None
 	try:
+		
 		return game.configs.get(config_name, None)				
 	except Exception as e:
 		return None
