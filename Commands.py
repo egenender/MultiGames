@@ -768,7 +768,7 @@ def command_myturn(bot, update, args):
 			bot.send_message(uid, myturn_message(game_pendiente , uid), ParseMode.MARKDOWN)
 		except Exception as e:
 			bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
-			bot.send_message(ADMIN[0], str(e))
+			#ot.send_message(ADMIN[0], str(e))
 
 def command_myturns(bot, update):
 	uid = update.message.from_user.id
