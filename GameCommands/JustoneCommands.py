@@ -357,4 +357,46 @@ def command_continue(bot, game, uid):
 			JustOneController.continue_playing(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))
-	
+
+'''
+def command_addplayer(bot, game, groupName, uid, args):
+	cid = game.cid
+	if not game.board:
+		bot.send_message(cid, "El juego no empezo, puedes unirte con el juegador se puede unir con /join!") 
+	elif (uid not in ADMIN) and (uid != game.initiator) and bot.getChatMember(cid, uid).status not in ("administrator", "creator"):
+		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")
+	else:
+		max_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["max_jugadores"]
+		min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
+			
+		# Si se ha alcanzado el maximo de jugadores no te puedes unir.
+		if len(game.playerlist) == max_jugadores:
+			bot.send_message(cid, "Se ha alcanzado previamente el maximo de jugadores. Espera el proximo juego!")
+		else:
+			bot.send_message(int(args[1]), "Te has/han unido a un juego en %s." % groupName)
+			player = Player(str(args[0]), int(args[1]), game.tipo)
+			game.add_player(int(args[1]), player)
+			# Caso de JustOne se une al jugador al final de la player secuence.
+			# No se le asigna ningun rol hasta una nueva ronda de juego
+			game.player_sequence.append(game.playerlist[uid])			
+			
+def command_removeplayer(bot, game, groupName, uid, args):
+	cid = game.cid
+	if not game.board:
+		bot.send_message(cid, "El juego no empezo, puedes unirte con el juegador se puede unir con /join!") 
+	elif (uid not in ADMIN) and (uid != game.initiator) and bot.getChatMember(cid, uid).status not in ("administrator", "creator"):
+		bot.send_message(game.cid, "Solo el creador del juego o un admin puede iniciar con /startgame")
+	else:
+		max_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["max_jugadores"]
+		min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
+			
+		# Si se ha alcanzado el maximo de jugadores no te puedes unir.
+		if len(game.playerlist) == max_jugadores:
+			bot.send_message(cid, "Se ha alcanzado previamente el maximo de jugadores. Espera el proximo juego!")
+		else:
+			bot.send_message(uid, "Te has/han unido a un juego en %s." % groupName)
+			game.add_player(uid, player)
+			# Caso de JustOne se une al jugador al final de la player secuence.
+			# No se le asigna ningun rol hasta una nueva ronda de juego
+			game.player_sequence.append(game.playerlist[uid])
+'''
