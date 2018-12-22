@@ -626,7 +626,12 @@ def command_join(bot, update, args):
 				elif len(game.playerlist) >= min_jugadores:
 					bot.send_message(game.cid, fname + " se ha unido al juego. Hay %s/%s jugadores.\nPueden poner /startgame para comenzar" % (str(len(game.playerlist)), max_jugadores))
 				else:
-					bot.send_message(game.cid, fname + " se ha unido al juego. Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))			
+					bot.send_message(game.cid, fname + " se ha unido al juego. Todavia no se ha llegado al minimo de jugadores. Faltan: %s " % (str(min_jugadores - len(game.playerlist))))
+					
+				# Si es un ingreso tardio ingreso al jugador en la player secuence
+				if game.board:
+					game.player_sequence.append(player)
+					
 		except Exception:
 			bot.send_message(game.cid,
 				fname + ", no puedo mandarte mensajes privados. Por favor anda a @MultiGamesByLevibot y hace click en \"Start\".\nLuego tiene que hacer /join de nuevo.")
@@ -827,4 +832,33 @@ def get_config_data(game, config_name):
 		return game.configs.get(config_name, None)				
 	except Exception as e:
 		return None
+
+'''
+def command_addplayer(bot, update, args):	
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
+	groupName = update.message.chat.title
+	groupType = update.message.chat.type
 	
+	game = get_game(cid)
+	
+	if game.tipo == 'JustOne':
+		JustoneCommands.command_addplayer(bot, game, uid, args)
+	
+	
+		
+
+def command_removeplayer(bot, update, args):
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	# Solo Edu puede anunciar
+	if update.message.from_user.id not in ADMIN and update.message.from_user.id != game.initiator and bot.getChatMember(cid, update.message.from_user.id).status not in ("administrator", "creator"):
+		
+		# Lo pongo estatico ya que no anunciare en todos los tipos de juegos.
+		opciones_botones = { "LostExpedition" : "Lost Expedition", "JustOne" : "Just One", "Todos" : "Todos" }
+		if len(args) < 1:
+			bot.send_message(game.cid, "Edu, tenes que poner un mensaje", ParseMode.MARKDOWN)
+			return
+		GamesController.announce_text = ' '.join(args)
+		simple_choose_buttons(bot, cid, 1234, uid, "announce", "En que juegos queres anunciar", opciones_botones)
+'''
