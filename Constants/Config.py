@@ -13,7 +13,8 @@ JUEGOS_DISPONIBLES = {
         "JustOne" : {
                 "comandos" : {
                     "JustOne" : "Just One"
-                }                
+                },
+		"permitir_ingreso_tardio" : True
         },
         "SistemaD100" : {
                 "comandos" : {
