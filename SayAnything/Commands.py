@@ -136,10 +136,10 @@ def call_proponiendo_pistas(bot, game):
 					bot.send_message(player.uid, mensaje)
 			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
 			if game.board.num_players != 3 and len(game.board.state.last_votes) == len(game.player_sequence)-1:
-				JustOneController.review_clues(bot, game)
+				SayAnythingController.review_clues(bot, game)
 			elif len(game.board.state.last_votes) == len(game.player_sequence)+1:
 				# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
-				JustOneController.review_clues(bot, game)
+				SayAnythingController.review_clues(bot, game)
 		else:
 			bot.send_message(game.cid, "5 minutos deben pasar para llamar a call") 
 
@@ -187,11 +187,11 @@ def command_clue(bot, update, args):
 					
 					if game.board.num_players != 3:
 						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-							JustOneController.review_clues(bot, game)
+							SayAnythingController.review_clues(bot, game)
 					else:
 						# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
 						if len(game.board.state.last_votes) == len(game.player_sequence)+1:
-							JustOneController.review_clues(bot, game)
+							SayAnythingController.review_clues(bot, game)
 				else:
 					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
 			else:
@@ -286,14 +286,14 @@ def command_forced_clue(bot, update):
 			i += 1
 	'''
 	#game.board.state.reviewer_player = game.playerlist[387393551]
-	JustOneController.review_clues(bot, game)
+	SayAnythingController.review_clues(bot, game)
 		
 
 def command_next_turn(bot, update):
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)	
-	MainController.start_next_round(bot, game)
+	SayAnythingController.start_next_round(bot, game)
 
 def command_pass(bot, update):
 	log.info('command_pass called')
@@ -306,7 +306,7 @@ def command_pass(bot, update):
 		return
 	
 	
-	JustOneController.pass_just_one(bot, game)
+	SayAnythingController.pass_just_one(bot, game)
 
 def command_guess(bot, update, args):
 	try:
@@ -325,7 +325,7 @@ def command_guess(bot, update, args):
 			game.board.state.progreso += 1
 			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)			
 			game.board.discards.append(game.board.state.acciones_carta_actual)			
-			JustOneController.start_next_round(bot, game)			
+			SayAnythingController.start_next_round(bot, game)			
 		else:
 			#Preguntar al revisor
 			mensaje = "*Revisor* {0} confirme por favor!".format(helper.player_call(game.board.state.reviewer_player))
@@ -347,14 +347,14 @@ def command_continue(bot, game, uid):
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Proponiendo Pistas":
 			# Vuelvo a mandar la pista
-			JustOneController.call_players_to_clue(bot, game)
+			SayAnythingController.call_players_to_clue(bot, game)
 		elif game.board.state.fase_actual == "Revisando Pistas":
-			JustOneController.review_clues(bot, game)
+			SayAnythingController.review_clues(bot, game)
 		elif game.board.state.fase_actual == "Adivinando":
 			active_player = game.board.state.active_player
 			bot.send_message(game.cid, "{0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player)), ParseMode.MARKDOWN)
 		elif game.board.state.fase_actual == "Finalizado":
-			JustOneController.continue_playing(bot, game)
+			SayAnythingController.continue_playing(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))
 
