@@ -341,6 +341,31 @@ def remove_group(bot, update):
 	#for members in update.message.left_chat_member:
         #	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id))
 
+
+def put(bot, update, args, user_data):
+	"""Usage: /put value"""
+	# Generate ID and seperate value from command
+	key = 'pista'
+	value = update.message.text.partition(' ')[2]
+
+	# Store value
+	user_data[key] = args[0]
+
+	update.message.reply_text(key)
+
+def get(bot, update, user_data):
+    """Usage: /get uuid"""
+    # Seperate ID from command
+    key = 'pista'
+
+    # Load value
+    try:
+        value = user_data['pista']
+        update.message.reply_text(value)
+
+    except KeyError:
+        update.message.reply_text('Not found')
+	
 def get_TOKEN():	
 	cur = conn.cursor()
 	query = "select * from config;"
@@ -476,6 +501,11 @@ def main():
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 		
+	
+	dp.add_handler(CommandHandler('put', put, pass_user_data=True, pass_args=True))
+	
+	dp.add_handler(CommandHandler('get', get, pass_user_data=True, pass_args=True))	
+	
 	dp.add_handler(MessageHandler(Filters.command, unknown))
 	
 	# Handler cuando se una una persona al chat.
