@@ -9,7 +9,7 @@ import urllib.parse
 import sys
 from time import sleep
 
-import JustOne.Controller as JustOneController
+import SayAnything.Controller as SayAnythingController
 import Commands
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
