@@ -327,7 +327,7 @@ def command_votes(bot, update):
 		bot.send_message(cid, str(e))
 
 def command_call(bot, update):
-	import Justone.Commands as JustoneCommands
+	import JustOne.Commands as JustoneCommands
 	
 	try:
 		#Send message of executing command   
@@ -696,7 +696,7 @@ def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callbac
 	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)		
 
 def command_continue(bot, update, args):
-	import Justone.Commands as JustoneCommands
+	import JustOne.Commands as JustoneCommands
 	import LostExpedition.Commands as LostExpeditionCommands
 	
 	log.info('command_continue called')
