@@ -340,6 +340,14 @@ def remove_group(bot, update):
 	bot.send_message(ADMIN[0], text="{username} {id} left group {groupname} {cid}".format(username=member.username, id=member.id, groupname = groupname, cid=cid))
 	#for members in update.message.left_chat_member:
         #	bot.send_message(ADMIN[0], text="{username} {id} add group".format(username=members.username, id=member.id))
+
+def get_TOKEN():	
+	cur = conn.cursor()
+	query = "select * from config;"
+	cur.execute(query, [cid])
+	dbdata = cur.fetchone()
+	token = dbdata[1]
+	return token
 	
 def main():
 	GamesController.init() #Call only once
@@ -369,7 +377,9 @@ def main():
 	PORT = os.environ.get('PORT')
 	
 	#PORT = int(os.environ.get('PORT', '8443'))
-	updater = Updater(TOKEN)
+	token = 
+	
+	updater = Updater(get_TOKEN())
 	
 	# Get the dispatcher to register handlers
 	dp = updater.dispatcher
