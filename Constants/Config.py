@@ -28,6 +28,13 @@ JUEGOS_DISPONIBLES = {
                 },
 		"restriccion" : "admin",
                 "permitir_ingreso_tardio" : True
+        },
+	"SayAnything" : {
+                "comandos" : {
+                    "SayAnything" : "Say Anything"
+                },
+		"restriccion" : "admin",
+                "permitir_ingreso_tardio" : True
         }
 }
 
@@ -82,6 +89,15 @@ MODULOS_DISPONIBES = {
                         },
                         "min_jugadores" : 3,
                         "max_jugadores" : 7
+                } 
+        },
+	"SayAnything" : {
+                "Cooperativo" : {
+                        "comandos" : {
+                            "Cooperativo" : "Cooperativo"
+                        },
+                        "min_jugadores" : 3,
+                        "max_jugadores" : 8
                 } 
         },
         "SistemaD100" : {
