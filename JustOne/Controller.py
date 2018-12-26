@@ -163,8 +163,14 @@ def review_clues(bot, game):
 	votes_after_method = len(game.board.state.last_votes)	
 	if votes_before_method > votes_after_method:
 		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
-	send_reviewer_buttons(bot, game)
-	Commands.save(bot, game.cid)
+	
+	if game.board.state.last_votes:
+		send_reviewer_buttons(bot, game)
+		Commands.save(bot, game.cid)
+	else:
+		bot.send_message(game.cid, "Todas las pistas han sido descartadas. Se pasa al siguiente jugador")
+		bot.send_message(game.cid, "La palabra era: *{0}*.\n".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)			
+		start_next_round(bot, game)
 
 # Remueve repetidos y devuelve ambas listas
 def remove_same_elements_dict(last_votes):
