@@ -376,9 +376,7 @@ def main():
 	NAME = "MultiGames"
 	PORT = os.environ.get('PORT')
 	
-	#PORT = int(os.environ.get('PORT', '8443'))
-	token = 
-	
+	#PORT = int(os.environ.get('PORT', '8443'))		
 	updater = Updater(get_TOKEN())
 	
 	# Get the dispatcher to register handlers
