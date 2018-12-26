@@ -344,7 +344,7 @@ def remove_group(bot, update):
 def get_TOKEN():	
 	cur = conn.cursor()
 	query = "select * from config;"
-	cur.execute(query, [cid])
+	cur.execute(query)
 	dbdata = cur.fetchone()
 	token = dbdata[1]
 	return token
