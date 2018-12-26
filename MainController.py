@@ -500,11 +500,9 @@ def main():
 	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
-		
 	
-	dp.add_handler(CommandHandler('put', put, pass_user_data=True, pass_args=True))
-	
-	dp.add_handler(CommandHandler('get', get, pass_user_data=True, pass_args=True))	
+	dp.add_handler(CommandHandler('put', put, pass_user_data=True, pass_args=True))	
+	dp.add_handler(CommandHandler('get', get, pass_user_data=True))	
 	
 	dp.add_handler(MessageHandler(Filters.command, unknown))
 	
