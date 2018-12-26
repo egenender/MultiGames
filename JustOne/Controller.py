@@ -100,7 +100,7 @@ def finish_config(bot, game, opcion):
 	if game.configs.get('discards', None):
 		game.board.discards = game.configs.get('discards')
 		del game.configs['discards']
-	url_palabras_posibles = '/app/txt/JustOne/spanish-{0}.txt'.format(opcion)	
+	url_palabras_posibles = '/app/JustOne/txt/spanish-{0}.txt'.format(opcion)	
 	with open(url_palabras_posibles, 'r') as f:
 		palabras_posibles = f.readlines()
 		palabras_posibles_no_repetidas = list_menos_list(palabras_posibles, game.board.discards)
