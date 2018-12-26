@@ -58,7 +58,7 @@ debugging = False
 
 def init_game(bot, game):
 	try:
-		log.info('init_just_one called')		
+		log.info('init_say_anything called')		
 		game.shuffle_player_sequence()		
 		# Seteo las palabras	
 		call_dicc_buttons(bot, game)
