@@ -96,7 +96,7 @@ def showImages(bot, cid, cartas, img_caption = ""):
 def get_img_carta(num_carta):
 	carta = cartas_aventura[num_carta]
 	plastilla, fila, columna = carta["plastilla"], carta["fila"], carta["columna"]	
-	url_img = '/app/img/LostExpedition/plastilla%s.jpg' % (plastilla)		
+	url_img = '/app/LostExpedition/img/plastilla%s.jpg' % (plastilla)		
 	img = Image.open(url_img)
 	width, height = img.size
 	widthCarta, heightCarta = width/3, height/3
@@ -798,10 +798,10 @@ def command_showstats(bot, update):
 		
 def command_symbols(bot, update):
 	cid = update.message.chat_id
-	url_img = '/app/img/LostExpedition/Ayuda01.jpg'	
+	url_img = '/app/LostExpedition/img/Ayuda01.jpg'	
 	img = Image.open(url_img)
 	bot.send_photo(cid, photo=bio)
-	url_img = '/app/img/LostExpedition/Ayuda02.jpg'	
+	url_img = '/app/LostExpedition/img/Ayuda02.jpg'	
 	img = Image.open(url_img)
 	bot.send_photo(cid, photo=bio)
 
