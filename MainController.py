@@ -15,11 +15,11 @@ from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler, Message
 import Commands
 
 # Importo los controladores de todos los juegos que vaya agregando
-import JustOne.JustOneController as JustOneController
+import JustOne.Controller as JustOneController
 
 # Importo los comandos de los juegos que vaya agregando
-import GameCommands.JustoneCommands as JustoneCommands
-import GameCommands.LostExpeditionCommands as LostExpeditionCommands
+import JustOne.Commands as JustoneCommands
+import LostExpedition.Commands as LostExpeditionCommands
 
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
