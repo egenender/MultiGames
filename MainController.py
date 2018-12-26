@@ -15,7 +15,7 @@ from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler, Message
 import Commands
 
 # Importo los controladores de todos los juegos que vaya agregando
-import Controllers.JustOneController as JustOneController
+import JustOne.JustOneController as JustOneController
 
 # Importo los comandos de los juegos que vaya agregando
 import GameCommands.JustoneCommands as JustoneCommands
