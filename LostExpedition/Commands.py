@@ -25,7 +25,7 @@ from io import BytesIO
 # Clases mias
 import MainController
 import GamesController
-import Controllers.JustOneController as JustOneController
+import JustOne.Controller as JustOneController
 import Commands
 from Utils.helpers import helper
 
