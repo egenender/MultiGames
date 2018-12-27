@@ -67,7 +67,7 @@ def init_game(bot, game):
 
 def call_dicc_buttons(bot, game):
 	#log.info('call_dicc_buttons called')
-	opciones_botones = { "original" : "Español Original", "ficus" : "Español Ficus", "community" : "Español Community" }
+	opciones_botones = { "preguntas" : "Español Ficus" }
 	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "choosedicc", "¿Elija un diccionario para jugar?", opciones_botones)
 		
 def callback_finish_config_justone(bot, update):
