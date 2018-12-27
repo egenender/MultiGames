@@ -2,13 +2,7 @@ from Boardgamebox.Player import Player as BasePlayer
 
 class Player(BasePlayer):
 	def __init__(self, name, uid):		
-		BasePlayer.__init__(self, name, uid)
-		self.role = None
-		self.party = None
-		self.is_dead = False
-		self.inspected_players = {} 
-		self.tokens_posesion = 0
-		self.poseido = False
+		BasePlayer.__init__(self, name, uid)		
 		# Lost Expedition atributes
 		self.hand = []
 		self.food = 3
