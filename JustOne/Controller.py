@@ -270,13 +270,18 @@ def callback_reviewer_confirm(bot, update):
 		regex = re.search("(-[0-9]*)\*reviewerconfirm\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 		game = Commands.get_game(cid)
-		#send_clues(bot, game)
+		#send_clues(bot, game)			
+		
 		mensaje_edit = "Gracias!"
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
 		except Exception as e:
 			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
-			
+		
+		if game.board.state.fase_actual != "Adivinando":
+			# Si no se esta en la fase de adivinar no se hace nada
+			return
+		
 		reviewer_player = game.board.state.reviewer_player
 		bot.send_message(game.cid, "El revisor {0} ha determinado que es {1}".format(reviewer_player.name, opcion))
 		bot.send_message(game.cid, "La palabra era: *{0}*.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
