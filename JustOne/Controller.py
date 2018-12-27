@@ -162,7 +162,7 @@ def review_clues(bot, game):
 	game.board.state.last_votes, game.board.state.removed_votes = helper.remove_same_elements_dict(game.board.state.last_votes)		
 	votes_after_method = len(game.board.state.last_votes)	
 	if votes_before_method > votes_after_method:
-		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* votos".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
+		bot.send_message(game.cid, "Se han eliminado automaticamente *{0}* pistas".format(votes_before_method-votes_after_method), ParseMode.MARKDOWN)
 	
 	if game.board.state.last_votes:
 		send_reviewer_buttons(bot, game)
