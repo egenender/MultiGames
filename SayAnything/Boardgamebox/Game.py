@@ -14,7 +14,7 @@ class Game(BaseGame):
 	
 	# Creacion de player de Say Anything.
 	def add_player(self, uid, name):
-		self.playerlist[uid] = Player(uid, name)
+		self.playerlist[uid] = Player(name, uid)
 	def create_board(self):
 		player_number = len(self.playerlist)
 		self.board = Board(player_number, self)
