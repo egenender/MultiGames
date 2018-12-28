@@ -79,6 +79,7 @@ def init_game(bot, game):
 	elif game.tipo == "JustOne":
 		JustOneController.init_game(bot, game)
 	elif game.tipo == "SayAnything":
+		game.create_board()
 		SayAnythingController.init_game(bot, game)
 
 
