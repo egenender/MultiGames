@@ -95,12 +95,12 @@ def command_newgame_sql_command(bot, update, args):
 			conn.rollback()
 
 	
-def save(bot, cid):
+def save(bot, cid, newGroupName = ''):
 	try:		
 		#groupName = "Prueba"
 		game = GamesController.games.get(cid, None)
 		gameType = game.tipo
-		save_game(cid, game.groupName, game, gameType )
+		save_game(cid, game.groupName if newGroupName == '' else newGroupName , game, gameType )
 		#bot.send_message(cid, 'Se grabo correctamente.')
 		#log.info('Se grabo correctamente.')
 	except Exception as e:
