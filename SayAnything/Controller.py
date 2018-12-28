@@ -121,7 +121,7 @@ def finish_config(bot, game, opcion):
 		#game.board.cartas = newList
 		#game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
-	start_round_just_one(bot, game)
+	#start_round_just_one(bot, game)
 		
 def start_round_just_one(bot, game):
 	log.info('start_round_just_one called')
