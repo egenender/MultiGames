@@ -16,10 +16,12 @@ import Commands
 
 # Importo los controladores de todos los juegos que vaya agregando
 import JustOne.Controller as JustOneController
+import SayAnything.Controller as SayAnythingController
 
 # Importo los comandos de los juegos que vaya agregando
 import JustOne.Commands as JustoneCommands
 import LostExpedition.Commands as LostExpeditionCommands
+import SayAnything.Commands as SayAnythingCommands
 
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
@@ -76,6 +78,8 @@ def init_game(bot, game):
 		init_lost_expedition(bot, game, player_number)
 	elif game.tipo == "JustOne":
 		JustOneController.init_game(bot, game)
+	elif game.tipo == "SayAnything":
+		SayAnythingController.init_game(bot, game)
 
 
 def init_lost_expedition(bot, game, player_number):
