@@ -118,7 +118,7 @@ def finish_config(bot, game, opcion):
 		for w in game.board.cartas:
 			bot.send_message(ADMIN[0], "Frase " + w)
 			newList.append(w.replace('\n', ''))
-		game.board.cartas = newList
+		#game.board.cartas = newList
 		#game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
 	start_round_just_one(bot, game)
