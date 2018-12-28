@@ -511,10 +511,10 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_game_buttons))
 	
 	# Handlers de SayAnything
-	dp.add_handler(CommandHandler("prop", SayAnythingController.command_propose, pass_args = True, pass_user_data=True))	
+	dp.add_handler(CommandHandler("prop", SayAnythingCommands.command_propose, pass_args = True, pass_user_data=True))	
 	# Just One Callbacks de botones
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosediccSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_finish_config))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegamepropSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_choose_game_prop, pass_user_data = True))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegamepropSA\*(.*)\*([0-9]*)", callback=SayAnythingCommands.callback_choose_game_prop, pass_user_data = True))
 	
 	
 	# Handlers de D100
