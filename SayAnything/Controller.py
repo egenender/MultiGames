@@ -115,7 +115,7 @@ def finish_config(bot, game, opcion):
 		game.board.cartas = palabras_posibles_no_repetidas[0:13]
 		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
-	#start_round_just_one(bot, game)
+	start_round_just_one(bot, game)
 		
 def start_round_just_one(bot, game):
 	log.info('start_round_just_one called')
@@ -126,11 +126,8 @@ def start_round_just_one(bot, game):
 	game.board.state.last_votes = {}
 	game.board.state.removed_votes = {}
 	
-	active_player = game.player_sequence[game.board.state.player_counter]
-	#reviewer_player = game.player_sequence[helper.next_player_after_active_player(game)]
+	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
-	#game.board.state.reviewer_player = reviewer_player
-	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	
 	palabra_elegida = game.board.cartas.pop(0)
 	game.board.state.acciones_carta_actual = palabra_elegida	
