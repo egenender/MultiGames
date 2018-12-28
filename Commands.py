@@ -434,6 +434,7 @@ def save_game(cid, groupName, game, gameType):
 			conn.commit()
 	except Exception as e:
 		log.info('No se grabo debido al siguiente error: '+str(e))
+		conn.rollback()
 
 def load_game(cid):
 	cur = conn.cursor()			
