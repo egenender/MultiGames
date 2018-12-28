@@ -116,7 +116,7 @@ def finish_config(bot, game, opcion):
 		bot.send_message(ADMIN[0], [w for w in game.board.cartas])
 		newList = []
 		for w in game.board.cartas:
-			bot.send_message(ADMIN[0], w)
+			bot.send_message(ADMIN[0], "Frase " + w)
 			newList.append(w.replace('\n', ''))
 		game.board.cartas = newList
 		#game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
