@@ -509,6 +509,11 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback=JustoneCommands.callback_choose_game_clue))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_game_buttons))
 	
+	# Handlers de SayAnything
+	# Just One Callbacks de botones
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosediccSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_finish_config))
+	
+	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
