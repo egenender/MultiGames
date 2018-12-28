@@ -16,5 +16,5 @@ class Game(BaseGame):
 	def add_player(self, uid, name):
 		self.playerlist[uid] = Player(uid, name)
 	def create_board(self):
-		player_number = len(game.playerlist)
+		player_number = len(self.playerlist)
 		self.board = Board(player_number, self)
