@@ -132,6 +132,8 @@ def start_round_just_one(bot, game):
 	palabra_elegida = game.board.cartas.pop(0)
 	game.board.state.acciones_carta_actual = palabra_elegida	
 	
+	Commands.save(bot, game.cid)
+	
 	'''
 	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)	
 	game.dateinitvote = datetime.datetime.now()
