@@ -9,7 +9,7 @@ from SayAnything.Boardgamebox.Player import Player
 
 class Game(BaseGame):
 	def __init__(self, cid, initiator, groupName, tipo = None, modo = None):
-		BaseGame.__init__(self, cid, initiator, groupName, tipo = None, modo = None)		
+		BaseGame.__init__(self, cid, initiator, groupName, tipo, modo)		
 	
 	# Creacion de player de Say Anything.
 	def add_player(self, uid, name):
