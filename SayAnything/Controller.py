@@ -133,9 +133,11 @@ def start_round_just_one(bot, game):
 	game.board.state.acciones_carta_actual = palabra_elegida	
 	
 	Commands.save(bot, game.cid)
+	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
+	game.dateinitvote = datetime.datetime.now()
+	game.board.state.fase_actual = "Proponiendo Pistas"
 	
-	'''
-	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)	
+	'''	
 	game.dateinitvote = datetime.datetime.now()
 	call_players_to_clue(bot, game)			
 	game.dateinitvote = datetime.datetime.now()
