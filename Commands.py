@@ -654,9 +654,9 @@ def command_join(bot, update, args):
 				if game.board:
 					game.player_sequence.append(player)
 					
-		except Exception:
+		except Exception as e:
 			bot.send_message(game.cid,
-				fname + ", no puedo mandarte mensajes privados. Por favor anda a @MultiGamesByLevibot y hace click en \"Start\".\nLuego tiene que hacer /join de nuevo.")
+				fname + ", no puedo mandarte mensajes privados. Por favor anda a @MultiGamesByLevibot y hace click en \"Start\".\nLuego tiene que hacer /join de nuevo." + str(e))
 
 def command_startgame(bot, update):
 	log.info('command_startgame called')
