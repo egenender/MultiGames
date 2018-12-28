@@ -24,8 +24,8 @@ class Game(object):
         # Configuraciones variadas...
         self.configs = {}
     
-    def add_player(self, uid, player):
-        self.playerlist[uid] = player
+    def add_player(self, uid, name):
+        self.playerlist[uid] = Player(uid, name)
 
     def get_hitler(self):
         for uid in self.playerlist:
