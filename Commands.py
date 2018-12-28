@@ -612,9 +612,8 @@ def command_join(bot, update, args):
 		if uid == ADMIN:
 			for i,k in zip(args[0::2], args[1::2]):
 				fname = i
-				uid = int(k)
-				player = Player(fname, uid, game.tipo)
-				game.add_player(uid, player)
+				uid = int(k)				
+				game.add_player(uid, fname)
 				log.info("%s (%d) joined a game in %d of type %s" % (fname, uid, game.cid, game.tipo))
 	
 	if groupType not in ['group', 'supergroup']:
@@ -628,7 +627,6 @@ def command_join(bot, update, args):
 		bot.send_message(game.cid, "Ya te has unido al juego, %s!" % fname)
 	else:
 		#uid = update.message.from_user.id
-		player = Player(fname, uid)
 		try:
 			max_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["max_jugadores"]
 			min_jugadores = MODULOS_DISPONIBES[game.tipo][game.modo]["min_jugadores"]
@@ -639,7 +637,7 @@ def command_join(bot, update, args):
 			else:
 				# Uno al jugador a la partida
 				bot.send_message(uid, "Te has unido a un juego en %s." % groupName)
-				game.add_player(uid, player)
+				game.add_player(uid, fname)
 				log.info("%s (%d) joined a game in %s (%d) of type %s" % (fname, uid, groupName, game.cid, game.tipo))
 				save(bot, game.cid)
 				
