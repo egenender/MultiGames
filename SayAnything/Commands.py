@@ -143,135 +143,109 @@ def call_proponiendo_pistas(bot, game):
 		else:
 			bot.send_message(game.cid, "5 minutos deben pasar para llamar a call") 
 
-		
-def command_clue(bot, update, args):
-	try:		
-		#Send message of executing command   
-		try:			
-			cid = update.message.chat_id
-			uid = update.message.from_user.id
-		except Exception as e:
-			cid = args[1]
-			uid = args[2]
-		
-		# Para simplificar mando el CHAT_ID del partido junto con la pista
-		# Permito las dos formas de gregar pistas
-		if len(args) > 2:			
-			game = Commands.get_game(int(args[1]))
-			
-			if uid in game.playerlist:
-				#Check if there is a current game
-				if game.board == None:
-					bot.send_message(game.cid, "El juego no ha comenzado!")
-					return					
-				if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-					#Data is being claimed
-					# TODO Verificar que el usuario no mande pistas con espacios.
-					claimtext = args[0]
-					#claimtexttohistory = "El jugador %s declara: %s" % (game.playerlist[uid].name, claimtext)
-					bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (claimtext))
-					
-					# Si son 3 jugadores se agregan dos pistas 
-					if game.board.num_players == 3:
-						claimtext_pistas = claimtext.split(' ')
-						i = 0
-						for claimtext_pista in claimtext_pistas:
-							game.board.state.last_votes[uid + i] = claimtext_pista
-							i += 1
-					else:
-						game.board.state.last_votes[uid] = claimtext
-					
-					Commands.save(bot, game.cid)
-					# Verifico si todos los jugadores -1 pusieron pista
-					bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)
-					
-					if game.board.num_players != 3:
-						if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-							SayAnythingController.review_clues(bot, game)
-					else:
-						# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
-						if len(game.board.state.last_votes) == len(game.player_sequence)+1:
-							SayAnythingController.review_clues(bot, game)
-				else:
-					bot.send_message(uid, "No puedes hacer dar clue si vos tenes que adivinar o ya ha pasado la fase de poner pistas.")
-			else:
-				bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
-			
-		else:
-			if len(args) > 0:
-				# Obtengo todos los juegos de base de datos de los que usan clue
-				mensaje_error = ""
-				cursor = conn.cursor()			
-				log.info("Executing in DB")
-				query = "select * from games g where g.tipojuego = 'JustOne'"
-				cursor.execute(query)
-				# Si encuentra partida...
-				if cursor.rowcount > 0:					
-					for table in cursor.fetchall():
-						# Por cada partida encontrada la cargo en games si no esta en el controller.
-						#bot.send_message(uid, table[0])
-						if table[0] not in GamesController.games.keys():
-							#bot.send_message(uid, "Cargando el juego {0}".format(table[0]))
-							Commands.get_game(table[0])
-					clue_games_restriction = ['JustOne']
-					#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
-					clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
-					btns = []
-					#bot.send_message(uid, len(clue_games))rdd
-					
-					for game_chat_id, game in clue_games.items():
-						#bot.send_message(uid, "Creando boton para el juego {0}".format(game_chat_id))
-						if uid in game.playerlist and game.board != None:
-							if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-								clue_text = ' '.join(args)
-								cid = game_chat_id
-								# Creo el boton el cual eligirá el jugador
-								txtBoton = game.groupName
-								comando_callback = "choosegameclue"
-								datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
-								btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-					#bot.send_message(uid, "Llego a botones")
-					# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
-					if len(btns) != 0:
-						if len(btns) == 1:
-							#Si es solo 1 juego lo hago automatico							
-							command_clue(bot, update, [' '.join(args), cid, uid])
-							
-						else:
-							txtBoton = "Cancel"
-							datos = "-1*choosegameclue*" + clue_text + "*" + str(uid)
+# Cada juego que tenga posibles muchos juegos cuyo dato se ponga en privado tendran que hacer un metodo diferente.
+# Le paso user data para que pueda poner su propuesta sin temer 
+def command_propose(bot, update, args, user_data):
+	try:
+		cid = update.message.chat_id
+		uid = update.message.from_user.id
+		if len(args) > 0:
+			# Obtengo todos los juegos de base de datos de los que usan clue
+			mensaje_error = ""
+			cursor = conn.cursor()			
+			log.info("Executing in DB")
+			query = "select * from games g where g.tipojuego = 'SayAnything'"
+			cursor.execute(query)
+			# Si encuentra partida...
+			if cursor.rowcount > 0:					
+				for table in cursor.fetchall():
+					# Por cada partida encontrada la cargo en games si no esta en el controller.
+					#bot.send_message(uid, table[0])
+					if table[0] not in GamesController.games.keys():
+						#bot.send_message(uid, "Cargando el juego {0}".format(table[0]))
+						Commands.get_game(table[0])
+				clue_games_restriction = ['SayAnything']
+				#bot.send_message(uid, "Obtuvo esta cantidad de juegos: {0}".format(len(GamesController.games)))
+				clue_games = {key:val for key, val in GamesController.games.items() if val.tipo in clue_games_restriction}
+				btns = []
+				
+				# Guardo en user_data la propuesta
+				user_data[cid] = ' '.join(args)
+				
+				for game_chat_id, game in clue_games.items():
+					if uid in game.playerlist and game.board != None:
+						if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
+							clue_text = 'prop'
+							# Pongo en cid el id del juego actual, para el caso de que haya solo 1
+							cid = game_chat_id
+							# Creo el boton el cual eligirá el jugador
+							txtBoton = game.groupName
+							comando_callback = "choosegamepropSA"
+							datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
 							btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
-							btnMarkup = InlineKeyboardMarkup(btns)
-							bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
+				#bot.send_message(uid, "Llego a botones")
+				# Despues de recorrer los partidos y verificar si el usuario puede poner pista le pregunto
+				if len(btns) != 0:
+					if len(btns) == 1:
+						#Si es solo 1 juego lo hago automatico
+						game = Commands.get_game(cid)
+						add_propose(bot, game, uid, propuesta)
 					else:
-						mensaje_error = "No hay partidas en las que puedas hacer /clue"
-						bot.send_message(uid, mensaje_error)
-							
+						txtBoton = "Cancel"
+						datos = "-1*choosegameclue*" + "prop" + "*" + str(uid)
+						btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+						btnMarkup = InlineKeyboardMarkup(btns)
+						bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
 				else:
-					mensaje_error = "No hay partidas vivas en las que puedas hacer /clue"
-					bot.send_message(cid, mensaje_error)					
+					mensaje_error = "No hay partidas en las que puedas hacer /prop"
+					bot.send_message(uid, mensaje_error)
+
 			else:
-				bot.send_message(cid, "Le faltan/sobran argumentos recuerde que es /clue [PISTA]. Ej: /clue Alto")
+				mensaje_error = "No hay partidas vivas en las que puedas hacer /prop"
+				bot.send_message(cid, mensaje_error)
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
 
-def callback_choose_game_clue(bot, update):
+def callback_choose_game_prop(bot, update, user_data):
 	callback = update.callback_query
-	log.info('callback_choose_mode called: %s' % callback.data)	
+	log.info('callback_choose_game_prop called: %s' % callback.data)	
 	regex = re.search("(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 	
 	if cid == -1:
 		bot.edit_message_text("Cancelado", uid, callback.message.message_id)
-		return
-	
+		return	
 	game = Commands.get_game(cid)
-	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)
+	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)	
+	bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)	
+	propuesta = user_data[cid]	
+	# Obtengo el juego y le agrego la pista
+	add_propose(bot, game, uid, propuesta)
+
+def add_propose(bot, game, uid, propuesta):
+	if uid in game.playerlist:
+		#Check if there is a current game
+		if game.board == None:
+			bot.send_message(game.cid, "El juego no ha comenzado!")
+			return					
+		if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
+			
+			bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (propuesta))
+			
+			game.board.state.last_votes[uid] = propuesta
+			Commands.save(bot, game.cid)
+			
+			# Verifico si todos los jugadores -1 pusieron pista
+			bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)
+
+			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+				SayAnythingController.review_clues(bot, game)			
+		else:
+			bot.send_message(uid, "No puedes proponer si sos el jugador activo o ya ha pasado la fase de poner pistas.")
+	else:
+		bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
 	
-	bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
-	
-	command_clue(bot, update, [opcion, cid, uid])
 	
 def command_forced_clue(bot, update):
 	uid = update.message.from_user.id	
