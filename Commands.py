@@ -212,13 +212,21 @@ def command_prueba(bot, update, args):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
 	cid, uid = update.message.chat_id, update.message.from_user.id
+	groupType, groupName = update.message.chat.type, update.message.chat.title
+	
 	if uid in ADMIN:
 		game = get_game(cid)
+		
+		bot.send_message(cid, "Este es el grupo ({0}) - Cuyo nombre es {1} y tipo es {2}".format(cid, groupName, groupType))
+		
+		'''
+		
 		if not game:
 			bot.send_message(cid, "No hay juego creado en este chat")
 			return
 		#bot.send_message(uid, "Respondeme", reply_markup=ForceReply())
 		bot.send_message(uid, "/clue algo -312312312")
+		'''
 
 commands = [  # command description used in the "help" command
 	'/help - Muestra ayuda sobre los comandos',
