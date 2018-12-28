@@ -208,7 +208,7 @@ def get_base_data(bot, update):
 	else:
 		return cid, uid, None, None		
 		
-def command_prueba(bot, update, args):
+def command_prueba(bot, update, args, chat_data, user_data):
 	#log.info(update.message.from_user.id)
 	#log.info(update.message.chat_id)
 	cid, uid = update.message.chat_id, update.message.from_user.id
