@@ -113,13 +113,7 @@ def finish_config(bot, game, opcion):
 		
 		random.shuffle(palabras_posibles_no_repetidas)		
 		game.board.cartas = palabras_posibles_no_repetidas[0:13]
-		bot.send_message(ADMIN[0], [w for w in game.board.cartas])
-		newList = []
-		for w in game.board.cartas:
-			bot.send_message(ADMIN[0], "Frase " + w)
-			newList.append(w.replace('\n', ''))
-		#game.board.cartas = newList
-		#game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
+		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
 	#start_round_just_one(bot, game)
 		
@@ -133,9 +127,9 @@ def start_round_just_one(bot, game):
 	game.board.state.removed_votes = {}
 	
 	active_player = game.player_sequence[game.board.state.player_counter]
-	reviewer_player = game.player_sequence[helper.next_player_after_active_player(game)]
+	#reviewer_player = game.player_sequence[helper.next_player_after_active_player(game)]
 	game.board.state.active_player = active_player
-	game.board.state.reviewer_player = reviewer_player
+	#game.board.state.reviewer_player = reviewer_player
 	# Le muestro a los jugadores la palabra elegida para el jugador actual
 	
 	palabra_elegida = game.board.cartas.pop(0)
