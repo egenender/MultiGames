@@ -15,9 +15,10 @@ from telegram.ext import (Updater, CommandHandler, CallbackQueryHandler)
 import Commands
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
-from Boardgamebox.Game import Game
-from Boardgamebox.Player import Player
-from Boardgamebox.Board import Board
+
+from SayAnything.Boardgamebox.Game import Game
+from SayAnything.Boardgamebox.Player import Player
+from SayAnything.Boardgamebox.Board import Board
 
 from Utils.helpers import helper
 
