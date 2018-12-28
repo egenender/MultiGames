@@ -113,7 +113,7 @@ def finish_config(bot, game, opcion):
 		
 		random.shuffle(palabras_posibles_no_repetidas)		
 		game.board.cartas = palabras_posibles_no_repetidas[0:13]
-		bot.send_message(ADMIN[0], [w for w in cartas])
+		bot.send_message(ADMIN[0], [w for w in game.board.cartas])
 		Commands.save(bot, game.cid)
 		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
