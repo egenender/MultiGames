@@ -365,6 +365,13 @@ def get(bot, update, user_data):
 
     except KeyError:
         update.message.reply_text('Not found')
+
+def change_groupname(bot, update):
+	cid = update.message.chat.id
+	groupname = update.message.chat.title
+	game = Commands.get_game(cid)
+	game.groupName = groupname
+	bot.send_message(ADMIN[0], text="El group en {cid} ha cambiado de nombre a {groupname}".format(groupname=groupname, cid=cid))
 	
 def get_TOKEN():	
 	cur = conn.cursor()
@@ -511,6 +518,9 @@ def main():
 	
 	# Handler cuando se va una persona del chat.
 	dp.add_handler(MessageHandler(Filters.status_update.left_chat_member, remove_group))
+	
+	# Handler cuando se cambia el nombre del chat 
+	dp.add_handler(MessageHandler(Filters.status_update.new_chat_title, change_groupname))
 	
 	#dp.add_handler(MessageHandler(Filters.text, echo))
 		
