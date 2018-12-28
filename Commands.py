@@ -433,7 +433,7 @@ def save_game(cid, groupName, game, gameType):
 			#log.info(cur.fetchone()[0])
 			conn.commit()
 	except Exception as e:
-		bot.send_message(cid, 'No se grabo debido al siguiente error: '+str(e))
+		log.info('No se grabo debido al siguiente error: '+str(e))
 
 def load_game(cid):
 	cur = conn.cursor()			
