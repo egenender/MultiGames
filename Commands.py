@@ -17,7 +17,11 @@ import GamesController
 
 from Constants.Config import STATS
 from Boardgamebox.Board import Board
+
 from Boardgamebox.Game import Game
+from SayAnything.Boardgamebox.Game import Game as GameSayAnything
+from Boardgamebox.Game import Game
+
 from Boardgamebox.Player import Player
 from Boardgamebox.State import State
 from Constants.Config import ADMIN
@@ -531,8 +535,7 @@ def command_newgame(bot, update):
 			if game:
 				bot.send_message(cid, "Hay un juego ya creado, borralo con /delete.")
 			else:
-				# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
-				GamesController.games[cid] = Game(cid, update.message.from_user.id, groupName)				
+								
 				bot.send_message(cid, "Comenzamos eligiendo el juego a jugar")
 				configurarpartida(bot, cid, uid)
 	except Exception as e:
@@ -554,9 +557,11 @@ def callback_choose_game(bot, update):
 	regex = re.search("(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 	bot.edit_message_text("Has elegido el juego: %s" % opcion, cid, callback.message.message_id)
-		
-	game = get_game(cid)
-	game.tipo = opcion
+	
+	# Inicio el juego con los valores iniciales, el chat en que se va a jugar, el iniciador y el nombre del chat
+	groupName = update.effective_chat.title
+	
+	game = CreateGame(cid, uid, opcion, groupName)
 	
 	modulos_disponibles_juego = MODULOS_DISPONIBES[opcion]
 	
@@ -571,7 +576,16 @@ def callback_choose_game(bot, update):
 		pregunta_arriba_botones = "¿Qué modo de juego quieres jugar?"
 		chat_donde_se_pregunta = cid
 		multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, frase_regex, pregunta_arriba_botones, modulos_disponibles_juego)
-	
+
+
+def CreateGame(cid, uid, tipo, groupName):
+	# Al momento solo SayAnything tiene game custom
+	if tipo == 'SayAnything':
+		GamesController.games[cid] = GameSayAnything(cid, uid, groupName, tipo)	
+	else:
+		GamesController.games[cid] = Game(cid, uid, groupName, tipo)		
+	return GamesController.games[cid]
+
 def callback_choose_mode(bot, update):
 	callback = update.callback_query
 	log.info('callback_choose_mode called: %s' % callback.data)	
