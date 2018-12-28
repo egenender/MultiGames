@@ -422,7 +422,7 @@ def main():
 	dp.add_handler(CommandHandler("votes", Commands.command_votes))
 	dp.add_handler(CommandHandler("call", Commands.command_call))
 	dp.add_handler(CommandHandler("claim", Commands.command_claim, pass_args = True))	
-	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True))	
+	dp.add_handler(CommandHandler("prueba", Commands.command_prueba, pass_args = True, pass_chat_data=True, pass_user_data=True))	
 	# Comando para hacer comandos sql desde el chat
 	dp.add_handler(CommandHandler("comando", Commands.command_newgame_sql_command, pass_args = True))
 	dp.add_handler(CommandHandler("hojaayuda", Commands.command_hoja_ayuda))
