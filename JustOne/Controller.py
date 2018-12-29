@@ -311,7 +311,7 @@ def send_clues(bot, game):
 		except Exception as e:
 			player = game.playerlist[key-1]
 		text += "*{1}: {0}*\n".format(value, player.name)
-	mensaje_final = "[{0}](tg://user?id={1}) es hora de adivinar! Pone /guess Palabra o /pass si no se sabes la palabra\nLas pistas son: \n{2}\n*NO SE PUEDE HABLAR*".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
+	mensaje_final = "[{0}](tg://user?id={1}) es hora de adivinar! Pone /guess Palabra o /pass si no sabes la palabra\nLas pistas son: \n{2}\n*NO SE PUEDE HABLAR*".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)
 	
 	game.board.state.fase_actual = "Adivinando"
 	Commands.save(bot, game.cid)
