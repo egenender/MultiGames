@@ -118,7 +118,7 @@ def finish_config(bot, game, opcion):
 	start_round_say_anything(bot, game)
 		
 def start_round_say_anything(bot, game):
-	log.info('start_round_just_one called')
+	log.info('start_round_say_anything called')
 	cid = game.cid	
 	# Se marca al jugador activo
 	
@@ -171,7 +171,7 @@ def send_prop(bot, game):
 	
 	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 
-def pass_just_one(bot, game):
+def pass_say_anything(bot, game):
 	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 	start_next_round(bot, game)
 
