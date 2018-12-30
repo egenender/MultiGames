@@ -156,7 +156,7 @@ def command_propose(bot, update, args, user_data):
 			games_tipo = MainController.getGamesByTipo('SayAnything')
 			
 			btns = []
-			user_data[cid] = ' '.join(args)
+			user_data[uid] = ' '.join(args)
 			
 			for game_chat_id, game in games_tipo.items():
 				if uid in game.playerlist and game.board != None:
@@ -199,7 +199,7 @@ def callback_choose_game_prop(bot, update, user_data):
 	game = Commands.get_game(cid)
 	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)	
 	bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)	
-	propuesta = user_data[cid]	
+	propuesta = user_data[uid]	
 	# Obtengo el juego y le agrego la pista
 	add_propose(bot, game, uid, propuesta)
 
