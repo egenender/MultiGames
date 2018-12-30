@@ -137,7 +137,7 @@ def start_round_say_anything(bot, game):
 	game.dateinitvote = datetime.datetime.now()
 	game.board.state.fase_actual = "Proponiendo Pistas"
 	call_players_to_clue(bot, game)
-	
+	Commands.save(bot, game.cid)
 	'''	
 	game.dateinitvote = datetime.datetime.now()
 	call_players_to_clue(bot, game)			
