@@ -130,16 +130,16 @@ def call_proponiendo_pistas(bot, game):
 				if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
 					history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
 					# Envio mensaje inicial de pistas para recordarle al jugador la pista y el grupo
-					mensaje = "Palabra en el grupo *{1}*.\nAdivina el jugador: *{2}*\nLa palabra es: *{0}*, propone tu pista!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
+					mensaje = "Palabra en el grupo *{1}*.\nJugador activo: *{2}*\nLa frase es: *{0}*, propone tu pista!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 					bot.send_message(player.uid, mensaje, ParseMode.MARKDOWN)
-					mensaje = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
+					mensaje = "/prop Ejemplo" if game.board.num_players != 3 else "/prop Ejemplo Ejemplo2"
 					bot.send_message(player.uid, mensaje)
 			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
 			if game.board.num_players != 3 and len(game.board.state.last_votes) == len(game.player_sequence)-1:
-				SayAnythingController.review_clues(bot, game)
+				SayAnythingController.send_prop(bot, game)
 			elif len(game.board.state.last_votes) == len(game.player_sequence)+1:
 				# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
-				SayAnythingController.review_clues(bot, game)
+				SayAnythingController.send_prop(bot, game)
 		else:
 			bot.send_message(game.cid, "5 minutos deben pasar para llamar a call") 
 		
