@@ -256,7 +256,7 @@ def command_pass(bot, update):
 	if game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
-	SayAnythingController.pass_just_one(bot, game)
+	SayAnythingController.pass_say_anything(bot, game)
 
 def command_pick(bot, update, args):
 	try:
