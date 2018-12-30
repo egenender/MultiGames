@@ -12,7 +12,6 @@ class Board(BaseBoard):
 		board = ""
 		board += "--- *Estado de Partida* ---\n"
 		board += "Cartas restantes: *{0}*\n".format(len(game.board.cartas))
-		board += "Puntaje actual: *{0}*".format(game.board.state.progreso)
 		board += "Frase actual: *{0}*".format(game.board.state.acciones_carta_actual)
 		board += "\n\n"
 
