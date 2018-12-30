@@ -148,7 +148,7 @@ def start_round_say_anything(bot, game):
 
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
-		if uid =! game.board.state.active_player.uid:
+		if uid != game.board.state.active_player.uid:
 			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
 			mensaje = "Nueva frase en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*, propone tu respuesta!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
