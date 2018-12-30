@@ -160,7 +160,7 @@ def command_propose(bot, update, args, user_data):
 			
 			for game_chat_id, game in games_tipo.items():
 				if uid in game.playerlist and game.board != None:
-					if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
+					if uid == ADMIN[0] or (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):
 						clue_text = 'prop'
 						# Pongo en cid el id del juego actual, para el caso de que haya solo 1
 						cid = game_chat_id
@@ -210,7 +210,7 @@ def add_propose(bot, game, uid, propuesta):
 		if game.board == None:
 			bot.send_message(game.cid, "El juego no ha comenzado!")
 			return					
-		if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":			
+		if uid == ADMIN[0] or (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):	
 			bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (propuesta))			
 			game.board.state.last_votes[uid] = propuesta
 			Commands.save(bot, game.cid)			
@@ -221,7 +221,7 @@ def add_propose(bot, game, uid, propuesta):
 		else:
 			bot.send_message(uid, "No puedes proponer si sos el jugador activo o ya ha pasado la fase de poner pistas.")
 	else:
-		bot.send_message(uid, "No puedes hacer clue si no estas en ningun partido.")
+		bot.send_message(uid, "No puedes hacer clue si no estas en el partido.")
 	
 	
 def command_forced_clue(bot, update):
