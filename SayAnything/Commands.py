@@ -132,7 +132,7 @@ def call_proponiendo_pistas(bot, game):
 					# Envio mensaje inicial de pistas para recordarle al jugador la pista y el grupo
 					mensaje = "Palabra en el grupo *{1}*.\nJugador activo: *{2}*\nLa frase es: *{0}*, propone tu pista!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 					bot.send_message(player.uid, mensaje, ParseMode.MARKDOWN)
-					mensaje = "/prop Ejemplo" if game.board.num_players != 3 else "/prop Ejemplo Ejemplo2"
+					mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/prop Ejemplo Ejemplo2"
 					bot.send_message(player.uid, mensaje)
 			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
 			if game.board.num_players != 3 and len(game.board.state.last_votes) == len(game.player_sequence)-1:
@@ -181,7 +181,7 @@ def command_propose(bot, update, args, user_data):
 					btnMarkup = InlineKeyboardMarkup(btns)
 					bot.send_message(uid, "En cual de estos grupos queres mandar la pista?", reply_markup=btnMarkup)
 			else:
-				mensaje_error = "No hay partidas en las que puedas hacer /prop"
+				mensaje_error = "No hay partidas en las que puedas hacer /resp"
 				bot.send_message(uid, mensaje_error)
 	except Exception as e:
 		bot.send_message(uid, str(e))
