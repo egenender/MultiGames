@@ -444,6 +444,7 @@ def main():
 	# Comando para preguntar los juegos que esperan mi accion.
 	dp.add_handler(CommandHandler("myturn", Commands.command_myturn, pass_args = True))
 	dp.add_handler(CommandHandler("myturns", Commands.command_myturns))
+	dp.add_handler(CommandHandler("pass", Commands.command_pass))
 	
 	# Configuracion de cualquier partida
 	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
