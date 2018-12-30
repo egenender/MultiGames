@@ -204,23 +204,20 @@ def callback_choose_game_prop(bot, update, user_data):
 	add_propose(bot, game, uid, propuesta)
 
 def add_propose(bot, game, uid, propuesta):
+	# Se verifica igual en caso de que quede una botonera perdida
 	if uid in game.playerlist:
 		#Check if there is a current game
 		if game.board == None:
 			bot.send_message(game.cid, "El juego no ha comenzado!")
 			return					
-		if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-			
-			bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (propuesta))
-			
+		if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":			
+			bot.send_message(uid, "Tu pista: %s fue agregada a las pistas." % (propuesta))			
 			game.board.state.last_votes[uid] = propuesta
-			Commands.save(bot, game.cid)
-			
+			Commands.save(bot, game.cid)			
 			# Verifico si todos los jugadores -1 pusieron pista
-			bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)
-
+			bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)			
 			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
-				SayAnythingController.review_clues(bot, game)			
+				SayAnythingController.send_prop(bot, game)			
 		else:
 			bot.send_message(uid, "No puedes proponer si sos el jugador activo o ya ha pasado la fase de poner pistas.")
 	else:
@@ -258,38 +255,29 @@ def command_pass(bot, update):
 	if game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
-	
-	
 	SayAnythingController.pass_just_one(bot, game)
 
-def command_guess(bot, update, args):
+def command_pick(bot, update, args):
 	try:
-		log.info('command_guess called')
+		log.info('command_pick called')
 		#Send message of executing command   
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
-		game = Commands.get_game(cid)
-		if (len(args) < 1 or game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid):# and uid not in ADMIN:
-			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo para adivinar", ParseMode.MARKDOWN)
-			return
-		args_text = ' '.join(args)
+		game = Commands.get_game(cid)			
 		
-		if args_text.lower() == game.board.state.acciones_carta_actual.lower():
-			#Adivino correctamente! Aumento el puntaje
-			game.board.state.progreso += 1
-			bot.send_message(game.cid, "*CORRECTO!!!*", ParseMode.MARKDOWN)			
-			game.board.discards.append(game.board.state.acciones_carta_actual)			
-			SayAnythingController.start_next_round(bot, game)			
-		else:
-			#Preguntar al revisor
-			mensaje = "*Revisor* {0} confirme por favor!".format(helper.player_call(game.board.state.reviewer_player))
-			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
-			chat_donde_se_pregunta = uid
-			opciones_botones = {
-				"correcto" : "Si",
-				"incorrecto" : "No"
-			}
-			helper.simple_choose_buttons(bot, cid, game.board.state.reviewer_player.uid, game.board.state.reviewer_player.uid, "reviewerconfirm", "¿Es correcto lo que se adivinó ({1})? Palabra: {0}".format(game.board.state.acciones_carta_actual, args_text), opciones_botones)
+		if (len(args) < 1 or game.board.state.fase_actual != "Adivinando" 
+		    	or uid != game.board.state.active_player.uid or (not args[0].isdigit()) or args[0] > len(game.board.state.last_votes) ):# and uid not in ADMIN:
+			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo valido para puntuar", ParseMode.MARKDOWN)
+			return
+		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas		
+		args_text = args[0]
+		
+		frase_elegida = list(game.board.state.last_votes.items())[int(args_text)]
+		jugador_favorecido = game.playerlist[frase_elegida[0]]
+		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida[1], helper.player_call(jugador_favorecido))
+		jugador_favorecido.puntaje += 1
+		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+		SayAnythingController.start_next_round(bot, game)		
 			
 	except Exception as e:
 		bot.send_message(uid, str(e))
