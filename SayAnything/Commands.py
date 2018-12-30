@@ -190,7 +190,7 @@ def command_propose(bot, update, args, user_data):
 def callback_choose_game_prop(bot, update, user_data):
 	callback = update.callback_query
 	log.info('callback_choose_game_prop called: %s' % callback.data)	
-	regex = re.search("(-[0-9]*)\*choosegameclue\*(.*)\*([0-9]*)", callback.data)
+	regex = re.search("(-[0-9]*)\*choosegamepropSA\*(.*)\*([0-9]*)", callback.data)
 	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
 	
 	if cid == -1:
