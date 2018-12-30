@@ -160,7 +160,7 @@ def command_propose(bot, update, args, user_data):
 			
 			for game_chat_id, game in games_tipo.items():
 				if uid in game.playerlist and game.board != None:
-					if uid == (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):
+					if (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):
 						clue_text = 'prop'
 						# Pongo en cid el id del juego actual, para el caso de que haya solo 1
 						cid = game_chat_id
