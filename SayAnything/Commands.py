@@ -267,7 +267,7 @@ def command_pick(bot, update, args):
 		game = Commands.get_game(cid)			
 		
 		if (len(args) < 1 or game.board.state.fase_actual != "Adivinando" 
-		    	or uid != game.board.state.active_player.uid or (not args[0].isdigit()) or args[0] > len(game.board.state.last_votes) ):# and uid not in ADMIN:
+		    	or uid != game.board.state.active_player.uid or (not args[0].isdigit()) or int(args[0]) > len(game.board.state.last_votes) ):# and uid not in ADMIN:
 			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo valido para puntuar", ParseMode.MARKDOWN)
 			return
 		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas		
