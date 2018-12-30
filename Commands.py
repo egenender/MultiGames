@@ -361,7 +361,30 @@ def command_call(bot, update):
 			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
 	except Exception as e:
 		bot.send_message(cid, str(e))
-        
+
+def command_pass(bot, update):
+	import JustOne.Commands as JustoneCommands
+	import SayAnything.Commands as SayAnythingCommands
+	
+	try:
+		#Send message of executing command   
+		cid = update.message.chat_id
+		#bot.send_message(cid, "Looking for history...")
+		#Check if there is a current game 
+		game = get_game(cid)
+		
+		if game:			
+			if game.tipo == "JustOne":
+				JustoneCommands.command_pass(bot, update)
+			elif game.tipo == "SayAnything":
+				SayAnythingCommands.command_pass(bot, update)
+			else:
+				bot.send_message(cid, "El juego no tiene el metodo /call")
+		else:
+			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
+	except Exception as e:
+		bot.send_message(cid, str(e))
+		
 def command_showhistory(bot, update):
 	#game.pedrote = 3
 	try:
