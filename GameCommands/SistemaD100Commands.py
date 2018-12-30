@@ -57,17 +57,23 @@ def command_roll(bot, update, args):
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	
-	tirada = random.randint(1,101)	
+	tirada = random.randint(1,101)
+	
+	sumar = sum([int(s.replace('+','')) for s in args if "+" in s])	
+	restar = sum([int(s.replace('-','')) for s in args if "+" in s])
+	
 	if tirada > 97:
 		tirada2 = random.randint(1,101)
-		text_tirada +=  ' es *%s!*' % (str(tirada+tirada2))
+		tirada += tirada2 + sumar - restar
+		text_tirada +=  ' es *%s!*' % (str(tirada))
 	elif tirada < 4:
 		tirada2 = random.randint(1,101)
-		text_tirada +=  ' es *%s!*' % (str(tirada-tirada2))
-	elif tirada == 27:
-		text_tirada +=  ' es *Épico*!' % (str(tirada+tirada2))		
-	else:
+		tirada -= tirada2 + sumar - restar
 		text_tirada +=  ' es *%s!*' % (str(tirada))
+	elif tirada == 27:
+		text_tirada +=  ' es *Épico*!')		
+	else:
+		text_tirada +=  ' es *%s!*' % (str(tirada + sumar - restar))
 		
 	bot.send_message(cid, "%s" % (text_tirada), ParseMode.MARKDOWN)
 	
