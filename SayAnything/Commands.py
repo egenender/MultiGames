@@ -160,7 +160,7 @@ def command_propose(bot, update, args, user_data):
 			
 			for game_chat_id, game in games_tipo.items():
 				if uid in game.playerlist and game.board != None:
-					if uid == ADMIN[0] or (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):
+					if uid == (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):
 						clue_text = 'prop'
 						# Pongo en cid el id del juego actual, para el caso de que haya solo 1
 						cid = game_chat_id
@@ -217,7 +217,7 @@ def add_propose(bot, game, uid, propuesta):
 			# Verifico si todos los jugadores -1 pusieron pista
 			bot.send_message(game.cid, "El jugador *%s* ha puesto una pista." % game.playerlist[uid].name, ParseMode.MARKDOWN)			
 			# Todo cambiar a -1 cuando termine las pruebas
-			if len(game.board.state.last_votes) == len(game.player_sequence)-0:
+			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 				SayAnythingController.send_prop(bot, game)			
 		else:
 			bot.send_message(uid, "No puedes proponer si sos el jugador activo o ya ha pasado la fase de poner pistas.")
