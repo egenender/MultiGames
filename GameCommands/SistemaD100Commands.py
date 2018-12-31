@@ -71,7 +71,7 @@ def command_roll(bot, update, args):
 		tirada -= tirada2 + sumar - restar
 		text_tirada +=  ' es *%s!*' % (str(tirada))
 	elif tirada == 27:
-		text_tirada +=  ' es *Épico*!')		
+		text_tirada +=  ' es *Épico*!'
 	else:
 		text_tirada +=  ' es *%s!*' % (str(tirada + sumar - restar))
 		
