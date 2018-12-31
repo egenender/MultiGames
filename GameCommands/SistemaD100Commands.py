@@ -68,7 +68,7 @@ def command_roll(bot, update, args):
 		text_tirada +=  ' es *%s!*' % (str(tirada))
 	elif tirada < 4:
 		tirada2 = random.randint(1,101)
-		tirada -= tirada2 + sumar - restar
+		tirada += -tirada2 + sumar - restar
 		text_tirada +=  ' es *%s!*' % (str(tirada))
 	elif tirada == 27:
 		text_tirada +=  ' es *Épico*!'
