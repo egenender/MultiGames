@@ -77,7 +77,7 @@ def command_roll(bot, update, args):
 		
 	bot.send_message(cid, "%s" % (text_tirada), ParseMode.MARKDOWN)
 	
-	bot.send_message(cid, "Se sumo {}. Se resto {}".format(sumar, restar), ParseMode.MARKDOWN)
+	#ot.send_message(cid, "Se sumo {}. Se resto {}".format(sumar, restar), ParseMode.MARKDOWN)
 	
 	# Si hay un juego creado guardo en el historial
 	game = Commands.get_game(cid)
