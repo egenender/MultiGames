@@ -60,7 +60,7 @@ def command_roll(bot, update, args):
 	tirada = random.randint(1,101)
 	
 	sumar = sum([int(s.replace('+','')) for s in args if "+" in s])	
-	restar = sum([int(s.replace('-','')) for s in args if "+" in s])
+	restar = sum([int(s.replace('-','')) for s in args if "-" in s])
 	
 	if tirada > 97:
 		tirada2 = random.randint(1,101)
