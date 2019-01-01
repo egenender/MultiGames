@@ -866,13 +866,13 @@ def myturn_message(game, uid):
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Proponiendo Pistas":			
 			mensaje_clue_ejemplo = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
-			return "Partida: {1} {0} debes dar {3} para la palabra: *{2}*".format(helper.player_call(game.playerlist[uid]), group_link_name, game.board.state.acciones_carta_actual, mensaje_clue_ejemplo)
+			return "Partida: {1} debes dar {3} para la palabra: *{2}*".format(helper.player_call(game.playerlist[uid]), group_link_name, game.board.state.acciones_carta_actual, mensaje_clue_ejemplo)
 		elif game.board.state.fase_actual == "Revisando Pistas":
 			reviewer_player = game.board.state.reviewer_player
-			return "Partida: {1} Revisor {0} recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player), group_link_name)
+			return "Partida: {1} Revisor recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player), group_link_name)
 		elif game.board.state.fase_actual == "Adivinando":
 			active_player = game.board.state.active_player
-			return "Partida: {1} {0} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player), group_link_name)
+			return "Partida: {1} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player), group_link_name)
 	except Exception as e:
 		return str(e)
 
