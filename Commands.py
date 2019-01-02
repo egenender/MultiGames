@@ -667,7 +667,7 @@ def command_join(bot, update, args):
 			else:
 				# Uno al jugador a la partida
 				bot.send_message(uid, "Te has unido a un juego en %s." % groupName)
-				game.add_player(uid, fname)
+				player = game.add_player(uid, fname)
 				log.info("%s (%d) joined a game in %s (%d) of type %s" % (fname, uid, groupName, game.cid, game.tipo))
 				save(bot, game.cid)
 				
