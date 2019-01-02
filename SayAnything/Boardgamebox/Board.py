@@ -32,7 +32,7 @@ class Board(BaseBoard):
 		return board
 	
 	def print_puntaje(self, game):		
-		board += "--- *Puntaje de jugadores* ---\n"
+		board = "--- *Puntaje de jugadores* ---\n"
 		for player in game.player_sequence:
 			nombre = player.name.replace("_", " ")
 			board += "*{} ({})*\n".format(nombre, player.puntaje)
