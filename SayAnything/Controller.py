@@ -179,7 +179,7 @@ def start_next_round(bot, game):
 	log.info('Verifing End_Game called')
 	if not game.board.cartas:
 		# Si no quedan cartas se termina el juego y se muestra el puntaje.
-		mensaje = "Juego finalizado! El puntaje final es: *{0}*".format(game.board.print_puntaje(game))		
+		mensaje = "Juego finalizado!:\n*{0}*".format(game.board.print_puntaje(game))		
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
