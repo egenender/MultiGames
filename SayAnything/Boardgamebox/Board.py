@@ -35,6 +35,5 @@ class Board(BaseBoard):
 		board += "--- *Puntaje de jugadores* ---\n"
 		for player in game.player_sequence:
 			nombre = player.name.replace("_", " ")
-			if self.state.active_player == player:
-				board += "{}: *{}*\n".format(nombre, player.puntaje)		
+			board += "*{} ({})*\n".format(nombre, player.puntaje)
 		return board
