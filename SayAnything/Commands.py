@@ -212,7 +212,7 @@ def add_propose(bot, game, uid, propuesta):
 			game.board.state.last_votes[uid] = propuesta
 			Commands.save(bot, game.cid)			
 			# Verifico si todos los jugadores -1 pusieron pista
-			bot.send_message(game.cid, "El jugador *%s* ha ingresado unar respuesta." % game.playerlist[uid].name, ParseMode.MARKDOWN)			
+			bot.send_message(game.cid, "El jugador *%s* ha ingresado una respuesta." % game.playerlist[uid].name, ParseMode.MARKDOWN)			
 			# Todo cambiar a -1 cuando termine las pruebas
 			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
 				SayAnythingController.send_prop(bot, game)			
