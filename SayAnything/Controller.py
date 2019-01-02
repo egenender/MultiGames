@@ -165,7 +165,7 @@ def send_prop(bot, game):
 			player = game.playerlist[key-1]
 		text += "*{1}: {0}*\n".format(value, i)
 		i += 1
-	mensaje_final = "[{0}](tg://user?id={1}) es hora de elegir! Elige con /pick NUMERO\nLas frases son: \n{2}\n*NO SE PUEDE HABLAR*".format(game.board.state.active_player.name, game.board.state.active_player.uid, text)	
+	mensaje_final = "[{0}](tg://user?id={1}) es hora de elegir! Elige con /pick NUMERO\n*{3}*\nLas respuestas son:\n{2}\n*NO SE PUEDE HABLAR*".format(game.board.state.active_player.name, game.board.state.active_player.uid, text, game.board.state.acciones_carta_actual)	
 	game.board.state.fase_actual = "Adivinando"
 	Commands.save(bot, game.cid)
 	
