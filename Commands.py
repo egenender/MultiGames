@@ -848,13 +848,13 @@ def command_set_config_data(bot, update, args):
 		save(bot, cid)
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
-	if game.tipo == 'JustOne':
+	if game.tipo == 'JustOne' or game.tipo == 'SayAnything':
 		if game.board.state.fase_actual == "Proponiendo Pistas":
 			return uid not in game.board.state.last_votes and uid != game.board.state.active_player.uid
 		elif game.board.state.fase_actual == "Revisando Pistas":
 			return game.board.state.reviewer_player.uid == uid
 		elif game.board.state.fase_actual == "Adivinando":
-			return game.board.state.active_player.uid == uid	
+			return game.board.state.active_player.uid == uid
 	return False
 
 def myturn_message(game, uid):
