@@ -167,7 +167,7 @@ def command_propose(bot, update, args, user_data):
 						datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
 						btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])				
 			if len(btns) != 0:
-				if len(btns) == 0:
+				if len(btns) == 1:
 					#Si es solo 1 juego lo hago automatico
 					game = Commands.get_game(cid)
 					add_propose(bot, game, uid, propuesta)
