@@ -170,7 +170,7 @@ def command_propose(bot, update, args, user_data):
 				if len(btns) == 1:
 					#Si es solo 1 juego lo hago automatico
 					game = Commands.get_game(cid)
-					add_propose(bot, game, uid, propuesta)
+					add_propose(bot, game, uid, ' '.join(args))
 				else:
 					txtBoton = "Cancel"
 					datos = "-1*choosegameclue*" + "prop" + "*" + str(uid)
