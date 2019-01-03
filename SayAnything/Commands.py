@@ -185,7 +185,8 @@ def get_choose_game_buttons(games_tipo, uid, allow_only_id, restrict_id, fase_ac
 			# Si no se pasa nada, pongo un id que no de favorable en la consulta para mostrar juegos
 			allow_only_player = getattr(game.board.state, allow_only_id, -1)
 			restrict_player = getattr(game.board.state, restrict_id, uid)
-			if ((uid != restrict_id) or (uid == allow_only_id)) and game.board.state.fase_actual == fase_actual:
+			log.info("Allow {} Restrict {}".format(allow_only_player, restrict_player))
+			if ((uid != restrict_player) or (uid == allow_only_player)) and game.board.state.fase_actual == fase_actual:
 				clue_text = button_value
 				# Pongo en cid el id del juego actual, para el caso de que haya solo 1
 				cid = game_chat_id
