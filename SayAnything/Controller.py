@@ -152,8 +152,9 @@ def start_round_say_anything(bot, game):
 
 # Objetivo
 # start_round_say_anything -> call_players_to_clue -> Players /resp -> send_prop -> /pick N (Pantalla secreta) -> call_players_to_vote -> Players Teclado para votar -> resolve_votes -> start_next_round
-#  ------------------------"Proponiendo Pistas"-----------------------  ------------Eligiendo-----------------  ------------------------Voting-------------------------------------
+#  ------------------------"Proponiendo Pistas"-----------------------  ------------Adivinando-----------------  ------------------------Voting-------------------------------------
 
+#  ------------------------"Proponiendo Pistas"-----------------------
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
@@ -163,7 +164,14 @@ def call_players_to_clue(bot, game):
 			mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/resp Ejemplo Ejemplo2"
 			bot.send_message(uid, mensaje)
 
-def send_prop(bot, game):
+#------------Adivinando -> Eligiendo----------------- 
+def send_prop(bot, game):	
+	mensaje = get_respuestas(bot, game)
+	game.board.state.fase_actual = "Adivinando"
+	Commands.save(bot, game.cid)	
+	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+
+def get_respuestas(bot, game):
 	text = ""
 	i = 1
 	for key, value in game.board.state.last_votes.items():		
@@ -173,12 +181,20 @@ def send_prop(bot, game):
 			player = game.playerlist[key-1]
 		text += "*{1}: {0}*\n".format(value, i)
 		i += 1
-	mensaje_final = "[{0}](tg://user?id={1}) es hora de elegir! Elige con /pick NUMERO\n*{3}*\nLas respuestas son:\n{2}\n".format(game.board.state.active_player.name, game.board.state.active_player.uid, text, game.board.state.acciones_carta_actual)	
-	game.board.state.fase_actual = "Adivinando"
-	Commands.save(bot, game.cid)
-	
-	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
+	respuestas = "Las respuestas son:\n{}".format(text)
+	return "{0} es hora de elegir! Elige con /pick NUMERO (En privado)\n*{1}*\n{2}\n".format(helper.player_call(game.board.state.active_player), game.board.state.acciones_carta_actual, respuestas)		
 
+# Jugador activo hace /pick en secreto
+
+def call_players_to_vote(bot, game):
+	for uid in game.playerlist:
+		if uid != game.board.state.active_player.uid:
+			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
+			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
+			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
+			mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/resp Ejemplo Ejemplo2"
+			bot.send_message(uid, mensaje)
+	
 def pass_say_anything(bot, game):
 	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 	start_next_round(bot, game)
