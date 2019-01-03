@@ -153,8 +153,8 @@ def command_propose(bot, update, args, user_data):
 			mensaje_error = ""			
 			games_tipo = MainController.getGamesByTipo('SayAnything')						
 			btns, cid = get_choose_game_buttons(games_tipo, uid, 
-						       allow_only_id = "",
-						       restrict_id = "active_player", 
+						       allow_only = "",
+						       restrict = "active_player", 
 						       fase_actual = 'Proponiendo Pistas', button_value = 'prop',
 						       callback_command = 'choosegamepropSA')			
 			user_data[uid] = ' '.join(args)
@@ -177,16 +177,17 @@ def command_propose(bot, update, args, user_data):
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
 
-def get_choose_game_buttons(games_tipo, uid, allow_only_id, restrict_id, fase_actual, button_value, callback_command):	
+def get_choose_game_buttons(games_tipo, uid, allow_only, restrict, fase_actual, button_value, callback_command):	
 	btns = []
 	cid = None
 	for game_chat_id, game in games_tipo.items():
 		if uid in game.playerlist and game.board != None:
 			# Si no se pasa nada, pongo un id que no de favorable en la consulta para mostrar juegos
-			allow_only_player = getattr(game.board.state, allow_only_id, -1)
-			restrict_player = getattr(game.board.state, restrict_id, uid)
-			log.info("Allow {} Restrict {}".format(allow_only_player, restrict_player))
-			if ((uid != restrict_player) or (uid == allow_only_player)) and game.board.state.fase_actual == fase_actual:
+			allow_only_id = getattr(getattr(game.board.state, allow_only, -1), "uid", -1)
+			restrict_id = getattr(getattr(game.board.state, restrict, uid), "uid", uid)
+			
+			log.info("Allow {} Restrict {}".format(allow_only_id, restrict_id))
+			if ((uid != restrict_id) or (uid == allow_only_id)) and game.board.state.fase_actual == fase_actual:
 				clue_text = button_value
 				# Pongo en cid el id del juego actual, para el caso de que haya solo 1
 				cid = game_chat_id
