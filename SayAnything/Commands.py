@@ -107,8 +107,7 @@ def command_call(bot, game):
 		if game.board.state.fase_actual == "Proponiendo Pistas":
 			call_proponiendo_pistas(bot, game)
 		elif game.board.state.fase_actual == "Adivinando":
-			active_player = game.board.state.active_player
-			bot.send_message(game.cid, "{0} estamos esperando para que hagas /pick N".format(helper.player_call(active_player)), ParseMode.MARKDOWN)
+			SayAnythingController.send_prop(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))
 
