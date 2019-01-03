@@ -293,8 +293,8 @@ def command_pick(bot, update, args):
 		elegido = -1 if check_invalid_pick(args) else args[0]
 		
 		btns, cid = get_choose_game_buttons(games_tipo, uid, 
-						       allow_only_id = "active_player",
-						       restrict_id = "",
+						       allow_only = "active_player",
+						       restrict = "",
 						       fase_actual = 'Adivinando', button_value = elegido,
 						       callback_command = 'choosegamepickSA')		
 		if len(btns) != 0:
