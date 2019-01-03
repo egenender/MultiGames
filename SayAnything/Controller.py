@@ -146,6 +146,13 @@ def start_round_say_anything(bot, game):
 	game.board.state.fase_actual = "Proponiendo Pistas"
 	Commands.save(bot, game.cid)
 	'''
+# Actual
+# start_round_say_anything -> call_players_to_clue -> Players /resp -> send_prop -> /pick N -> start_next_round
+#  ------------------------"Proponiendo Pistas"------------------------------  --- Adivinando--
+
+# Objetivo
+# start_round_say_anything -> call_players_to_clue -> Players /resp -> send_prop -> /pick N (Pantalla secreta) -> call_players_to_vote -> Players Teclado para votar -> resolve_votes -> start_next_round
+#  ------------------------"Proponiendo Pistas"-----------------------  ------------Eligiendo-----------------  ------------------------Voting-------------------------------------
 
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
