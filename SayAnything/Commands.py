@@ -178,13 +178,14 @@ def command_propose(bot, update, args, user_data):
 		log.error("Unknown error: " + str(e))
 
 def get_choose_game_buttons(games_tipo, uid, allow_only_id, restrict_id, fase_actual, button_value, callback_command):
-	allow_only_id = getattr(game.board.state, allow_only_id).uid
-	restrict_id = getattr(game.board.state, restrict_id).uid
+	
 	
 	btns = []
 	cid = None
 	for game_chat_id, game in games_tipo.items():
 		if uid in game.playerlist and game.board != None:
+			allow_only_id = getattr(game.board.state, allow_only_id).uid
+			restrict_id = getattr(game.board.state, restrict_id).uid
 			if ((uid != restrict_id) or (uid == allow_only_id)) and game.board.state.fase_actual == fase_actual:
 				clue_text = button_value
 				# Pongo en cid el id del juego actual, para el caso de que haya solo 1
