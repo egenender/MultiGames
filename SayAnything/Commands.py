@@ -20,6 +20,8 @@ from Constants.Config import STATS
 from SayAnything.Boardgamebox.Board import Board
 from SayAnything.Boardgamebox.Game import Game
 from SayAnything.Boardgamebox.Player import Player
+from SayAnything.Boardgamebox.Vote import Vote
+
 from Boardgamebox.State import State
 
 from Constants.Config import ADMIN
@@ -210,6 +212,17 @@ def add_propose(bot, game, uid, propuesta):
 		if uid == ADMIN[0] or (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):	
 			bot.send_message(uid, "Tu respuesta: %s fue agregada." % (propuesta))			
 			game.board.state.last_votes[uid] = propuesta
+			
+			# Si tiene el atributo no fue ingresado ningun voto y no fue creado. Lo creo.
+			if hasattr(game.board.state, 'ordered_votes'):
+				previous_vote = next((vote for vote in game.board.state.ordered_votes if vote.player.uid == uid), None)
+				if previous_vote:
+					game.board.state.ordered_votes.remove(previous_vote)
+				game.board.state.ordered_votes.append(Vote(game.playerlist[uid], 'propuesta', propuesta))
+			else:
+				game.board.state.ordered_votes = []
+				game.board.state.ordered_votes.append(Vote(game.playerlist[uid], 'propuesta', propuesta))
+				
 			Commands.save(bot, game.cid)			
 			# Verifico si todos los jugadores -1 pusieron pista
 			bot.send_message(game.cid, "El jugador *%s* ha ingresado una respuesta." % game.playerlist[uid].name, ParseMode.MARKDOWN)			
