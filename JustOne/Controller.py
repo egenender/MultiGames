@@ -410,6 +410,25 @@ def callback_finish_game_buttons(bot, update):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
+
+def myturn_message(game, uid):
+	try:
+		group_link_name = "[{0}]({1})".format(game.groupName, helper.get_config_data(game, "link"))
+		#group_link_name = game.groupName if get_config_data(game, "link")==None else "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
+		#if uid == ADMIN[0]:
+		#	group_link_name = "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
+		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
+		if game.board.state.fase_actual == "Proponiendo Pistas":			
+			mensaje_clue_ejemplo = "/clue Ejemplo" if game.board.num_players != 3 else "/clue Ejemplo Ejemplo2"
+			return "Partida: {1} debes dar {3} para la palabra: *{2}*.\nAdivina el jugador *{4}*".format(helper.player_call(game.playerlist[uid]), group_link_name, game.board.state.acciones_carta_actual, mensaje_clue_ejemplo, game.board.state.active_player.name)
+		elif game.board.state.fase_actual == "Revisando Pistas":
+			reviewer_player = game.board.state.reviewer_player
+			return "Partida: {1} Revisor recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player), group_link_name)
+		elif game.board.state.fase_actual == "Adivinando":
+			active_player = game.board.state.active_player
+			return "Partida: {1} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player), group_link_name)
+	except Exception as e:
+		return str(e)
 	
 def end_game(bot, game, game_endcode):
         log.info('end_game called')
