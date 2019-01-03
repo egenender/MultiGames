@@ -126,9 +126,9 @@ def call_proponiendo_pistas(bot, game):
 			for player in game.player_sequence:
 				# If the player is not in last_votes send him reminder
 				if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
-					history_text += "Tienes que dar una pista {0}.\n".format(helper.player_call(player))
+					history_text += "Tienes que dar una respuesta {0}.\n".format(helper.player_call(player))
 					# Envio mensaje inicial de pistas para recordarle al jugador la pista y el grupo
-					mensaje = "Palabra en el grupo *{1}*.\nJugador activo: *{2}*\nLa frase es: *{0}*, propone tu pista!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
+					mensaje = "Palabra en el grupo *{1}*.\nJugador activo: *{2}*\nLa frase es: *{0}*, propone tu respuesta!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 					bot.send_message(player.uid, mensaje, ParseMode.MARKDOWN)
 					mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/prop Ejemplo Ejemplo2"
 					bot.send_message(player.uid, mensaje)
