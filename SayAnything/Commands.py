@@ -107,7 +107,8 @@ def command_call(bot, game):
 		if game.board.state.fase_actual == "Proponiendo Pistas":
 			call_proponiendo_pistas(bot, game)
 		elif game.board.state.fase_actual == "Adivinando":
-			SayAnythingController.send_prop(bot, game)
+			mensaje = SayAnythingController.get_respuestas(bot, game)			
+			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))
 
@@ -149,24 +150,15 @@ def command_propose(bot, update, args, user_data):
 		uid = update.message.from_user.id
 		if len(args) > 0:
 			# Obtengo todos los juegos de base de datos de los que usan clue
-			mensaje_error = ""
-			
-			games_tipo = MainController.getGamesByTipo('SayAnything')
-			
-			btns = []
+			mensaje_error = ""			
+			games_tipo = MainController.getGamesByTipo('SayAnything')						
+			btns, cid = get_choose_game_buttons(games_tipo, uid, 
+						       allow_only_ids = [],
+						       restrict_ids = [game.board.state.active_player.uid], 
+						       fase_actual = 'Proponiendo Pistas', button_value = 'prop',
+						       callback_command = 'choosegamepropSA')			
 			user_data[uid] = ' '.join(args)
 			
-			for game_chat_id, game in games_tipo.items():
-				if uid in game.playerlist and game.board != None:
-					if uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas":
-						clue_text = 'prop'
-						# Pongo en cid el id del juego actual, para el caso de que haya solo 1
-						cid = game_chat_id
-						# Creo el boton el cual eligirá el jugador
-						txtBoton = game.groupName
-						comando_callback = "choosegamepropSA"
-						datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
-						btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])				
 			if len(btns) != 0:
 				if len(btns) == 1:
 					#Si es solo 1 juego lo hago automatico
@@ -185,6 +177,23 @@ def command_propose(bot, update, args, user_data):
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
 
+def get_choose_game_buttons(games_tipo, uid, allow_only_ids, restrict_ids, fase_actual, button_value, callback_command):
+	btns = []
+	cid = None
+	for game_chat_id, game in games_tipo.items():
+		if uid in game.playerlist and game.board != None:
+			if ((uid not in restrict_ids) or (uid in allow_only_ids)) and game.board.state.fase_actual == fase_actual:
+				clue_text = button_value
+				# Pongo en cid el id del juego actual, para el caso de que haya solo 1
+				cid = game_chat_id
+				# Creo el boton el cual eligirá el jugador
+				txtBoton = game.groupName
+				comando_callback = callback_command
+				datos = str(game_chat_id) + "*" + comando_callback + "*" + clue_text + "*" + str(uid)
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+	return btns, cid
+	
+		
 def callback_choose_game_prop(bot, update, user_data):
 	callback = update.callback_query
 	log.info('callback_choose_game_prop called: %s' % callback.data)	
@@ -266,34 +275,84 @@ def command_pass(bot, update):
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
 	SayAnythingController.pass_say_anything(bot, game)
-
+	
 def command_pick(bot, update, args):
 	try:
 		log.info('command_pick called')
-		#Send message of executing command   
+		#Send message of executing command
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
-		game = Commands.get_game(cid)			
+		game = Commands.get_game(cid)
+		games_tipo = MainController.getGamesByTipo('SayAnything')
 		
-		if (len(args) < 1 or game.board.state.fase_actual != "Adivinando" 
-		    		or uid != game.board.state.active_player.uid or (not args[0].isdigit()) 
-		    		or args[0] == '0' or int(args[0]) > len(game.board.state.last_votes) ):# and uid not in ADMIN:
+		elegido = -1 if check_invalid_pick(args) else args[0]
+		
+		btns, cid = get_choose_game_buttons(games_tipo, uid, 
+						       allow_only_ids = [game.board.state.active_player.uid],
+						       restrict_ids = [], 
+						       fase_actual = 'Adivinando', button_value = elegido,
+						       callback_command = 'choosegamepickSA')		
+		if len(btns) != 0:
+			if len(btns) == 0:
+				#Si es solo 1 juego lo hago automatico
+				game = Commands.get_game(cid)
+				pick_resp(bot, game, uid, elegido)
+			else:
+				txtBoton = "Cancel"
+				datos = "-1*choosegameclue*" + "prop" + "*" + str(uid)
+				btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+				btnMarkup = InlineKeyboardMarkup(btns)
+				bot.send_message(uid, "¿En cual de estos grupos queres elegir respuesta?", reply_markup=btnMarkup)
+		else:
+			mensaje_error = "No hay partidas en las que puedas hacer /resp"
+			bot.send_message(uid, mensaje_error)
+		
+	except Exception as e:
+		bot.send_message(uid, str(e))
+		log.error("Unknown error: " + str(e))
+
+def callback_choose_game_pick(bot, update):
+	callback = update.callback_query
+	log.info('callback_choose_game_prop called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*choosegamepickSA\*(.*)\*([0-9]*)", callback.data)
+	cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)	
+	
+	if cid == -1:
+		bot.edit_message_text("Cancelado", uid, callback.message.message_id)
+		return	
+	game = Commands.get_game(cid)
+	mensaje_edit = "Has elegido el grupo {0}".format(game.groupName)	
+	bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)	
+	
+	# Obtengo el juego y le agrego la pista
+	pick_resp(bot, game, uid, opcion)
+		
+# Verifica si el pick es invalido
+def check_invalid_pick(args):
+	return (len(args) < 1 or (not args[0].isdigit()) or args[0] == '0')
+		
+def pick_resp(bot, game, uid, opcion):
+	try:
+		log.info('pick_resp called')
+		if (game.board.state.fase_actual != "Adivinando" 
+		    		or uid != game.board.state.active_player.uid 
+				or int(opcion) > len(game.board.state.last_votes) ):# and uid not in ADMIN:
 			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo valido para puntuar", ParseMode.MARKDOWN)
 			return
-		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas		
-		args_text = args[0]
-		
-		frase_elegida = list(game.board.state.last_votes.items())[int(args_text)-1]
+		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas
+		args_text = opcion	
+		frase_elegida = list(game.board.state.last_votes.items())[int(args_text)-1]		
 		jugador_favorecido = game.playerlist[frase_elegida[0]]
 		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida[1], helper.player_call(jugador_favorecido))
 		jugador_favorecido.puntaje += 1
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 		SayAnythingController.start_next_round(bot, game)		
-			
+
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
-
+	
+		
 def command_continue(bot, game, uid):
 	try:
 		
