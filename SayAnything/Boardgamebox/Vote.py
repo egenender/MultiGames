@@ -3,7 +3,7 @@ from SayAnything.Boardgamebox.Player import Player
 class Vote():
 	# Init with one key and value
 	def __init__(self, player, key, value):
-		sel.player = player		
+		self.player = player		
 		self.content = {}
 		self.content[key] = value
 		
