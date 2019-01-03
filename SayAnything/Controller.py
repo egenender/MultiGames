@@ -125,6 +125,7 @@ def start_round_say_anything(bot, game):
 	#Reseteo los votos	
 	game.board.state.last_votes = {}
 	game.board.state.removed_votes = {}
+	game.board.state.ordered_votes = []
 	
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
