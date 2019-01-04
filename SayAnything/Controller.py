@@ -205,7 +205,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 		votos_a_respuesta = [(index, val[0], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==3]
 		opciones_botones[i] = "({0}) {1}".format(len(votos_a_respuesta), vote.content['propuesta'])
 		i += 1
-	btnMarkup = simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
+	btnMarkup = Commands.simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
 	
 	if message_id:
 		bot.edit_message_text("*Ingresa/Modifica* tus votos", chat_id=uid, message_id=message_id, 
