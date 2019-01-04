@@ -203,7 +203,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 	opciones_botones = { }
 	i = 0
 	for vote in game.board.state.ordered_votes:
-		votos_a_respuesta = [(index, val[0], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==3]
+		votos_a_respuesta = [(index, val[0], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==i]
 		opciones_botones[i] = "({0}) {1}".format(len(votos_a_respuesta), vote.content['propuesta'])
 		i += 1
 	btnMarkup = Commands.simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
