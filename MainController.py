@@ -514,12 +514,12 @@ def main():
 	# Handlers de SayAnything
 	dp.add_handler(CommandHandler("resp", SayAnythingCommands.command_propose, pass_args = True, pass_user_data=True))
 	dp.add_handler(CommandHandler("pick", SayAnythingCommands.command_pick, pass_args = True))
-	# Just One Callbacks de botones
+	# Say Anything Callbacks de botones
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosediccSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_finish_config))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegamepropSA\*(.*)\*([0-9]*)", callback=SayAnythingCommands.callback_choose_game_prop, pass_user_data = True))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseendSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_finish_game_buttons))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegamepickSA\*(.*)\*([0-9]*)", callback=SayAnythingCommands.callback_choose_game_pick))
-	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*voteRespuestaSA\*(.*)\*([0-9]*)", callback=SayAnythingCommands.callback_put_vote))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*voteRespuestaSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_put_vote))
 	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
