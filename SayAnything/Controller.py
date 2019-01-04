@@ -193,7 +193,7 @@ def call_players_to_vote(bot, game):
 		game.board.state.votes_on_votes = []
 	for uid in game.playerlist:
 		#if uid != game.board.state.active_player.uid:
-		if uid == ADMIN[0]
+		if uid == ADMIN[0]:
 			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
 			send_vote_buttons(bot, game, uid)
