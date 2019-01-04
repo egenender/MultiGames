@@ -249,7 +249,7 @@ def callback_put_vote(bot, update):
 			del game.board.state.votes_on_votes[index_to_remove]		
 		player = game.playerlist[uid]
 		game.board.state.votes_on_votes.append((player, 1, int(opcion)))		
-		#Commands.save(bot, game.cid)		
+		Commands.save(bot, game.cid)		
 		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)
 		# Si ya todos hicieron sus 2 votos (menos el jugador activo) cuento puntos
 		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
