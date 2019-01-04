@@ -231,12 +231,9 @@ def callback_put_vote(bot, update):
 			# Borro el elemento ingresado mas viejo
 			index_to_remove = lista_votos_usuario[0][0]
 			del game.board.state.votes_on_votes[index_to_remove]		
-		game.board.state.votes_on_votes.append((uid, 1, int(opcion)))
-		
-		bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)	
-		
-		Commands.save(bot, game.cid)		
-		send_vote_buttons(bot, game, uid)		
+		game.board.state.votes_on_votes.append((uid, 1, int(opcion)))		
+		#Commands.save(bot, game.cid)		
+		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)	      
