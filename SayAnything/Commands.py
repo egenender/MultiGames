@@ -87,7 +87,7 @@ def command_votes(bot, update):
 					history_text = "Vote history for President %s and Chancellor %s:\n\n" % (game.board.state.nominated_president.name, game.board.state.nominated_chancellor.name)
 					for player in game.player_sequence:
 						# If the player is in the last_votes (He voted), mark him as he registered a vote
-						if player.uid in game.board.state.last_votes:
+						if next((x for x in game.board.state.ordered_votes if x.player.uid == player.uid), None):
 							history_text += "%s ha dado pista.\n" % (game.playerlist[player.uid].name)
 						else:
 							history_text += "%s *no* ha dado pista.\n" % (game.playerlist[player.uid].name)
@@ -125,8 +125,9 @@ def call_proponiendo_pistas(bot, game):
 			# Only remember to vote to players that are still in the game
 			history_text = ""
 			for player in game.player_sequence:
-				# If the player is not in last_votes send him reminder
-				if player.uid not in game.board.state.last_votes and player.uid != game.board.state.active_player.uid:
+				# If the player is not in ordered_votes send him reminder
+				voto_jugador = next((x for x in game.board.state.ordered_votes if x.player.uid == player.uid), None)
+				if not voto_jugador and player.uid != game.board.state.active_player.uid:
 					history_text += "Tienes que dar una respuesta {0}.\n".format(helper.player_call(player))
 					# Envio mensaje inicial de pistas para recordarle al jugador la pista y el grupo
 					mensaje = "Palabra en el grupo *{1}*.\nJugador activo: *{2}*\nLa frase es: *{0}*, propone tu respuesta!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
@@ -134,9 +135,9 @@ def call_proponiendo_pistas(bot, game):
 					mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/prop Ejemplo Ejemplo2"
 					bot.send_message(player.uid, mensaje)
 			bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
-			if game.board.num_players != 3 and len(game.board.state.last_votes) == len(game.player_sequence)-1:
+			if game.board.num_players != 3 and len(game.board.state.ordered_votes) == len(game.player_sequence)-1:
 				SayAnythingController.send_prop(bot, game)
-			elif len(game.board.state.last_votes) == len(game.player_sequence)+1:
+			elif len(game.board.state.ordered_votes) == len(game.player_sequence)+1:
 				# De a 3 jugadores exigo que pongan 2 pistas cada uno son 4 de a 3 jugadores
 				SayAnythingController.send_prop(bot, game)
 		else:
@@ -224,7 +225,7 @@ def add_propose(bot, game, uid, propuesta):
 			return					
 		if uid == ADMIN[0] or (uid != game.board.state.active_player.uid and game.board.state.fase_actual == "Proponiendo Pistas"):	
 			bot.send_message(uid, "Tu respuesta: %s fue agregada." % (propuesta))			
-			game.board.state.last_votes[uid] = propuesta
+			#game.board.state.last_votes[uid] = propuesta
 			
 			# Si tiene el atributo no fue ingresado ningun voto y no fue creado. Lo creo.
 			if hasattr(game.board.state, 'ordered_votes'):
@@ -240,7 +241,7 @@ def add_propose(bot, game, uid, propuesta):
 			# Verifico si todos los jugadores -1 pusieron pista
 			bot.send_message(game.cid, "El jugador *%s* ha ingresado una respuesta." % game.playerlist[uid].name, ParseMode.MARKDOWN)			
 			# Todo cambiar a -1 cuando termine las pruebas
-			if len(game.board.state.last_votes) == len(game.player_sequence)-1:
+			if len(game.board.state.ordered_votes) == len(game.player_sequence)-1:
 				SayAnythingController.send_prop(bot, game)			
 		else:
 			bot.send_message(uid, "No puedes proponer si sos el jugador activo o ya ha pasado la fase de poner pistas.")
