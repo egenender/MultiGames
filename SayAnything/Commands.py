@@ -72,12 +72,24 @@ def command_call(bot, game):
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Proponiendo Pistas":
 			call_proponiendo_pistas(bot, game)
-		elif game.board.state.fase_actual == "Adivinando":
-			mensaje = SayAnythingController.get_respuestas(bot, game)			
-			bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+		elif game.board.state.fase_actual == "Adivinando":			
+			bot.send_message(game.cid, SayAnythingController.get_respuestas(bot, game), ParseMode.MARKDOWN)
+		elif game.board.state.fase_actual == "Votando Frases":
+			call_to_vote_respeustas(bot, game)
+			
 	except Exception as e:
 		bot.send_message(game.cid, str(e))
 
+def call_to_vote_respeustas(bot, game):
+	bot.send_message(game.cid, "Recuerden votar", ParseMode.MARKDOWN)
+	call_text = ''
+	for player in game.player_sequence:
+		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==player.uid]
+		if len(lista_votos_usuario) != 2:
+			call_text += 'Te faltan *{0}* votos {1}.\n'.format(2-len(lista_votos_usuario), helper.player_call(player))
+			SayAnythingController.send_vote_buttons(bot, game, player.uid)
+	bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
+		
 def call_proponiendo_pistas(bot, game):
 	if not game.dateinitvote:
 		# If date of init vote is null, then the voting didnt start          
@@ -314,9 +326,10 @@ def pick_resp(bot, game, uid, opcion):
 		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas
 		args_text = opcion
 		
-		game.board.state.index_pick_resp = int(args_text)-1
+		game.board.state.index_pick_resp = int(args_text)-1		
 		
-		# Descomentar cuando este produtivo
+		bot.send_message(game.cid, "El jugador activo ha elegido la frase! A votar!")
+		game.board.state.fase_actual = "Votando Frases"
 		SayAnythingController.call_players_to_vote(bot, game)
 		#SayAnythingController.count_points(bot, game)
 		#SayAnythingController.start_next_round(bot, game)		
