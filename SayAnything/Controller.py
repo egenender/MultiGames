@@ -128,6 +128,7 @@ def start_round_say_anything(bot, game):
 	game.board.state.ordered_votes = []
 	# Tuplas de votos (UID=de quien es el voto, PUNTAJE=valor del voto, INDEX_ORDERED_VOTES=respeusta que apunta)  
 	game.board.state.votes_on_votes = []
+	game.board.state.index_pick_resp = -1
 	
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
@@ -246,13 +247,33 @@ def callback_put_vote(bot, update):
 		player = game.playerlist[uid]
 		game.board.state.votes_on_votes.append((player, 1, int(opcion)))		
 		#Commands.save(bot, game.cid)		
-		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)		
+		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)
+		# Si ya todos hicieron sus 2 votos (menos el jugador activo) cuento puntos
+		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
+			count_points(bot, game)		
 	except Exception as e:
 		aux = ""
 		# Se comenta ya que el error que tira es cuando se manda a edit y no se ha modificado nada. 
 		#bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		#bot.send_message(ADMIN[0], callback.data)	      
-			
+
+def count_points(bot, game):
+	frase_elegida = game.board.state.ordered_votes[game.board.state.index_pick_resp]	
+	jugador_favorecido = frase_elegida.player
+	
+	mensaje = "La frase elegida fue: *{0}* de {1}! El cual gana 1 punto!".format(frase_elegida.content['propuesta'], helper.player_call(jugador_favorecido))
+	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+	jugador_favorecido.puntaje += 1
+	
+	votos_a_respuesta_elegida = [(val[0], val[1], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==game.board.state.index_pick_resp]
+	mensaje = "A su vez los jugadores que votaron la frase:\n"
+	for voto in votos_a_respuesta_elegida:
+		player = voto[0]
+		player.puntaje += voto[1]
+		mensaje += "{name} gano {puntos} punto\n".format(name=player.name, puntos=voto[1])
+	#Commands.save(bot, game.cid)
+	start_next_round(bot, game)
+		
 def pass_say_anything(bot, game):
 	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 	start_next_round(bot, game)
