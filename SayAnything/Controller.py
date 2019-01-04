@@ -236,6 +236,7 @@ def callback_put_vote(bot, update):
 						      message_id=callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 			else:
 				bot.send_message(uid, "Debes ingresar al tus *2 votos*", parse_mode=ParseMode.MARKDOWN)
+				return
 		
 		# Si ya voto dos veces quito el indice mas bajo de sus votos y agrego el nuevo
 		if len(lista_votos_usuario) == 2:
