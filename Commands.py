@@ -871,7 +871,7 @@ def verify_my_turn(game, uid):
 			return uid not in game.board.state.last_votes and uid != game.board.state.active_player.uid
 		if game.tipo == 'SayAnything' and game.board.state.fase_actual == "Proponiendo Pistas":
 			voto_jugador = next((x for x in game.board.state.ordered_votes if x.player.uid == uid), None)
-			return voto_jugador and uid != game.board.state.active_player.uid		
+			return (not voto_jugador) and uid != game.board.state.active_player.uid		
 		elif game.board.state.fase_actual == "Revisando Pistas":
 			return game.board.state.reviewer_player.uid == uid
 		elif game.board.state.fase_actual == "Adivinando":
