@@ -748,6 +748,19 @@ def simple_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_callbac
 	#for uid in game.playerlist:
 	bot.send_message(chat_donde_se_pregunta, mensaje_pregunta, reply_markup=btnMarkup)		
 
+def simple_choose_buttons_only_buttons(bot, cid, uid, comando_callback, opciones_botones):
+	#sleep(3)
+	btns = []
+	# Creo los botones para elegir al usuario
+	for key, value in opciones_botones.items():
+		txtBoton = value
+		datos = str(cid) + "*" + comando_callback + "*" + str(key) + "*" + str(uid)
+		#if comando_callback == "announce":
+		#	bot.send_message(ADMIN[0], datos)
+		btns.append([InlineKeyboardButton(txtBoton, callback_data=datos)])
+	return InlineKeyboardMarkup(btns)
+	
+	
 def command_continue(bot, update, args):
 	import JustOne.Commands as JustoneCommands
 	import LostExpedition.Commands as LostExpeditionCommands
