@@ -246,8 +246,10 @@ def callback_put_vote(bot, update):
 		#Commands.save(bot, game.cid)		
 		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)		
 	except Exception as e:
-		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
-		bot.send_message(ADMIN[0], callback.data)	      
+		aux = ""
+		# Se comenta ya que el error que tira es cuando se manda a edit y no se ha modificado nada. 
+		#bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		#bot.send_message(ADMIN[0], callback.data)	      
 			
 def pass_say_anything(bot, game):
 	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
