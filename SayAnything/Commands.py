@@ -351,7 +351,8 @@ def pick_resp(bot, game, uid, opcion):
 		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida[1], helper.player_call(jugador_favorecido))
 		jugador_favorecido.puntaje += 1
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
-		SayAnythingController.call_players_to_vote(bot, game)
+		# Descomentar cuando este produtivo
+		#SayAnythingController.call_players_to_vote(bot, game)
 		SayAnythingController.start_next_round(bot, game)		
 
 	except Exception as e:
