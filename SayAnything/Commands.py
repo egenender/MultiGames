@@ -66,41 +66,7 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
-	
-def command_votes(bot, update):
-	try:
-		#Send message of executing command   
-		cid = update.message.chat_id
-		#bot.send_message(cid, "Looking for history...")
-		#Check if there is a current game 
-		if cid in GamesController.games.keys():
-			game = GamesController.games.get(cid, None)
-			if not game.dateinitvote:
-				# If date of init vote is null, then the voting didnt start          
-				bot.send_message(cid, "The voting didn't start yet.")
-			else:
-				#If there is a time, compare it and send history of votes.
-				start = game.dateinitvote
-				stop = datetime.datetime.now()
-				elapsed = stop - start
-				if elapsed > datetime.timedelta(minutes=1):
-					history_text = "Vote history for President %s and Chancellor %s:\n\n" % (game.board.state.nominated_president.name, game.board.state.nominated_chancellor.name)
-					for player in game.player_sequence:
-						# If the player is in the last_votes (He voted), mark him as he registered a vote
-						if next((x for x in game.board.state.ordered_votes if x.player.uid == player.uid), None):
-							history_text += "%s ha dado pista.\n" % (game.playerlist[player.uid].name)
-						else:
-							history_text += "%s *no* ha dado pista.\n" % (game.playerlist[player.uid].name)
-					bot.send_message(cid, history_text, ParseMode.MARKDOWN)
-					
-				else:
-					bot.send_message(cid, "Five minutes must pass to see the votes") 
-		else:
-			bot.send_message(cid, "There is no game in this chat. Create a new game with /newgame")
-	except Exception as e:
-		bot.send_message(cid, str(e))
 
-		
 def command_call(bot, game):
 	try:
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
@@ -362,9 +328,7 @@ def pick_resp(bot, game, uid, opcion):
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
-	
-
-	
+		
 def command_continue(bot, game, uid):
 	try:
 		
