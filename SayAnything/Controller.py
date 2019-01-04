@@ -217,6 +217,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 		bot.send_message(uid, "{0}*Ingresa/Modifica* tus votos".format(mensaje), parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	
 def callback_put_vote(bot, update):
+	log.info('callback_put_vote called')
 	callback = update.callback_query
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
@@ -271,6 +272,7 @@ def count_points(bot, game):
 		player = voto[0]
 		player.puntaje += voto[1]
 		mensaje += "{name} gano {puntos} punto\n".format(name=player.name, puntos=voto[1])
+	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 	#Commands.save(bot, game.cid)
 	start_next_round(bot, game)
 		
