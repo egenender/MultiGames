@@ -314,16 +314,12 @@ def pick_resp(bot, game, uid, opcion):
 		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas
 		args_text = opcion
 		
-		frase_elegida = game.board.state.ordered_votes[int(args_text)-1]
-		#frase_elegida = list(game.board.state.last_votes.items())[int(args_text)-1]
+		game.board.state.index_pick_resp = int(args_text)-1
 		
-		jugador_favorecido = frase_elegida.player
-		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida.content['propuesta'], helper.player_call(jugador_favorecido))
-		jugador_favorecido.puntaje += 1
-		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 		# Descomentar cuando este produtivo
-		#SayAnythingController.call_players_to_vote(bot, game)
-		SayAnythingController.start_next_round(bot, game)		
+		SayAnythingController.call_players_to_vote(bot, game)
+		#SayAnythingController.count_points(bot, game)
+		#SayAnythingController.start_next_round(bot, game)		
 
 	except Exception as e:
 		bot.send_message(uid, str(e))
