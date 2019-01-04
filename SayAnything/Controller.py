@@ -190,6 +190,7 @@ def get_respuestas(bot, game):
 # Jugador activo hace /pick en secreto
 
 def call_players_to_vote(bot, game):
+	Commands.save(bot, game.cid)
 	if not hasattr(game.board.state, 'votes_on_votes'):
 		game.board.state.votes_on_votes = []
 	for uid in game.playerlist:
