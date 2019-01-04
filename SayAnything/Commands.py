@@ -358,7 +358,8 @@ def pick_resp(bot, game, uid, opcion):
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
 	
-		
+
+	
 def command_continue(bot, game, uid):
 	try:
 		
