@@ -35,6 +35,12 @@ JUEGOS_DISPONIBLES = {
                 },
 		"restriccion" : "admin",
                 "permitir_ingreso_tardio" : True
+        },
+	"Arcana" : {
+                "comandos" : {
+                    "Arcana" : "Ship Arcana"
+                },
+		"restriccion" : "admin"
         }
 }
 
@@ -107,6 +113,15 @@ MODULOS_DISPONIBES = {
                         },
                         "min_jugadores" : 1,
                         "max_jugadores" : 99
+                } 
+        },
+	"Arcana" : {
+                "Cooperativo" : {
+                        "comandos" : {
+                            "Cooperativo" : "Cooperativo"
+                        },
+                        "min_jugadores" : 2,
+                        "max_jugadores" : 5
                 } 
         }
 }
