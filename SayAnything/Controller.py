@@ -179,7 +179,7 @@ def get_respuestas(bot, game):
 	text = ""
 	i = 1
 	
-	for key, value in game.board.state.ordered_votes:		
+	for vote in game.board.state.ordered_votes:		
 		text += "*{1}: {0}*\n".format(value, i)
 		i += 1
 	'''
@@ -206,7 +206,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 	for vote in game.board.state.ordered_votes:
 		votos_a_respuesta = [(index, val[0], val[2]) for index, val in enumerate(votes_on_votes) if val[2]==3]
 		opciones_botones[i] = "({0}) {1}".format(len(votos_a_respuesta), vote.content['propuesta'])
-		i += 1		
+		i += 1
 	btnMarkup = simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
 	
 	if message_id:
