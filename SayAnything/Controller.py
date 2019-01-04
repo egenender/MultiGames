@@ -270,10 +270,17 @@ def count_points(bot, game):
 	
 	votos_a_respuesta_elegida = [(val[0], val[1], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==game.board.state.index_pick_resp]
 	mensaje = "A su vez los jugadores que votaron la frase:\n"
+	votos_dif_jugadores = []
+	
 	for voto in votos_a_respuesta_elegida:
 		player = voto[0]
 		player.puntaje += voto[1]
+		if player.uid not in votos_dif_jugadores and len(votos_dif_jugadores) < 3:
+			votos_dif_jugadores.append(player.uid)
+		
 		mensaje += "{name} gano {puntos} punto\n".format(name=player.name, puntos=voto[1])
+	game.board.state.active_player.puntaje += len(votos_dif_jugadores)
+	bot.send_message(game.cid, "El jugador activo ha ganado *{}* por los votos de diferentes jugadores (MAX 3)".format(len(votos_dif_jugadores)), ParseMode.MARKDOWN)
 	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 	#Commands.save(bot, game.cid)
 	start_next_round(bot, game)
