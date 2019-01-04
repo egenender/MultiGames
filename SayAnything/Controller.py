@@ -126,6 +126,8 @@ def start_round_say_anything(bot, game):
 	game.board.state.last_votes = {}
 	game.board.state.removed_votes = {}
 	game.board.state.ordered_votes = []
+	# Tuplas de votos (UID=de quien es el voto, PUNTAJE=valor del voto, INDEX_ORDERED_VOTES=respeusta que apunta)  
+	game.board.state.votes_on_votes = []
 	
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
@@ -170,17 +172,21 @@ def send_prop(bot, game):
 	game.board.state.fase_actual = "Adivinando"
 	Commands.save(bot, game.cid)	
 	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+	# Comentar cuando este en produccion
+	call_players_to_vote(bot, game)
 
 def get_respuestas(bot, game):
 	text = ""
 	i = 1
-	for key, value in game.board.state.last_votes.items():		
-		try:
-			player = game.playerlist[key]
-		except Exception as e:
-			player = game.playerlist[key-1]
+	
+	for key, value in game.board.state.ordered_votes:		
 		text += "*{1}: {0}*\n".format(value, i)
 		i += 1
+	'''
+	for vote in game.board.state.ordered_votes:		
+		text += "*{1}: {0}*\n".format(vote.content['propuesta'], i)
+		i += 1
+	'''		
 	respuestas = "Las respuestas son:\n{}".format(text)
 	return "{0} es hora de elegir! Elige con /pick NUMERO (En privado)\n*{1}*\n{2}\n".format(helper.player_call(game.board.state.active_player), game.board.state.acciones_carta_actual, respuestas)		
 
@@ -189,10 +195,53 @@ def get_respuestas(bot, game):
 def call_players_to_vote(bot, game):
 	for uid in game.playerlist:
 		if (uid == ADMIN[0]) and (uid != game.board.state.active_player.uid):
-			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
-			respuestas = get_respuestas(bot, game)
-			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*\n{3}".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name, respuestas)
+			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
+			send_vote_buttons(bot, game, uid)
+			
+
+def send_vote_buttons(bot, game, uid, message_id = None):
+	opciones_botones = { }
+	i = 0
+	for vote in game.board.state.ordered_votes:
+		opciones_botones[i] = vote.content['propuesta']
+		i += 1
+		
+	btnMarkup = simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
+	
+	if message_id:
+		bot.edit_message_text("*Ingresa/Modifica* tus votos", chat_id=uid, message_id=message_id, 
+				      parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+	else:
+		bot.send_message(uid, "Ingresa/Modifica tus votos", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+	
+def callback_put_vote(bot, update):
+	callback = update.callback_query
+	try:		
+		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*voteRespuestaSA\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		game = Commands.get_game(cid)
+		
+		if not hasattr(game.board.state, 'votes_on_votes'):
+			game.board.state.votes_on_votes = []
+		# Tuplas de votos (UID=de quien es el voto, PUNTAJE=valor del voto, INDEX_ORDERED_VOTES=respeusta que apunta)  
+		
+		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0]==uid]
+		# Si ya voto dos veces quito el indice mas bajo de sus votos y agrego el nuevo
+		if len(lista_votos_usuario) == 2:
+			# Borro el elemento ingresado mas viejo
+			index_to_remove = lista_votos_usuario[0][0]
+			del game.board.state.votes_on_votes[index_to_remove]		
+		game.board.state.votes_on_votes.append(uid, 1, int(opcion))
+		
+		bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)	
+		
+		Commands.save(bot, game.cid)		
+		send_vote_buttons(bot, game, uid)		
+	except Exception as e:
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)	      
 			
 def pass_say_anything(bot, game):
 	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
