@@ -180,13 +180,8 @@ def get_respuestas(bot, game):
 	i = 1
 	
 	for vote in game.board.state.ordered_votes:		
-		text += "*{1}: {0}*\n".format(value, i)
-		i += 1
-	'''
-	for vote in game.board.state.ordered_votes:		
 		text += "*{1}: {0}*\n".format(vote.content['propuesta'], i)
-		i += 1
-	'''		
+		i += 1		
 	respuestas = "Las respuestas son:\n{}".format(text)
 	return "{0} es hora de elegir! Elige con /pick NUMERO (En privado)\n*{1}*\n{2}\n".format(helper.player_call(game.board.state.active_player), game.board.state.acciones_carta_actual, respuestas)		
 
