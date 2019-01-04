@@ -193,8 +193,8 @@ def call_players_to_vote(bot, game):
 	if not hasattr(game.board.state, 'votes_on_votes'):
 		game.board.state.votes_on_votes = []
 	for uid in game.playerlist:
-		#if uid != game.board.state.active_player.uid:
-		if uid == ADMIN[0]:			
+		#if uid == ADMIN[0]:
+		if uid != game.board.state.active_player.uid:					
 			send_vote_buttons(bot, game, uid)			
 
 def send_vote_buttons(bot, game, uid, message_id = None):
