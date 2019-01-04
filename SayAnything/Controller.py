@@ -223,15 +223,21 @@ def callback_put_vote(bot, update):
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		game = Commands.get_game(cid)
 		# Si decidio terminar le doy las gracias y continuo.
-		if opcion == "-1":
-			bot.edit_message_text("*Muchas Gracias!*", chat_id=uid, 
-					      message_id=callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
+		
 		
 		if not hasattr(game.board.state, 'votes_on_votes'):
 			game.board.state.votes_on_votes = []
 		# Tuplas de votos (UID=de quien es el voto, PUNTAJE=valor del voto, INDEX_ORDERED_VOTES=respeusta que apunta)  
-		
 		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0]==uid]
+		
+		if opcion == "-1":
+			if len(lista_votos_usuario) == 2:
+				bot.edit_message_text("*Muchas Gracias!*", chat_id=uid, 
+						      message_id=callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
+			else:
+				bot.send_message(uid, "Debes ingresar al tus *2 votos*", parse_mode=ParseMode.MARKDOWN)
+				send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)
+		
 		# Si ya voto dos veces quito el indice mas bajo de sus votos y agrego el nuevo
 		if len(lista_votos_usuario) == 2:
 			# Borro el elemento ingresado mas viejo
