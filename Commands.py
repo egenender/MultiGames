@@ -223,9 +223,12 @@ def command_prueba(bot, update, args, chat_data, user_data):
 	if uid in ADMIN:
 		game = get_game(cid)
 		
-		bot.send_message(cid, "Este es el grupo ({0}) - Cuyo nombre es {1} y tipo es {2}".format(cid, groupName, groupType))
-		bot.send_message(cid, chat_data)
-		bot.send_message(cid, user_data)
+		#bot.send_message(cid, "Este es el grupo ({0}) - Cuyo nombre es {1} y tipo es {2}".format(cid, groupName, groupType))
+		#bot.send_message(cid, chat_data)
+		#bot.send_message(cid, user_data)
+		
+		SayAnythingController.call_players_to_vote(bot, game)
+		
 		'''
 		
 		if not game:
