@@ -211,7 +211,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 		bot.edit_message_text("*Ingresa/Modifica* tus votos", chat_id=uid, message_id=message_id, 
 				      parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	else:
-		bot.send_message(uid, "Ingresa/Modifica tus votos", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		bot.send_message(uid, "*Ingresa/Modifica* tus votos", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	
 def callback_put_vote(bot, update):
 	callback = update.callback_query
