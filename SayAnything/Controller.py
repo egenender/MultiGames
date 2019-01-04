@@ -193,13 +193,12 @@ def call_players_to_vote(bot, game):
 		game.board.state.votes_on_votes = []
 	for uid in game.playerlist:
 		#if uid != game.board.state.active_player.uid:
-		if uid == ADMIN[0]:
-			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
-			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
-			send_vote_buttons(bot, game, uid)
-			
+		if uid == ADMIN[0]:			
+			send_vote_buttons(bot, game, uid)			
 
 def send_vote_buttons(bot, game, uid, message_id = None):
+	mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
+			
 	opciones_botones = { }
 	i = 0
 	for vote in game.board.state.ordered_votes:
@@ -210,10 +209,10 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 	btnMarkup = Commands.simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
 	
 	if message_id:
-		bot.edit_message_text("*Ingresa/Modifica* tus votos", chat_id=uid, message_id=message_id, 
+		bot.edit_message_text("{0}*Ingresa/Modifica* tus votos".format(mensaje), chat_id=uid, message_id=message_id, 
 				      parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	else:
-		bot.send_message(uid, "*Ingresa/Modifica* tus votos", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		bot.send_message(uid, "{0}*Ingresa/Modifica* tus votos".format(mensaje), parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	
 def callback_put_vote(bot, update):
 	callback = update.callback_query
