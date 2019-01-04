@@ -206,7 +206,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 	for vote in game.board.state.ordered_votes:
 		votos_a_respuesta = [(val[0], val[1], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==i]
 		jugadores_votos_a_respuesta = "".join(("({})".format(o[0].name[:2])) for o in votos_a_respuesta)
-		jugadores_votos_a_respuesta = jugadores_votos_a_respuesta if len(jugadores_votos_a_respuesta) < 20 else jugadores_votos_a_respuesta[:20]
+		jugadores_votos_a_respuesta = jugadores_votos_a_respuesta if len(jugadores_votos_a_respuesta) < 24 else jugadores_votos_a_respuesta[:20] + '...'
 		opciones_botones[i] = "{0} {1}".format(jugadores_votos_a_respuesta, vote.content['propuesta'])
 		i += 1
 	opciones_botones[-1] = "Terminar"
