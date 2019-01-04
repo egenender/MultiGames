@@ -231,7 +231,7 @@ def callback_put_vote(bot, update):
 			# Borro el elemento ingresado mas viejo
 			index_to_remove = lista_votos_usuario[0][0]
 			del game.board.state.votes_on_votes[index_to_remove]		
-		game.board.state.votes_on_votes.append(uid, 1, int(opcion))
+		game.board.state.votes_on_votes.append((uid, 1, int(opcion)))
 		
 		bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)	
 		
