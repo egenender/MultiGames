@@ -341,14 +341,17 @@ def pick_resp(bot, game, uid, opcion):
 		log.info('pick_resp called')
 		if (game.board.state.fase_actual != "Adivinando" 
 		    		or uid != game.board.state.active_player.uid 
-				or int(opcion) > len(game.board.state.last_votes) ):# and uid not in ADMIN:
+				or int(opcion) > len(game.board.state.ordered_votes) ):# and uid not in ADMIN:
 			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo valido para puntuar", ParseMode.MARKDOWN)
 			return
 		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas
-		args_text = opcion	
-		frase_elegida = list(game.board.state.last_votes.items())[int(args_text)-1]		
-		jugador_favorecido = game.playerlist[frase_elegida[0]]		
-		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida[1], helper.player_call(jugador_favorecido))
+		args_text = opcion
+		
+		frase_elegida = game.board.state.ordered_votes[int(args_text)-1]
+		#frase_elegida = list(game.board.state.last_votes.items())[int(args_text)-1]
+		
+		jugador_favorecido = frase_elegida.player
+		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida.content['propuesta'], helper.player_call(jugador_favorecido))
 		jugador_favorecido.puntaje += 1
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 		# Descomentar cuando este produtivo
