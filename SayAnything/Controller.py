@@ -188,13 +188,12 @@ def get_respuestas(bot, game):
 
 def call_players_to_vote(bot, game):
 	for uid in game.playerlist:
-		if uid != game.board.state.active_player.uid:
+		if (uid == ADMIN[0]) and (uid != game.board.state.active_player.uid):
 			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
-			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
+			respuestas = get_respuestas(bot, game)
+			mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*\n{3}".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name, respuestas)
 			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
-			mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/resp Ejemplo Ejemplo2"
-			bot.send_message(uid, mensaje)
-	
+			
 def pass_say_anything(bot, game):
 	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 	start_next_round(bot, game)
