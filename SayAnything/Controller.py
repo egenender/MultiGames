@@ -202,8 +202,9 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 	opciones_botones = { }
 	i = 0
 	for vote in game.board.state.ordered_votes:
-		votos_a_respuesta = [(index, val[0], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==i]
-		opciones_botones[i] = "({0}) {1}".format(len(votos_a_respuesta), vote.content['propuesta'])
+		votos_a_respuesta = [(val[0], val[1], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==i]
+		jugadores_votos_a_respuesta = "".join(("({})".format(o[0].name[:2])) for o in votos_a_respuesta)
+		opciones_botones[i] = "{0} {1}".format(jugadores_votos_a_respuesta, vote.content['propuesta'])
 		i += 1
 	opciones_botones[-1] = "Terminar"
 	btnMarkup = Commands.simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
@@ -227,7 +228,7 @@ def callback_put_vote(bot, update):
 		if not hasattr(game.board.state, 'votes_on_votes'):
 			game.board.state.votes_on_votes = []
 		# Tuplas de votos (UID=de quien es el voto, PUNTAJE=valor del voto, INDEX_ORDERED_VOTES=respeusta que apunta)  
-		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0]==uid]
+		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==uid]
 		
 		if opcion == "-1":
 			if len(lista_votos_usuario) == 2:
@@ -242,7 +243,8 @@ def callback_put_vote(bot, update):
 			# Borro el elemento ingresado mas viejo
 			index_to_remove = lista_votos_usuario[0][0]
 			del game.board.state.votes_on_votes[index_to_remove]		
-		game.board.state.votes_on_votes.append((uid, 1, int(opcion)))		
+		player = game.playerlist[uid]
+		game.board.state.votes_on_votes.append((player, 1, int(opcion)))		
 		#Commands.save(bot, game.cid)		
 		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)		
 	except Exception as e:
