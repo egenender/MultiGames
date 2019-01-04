@@ -206,6 +206,7 @@ def send_vote_buttons(bot, game, uid, message_id = None):
 		votos_a_respuesta = [(index, val[0], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==i]
 		opciones_botones[i] = "({0}) {1}".format(len(votos_a_respuesta), vote.content['propuesta'])
 		i += 1
+	opciones_botones[-1] = "Terminar"
 	btnMarkup = Commands.simple_choose_buttons_only_buttons(bot, game.cid, uid, "voteRespuestaSA", opciones_botones)
 	
 	if message_id:
@@ -221,6 +222,10 @@ def callback_put_vote(bot, update):
 		regex = re.search("(-[0-9]*)\*voteRespuestaSA\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		game = Commands.get_game(cid)
+		# Si decidio terminar le doy las gracias y continuo.
+		if opcion == "-1":
+			bot.edit_message_text("*Muchas Gracias!*", chat_id=uid, 
+					      message_id=callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 		
 		if not hasattr(game.board.state, 'votes_on_votes'):
 			game.board.state.votes_on_votes = []
