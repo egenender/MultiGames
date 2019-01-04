@@ -88,7 +88,7 @@ def call_to_vote_respeustas(bot, game):
 		if len(lista_votos_usuario) != 2:
 			call_text += 'Te faltan *{0}* votos {1}.\n'.format(2-len(lista_votos_usuario), helper.player_call(player))
 			SayAnythingController.send_vote_buttons(bot, game, player.uid)
-	bot.send_message(game.cid, history_text, ParseMode.MARKDOWN)
+	bot.send_message(game.cid, call_text, ParseMode.MARKDOWN)
 		
 def call_proponiendo_pistas(bot, game):
 	if not game.dateinitvote:
