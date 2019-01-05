@@ -235,7 +235,7 @@ def callback_put_vote(bot, update):
 		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==uid]
 		
 		if opcion == "-1":
-			if len(lista_votos_usuario) == 2:
+			if game.board.state.fase_actual != "Votando Frases" or len(lista_votos_usuario) == 2:
 				bot.edit_message_text("*Muchas Gracias!*", chat_id=uid, 
 						      message_id=callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 			else:
