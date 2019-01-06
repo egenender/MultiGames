@@ -88,6 +88,8 @@ class helper:
 			return game.configs.get(config_name, None)				
 		except Exception as e:
 			return None
+	def gname(game):
+		return = "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
 	
 	
 	
