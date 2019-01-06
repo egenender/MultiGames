@@ -200,7 +200,7 @@ def call_players_to_vote(bot, game):
 			send_vote_buttons(bot, game, uid)			
 
 def send_vote_buttons(bot, game, uid, message_id = None):
-	mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
+	mensaje = "Debes votar sobre las respuestas en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*".format(game.board.state.acciones_carta_actual, helper.gname(game), game.board.state.active_player.name)
 			
 	opciones_botones = { }
 	i = 0
@@ -364,7 +364,7 @@ def callback_finish_game_buttons(bot, update):
 
 def myturn_message(game, uid):
 	try:
-		group_link_name = "[{0}]({1})".format(game.groupName, helper.get_config_data(game, "link"))
+		group_link_name = helper.gname(game)
 		#group_link_name = game.groupName if get_config_data(game, "link")==None else "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
 		#if uid == ADMIN[0]:
 		#	group_link_name = "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
