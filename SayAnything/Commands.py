@@ -335,9 +335,9 @@ def pick_resp(bot, game, uid, opcion):
 		game.board.state.fase_actual = "Votando Frases"
 		
 		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
-			count_points(bot, game)
+			SayAnythingController.count_points(bot, game)
 		else:
-			command_call(bot, game)
+			SayAnythingController.command_call(bot, game)
 			
 			
 		#SayAnythingController.count_points(bot, game)
