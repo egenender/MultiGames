@@ -9,8 +9,8 @@ from Arcana.Constants.Cards import FATETOKENS, ARCANACARDS
 class Board(BaseBoard):
 	def __init__(self, playercount, game):
 		BaseBoard.__init__(self, playercount, game)
-		self.arcanaCards = random.sample(ARCANACARDS, len(ARCANACARDS))
-		self.fateTokens = random.sample(FATETOKENS, len(FATETOKENS))
+		self.arcanaCards = random.sample(ARCANACARDS[:], len(ARCANACARDS))
+		self.fateTokens = random.sample(FATETOKENS[:], len(FATETOKENS))
 		# Se seteara en difficultad el doom inicial
 		self.state.doom = None
 		self.state.score = 0
