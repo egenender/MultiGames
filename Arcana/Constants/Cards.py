@@ -104,6 +104,16 @@ FateTokens = [
 	}	
 ]
 
+LasHoras = [
+	{
+		"Título": "Las horas",
+		"Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
+		"Lunas": "",
+		"Título reverso": "",
+		"Texto reverso": ""
+	 }
+]
+
 ArcanaCards = [ 
  {
    "Título": "1-4-7",
@@ -315,11 +325,4 @@ ArcanaCards = [
    "Título reverso": "3-4-5",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 3, 4 o 5?\"."
  },
- {
-   "Título": "Las horas",
-   "Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
-   "Lunas": "",
-   "Título reverso": "",
-   "Texto reverso": ""
- }
 ]
