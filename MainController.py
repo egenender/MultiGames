@@ -17,6 +17,7 @@ import Commands
 # Importo los controladores de todos los juegos que vaya agregando
 import JustOne.Controller as JustOneController
 import SayAnything.Controller as SayAnythingController
+import Arcana.Controller as ArcanaController
 
 # Importo los comandos de los juegos que vaya agregando
 import JustOne.Commands as JustoneCommands
@@ -520,6 +521,10 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseendSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_finish_game_buttons))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegamepickSA\*(.*)\*([0-9]*)", callback=SayAnythingCommands.callback_choose_game_pick))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*voteRespuestaSA\*(.*)\*([0-9]*)", callback=SayAnythingController.callback_put_vote))
+	
+	# Handlers de Arcana
+	# Arcana Callbacks de botones
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosediccAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_finish_config))
 	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
