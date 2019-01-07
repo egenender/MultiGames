@@ -1,3 +1,35 @@
+PLAYERFATETOKENS = [
+	{
+		"Texto" : "1",
+		"TimeSymbols" : "1"
+	},
+	{
+		"Texto" : "2",
+		"TimeSymbols" : "1"
+	},
+	{
+		"Texto" : "3",
+		"TimeSymbols" : "1"
+	},
+	{
+		"Texto" : "4",
+		"TimeSymbols" : "2"
+	},
+	{
+		"Texto" : "5",
+		"TimeSymbols" : "2"
+	},
+	{
+		"Texto" : "6",
+		"TimeSymbols" : "2"
+	},	
+	{
+		"Texto" : "7",
+		"TimeSymbols" : "3"
+	}
+]
+	
+
 FATETOKENS = [
 	{
 		"Texto" : "1",
