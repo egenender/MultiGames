@@ -62,14 +62,14 @@ debugging = False
 
 def init_game(bot, game):
 	try:
-		log.info('init_say_anything called')		
-		game.shuffle_player_sequence()		
+		log.info('init_say_anything called')	
+		game.shuffle_player_sequence()
 		# Seteo las palabras	
-		call_dicc_buttons(bot, game)
+		call_diff_buttons(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, 'No se ejecuto el comando debido a: '+str(e))
 
-def call_dicc_buttons(bot, game):
+def call_diff_buttons(bot, game):
 	#log.info('call_dicc_buttons called')
 	opciones_botones = DIFFICULTAD
 	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "choosediccAR", "Elija difficultad para jugar", opciones_botones)
@@ -80,14 +80,13 @@ def callback_finish_config(bot, update):
 	try:
 		regex = re.search("(-[0-9]*)\*choosediccAR\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
+		mensaje_edit = "Por la difficultad el doom comienza en: {0}".format(opcion)
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
 		except Exception as e:
-			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)
-			
+			bot.edit_message_text(mensaje_edit, uid, callback.message.message_id)			
 		game = Commands.get_game(cid)
-		game.configs['diccionario'] = opcion
+		game.configs['difficultad'] = opcion
 		finish_config(bot, game, opcion)
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
@@ -100,41 +99,25 @@ def list_menos_list(list_total, list_a_restar):
 		
 def finish_config(bot, game, opcion):
 	log.info('finish_config called')
-	# Si vengo de un partido anterior agrego los descartes de la partida anterior.	
-	if game.configs.get('discards', None):
-		game.board.discards = game.configs.get('discards')
-		del game.configs['discards']
-	url_palabras_posibles = '/app/SayAnything/txt/spanish-{0}.txt'.format(opcion)	
-	with open(url_palabras_posibles, 'r') as f:
-		palabras_posibles = f.readlines()
-		palabras_posibles_no_repetidas = list_menos_list(palabras_posibles, game.board.discards)
-		# Si no hay palabra posible no repetidas para jugar mezclo todas las palabras posibles
-		if len(palabras_posibles_no_repetidas) < 13:
-		    # Quedo bien 
-			game.board.discards = []
-			palabras_posibles_no_repetidas = palabras_posibles
-		
-		random.shuffle(palabras_posibles_no_repetidas)		
-		game.board.cartas = palabras_posibles_no_repetidas[0:13]
-		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
-	game.board.state.progreso = 0
-	start_round_say_anything(bot, game)
+	# Seteo la difficultad
+	game.board.state.score = 0
+	game.board.state.doom = int(opcion)
+	start_round(bot, game)
 
 # Objetivo
 # start_round / Draw Fates -> Play Fate -> Predict or Pass ->   Resolve  -> Fade
 #  ---------------"Jugar Fate"---------     --Predecir ---     ----Resolver------
 	
-def start_round_say_anything(bot, game):
-	log.info('start_round_say_anything called')
+def start_round(bot, game):
+	log.info('start_round_Arcana called')
 	cid = game.cid	
 	# Se marca al jugador activo
-	
-	#Reseteo los votos	
-	game.board.state.last_votes = {}
-	game.board.state.removed_votes = {}
-	
+		
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
+	
+	# Draw Fates.
+	#game.dra
 	
 	palabra_elegida = game.board.cartas.pop(0)
 	game.board.state.acciones_carta_actual = palabra_elegida	
@@ -194,7 +177,7 @@ def start_next_round(bot, game):
 		#bot.send_message(game.cid, "Para comenzar un juego nuevo pon el comando /delete y luego /newgame", ParseMode.MARKDOWN)
 		return
 	helper.increment_player_counter(game)
-	start_round_say_anything(bot, game)
+	start_round(bot, game)
 
 def continue_playing(bot, game):
 	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Misma Dificultad" : "Misma Dificultad", "Diferente Dificultad" : "Diferente Dificultad"}
@@ -245,11 +228,11 @@ def callback_finish_game_buttons(bot, update):
 		if opcion == "Misma Dificultad":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
 			#log.info('Llego hasta el new2')
-			game.configs['diccionario'] = dicc
+			game.configs['difficultad'] = dicc
 			finish_config(bot, game, dicc)
 		if opcion == "Diferente Dificultad":
 			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
-			call_dicc_buttons(bot, game)				
+			call_diff_buttons(bot, game)				
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
