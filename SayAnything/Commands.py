@@ -81,8 +81,7 @@ def command_call(bot, game):
 		bot.send_message(game.cid, str(e))
 
 def call_to_vote_respeustas(bot, game):
-	bot.send_message(game.cid, "Recuerden votar", ParseMode.MARKDOWN)
-	call_text = ''
+	call_text = 'Recuerden votar\n'
 	for player in game.player_sequence:
 		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==player.uid]
 		if len(lista_votos_usuario) != 2 and player.uid != game.board.state.active_player.uid:
