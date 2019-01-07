@@ -1,4 +1,4 @@
-FateTokens = [
+FATETOKENS = [
 	{
 		"Texto" : "1",
 		"TimeSymbols" : "1"
@@ -85,7 +85,7 @@ FateTokens = [
 	}	
 ]
 
-LasHoras = [
+LASHORAS = [
 	{
 		"Título": "Las horas",
 		"Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
@@ -95,7 +95,7 @@ LasHoras = [
 	 }
 ]
 
-ArcanaCards = [ 
+ARCANACARDS = [ 
  {
    "Título": "1-4-7",
    "Texto": "Si uno de tus destinos es 1, 4 o 7, y el otro no, juega el 1, 4 o 7 aquí.",
