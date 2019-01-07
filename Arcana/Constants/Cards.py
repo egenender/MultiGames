@@ -85,14 +85,7 @@ FateTokens = [
 	}	
 ]
 
-ArcanaCards = [
- {
-   "Título": "Título",
-   "Texto": "Texto",
-   "Lunas": "Lunas",
-   "Título reverso": "Título reverso",
-   "Texto reverso": "Texto reverso"
- },
+ArcanaCards = [ 
  {
    "Título": "1-4-7",
    "Texto": "Si uno de tus destinos es 1, 4 o 7, y el otro no, juega el 1, 4 o 7 aquí.",
