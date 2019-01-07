@@ -1,3 +1,22 @@
+Difficulty = [
+	{
+		"Texto" : "Easy",
+		"Doom" : "0"
+	},
+	{
+		"Texto" : "Normal",
+		"Doom" : "2"
+	},
+	{
+		"Texto" : "Hard",
+		"Doom" : "4"
+	},
+	{
+		"Texto" : "Doomed",
+		"Doom" : "5"
+	},
+]
+
 FateTokens = [
 	{
 		"Texto" : "1",
