@@ -1,4 +1,4 @@
-Difficulty = {
+DIFFICULTAD = {
 	"0" : "Easy",	
 	"2" : "Normal",
 	"4" : "Hard",
