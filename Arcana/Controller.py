@@ -71,14 +71,14 @@ def init_game(bot, game):
 
 def call_dicc_buttons(bot, game):
 	#log.info('call_dicc_buttons called')
-	opciones_botones = { "preguntas" : "Español Ficus" }
-	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "choosediccSA", "¿Elija un diccionario para jugar?", opciones_botones)
+	opciones_botones = DIFFICULTAD
+	Commands.simple_choose_buttons(bot, game.cid, 1234, game.cid, "choosediccAR", "Elija difficultad para jugar", opciones_botones)
 		
 def callback_finish_config(bot, update):
 	log.info('callback_finish_config_sayanything called')
 	callback = update.callback_query
 	try:
-		regex = re.search("(-[0-9]*)\*choosediccSA\*(.*)\*([0-9]*)", callback.data)
+		regex = re.search("(-[0-9]*)\*choosediccAR\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
 		try:
