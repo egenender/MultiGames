@@ -2,7 +2,7 @@
 Eduardo Peluffo
 
 # Colaborators
-None
+HQ063
 
 # Telegram Bot for the Multi Games By Levi
 This is a simple Telegram Bot for the Multi Games By Levi
