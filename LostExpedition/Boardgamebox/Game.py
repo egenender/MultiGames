@@ -2,6 +2,8 @@ import json
 from datetime import datetime
 from random import shuffle
 
+from Constants.Cards import cartas_aventura
+
 from Boardgamebox.Game import Game as BaseGame
 from SayAnything.Boardgamebox.Player import Player
 from SayAnything.Boardgamebox.Board import Board
@@ -10,7 +12,9 @@ from SayAnything.Boardgamebox.Board import Board
 
 class Game(BaseGame):
 	def __init__(self, cid, initiator, groupName, tipo = None, modo = None):
-		BaseGame.__init__(self, cid, initiator, groupName, tipo, modo)		
+		BaseGame.__init__(self, cid, initiator, groupName, tipo, modo)
+		self.cartasAventura = random.sample([*cartas_aventura], len([*cartas_aventura]))
+		self.cartasExplorationActual = []
 	
 	# Creacion de player de Say Anything.
 	def add_player(self, uid, name):
