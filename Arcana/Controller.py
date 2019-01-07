@@ -16,9 +16,12 @@ import Commands
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
 
-from SayAnything.Boardgamebox.Game import Game
-from SayAnything.Boardgamebox.Player import Player
-from SayAnything.Boardgamebox.Board import Board
+from Arcana.Constants.Config import DIFFICULTAD
+from Arcana.Constants.Cards import FATETOKENS, LASHORAS, ARCANACARDS
+
+from Arcana.Boardgamebox.Game import Game
+from Arcana.Boardgamebox.Player import Player
+from Arcana.Boardgamebox.Board import Board
 
 from Utils.helpers import helper
 
@@ -116,7 +119,11 @@ def finish_config(bot, game, opcion):
 		game.board.cartas = [w.replace('\n', '') for w in game.board.cartas]
 	game.board.state.progreso = 0
 	start_round_say_anything(bot, game)
-		
+
+# Objetivo
+# start_round / Draw Fates -> Play Fate -> Predict or Pass ->   Resolve  -> Fade
+#  ---------------"Jugar Fate"---------     --Predecir ---     ----Resolver------
+	
 def start_round_say_anything(bot, game):
 	log.info('start_round_say_anything called')
 	cid = game.cid	
@@ -190,7 +197,7 @@ def start_next_round(bot, game):
 	start_round_say_anything(bot, game)
 
 def continue_playing(bot, game):
-	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Mismo Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "Otro Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
+	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Misma Dificultad" : "Misma Dificultad", "Diferente Dificultad" : "Diferente Dificultad"}
 	Commands.simple_choose_buttons(bot, game.cid, 1, game.cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
 	
 def callback_finish_game_buttons(bot, update):
@@ -235,12 +242,12 @@ def callback_finish_game_buttons(bot, update):
 		game.player_sequence = []
 		game.shuffle_player_sequence()
 					
-		if opcion == "Mismo Diccionario":
+		if opcion == "Misma Dificultad":
 			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
 			#log.info('Llego hasta el new2')
 			game.configs['diccionario'] = dicc
 			finish_config(bot, game, dicc)
-		if opcion == "Otro Diccionario":
+		if opcion == "Diferente Dificultad":
 			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
 			call_dicc_buttons(bot, game)				
 	except Exception as e:
