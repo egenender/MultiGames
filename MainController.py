@@ -82,6 +82,9 @@ def init_game(bot, game):
 	elif game.tipo == "SayAnything":
 		game.create_board()
 		SayAnythingController.init_game(bot, game)
+	elif game.tipo == "Arcana":
+		game.create_board()
+		ArcanaController.init_game(bot, game)
 
 
 def init_lost_expedition(bot, game, player_number):
