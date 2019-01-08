@@ -135,7 +135,7 @@ def show_fates_active_player(bot, active_player):
 	mensaje = "Los tokens que tiene en tu mano son:\n"
 	for fate in active_player.fateTokens:
 		mensaje += "Fate Token: Numero *{0}* (Simbolos de Tiempo: *{1}*)\n".format(fate["Texto"], fate["TimeSymbols"])
-		bot.send_message(active_player.uid, mensaje, ParseMode.MARKDOWN)
+	bot.send_message(active_player.uid, mensaje, ParseMode.MARKDOWN)
 
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
