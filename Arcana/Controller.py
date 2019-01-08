@@ -101,9 +101,7 @@ def list_menos_list(list_total, list_a_restar):
 def finish_config(bot, game, opcion):
 	log.info('finish_config called')
 	# Seteo la difficultad
-	game.board.state.score = 0
 	game.board.state.doom = int(opcion)
-	game.board.state.arcanasOnTable = []
 	# Antes de comenzar la ronda saco 4 cartas de arca, en proximas rondas la cantidad se ajustara en la fase de Fade	
 	for i in range(4):
 		game.board.state.arcanasOnTable.append(game.board.arcanaCards.pop())
