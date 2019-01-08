@@ -11,9 +11,17 @@ class Board(BaseBoard):
 		BaseBoard.__init__(self, playercount, game)
 		self.arcanaCards = random.sample(ARCANACARDS[:], len(ARCANACARDS))
 		self.fateTokens = random.sample(FATETOKENS[:], len(FATETOKENS))
+		self.fateTokensDiscard = []
 		# Se seteara en difficultad el doom inicial
 		self.state = State()
 		
+	def draw_fate_token(self):
+		if len(self.fateTokens) == 0:
+			# Si esta vacio agrego pongo los del descarte
+			self.fateTokens = random.sample(self.fateTokensDiscard, len(self.fateTokensDiscard))
+			self.fateTokensDiscard = []
+		return self.fateTokens.pop()
+	
 	def print_board(self, game):
 		board = ""
 		board += "--- *Estado de Partida* ---\n"
