@@ -22,6 +22,7 @@ from Boardgamebox.Board import Board
 
 from Boardgamebox.Game import Game
 from SayAnything.Boardgamebox.Game import Game as GameSayAnything
+from Arcana.Boardgamebox.Game import Game as GameArcana
 from Boardgamebox.Game import Game
 
 from Boardgamebox.Player import Player
@@ -614,9 +615,11 @@ def callback_choose_game(bot, update):
 
 
 def CreateGame(cid, uid, tipo, groupName):
-	# Al momento solo SayAnything tiene game custom
+	# Al momento solo SayAnything y Arcana tienen game custom
 	if tipo == 'SayAnything':
 		GamesController.games[cid] = GameSayAnything(cid, uid, groupName, tipo)	
+	elif tipo == 'Arcana':
+		GamesController.games[cid] = GameArcana(cid, uid, groupName, tipo)
 	else:
 		GamesController.games[cid] = Game(cid, uid, groupName, tipo)		
 	return GamesController.games[cid]
