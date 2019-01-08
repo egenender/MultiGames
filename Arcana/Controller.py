@@ -121,21 +121,22 @@ def start_round(bot, game):
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
+	# El jugador obtiene hasta 2 fates
 	for i in range(2-len(game.board.state.active_player.fateTokens)):
-		game.board.state.active_player.fateTokens.append(game.board.fateTokens)
+		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
 	
 	show_fates_active_player(bot, active_player)	
 	
 	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)	
 	game.board.state.fase_actual = "Jugar Fate"
 	Commands.save(bot, game.cid)
-
+	
 def show_fates_active_player(bot, active_player):
 	mensaje = "Los tokens que tiene en tu mano son:\n"
 	for fate in active_player.fateTokens:
 		mensaje += "Fate Token: Numero *{0}* (Simbolos de Tiempo: *{1}*)\n".format(fate["Texto"], fate["TimeSymbols"])
 		bot.send_message(active_player.uid, mensaje, ParseMode.MARKDOWN)
-	
+
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
