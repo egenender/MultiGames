@@ -3,8 +3,8 @@ from datetime import datetime
 from random import shuffle
 
 from Boardgamebox.Game import Game as BaseGame
-from SayAnything.Boardgamebox.Player import Player
-from SayAnything.Boardgamebox.Board import Board
+from Arcana.Boardgamebox.Player import Player
+from Arcana.Boardgamebox.Board import Board
 #from Boardgamebox.Board import Board
 #from Boardgamebox.State import State
 
