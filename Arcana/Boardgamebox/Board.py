@@ -38,10 +38,10 @@ class Board(BaseBoard):
 		
 		return board
 	
-	def print_arcana_front(arcana):
+	def print_arcana_front(self, arcana):
 		return "*{}*\n{}\nCantidad de lunas: {}\n".format(arcana["Título"], arcana["Texto"], arcana["Lunas"])
 	
-	def print_arcana_back(arcana):
+	def print_arcana_back(self, arcana):
 		return "*{}*\n{}\n".format(arcana["Título reverso"], arcana["Texto reverso"])
 	def print_puntaje(self, game):		
 		board += "--- *Puntaje de jugadores* ---\n"
