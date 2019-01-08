@@ -96,12 +96,18 @@ def callback_finish_config(bot, update):
 # list_a_restar Elementos a restar a list_total
 def list_menos_list(list_total, list_a_restar):
 	return [x for x in list_total if x not in list_a_restar]
-		
+
+
 def finish_config(bot, game, opcion):
 	log.info('finish_config called')
 	# Seteo la difficultad
 	game.board.state.score = 0
 	game.board.state.doom = int(opcion)
+	# Antes de comenzar la ronda saco 4 cartas de arca, en proximas rondas la cantidad se ajustara en la fase de Fade
+	for i in range(4):
+		game.board.state.arcanasOnTable.append(game.board.arcanaCards.pop())
+	# Siempre se ve la proxima carta de arcana		
+	game.board.state.topArcana = game.board.arcanaCards[0]	
 	start_round(bot, game)
 
 # Objetivo
@@ -119,25 +125,11 @@ def start_round(bot, game):
 	for i in range(2-len(game.board.state.active_player.fateTokens)):
 		game.board.state.active_player.fateTokens.append(game.board.fateTokens)
 	
-	show_fates_active_player(bot, active_player)
+	show_fates_active_player(bot, active_player)	
 	
-	# Draw Fates.
-	#game.dra
-		
-		
+	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)	
+	game.board.state.fase_actual = "Jugar Fate"
 	Commands.save(bot, game.cid)
-	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
-	game.dateinitvote = datetime.datetime.now()
-	game.board.state.fase_actual = "Proponiendo Pistas"
-	call_players_to_clue(bot, game)
-	Commands.save(bot, game.cid)
-	'''	
-	game.dateinitvote = datetime.datetime.now()
-	call_players_to_clue(bot, game)			
-	game.dateinitvote = datetime.datetime.now()
-	game.board.state.fase_actual = "Proponiendo Pistas"
-	Commands.save(bot, game.cid)
-	'''
 
 def show_fates_active_player(bot, active_player):
 	mensaje = "Los tokens que tiene en tu mano son:\n"
