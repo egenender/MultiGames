@@ -14,14 +14,19 @@ class Board(BaseBoard):
 		# Se seteara en difficultad el doom inicial
 		self.state.doom = None
 		self.state.score = 0
+		self.state.topArcana = None
+		self.state.arcanasOnTable = []
 		
 	def print_board(self, game):
 		board = ""
 		board += "--- *Estado de Partida* ---\n"
-		board += "Cartas restantes: *{0}*\n".format(len(game.board.cartas))
-		board += "Frase actual: *{0}*".format(game.board.state.acciones_carta_actual)
+		board += "Arcana de arriba del mazo: *{0}*\n".format(print_arcana_front(self.state.topArcana))
 		board += "\n\n"
-
+		board += "*Arcanas Activas*:\n"
+		for arcana_on_table in self.state.arcanasOnTable:
+			board += "{0}".format(print_arcana_front(arcana_table))
+		
+		board += "\n\n"
 		board += "--- *Orden de jugadores* ---\n"
 		for player in game.player_sequence:
 			nombre = player.name.replace("_", " ")
@@ -33,11 +38,14 @@ class Board(BaseBoard):
 		board += u"\U0001F501"
 
 		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)
-		if len( game.board.cartas) == 0:
-			board += "\n\n‼️Esta es la ultima carta del mazo‼️"
 		
 		return board
 	
+	def print_arcana_front(arcana):
+		return "*{}*\n{}\nCantidad de lunas: {}\n".format(arcana["Título"], arcana["Texto"], arcana["Lunas"])
+	
+	def print_arcana_back(arcana):
+		return "*{}*\n{}\n".format(arcana["Título reverso"], arcana["Texto reverso"])
 	def print_puntaje(self, game):		
 		board += "--- *Puntaje de jugadores* ---\n"
 		for player in game.player_sequence:
