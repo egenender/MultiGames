@@ -1,7 +1,7 @@
 from Constants.Cards import cartas_aventura
 
 import random
-from Boardgamebox.State import State
+from Arcana.Boardgamebox.State import State
 from Boardgamebox.Board import Board as BaseBoard
 
 from Arcana.Constants.Cards import FATETOKENS, ARCANACARDS
@@ -12,10 +12,7 @@ class Board(BaseBoard):
 		self.arcanaCards = random.sample(ARCANACARDS[:], len(ARCANACARDS))
 		self.fateTokens = random.sample(FATETOKENS[:], len(FATETOKENS))
 		# Se seteara en difficultad el doom inicial
-		self.state.doom = None
-		self.state.score = 0
-		self.state.topArcana = None
-		self.state.arcanasOnTable = []
+		self.state = State()
 		
 	def print_board(self, game):
 		board = ""
