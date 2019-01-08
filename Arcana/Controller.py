@@ -103,7 +103,8 @@ def finish_config(bot, game, opcion):
 	# Seteo la difficultad
 	game.board.state.score = 0
 	game.board.state.doom = int(opcion)
-	# Antes de comenzar la ronda saco 4 cartas de arca, en proximas rondas la cantidad se ajustara en la fase de Fade
+	game.board.state.arcanasOnTable = []
+	# Antes de comenzar la ronda saco 4 cartas de arca, en proximas rondas la cantidad se ajustara en la fase de Fade	
 	for i in range(4):
 		game.board.state.arcanasOnTable.append(game.board.arcanaCards.pop())
 	# Siempre se ve la proxima carta de arcana		
