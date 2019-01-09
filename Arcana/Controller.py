@@ -242,7 +242,7 @@ def callback_finish_game_buttons(bot, update):
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
 
-def create_arcana_button(arcana, tokens = []):
+def create_arcana_button(cid, arcana, tokens = []):
 	titulo = arcana["Título"]	
 	texto = arcana["Texto"]
 	lunas = arcana["Lunas"]
@@ -255,7 +255,7 @@ def create_arcana_button(arcana, tokens = []):
 def print_board(bot, game):
 	bot.send_message(game.cid, "--- *Estado de Partida* ---\n")
 	btns = []
-	btns.append([create_arcana_button(game.board.state.topArcana)])
+	btns.append([create_arcana_button(game.cid, game.board.state.topArcana)])
 	btnMarkup = InlineKeyboardMarkup(btns)
 	bot.send_message(game.cid, "Arcana de arriba del mazo:", reply_markup=btnMarkup)	
 
