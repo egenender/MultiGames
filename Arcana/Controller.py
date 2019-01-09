@@ -269,9 +269,9 @@ def callback_txt_arcana(bot, update):
 		arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
 		texto = arcana["Texto"]
 		update.callback_query.answer(text=texto, show_alert=False)
-		
-		
-		
+	except Exception as e:
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)
 	
 def end_game(bot, game, game_endcode):
         log.info('end_game called')
