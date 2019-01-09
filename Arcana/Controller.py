@@ -130,7 +130,7 @@ def start_round(bot, game):
 	
 	show_fates_active_player(bot, active_player)	
 	
-	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
+	#bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
 	game.board.print_board(bot, game)
 	#print_board(bot, game)
 	game.board.state.fase_actual = "Jugar Fate"
