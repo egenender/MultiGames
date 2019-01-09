@@ -25,7 +25,7 @@ class Board(BaseBoard):
 		return self.fateTokens.pop()
 	
 	def print_board(self, bot, game):
-		bot.send_message(game.cid, "--- *Estado de Partida* ---\n")
+		bot.send_message(game.cid, "--- *Estado de Partida* ---\n", parse_mode=ParseMode.MARKDOWN)
 		btns = []
 		btns.append([self.create_arcana_button(game.cid, game.board.state.topArcana)])
 		btnMarkup = InlineKeyboardMarkup(btns)
