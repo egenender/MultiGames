@@ -263,14 +263,14 @@ def callback_txt_arcana(bot, update):
 	callback = update.callback_query
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
-		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*([0-9]*)", callback.data)
+		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		bot.send_message(ADMIN[0], opcion)
 		arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
 		texto = arcana["Texto"]
 		update.callback_query.answer(text=texto, show_alert=False)
 	except Exception as e:
-		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_txt_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
 	
 def end_game(bot, game, game_endcode):
