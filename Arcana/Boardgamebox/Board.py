@@ -59,7 +59,7 @@ class Board(BaseBoard):
 		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)
 		
 		return board
-		''''
+		'''
 	def create_arcana_button(cid, arcana, tokens = []):
 		titulo = arcana["Título"]	
 		texto = arcana["Texto"]
