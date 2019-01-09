@@ -164,7 +164,7 @@ def callback_choose_fate(bot, update, user_data):
 		texto = fate["Texto"]
 		horas = fate["TimeSymbols"]			
 		
-		update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
+		#update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		
@@ -190,9 +190,7 @@ def callback_choose_arcana(bot, update, user_data):
 		cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
 		#bot.send_message(ADMIN[0], struid)
 		
-		user_id2 = callback.from_user.id
-		user_id = update.effective_user.id
-		bot.send_message(ADMIN[0], "{} {}".format(user_id2, user_id))
+		uid = update.effective_user.id
 		
 		game = Commands.get_game(cid)
 		arcana = game.board.state.arcanasOnTable[index]
