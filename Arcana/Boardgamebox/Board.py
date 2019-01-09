@@ -25,8 +25,8 @@ class Board(BaseBoard):
 	def print_board(self, game):
 		board = ""
 		board += "--- *Estado de Partida* ---\n"
-		board += "Arcana de arriba del mazo: *{0}*\n".format(self.print_arcana_front(self.state.topArcana))
-		board += "\n\n"
+		board += "Arcana de arriba del mazo: {0}".format(self.print_arcana_front(self.state.topArcana))
+		board += "\n"
 		board += "*Arcanas Activas*:\n"
 		for arcana_on_table in self.state.arcanasOnTable:
 			board += "{0}".format(self.print_arcana_front(arcana_on_table))
