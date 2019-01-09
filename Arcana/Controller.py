@@ -199,6 +199,8 @@ def callback_choose_arcana(bot, update, user_data):
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
 		
+		
+		
 		choosen_fate = user_data['fate']
 		
 		if 'tokens' in arcana:
@@ -206,6 +208,8 @@ def callback_choose_arcana(bot, update, user_data):
 		else:
 			arcana['tokens'] = []
 		tokens.append(choosen_fate)	
+		
+		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Texto"], choosen_fate["Texto"]), show_alert=False)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
