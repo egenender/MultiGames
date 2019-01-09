@@ -128,20 +128,95 @@ def start_round(bot, game):
 	for i in range(2-len(game.board.state.active_player.fateTokens)):
 		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
 	
-	show_fates_active_player(bot, active_player)	
-	
+	show_fates_active_player(bot, game, active_player)	
+	#send_buttons_active_player(bot, game)
 	#bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
 	game.board.print_board(bot, game)
 	#print_board(bot, game)
 	game.board.state.fase_actual = "Jugar Fate"
 	Commands.save(bot, game.cid)
 	
-def show_fates_active_player(bot, active_player):
-	mensaje = "Los tokens que tiene en tu mano son:\n"
+def show_fates_active_player(bot, game):
+	cid = game.cid
+	active_player = game.board.state.active_player
+	mensaje = "*Los tokens que tiene en tu mano son (Has click sobre uno de ellos para agregarlo a una Arcana):*"
+	btns = []
+	index = 0
 	for fate in active_player.fateTokens:
-		mensaje += "Fate Token: Numero *{0}* (Simbolos de Tiempo: *{1}*)\n".format(fate["Texto"], fate["TimeSymbols"])
-	bot.send_message(active_player.uid, mensaje, ParseMode.MARKDOWN)
+		btns.append([create_fate_button(fate, cid, active_player.uid, index)])
+		index += 1
+	btnMarkup = InlineKeyboardMarkup(btns)
+	bot.send_message(active_player.uid, mensaje, parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 
+def callback_choose_fate(bot, update, user_data):
+	callback = update.callback_query
+	try:		
+		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*chooseFateAR\*(.*)\*(-?[0-9]*)", callback.data)
+		cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
+		#bot.send_message(ADMIN[0], struid)
+		game = Commands.get_game(cid)		
+		active_player = game.board.state.active_player
+		fate = active_player.fateTokens[index]
+		user_data[fate] = fate
+		texto = fate["Texto"]
+		horas = fate["TimeSymbols"]
+		update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
+		bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
+		#"Elige en que Arcana quieres ponerlo."
+		btns = []
+		i = 0
+		for arcana_on_table in game.board.state.arcanasOnTable:
+			btns.append([game.board.create_arcana_button(game.cid, arcana_on_table, i, comando_callback = "chooseArcanaAR")])
+			i += 1
+		btnMarkup = InlineKeyboardMarkup(btns)
+		bot.send_message(game.cid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		
+	except Exception as e:
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_fate debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)
+
+def callback_choose_arcana(bot, update, user_data):
+	callback = update.callback_query
+	
+	try:		
+		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*chooseArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
+		cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
+		#bot.send_message(ADMIN[0], struid)
+		
+		user_id2 = callback.from_user.id
+		user_id = update.effective_user.id
+		bot.send_message(ADMIN[0], "{} {}".format(user_id2, user_id))
+		
+		arcana = game.board.state.arcanasOnTable[index]
+		texto = arcana["Texto"]
+		titulo = arcana["Título"]
+		
+		choosen_fate = user_data[fate]
+		
+		if 'tokens' in arcana:
+			tokens = arcana['tokens']
+		else:
+			arcana['tokens'] = []
+		tokens.append(choosen_fate)	
+		
+		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
+		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
+		
+	except Exception as e:
+		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
+		bot.send_message(ADMIN[0], callback.data)
+	
+def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR"):
+	texto = fate["Texto"]
+	horas = fate["TimeSymbols"]
+	txtBoton = "{} (Horas: {})".format(texto, horas)
+	comando_callback = comando_callback
+	uid = cid # Solo se va a usar para mostrar en pantallas de juego
+	datos = str(cid) + "*" + comando_callback + "*" + str(texto) + "*" + str(index)
+	return InlineKeyboardButton(txtBoton, callback_data=datos)
+	
 def call_players_to_clue(bot, game):
 	for uid in game.playerlist:
 		if uid != game.board.state.active_player.uid:
