@@ -53,7 +53,12 @@ class Board(BaseBoard):
 		bot.send_message(game.cid, board, parse_mode=ParseMode.MARKDOWN)
 		
 	
-	def create_arcana_button(self, cid, arcana, index = '-1', tokens = [], comando_callback = 'txtArcanaAR'):
+	def create_arcana_button(self, cid, arcana, index = '-1', comando_callback = 'txtArcanaAR'):
+		if 'tokens' in arcana:
+			tokens = arcana['tokens']
+		else:
+			arcana['tokens'] = []
+			tokens = arcana['tokens']		
 		titulo = arcana["Título"]	
 		texto = arcana["Texto"]
 		lunas = arcana["Lunas"]
