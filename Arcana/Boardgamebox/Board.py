@@ -27,13 +27,13 @@ class Board(BaseBoard):
 	def print_board(self, bot, game):
 		bot.send_message(game.cid, "--- *Estado de Partida* ---\n")
 		btns = []
-		btns.append([create_arcana_button(game.cid, game.board.state.topArcana)])
+		btns.append([self.create_arcana_button(game.cid, game.board.state.topArcana)])
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		board = "*Arcanas Activas*:\n"
 		btns = []
 		for arcana_on_table in game.board.state.arcanasOnTable:
-			btns.append([create_arcana_button(game.cid, arcana_on_table)])
+			btns.append([self.create_arcana_button(game.cid, arcana_on_table)])
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		'''
