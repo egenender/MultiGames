@@ -1,6 +1,8 @@
 from Constants.Cards import cartas_aventura
 
 import random
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
+
 from Arcana.Boardgamebox.State import State
 from Boardgamebox.Board import Board as BaseBoard
 
@@ -22,7 +24,19 @@ class Board(BaseBoard):
 			self.fateTokensDiscard = []
 		return self.fateTokens.pop()
 	
-	def print_board(self, game):
+	def print_board(self, bot, game):
+		bot.send_message(game.cid, "--- *Estado de Partida* ---\n")
+		btns = []
+		btns.append([create_arcana_button(game.cid, game.board.state.topArcana)])
+		btnMarkup = InlineKeyboardMarkup(btns)
+		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		board = "*Arcanas Activas*:\n"
+		btns = []
+		for arcana_on_table in game.board.state.arcanasOnTable:
+			btns.append([create_arcana_button(game.cid, arcana_on_table)])
+		btnMarkup = InlineKeyboardMarkup(btns)
+		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		'''
 		board = ""
 		board += "--- *Estado de Partida* ---\n"
 		board += "Arcana de arriba del mazo:\n{0}".format(self.print_arcana_front(self.state.topArcana))
@@ -45,7 +59,17 @@ class Board(BaseBoard):
 		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)
 		
 		return board
-	
+		''''
+	def create_arcana_button(cid, arcana, tokens = []):
+		titulo = arcana["Título"]	
+		texto = arcana["Texto"]
+		lunas = arcana["Lunas"]
+		txtBoton = "{}".format(titulo)
+		comando_callback = "txtArcanaAR"
+		uid = cid # Solo se va a usar para mostrar en pantallas de juego
+		datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
+		return InlineKeyboardButton(txtBoton, callback_data=datos)
+
 	def print_arcana_front(self, arcana):
 		return "*{}*\n{}\nCantidad de lunas: {}\n".format(arcana["Título"], arcana["Texto"], arcana["Lunas"])
 	
