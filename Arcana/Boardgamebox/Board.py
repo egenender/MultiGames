@@ -61,13 +61,13 @@ class Board(BaseBoard):
 		return board
 		'''
 	
-	def create_arcana_button(self, cid, arcana, tokens = []):
+	def create_arcana_button(self, cid, arcana, tokens = [], comando_callback = 'txtArcanaAR'):
 		titulo = arcana["Título"]	
 		texto = arcana["Texto"]
 		lunas = arcana["Lunas"]
 		#if len(tokens) > 0:
 		txtBoton = "{} ({}/{})".format(titulo, len(tokens), lunas)
-		comando_callback = "txtArcanaAR"
+		comando_callback = comando_callback
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
 		datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
 		return InlineKeyboardButton(txtBoton, callback_data=datos)
