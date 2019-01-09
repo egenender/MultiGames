@@ -60,7 +60,8 @@ class Board(BaseBoard):
 		
 		return board
 		'''
-	def create_arcana_button(cid, arcana, tokens = []):
+	
+	def create_arcana_button(self, cid, arcana, tokens = []):
 		titulo = arcana["Título"]	
 		texto = arcana["Texto"]
 		lunas = arcana["Lunas"]
