@@ -29,7 +29,7 @@ class Board(BaseBoard):
 		board += "\n\n"
 		board += "*Arcanas Activas*:\n"
 		for arcana_on_table in self.state.arcanasOnTable:
-			board += "{0}".format(self.print_arcana_front(arcana_table))
+			board += "{0}".format(self.print_arcana_front(arcana_on_table))
 		
 		board += "\n\n"
 		board += "--- *Orden de jugadores* ---\n"
