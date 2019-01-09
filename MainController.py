@@ -529,6 +529,8 @@ def main():
 	# Arcana Callbacks de botones
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosediccAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_finish_config))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*txtArcanaAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_txt_arcana))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseFateAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_choose_fate, pass_user_data = True))
+	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseArcanaAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_choose_arcana, pass_user_data = True))
 	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
