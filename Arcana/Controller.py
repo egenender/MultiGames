@@ -81,6 +81,9 @@ def callback_finish_config(bot, update):
 		regex = re.search("(-[0-9]*)\*choosediccAR\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		mensaje_edit = "Por la difficultad el doom comienza en: {0}".format(opcion)
+		
+		update.callback_query.answer(text="Seleccionaste Doom X", show_alert=True)
+		
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
 		except Exception as e:
