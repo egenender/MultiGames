@@ -158,7 +158,7 @@ def callback_choose_fate(bot, update, user_data):
 		game = Commands.get_game(cid)		
 		active_player = game.board.state.active_player
 		fate = active_player.fateTokens[index]
-		user_data[fate] = fate
+		user_data['fate'] = fate
 		texto = fate["Texto"]
 		horas = fate["TimeSymbols"]
 		update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
@@ -193,7 +193,7 @@ def callback_choose_arcana(bot, update, user_data):
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
 		
-		choosen_fate = user_data[fate]
+		choosen_fate = user_data['fate']
 		
 		if 'tokens' in arcana:
 			tokens = arcana['tokens']
