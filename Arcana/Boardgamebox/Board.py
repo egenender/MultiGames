@@ -38,16 +38,8 @@ class Board(BaseBoard):
 			i += 1
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
-		'''
-		board = ""
-		board += "--- *Estado de Partida* ---\n"
-		board += "Arcana de arriba del mazo:\n{0}".format(self.print_arcana_front(self.state.topArcana))
-		board += "\n"
-		board += "*Arcanas Activas*:\n"
-		for arcana_on_table in self.state.arcanasOnTable:
-			board += "{0}".format(self.print_arcana_front(arcana_on_table))
 		
-		board += "\n"
+		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
 		for player in game.player_sequence:
 			nombre = player.name.replace("_", " ")
@@ -57,11 +49,9 @@ class Board(BaseBoard):
 				board += "{}".format(nombre) + " " + u"\u27A1\uFE0F" + " "
 		board = board[:-3]
 		board += u"\U0001F501"
-
-		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)
+		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)		
+		bot.send_message(game.cid, board, parse_mode=ParseMode.MARKDOWN)
 		
-		return board
-		'''
 	
 	def create_arcana_button(self, cid, arcana, index = '-1', tokens = [], comando_callback = 'txtArcanaAR'):
 		titulo = arcana["Título"]	
