@@ -31,7 +31,7 @@ class Board(BaseBoard):
 		for arcana_on_table in self.state.arcanasOnTable:
 			board += "{0}".format(self.print_arcana_front(arcana_on_table))
 		
-		board += "\n\n"
+		board += "\n"
 		board += "--- *Orden de jugadores* ---\n"
 		for player in game.player_sequence:
 			nombre = player.name.replace("_", " ")
