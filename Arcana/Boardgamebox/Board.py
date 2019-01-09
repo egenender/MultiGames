@@ -64,10 +64,11 @@ class Board(BaseBoard):
 		lunas = arcana["Lunas"]
 		#if len(tokens) > 0:
 		txt_tokens = ""
-		for fate in arcana['tokens']:
-			txt_tokens += "{}, ".format(fate["Texto"])
-		txt_tokens = txt_tokens[:-2] if len(arcana['tokens']) > 0 else txt_tokens
-		txtBoton = "{} [{}] ({}/{})".format(titulo, txt_tokens,len(tokens), lunas)
+		if len(arcana['tokens']) > 0:
+			for fate in arcana['tokens']:
+				txt_tokens += "{}, ".format(fate["Texto"])
+			txt_tokens = "[{}]".format(txt_tokens[:-2])
+		txtBoton = "{} {} ({}/{})".format(titulo, txt_tokens,len(tokens), lunas)
 		comando_callback = comando_callback
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
 		datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(index)
