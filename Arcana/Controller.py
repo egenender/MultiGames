@@ -128,7 +128,7 @@ def start_round(bot, game):
 	for i in range(2-len(game.board.state.active_player.fateTokens)):
 		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
 	
-	show_fates_active_player(bot, game, active_player)	
+	show_fates_active_player(bot, game)	
 	#send_buttons_active_player(bot, game)
 	#bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
 	game.board.print_board(bot, game)
