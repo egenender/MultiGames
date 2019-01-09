@@ -161,6 +161,11 @@ def callback_choose_fate(bot, update, user_data):
 		user_data['fate'] = fate
 		texto = fate["Texto"]
 		horas = fate["TimeSymbols"]
+		
+		user_id2 = callback.from_user.id
+		user_id = update.effective_user.id
+		bot.send_message(ADMIN[0], "{} {}".format(user_id2, user_id))
+		
 		update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
 		bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#"Elige en que Arcana quieres ponerlo."
