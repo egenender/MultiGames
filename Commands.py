@@ -554,7 +554,6 @@ def multipurpose_choose_buttons(bot, cid, uid, chat_donde_se_pregunta, comando_c
 # Comando para elegir el juego
 #Se crea metodo general para crear jeugos
 def command_newgame(bot, update):
-	update.callback_query.answer(text="Si ningún destino visible es exactamente 1 más o 1 menos que cualquiera de tus destinos, jugá uno de ellos aquí.", show_alert=False)
 	cid = update.message.chat_id
 	uid = update.message.from_user.id
 	try:
