@@ -162,12 +162,12 @@ def callback_choose_fate(bot, update, user_data):
 		fate = active_player.fateTokens[index]
 		user_data['fate'] = fate
 		texto = fate["Texto"]
-		horas = fate["TimeSymbols"]
-		
-		
+		horas = fate["TimeSymbols"]			
 		
 		update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
-		bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
+		
+		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
+		
 		#"Elige en que Arcana quieres ponerlo."
 		btns = []
 		i = 0
@@ -175,7 +175,7 @@ def callback_choose_fate(bot, update, user_data):
 			btns.append([game.board.create_arcana_button(game.cid, arcana_on_table, i, comando_callback = "chooseArcanaAR")])
 			i += 1
 		btnMarkup = InlineKeyboardMarkup(btns)
-		bot.send_message(game.cid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		bot.send_message(uid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_fate debido a: '+str(e))
@@ -194,6 +194,7 @@ def callback_choose_arcana(bot, update, user_data):
 		user_id = update.effective_user.id
 		bot.send_message(ADMIN[0], "{} {}".format(user_id2, user_id))
 		
+		game = Commands.get_game(cid)
 		arcana = game.board.state.arcanasOnTable[index]
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
