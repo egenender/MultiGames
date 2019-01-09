@@ -274,7 +274,8 @@ def callback_txt_arcana(bot, update):
 		#bot.send_message(ADMIN[0], opcion)
 		arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
 		texto = arcana["Texto"]
-		update.callback_query.answer(text=texto, show_alert=True)
+		titulo = arcana["Título"]
+		update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_txt_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
