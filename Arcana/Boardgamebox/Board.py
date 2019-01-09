@@ -66,9 +66,7 @@ class Board(BaseBoard):
 		texto = arcana["Texto"]
 		lunas = arcana["Lunas"]
 		#if len(tokens) > 0:
-		titulo += " ({}/{})".format(len(tokens), lunas)
-		
-		txtBoton = "{}".format(titulo)
+		txtBoton = "{} ({}/{})".format(titulo, len(tokens), lunas)
 		comando_callback = "txtArcanaAR"
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
 		datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
