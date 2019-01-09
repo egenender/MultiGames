@@ -198,22 +198,16 @@ def callback_choose_arcana(bot, update, user_data):
 		arcana = game.board.state.arcanasOnTable[index]
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
-		
-		
-		
 		choosen_fate = user_data['fate']
-		
-		if 'tokens' in arcana:
-			tokens = arcana['tokens']
-		else:
+		if 'tokens' not in arcana:
 			arcana['tokens'] = []
-		tokens.append(choosen_fate)	
+		arcana['tokens'].append(choosen_fate)
 		
-		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Texto"], choosen_fate["Texto"]), show_alert=False)
+		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], choosen_fate["Texto"]), show_alert=False)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
-		
+		game.board.print_board(bot, game)
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
