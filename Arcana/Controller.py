@@ -272,7 +272,7 @@ def callback_txt_arcana(bot, update):
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-		#bot.send_message(ADMIN[0], opcion)
+		bot.send_message(ADMIN[0], struid)
 		arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
