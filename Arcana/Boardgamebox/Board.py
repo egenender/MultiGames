@@ -32,8 +32,10 @@ class Board(BaseBoard):
 		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		board = "*Arcanas Activas*:\n"
 		btns = []
+		i = 0
 		for arcana_on_table in game.board.state.arcanasOnTable:
-			btns.append([self.create_arcana_button(game.cid, arcana_on_table)])
+			btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
+			i += 1
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		'''
@@ -61,7 +63,7 @@ class Board(BaseBoard):
 		return board
 		'''
 	
-	def create_arcana_button(self, cid, arcana, tokens = [], comando_callback = 'txtArcanaAR'):
+	def create_arcana_button(self, cid, arcana, index = '-1', tokens = [], comando_callback = 'txtArcanaAR'):
 		titulo = arcana["Título"]	
 		texto = arcana["Texto"]
 		lunas = arcana["Lunas"]
@@ -69,7 +71,7 @@ class Board(BaseBoard):
 		txtBoton = "{} ({}/{})".format(titulo, len(tokens), lunas)
 		comando_callback = comando_callback
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
-		datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
+		datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(index)
 		return InlineKeyboardButton(txtBoton, callback_data=datos)
 
 	def print_arcana_front(self, arcana):
