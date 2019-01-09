@@ -130,7 +130,8 @@ def start_round(bot, game):
 	
 	show_fates_active_player(bot, active_player)	
 	
-	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)	
+	bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
+	print_board(bot, game)
 	game.board.state.fase_actual = "Jugar Fate"
 	Commands.save(bot, game.cid)
 	
@@ -240,6 +241,37 @@ def callback_finish_game_buttons(bot, update):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
+
+def create_arcana_button(arcana, tokens = []):
+	titulo = arcana["Título"]	
+	texto = arcana["Texto"]
+	lunas = arcana["Lunas"]
+	txtBoton = "{}".format(titulo)
+	comando_callback = "txtArcanaAR"
+	uid = cid # Solo se va a usar para mostrar en pantallas de juego
+	datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
+	return InlineKeyboardButton(txtBoton, callback_data=datos)
+		
+def print_board(bot, game):
+	bot.send_message(game.cid, "--- *Estado de Partida* ---\n")
+	btns = []
+	btns.append([create_arcana_button(game.board.state.topArcana)])
+	btnMarkup = InlineKeyboardMarkup(btns)
+	bot.send_message(game.cid, "Arcana de arriba del mazo:", reply_markup=btnMarkup)	
+
+def callback_txt_arcana(bot, update):
+	callback = update.callback_query
+	try:		
+		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*([0-9]*)", callback.data)
+		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		
+		arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
+		texto = arcana["Texto"]
+		update.callback_query.answer(text=texto, show_alert=False)
+		
+		
+		
 	
 def end_game(bot, game, game_endcode):
         log.info('end_game called')
