@@ -839,7 +839,7 @@ def command_myturn(bot, update, args):
 	try:
 		chat_id = min(all_games, key=lambda key: datetime.datetime.now() if all_games[key].dateinitvote == None else all_games[key].dateinitvote)
 		game_pendiente = all_games[chat_id]
-		bot.send_message(uid, myturn_message(game_pendiente , uid), ParseMode.MARKDOWN)
+		bot.send_message(uid, myturn_message(bot, game_pendiente , uid), ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
 		#ot.send_message(ADMIN[0], str(e))
@@ -853,7 +853,7 @@ def command_myturns(bot, update):
 	# Me improtan los juegos que; Este el jugador, hayan sido iniciados, datinivote no sea null y que cumpla reglas del tipo de juego en particular
 	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and verify_my_turn(game, uid) }
 	for game_chat_id, game in all_games.items():
-		bot.send_message(uid, myturn_message( game, uid), ParseMode.MARKDOWN)			
+		bot.send_message(uid, myturn_message(bot, game, uid), ParseMode.MARKDOWN)			
 	if len(all_games) == 0:
 		bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
 
@@ -888,7 +888,7 @@ def verify_my_turn(game, uid):
 			return SayAnythingCommands.verify_missing_votes_user(game, uid)			
 	return False
 
-def myturn_message(game, uid):
+def myturn_message(bot, game, uid):
 	try:
 		if game.tipo == 'JustOne':
 			return JustOneController.myturn_message(game, uid)
