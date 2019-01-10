@@ -9,7 +9,7 @@ import urllib.parse
 import sys
 from time import sleep
 
-import SayAnything.Controller as SayAnythingController
+import Arcana.Controller as ArcanaController
 import Commands
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
@@ -220,68 +220,39 @@ def add_propose(bot, game, uid, propuesta):
 			bot.send_message(uid, "No puedes proponer si sos el jugador activo o ya ha pasado la fase de poner pistas.")
 	else:
 		bot.send_message(uid, "No puedes hacer clue si no estas en el partido.")
-	
-	
-def command_forced_clue(bot, update):
-	uid = update.message.from_user.id	
-	cid = update.message.chat_id
-	game = get_game(cid)
-	'''
-	answer = "Pista "
-	i = 1
-	for uid in game.playerlist:
-		if uid != game.board.state.active_player.uid:
-			game.board.state.last_votes[uid] = answer + str(i)
-			i += 1
-	'''
-	#game.board.state.reviewer_player = game.playerlist[387393551]
-	SayAnythingController.review_clues(bot, game)
-		
 
-def command_next_turn(bot, update):
-	uid = update.message.from_user.id
-	cid = update.message.chat_id
-	game = Commands.get_game(cid)	
-	SayAnythingController.start_next_round(bot, game)
+def check_invalid_pick(args):
+	return (len(args) < 1 or (not args[0].isdigit()) or args[0] == '0')
 
+def command_guess(bot, update, args):
+	game = Commands.get_game(cid)
+	
+	# TODO poner restriccion del jugador activo
+	#if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:
+	if game.board.state.fase_actual != "Predecir":
+		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
+		return
+	
+	elegido = -1 if check_invalid_pick(args) else args[0]
+	
+	if elegido > 0 and elegido < 8:
+		ArcanaController.resolve(bot, game, args[0])
+	else:
+		bot.send_message(game.cid, "El número debe ser entre 1 y 7", ParseMode.MARKDOWN)
+	
 def command_pass(bot, update):
 	log.info('command_pass called')
 	uid = update.message.from_user.id
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
-	if game.board.state.fase_actual != "Adivinando" or uid != game.board.state.active_player.uid:
+	# TODO poner restriccion del jugador activo
+	#if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:
+	if game.board.state.fase_actual != "Predecir":
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
-	SayAnythingController.pass_say_anything(bot, game)
-
-def command_pick(bot, update, args):
-	try:
-		log.info('command_pick called')
-		#Send message of executing command   
-		cid = update.message.chat_id
-		uid = update.message.from_user.id
-		game = Commands.get_game(cid)			
-		
-		if (len(args) < 1 or game.board.state.fase_actual != "Adivinando" 
-		    		or uid != game.board.state.active_player.uid or (not args[0].isdigit()) 
-		    		or args[0] == '0' or int(args[0]) > len(game.board.state.last_votes) ):# and uid not in ADMIN:
-			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo valido para puntuar", ParseMode.MARKDOWN)
-			return
-		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas		
-		args_text = args[0]
-		
-		frase_elegida = list(game.board.state.last_votes.items())[int(args_text)-1]
-		jugador_favorecido = game.playerlist[frase_elegida[0]]
-		mensaje = "La frase elegida fue: *{0}* de {1}! {1} ganas 1 punto!".format(frase_elegida[1], helper.player_call(jugador_favorecido))
-		jugador_favorecido.puntaje += 1
-		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
-		SayAnythingController.start_next_round(bot, game)		
-			
-	except Exception as e:
-		bot.send_message(uid, str(e))
-		log.error("Unknown error: " + str(e))
-
+	ArcanaController.resolve(bot, game)
+	
 def command_continue(bot, game, uid):
 	try:
 		
