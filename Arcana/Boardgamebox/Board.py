@@ -40,7 +40,7 @@ class Board(BaseBoard):
 			btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
 			i += 1
 		btnMarkup = InlineKeyboardMarkup(btns)
-		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
 		
 		if len(game.board.state.fadedarcanasOnTable) > 0:
 			btns = []
@@ -49,7 +49,7 @@ class Board(BaseBoard):
 				btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
 				i += 1
 			btnMarkup = InlineKeyboardMarkup(btns)
-			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /resolve N:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /resolve N:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
@@ -62,7 +62,7 @@ class Board(BaseBoard):
 		board = board[:-3]
 		board += u"\U0001F501"
 		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)		
-		bot.send_message(game.cid, board, parse_mode=ParseMode.MARKDOWN)
+		bot.send_message(game.cid, board, parse_mode=ParseMode.MARKDOWN, timeout=20)
 		
 	
 	def create_arcana_button(self, cid, arcana, index = '-1', comando_callback = 'txtArcanaAR'):
