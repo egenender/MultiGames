@@ -450,10 +450,12 @@ def main():
 	dp.add_handler(CommandHandler("myturns", Commands.command_myturns))
 	dp.add_handler(CommandHandler("pass", Commands.command_pass))
 	
-	# Configuracion de cualquier partida
+	# Configuracion de cualquier partida configurar para cada juego
 	dp.add_handler(CommandHandler("config", Commands.command_configurar_partida))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosegame\*(.*)\*([0-9]*)", callback=Commands.callback_choose_game))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosemode\*(.*)\*([0-9]*)", callback=Commands.callback_choose_mode))
+	dp.add_handler(CommandHandler("guess", Commands.command_guess, pass_args = True))
+	dp.add_handler(CommandHandler("pass", Commands.command_pass))	
 	
 	# Herramientas de ADMIN
 	dp.add_handler(CommandHandler("ann", Commands.command_announce, pass_args = True))
@@ -504,8 +506,8 @@ def main():
 	# Handlers de JustOne
 	dp.add_handler(CommandHandler("sendclues", JustoneCommands.command_forced_clue))
 	dp.add_handler(CommandHandler("nextturn", JustoneCommands.command_next_turn))
-	dp.add_handler(CommandHandler("guess", JustoneCommands.command_guess, pass_args = True))
-	dp.add_handler(CommandHandler("pass", JustoneCommands.command_pass))	
+	#dp.add_handler(CommandHandler("guess", JustoneCommands.command_guess, pass_args = True))
+	#dp.add_handler(CommandHandler("pass", JustoneCommands.command_pass))	
 	dp.add_handler(CommandHandler("clue", JustoneCommands.command_clue, pass_args = True))
 	# Just One Callbacks de botones
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*choosedicc\*(.*)\*([0-9]*)", callback=JustOneController.callback_finish_config_justone))	
