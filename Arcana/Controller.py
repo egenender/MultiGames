@@ -157,7 +157,11 @@ def callback_choose_fate(bot, update, user_data):
 		
 		uid = update.effective_user.id
 		
-		game = Commands.get_game(cid)		
+		game = Commands.get_game(cid)
+		
+		if game.board.state.fase_actual != "Jugar Fate" or uid != game.board.state.active_player.uid:
+			bot.send_message(cid, "No es el momento de jugar destino o no eres el que tiene que jugar el fate", ParseMode.MARKDOWN)
+				
 		active_player = game.board.state.active_player
 		fate = active_player.fateTokens[index]
 		user_data['fate'] = fate
@@ -191,8 +195,11 @@ def callback_choose_arcana(bot, update, user_data):
 		#bot.send_message(ADMIN[0], struid)
 		
 		uid = update.effective_user.id
-		
 		game = Commands.get_game(cid)
+		
+		if game.board.state.fase_actual != "Jugar Fate" or uid != game.board.state.active_player.uid:
+			bot.send_message(cid, "No es el momento de jugar destino o no eres el que tiene que jugar el fate", ParseMode.MARKDOWN)
+				
 		arcana = game.board.state.arcanasOnTable[index]
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
@@ -216,6 +223,7 @@ def callback_choose_arcana(bot, update, user_data):
 		
 		game.board.print_board(bot, game)
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
+		game.board.state.fase_actual = "Predecir"
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
