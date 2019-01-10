@@ -170,7 +170,7 @@ def callback_choose_fate(bot, update, user_data):
 		
 		#update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
 		
-		bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
+		bot.edit_message_text("Has elegido el destino *{}*\n".format(texto), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 		
 		#"Elige en que Arcana quieres ponerlo."
 		btns = []
@@ -217,7 +217,7 @@ def callback_choose_arcana(bot, update, user_data):
 		
 		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], choosen_fate["Texto"]), show_alert=False)
 		
-		bot.edit_message_text("Has elegido la Arcana {}\n".format(texto), uid, callback.message.message_id)
+		bot.edit_message_text("Has elegido la Arcana *{}*\n".format(texto), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
