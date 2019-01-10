@@ -139,7 +139,7 @@ def start_round(bot, game):
 def show_fates_active_player(bot, game):
 	cid = game.cid
 	active_player = game.board.state.active_player
-	mensaje = "Partida: {}\n*Los tokens que tiene en tu mano son (Has click sobre uno de ellos para agregarlo a una Arcana):*".format(game.groupName)
+	mensaje = "*Los tokens que tiene en tu mano son (Has click sobre uno de ellos para agregarlo a una Arcana):*"
 	btns = []
 	index = 0
 	for fate in active_player.fateTokens:
@@ -165,6 +165,7 @@ def callback_choose_fate(bot, update, user_data):
 		active_player = game.board.state.active_player
 		fate = active_player.fateTokens[index]
 		user_data['fate'] = fate
+		user_data['unchosen'] = active_player.fateTokens[1 if index == 0 else 0]
 		
 		texto = fate["Texto"]
 		horas = fate["TimeSymbols"]			
@@ -183,7 +184,7 @@ def callback_choose_fate(bot, update, user_data):
 		datos = str(cid) + "*chooseArcanaAR*Cancelar*" + str(-1)
 		btns.append([InlineKeyboardButton("Cancelar", callback_data=datos)])
 		btnMarkup = InlineKeyboardMarkup(btns)
-		bot.send_message(uid, "Partida: {}\n*Elige en que Arcana quieres ponerlo.*:".format(game.groupName), parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		bot.send_message(uid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_fate debido a: '+str(e))
@@ -212,7 +213,15 @@ def callback_choose_arcana(bot, update, user_data):
 		arcana = game.board.state.arcanasOnTable[index]
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
-		choosen_fate = user_data['fate']
+		chosen_fate = user_data['fate']
+		unchosen_fate = user_data['unchosen']
+		is_legal_arcana = arcana["Legal"](unchosen_fate, chosen_fate)
+
+		if not is_legal_arcana:
+			bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
+			show_fates_active_player(bot, game)
+			return
+
 		if 'tokens' not in arcana:
 			arcana['tokens'] = []		
 		
