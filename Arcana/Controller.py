@@ -309,13 +309,13 @@ def start_next_round(bot, game):
 
 def continue_playing(bot, game):
 	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Misma Dificultad" : "Misma Dificultad", "Diferente Dificultad" : "Diferente Dificultad"}
-	Commands.simple_choose_buttons(bot, game.cid, 1, game.cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
+	Commands.simple_choose_buttons(bot, game.cid, 1, game.cid, "chooseendAR", "¿Quieres continuar jugando?", opciones_botones)
 	
 def callback_finish_game_buttons(bot, update):
 	callback = update.callback_query
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
-		regex = re.search("(-[0-9]*)\*chooseend\*(.*)\*([0-9]*)", callback.data)
+		regex = re.search("(-[0-9]*)\*chooseendAR\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
 		try:
