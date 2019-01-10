@@ -351,6 +351,7 @@ def command_votes(bot, update):
 def command_call(bot, update):
 	import JustOne.Commands as JustoneCommands
 	import SayAnything.Commands as SayAnythingCommands
+	import Arcana.Commands as ArcanaCommands
 	
 	try:
 		#Send message of executing command   
@@ -364,6 +365,8 @@ def command_call(bot, update):
 				JustoneCommands.command_call(bot, game)
 			elif game.tipo == "SayAnything":
 				SayAnythingCommands.command_call(bot, game)
+			elif game.tipo == "Arcana":
+				ArcanaCommands.command_call(bot, game)
 			else:
 				bot.send_message(cid, "El juego no tiene el metodo /call")
 		else:
