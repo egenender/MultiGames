@@ -384,14 +384,14 @@ def callback_txt_arcana(bot, update):
 	try:		
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
-		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
+		cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
 		#bot.send_message(ADMIN[0], struid)
 		faded = False
 		if opcion == "Las horas":
 			arcana = LASHORAS
 		else:
 			arcana = next((item for item in ARCANACARDS if item["Título"] == opcion), -1)
-			if arcana == -1:
+			if arcana == -1 or index == -1:
 				arcana = next(item for item in ARCANACARDS if item["Título reverso"] == opcion)
 				faded = True
 		#log.info((arcana, faded))
