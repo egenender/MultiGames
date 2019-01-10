@@ -84,7 +84,7 @@ class Board(BaseBoard):
 			for fate in arcana['tokens']:
 				txt_tokens += "{}, ".format(fate["Texto"])
 			txt_tokens = "[{}]".format(txt_tokens[:-2])
-		tokens_lunas = "" if titulo == "Las horas" else "({}/{})".format(len(tokens), lunas) 
+		tokens_lunas = "" if titulo == "Las horas" else "({}/{})".format(count_fate_tokens(arcana), lunas) 
 		txtBoton = "{} {} {}".format(titulo, txt_tokens, tokens_lunas)
 		comando_callback = comando_callback
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
@@ -104,3 +104,8 @@ class Board(BaseBoard):
 		else:
 			resultado = "Han perdido!"
 		return resultado
+	def count_fate_tokens(self, arcana):
+		i = 0
+		for fate in arcana_on_table['tokens']:
+			i += int(fate["TimeSymbols"])
+		return i
