@@ -393,13 +393,15 @@ def callback_txt_arcana(bot, update):
 		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		#bot.send_message(ADMIN[0], struid)
+		faded = False
 		if opcion == "Las horas":
 			arcana = LASHORAS
 		else:
 			arcana = next((item for item in ARCANACARDS if item["Título"] == opcion), -1)
 			if arcana == -1:
 				arcana = next(item for item in ARCANACARDS if item["Título reverso"] == opcion)
-		if "faded" in arcana and arcana["faded"]:
+				faded = True
+		if faded:
 			texto = arcana["Texto reverso"]
 			titulo = arcana["Título reverso"]
 		else:
