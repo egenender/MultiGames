@@ -269,7 +269,7 @@ def command_remove(bot, update, args):
 		arcana_quitada = game.board.state.fadedarcanasOnTable.pop(elegido-1)
 		bot.send_message(game.cid, "Se ha removido la arcana *{}* con habilidad *{}*".format(arcana_quitada["Título reverso"], arcana_quitada["Texto reverso"]), ParseMode.MARKDOWN)
 	else:
-		bot.send_message(game.cid, "Debes ingresar un numero del 1 a {}".format(fadeded_on_table), ParseMode.MARKDOWN)
+		bot.send_message(game.cid, "Debes ingresar un numero del 1 a {} (incluido)".format(fadeded_on_table-1), ParseMode.MARKDOWN)
 def command_continue(bot, game, uid):
 	try:
 		
