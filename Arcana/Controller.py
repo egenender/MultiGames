@@ -139,7 +139,7 @@ def start_round(bot, game):
 def show_fates_active_player(bot, game):
 	cid = game.cid
 	active_player = game.board.state.active_player
-	mensaje = "*Los tokens que tiene en tu mano son (Has click sobre uno de ellos para agregarlo a una Arcana):*"
+	mensaje = "Partida: {}\n*Los tokens que tiene en tu mano son (Has click sobre uno de ellos para agregarlo a una Arcana):*".format(game.groupName)
 	btns = []
 	index = 0
 	for fate in active_player.fateTokens:
@@ -183,7 +183,7 @@ def callback_choose_fate(bot, update, user_data):
 		datos = str(cid) + "*chooseArcanaAR*Cancelar*" + str(-1)
 		btns.append([InlineKeyboardButton("Cancelar", callback_data=datos)])
 		btnMarkup = InlineKeyboardMarkup(btns)
-		bot.send_message(uid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		bot.send_message(uid, "Partida: {}\n*Elige en que Arcana quieres ponerlo.*:".format(game.groupName), parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_fate debido a: '+str(e))
