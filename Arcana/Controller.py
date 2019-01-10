@@ -223,7 +223,7 @@ def callback_choose_arcana(bot, update, user_data):
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)		
 				
-		bot.send_message(cid, "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*. Hagan /guess N para adivinar destino o /pass para pasar!".format(
+		bot.send_message(cid, "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
 			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"]), ParseMode.MARKDOWN)		
 		# Si es las horas el token va a la siguiente carta
 		if arcana["Título"] == "Las horas":
@@ -236,6 +236,7 @@ def callback_choose_arcana(bot, update, user_data):
 		game.board.print_board(bot, game)
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
 		game.board.state.fase_actual = "Predecir"
+		bot.send_message(cid, "Hagan /guess N para adivinar destino o /pass para pasar!", ParseMode.MARKDOWN)
 		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
