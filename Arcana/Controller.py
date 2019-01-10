@@ -223,23 +223,29 @@ def callback_choose_arcana(bot, update, user_data):
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)		
 		
-		msg = "Hagan /guess N para adivinar destino o /pass para pasar!"
 		
-		bot.send_message(cid, "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.\n{}".format(
-			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"], msg), ParseMode.MARKDOWN)		
+		
+		mensaje_final = ""
+		
+		mensaje_final += "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.\n{}".format(
+			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"], msg)
+					
 		# Si es las horas el token va a la siguiente carta
 		if arcana["Título"] == "Las horas":
 			arcana = game.board.state.arcanasOnTable[index+1]
 			texto = arcana["Texto"]
 			titulo = arcana["Título"]
-			bot.send_message(cid, "Como se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"]), ParseMode.MARKDOWN)
-		arcana['tokens'].append(choosen_fate)
+			mensaje_final += "Como se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
 		
-		game.board.print_board(bot, game)
+		mensaje_final += "\nHagan /guess N para adivinar destino o /pass para pasar!"
+		
+		arcana['tokens'].append(choosen_fate)		
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
 		game.board.state.fase_actual = "Predecir"
 		Commands.save(bot, game.cid)
-		#bot.send_message(cid, msg, ParseMode.MARKDOWN)		
+		
+		game.board.print_board(bot, game)		
+		bot.send_message(cid, msg, ParseMode.MARKDOWN)		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
