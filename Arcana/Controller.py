@@ -269,11 +269,11 @@ def resolve(bot, game, prediccion = "0"):
 			# Si predicen bien el faden no aumenta el doom.
 			game.board.state.score += 1
 			good_prediction = True
-			bot.send_message(cid, "*Correcto!* El destino que tenia el jugador era {}, se gana 1 punto!"
+			bot.send_message(game.cid, "*Correcto!* El destino que tenia el jugador era {}, se gana 1 punto!"
 					 .format(fate_quedaba["Texto"]), ParseMode.MARKDOWN)
 		else:			
 			game.board.state.doom  += 1
-			bot.send_message(cid, "*Incorrecto!* El destino que tenia el jugador era {}"
+			bot.send_message(game.cid, "*Incorrecto!* El destino que tenia el jugador era {}"
 					 .format(fate_quedaba["Texto"]), ParseMode.MARKDOWN)	
 		# TODO: reseteo los ayuda memoria del jugador activo
 	
@@ -285,7 +285,7 @@ def resolve(bot, game, prediccion = "0"):
 			arcana_on_table['tokens'] = []
 		if len(arcana_on_table['tokens']) >= int(arcana_on_table["Lunas"]):
 			fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction)
-			bot.send_message(cid, "La Arcana *{}* se ha desvanecido".format(arcana_on_table["Título"]), ParseMode.MARKDOWN)
+			bot.send_message(game.cid, "La Arcana *{}* se ha desvanecido".format(arcana_on_table["Título"]), ParseMode.MARKDOWN)
 	start_next_round(bot, game)			
 	
 def fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction):
