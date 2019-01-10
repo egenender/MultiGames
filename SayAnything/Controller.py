@@ -175,7 +175,7 @@ def send_prop(bot, game):
 	Commands.save(bot, game.cid)	
 	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 	# Comentar cuando este en produccion
-	Call_players_to_vote(bot, game)
+	call_players_to_vote(bot, game)
 	bot.send_message(game.cid, "El resto de jugadores puede comenzar a votar!")
 
 def get_respuestas(bot, game):
