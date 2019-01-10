@@ -49,7 +49,7 @@ class Board(BaseBoard):
 				btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
 				i += 1
 			btnMarkup = InlineKeyboardMarkup(btns)
-			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /resolve N:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /remove N:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
