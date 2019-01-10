@@ -391,7 +391,7 @@ def callback_txt_arcana(bot, update):
 			arcana = LASHORAS
 		else:
 			arcana = next((item for item in ARCANACARDS if item["Título"] == opcion), -1)
-			if arcana == -1 or index == -1:
+			if arcana == -1 or index == -2:
 				arcana = next(item for item in ARCANACARDS if item["Título reverso"] == opcion)
 				faded = True
 		#log.info((arcana, faded))
