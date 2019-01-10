@@ -221,7 +221,8 @@ def callback_choose_arcana(bot, update, user_data):
 		bot.edit_message_text("Has elegido la Arcana *{}: {}*\n".format(titulo, texto), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
-		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
+		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)		
+		game.board.print_board(bot, game)		
 		bot.send_message(cid, "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*. Hagan /guess N para adivinar destino o /pass para pasar!".format(
 			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"]), ParseMode.MARKDOWN)		
 		# Si es las horas el token va a la siguiente carta
@@ -232,7 +233,6 @@ def callback_choose_arcana(bot, update, user_data):
 			bot.send_message(cid, "Como se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"]), ParseMode.MARKDOWN)
 		arcana['tokens'].append(choosen_fate)
 		
-		game.board.print_board(bot, game)
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
 		game.board.state.fase_actual = "Predecir"
 		
