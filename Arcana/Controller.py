@@ -170,7 +170,7 @@ def callback_choose_fate(bot, update, user_data):
 		
 		#update.callback_query.answer(text="{} ({})".format(texto, horas), show_alert=False)
 		
-		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
+		bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		
 		#"Elige en que Arcana quieres ponerlo."
 		btns = []
@@ -178,6 +178,8 @@ def callback_choose_fate(bot, update, user_data):
 		for arcana_on_table in game.board.state.arcanasOnTable:
 			btns.append([game.board.create_arcana_button(game.cid, arcana_on_table, i, comando_callback = "chooseArcanaAR")])
 			i += 1
+		# Agrego boton cancelar
+		btns.append([game.board.create_arcana_button(game.cid, "Cancelar", -1, comando_callback = "chooseArcanaAR")])
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(uid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
@@ -199,7 +201,12 @@ def callback_choose_arcana(bot, update, user_data):
 		
 		if game.board.state.fase_actual != "Jugar Fate" or uid != game.board.state.active_player.uid:
 			bot.send_message(cid, "No es el momento de jugar destino o no eres el que tiene que jugar el fate", ParseMode.MARKDOWN)
-				
+		
+		if index == -1:
+			bot.edit_message_text("Accion cancelada se vuelven a enviar destinos\n", uid, callback.message.message_id)
+			show_fates_active_player(bot, game)
+			return
+		
 		arcana = game.board.state.arcanasOnTable[index]
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
@@ -208,6 +215,8 @@ def callback_choose_arcana(bot, update, user_data):
 			arcana['tokens'] = []		
 		
 		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], choosen_fate["Texto"]), show_alert=False)
+		
+		bot.edit_message_text("Has elegido la Arcana {}\n".format(texto), uid, callback.message.message_id)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
@@ -224,6 +233,9 @@ def callback_choose_arcana(bot, update, user_data):
 		game.board.print_board(bot, game)
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
 		game.board.state.fase_actual = "Predecir"
+		
+		
+		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
