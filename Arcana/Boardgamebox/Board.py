@@ -27,7 +27,7 @@ class Board(BaseBoard):
 		return self.fateTokens.pop()
 	
 	def print_board(self, bot, game):
-		bot.send_message(game.cid, "--- *Estado de Partida* ---\nCondenacion: {}.\nPuntaje {}"
+		bot.send_message(game.cid, "--- *Estado de Partida* ---\nCondenacion: {}/7.\nPuntaje {}/7"
 				 .format(self.state.doom, self.state.score), parse_mode=ParseMode.MARKDOWN)
 		btns = []
 		btns.append([self.create_arcana_button(game.cid, game.board.state.topArcana)])
