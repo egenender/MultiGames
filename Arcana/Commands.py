@@ -275,7 +275,7 @@ def command_call(bot, game):
 	try:
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Jugar Fate":
-			SayAnythingController.show_fates_active_player(bot, game)
+			ArcanaController.show_fates_active_player(bot, game)
 		elif game.board.state.fase_actual == "Predecir":
 			msg = "Hagan /guess N para adivinar destino o /pass para pasar!"
 			bot.send_message(cid, msg, ParseMode.MARKDOWN)
