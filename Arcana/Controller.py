@@ -235,7 +235,7 @@ def callback_choose_arcana(bot, update, user_data):
 			arcana = game.board.state.arcanasOnTable[index+1]
 			texto = arcana["Texto"]
 			titulo = arcana["Título"]
-			mensaje_final += "Como se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
+			mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
 		
 		mensaje_final += "\nHagan /guess N para adivinar destino o /pass para pasar!"
 		
