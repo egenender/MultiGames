@@ -84,6 +84,7 @@ def call_to_vote_respeustas(bot, game):
 	call_text = 'Recuerden votar\n'
 	for player in game.player_sequence:
 		if verify_missing_votes_user(game, player.uid):
+			lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==uid]
 			call_text += 'Te faltan *{0}* votos {1}.\n'.format(2-len(lista_votos_usuario), helper.player_call(player))			
 	bot.send_message(game.cid, call_text, ParseMode.MARKDOWN)
 	#SayAnythingController.send_vote_buttons(bot, game, player.uid)
