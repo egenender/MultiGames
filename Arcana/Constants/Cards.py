@@ -117,15 +117,13 @@ FATETOKENS = [
 	}	
 ]
 
-LASHORAS = [
-	{
-		"Título": "Las horas",
-		"Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
-		"Lunas": "",
-		"Título reverso": "",
-		"Texto reverso": ""
-	 }
-]
+LASHORAS = {	
+	"Título": "Las horas",
+	"Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
+	"Lunas": "",
+	"Título reverso": "",
+	"Texto reverso": ""
+}
 
 ARCANACARDS = [ 
  {
