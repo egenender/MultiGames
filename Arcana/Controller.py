@@ -294,6 +294,7 @@ def fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction):
 	game.board.fateTokens.extend(arcana_on_table['tokens'])
 	# La doy vuelta y la pongo en la "faded area"
 	arcana_on_table["faded"] = True
+	arcana_on_table['tokens'] = []
 	game.board.state.fadedarcanasOnTable.append(arcana_on_table)
 	# Si no hubo buena prediccion avanzo doom 2, a menos que la arcana sea Libre.
 	if not good_prediction and arcana_on_table["Título"] != "Libre":
