@@ -372,19 +372,6 @@ def create_arcana_button(cid, arcana, tokens = []):
 	uid = cid # Solo se va a usar para mostrar en pantallas de juego
 	datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
 	return InlineKeyboardButton(txtBoton, callback_data=datos)
-		
-def print_board(bot, game):
-	bot.send_message(game.cid, "--- *Estado de Partida* ---\n")
-	btns = []
-	btns.append([create_arcana_button(game.cid, game.board.state.topArcana)])
-	btnMarkup = InlineKeyboardMarkup(btns)
-	bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
-	board = "*Arcanas Activas*:\n"
-	btns = []
-	for arcana_on_table in game.board.state.arcanasOnTable:
-		btns.append([create_arcana_button(game.cid, arcana_on_table)])
-	btnMarkup = InlineKeyboardMarkup(btns)
-	bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	
 def callback_txt_arcana(bot, update):
 	callback = update.callback_query
@@ -401,7 +388,7 @@ def callback_txt_arcana(bot, update):
 			if arcana == -1:
 				arcana = next(item for item in ARCANACARDS if item["Título reverso"] == opcion)
 				faded = True
-		log.info((arcana, faded))
+		#log.info((arcana, faded))
 		if faded:
 			texto = arcana["Texto reverso"]
 			titulo = arcana["Título reverso"]
@@ -412,33 +399,5 @@ def callback_txt_arcana(bot, update):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_txt_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
-	
-def end_game(bot, game, game_endcode):
-        log.info('end_game called')
-        ##
-        # game_endcode:
-        #   -2  fascists win by electing Hitler as chancellor
-        #   -1  fascists win with 6 fascist policies
-        #   0   not ended
-        #   1   liberals win with 5 liberal policies
-        #   2   liberals win by killing Hitler
-        #   99  game cancelled
-        #
-        '''
-        if game_endcode == 99:
-                if GamesController.games[game.cid].board is not None:
-                        bot.send_message(game.cid, "Game cancelled!\n\n%s" % game.print_roles())
-                else:
-                        bot.send_message(game.cid, "Game cancelled!")
-        else:
-                if game_endcode == -2:
-                        bot.send_message(game.cid, "Game over! The fascists win by electing Hitler as Chancellor!\n\n%s" % game.print_roles())
-                if game_endcode == -1:
-                        bot.send_message(game.cid, "Game over! The fascists win by enacting 6 fascist policies!\n\n%s" % game.print_roles())
-                if game_endcode == 1:
-                        bot.send_message(game.cid, "Game over! The liberals win by enacting 5 liberal policies!\n\n%s" % game.print_roles())
-                if game_endcode == 2:
-                        bot.send_message(game.cid, "Game over! The liberals win by killing Hitler!\n\n%s" % game.print_roles())
-        '''
-        del GamesController.games[game.cid]
-        Commands.delete_game(game.cid)
+		
+		
