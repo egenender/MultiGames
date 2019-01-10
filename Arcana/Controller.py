@@ -179,7 +179,7 @@ def callback_choose_fate(bot, update, user_data):
 			btns.append([game.board.create_arcana_button(game.cid, arcana_on_table, i, comando_callback = "chooseArcanaAR")])
 			i += 1
 		# Agrego boton cancelar
-		datos = str(cid) + "*chooseArcanaAR*" + str(titulo) + "*" + str(-1)
+		datos = str(cid) + "*chooseArcanaAR*Cancelar*" + str(-1)
 		btns.append([InlineKeyboardButton("Cancelar", callback_data=datos)])
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(uid, "*Elige en que Arcana quieres ponerlo.*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
