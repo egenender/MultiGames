@@ -265,7 +265,7 @@ def resolve(bot, game, prediccion = "0"):
 	prediccion = int(prediccion)
 	if prediccion > 0:
 		fate_quedaba = game.board.state.active_player.fateTokens.pop()		
-		if prediccion == fate_quedaba["Texto"]:
+		if prediccion == int(fate_quedaba["Texto"]):
 			# Si predicen bien el faden no aumenta el doom.
 			game.board.state.score += 1
 			good_prediction = True
