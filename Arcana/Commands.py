@@ -270,6 +270,18 @@ def command_remove(bot, update, args):
 		bot.send_message(game.cid, "Se ha removido la arcana *{}* con habilidad *{}*".format(arcana_quitada["Título reverso"], arcana_quitada["Texto reverso"]), ParseMode.MARKDOWN)
 	else:
 		bot.send_message(game.cid, "Debes ingresar un numero del 1 a {} (incluido)".format(fadeded_on_table-1), ParseMode.MARKDOWN)
+
+def command_call(bot, game):
+	try:
+		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
+		if game.board.state.fase_actual == "Jugar Fate":
+			SayAnythingController.show_fates_active_player(bot, game)
+		elif game.board.state.fase_actual == "Predecir":
+			msg = "Hagan /guess N para adivinar destino o /pass para pasar!"
+			bot.send_message(cid, msg, ParseMode.MARKDOWN)
+	except Exception as e:
+		bot.send_message(game.cid, str(e))		
+		
 def command_continue(bot, game, uid):
 	try:
 		
