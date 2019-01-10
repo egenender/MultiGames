@@ -120,7 +120,7 @@ FATETOKENS = [
 LASHORAS = {	
 	"Título": "Las horas",
 	"Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
-	"Lunas": "",
+	"Lunas": "99",
 	"Título reverso": "",
 	"Texto reverso": ""
 }
