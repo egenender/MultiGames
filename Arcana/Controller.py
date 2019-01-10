@@ -285,6 +285,7 @@ def resolve(bot, game, prediccion = "0"):
 			arcana_on_table['tokens'] = []
 		if len(arcana_on_table['tokens']) >= int(arcana_on_table["Lunas"]):
 			fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction)
+			bot.send_message(cid, "La Arcana *{}* se ha desvanecido".format(arcana_on_table["Título"]), ParseMode.MARKDOWN)
 	start_next_round(bot, game)			
 	
 def fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction):
