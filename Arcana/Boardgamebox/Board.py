@@ -65,19 +65,18 @@ class Board(BaseBoard):
 		
 	
 	def create_arcana_button(self, cid, arcana, index = '-1', comando_callback = 'txtArcanaAR'):
-		if 'tokens' in arcana:
-			tokens = arcana['tokens']
-		else:
+		if 'tokens' not in arcana:
 			arcana['tokens'] = []
-			tokens = arcana['tokens']		
-		titulo = arcana["Título"]	
 		
+		tokens = arcana['tokens']	
+		lunas = arcana["Lunas"]		
 		if "faded" in arcana and arcana["faded"]:
 			texto = arcana["Texto reverso"]
 			titulo = arcana["Título reverso"]
 		else:
 			texto = arcana["Texto"]
 			titulo = arcana["Título"]
+			
 		#if len(tokens) > 0:
 		txt_tokens = ""
 		if len(arcana['tokens']) > 0:
