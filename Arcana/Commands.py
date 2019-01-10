@@ -263,7 +263,8 @@ def command_remove(bot, update, args):
 	
 	elegido = -1 if check_invalid_pick(args) else int(args[0])+1
 	
-	if elegido > 0 and elegido < len(game.board.state.fadedarcanasOnTable)+1:
+	bot.send_message(game.cid, "{} {}".format(elegido, len(game.board.state.fadedarcanasOnTable)+1))
+	if (elegido > 0) and (elegido < (len(game.board.state.fadedarcanasOnTable)+1)):
 		arcana_quitada = game.board.state.fadedarcanasOnTable.pop(elegido-1)
 		bot.send_message(game.cid, "Se ha removido la arcana *{}* con habilidad *{}*".format(arcana_quitada["Título reverso"], arcana_quitada["Texto reverso"]), ParseMode.MARKDOWN)
 	else:
