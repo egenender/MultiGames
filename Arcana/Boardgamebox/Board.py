@@ -84,7 +84,7 @@ class Board(BaseBoard):
 			for fate in arcana['tokens']:
 				txt_tokens += "{}, ".format(fate["Texto"])
 			txt_tokens = "[{}]".format(txt_tokens[:-2])
-		tokens_lunas = "" if titulo == "Las horas" else "({}/{})".format(count_fate_tokens(arcana), lunas) 
+		tokens_lunas = "" if titulo == "Las horas" else "({}/{})".format(self.count_fate_tokens(arcana), lunas) 
 		txtBoton = "{} {} {}".format(titulo, txt_tokens, tokens_lunas)
 		comando_callback = comando_callback
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
