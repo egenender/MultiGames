@@ -253,6 +253,7 @@ def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR")
 def resolve(bot, game, prediccion = "0"):	
 	# Si los jugadores hicieron una prediccion (se pasa el argumento como string)
 	good_prediction = False
+	prediccion = int(prediccion)
 	if prediccion > 0:
 		fate_quedaba = game.board.state.active_player.fateTokens.pop()		
 		if prediccion == fate_quedaba["Texto"]:
