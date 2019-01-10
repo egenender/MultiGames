@@ -46,7 +46,7 @@ class Board(BaseBoard):
 			btns = []
 			i = 0
 			for arcana_on_table in game.board.state.fadedarcanasOnTable:
-				btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
+				btns.append([self.create_arcana_button(game.cid, arcana_on_table)])
 				i += 1
 			btnMarkup = InlineKeyboardMarkup(btns)
 			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /remove N:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
