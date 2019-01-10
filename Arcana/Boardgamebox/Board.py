@@ -100,7 +100,7 @@ class Board(BaseBoard):
 	def print_result(self, game):		
 		resultado = ""
 		if game.board.state.score > 6:
-			resultado = "*Han ganado!*"
+			resultado = "Han ganado!"
 		else:
-			resultado = "*Han perdido!*"
+			resultado = "Han perdido!"
 		return resultado
