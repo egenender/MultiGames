@@ -106,6 +106,7 @@ def finish_config(bot, game, opcion):
 	# Seteo la difficultad
 	game.board.state.doom = int(opcion)
 	# Antes de comenzar la ronda saco 4 cartas de arca, en proximas rondas la cantidad se ajustara en la fase de Fade	
+	game.board.state.arcanasOnTable.append(LASHORAS)
 	for i in range(4):
 		game.board.state.arcanasOnTable.append(game.board.arcanaCards.pop())
 	# Siempre se ve la proxima carta de arcana		
@@ -198,15 +199,22 @@ def callback_choose_arcana(bot, update, user_data):
 		titulo = arcana["Título"]
 		choosen_fate = user_data['fate']
 		if 'tokens' not in arcana:
-			arcana['tokens'] = []
-		arcana['tokens'].append(choosen_fate)
+			arcana['tokens'] = []		
 		
 		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], choosen_fate["Texto"]), show_alert=False)
 		
 		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
 		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
-		bot.send_message(cid, "El jugador {} ha puesto el destino {} en la Arcana {}. Comiencen a deducir!".format(
-			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"]))		
+		bot.send_message(cid, "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*. Hagan /guess N para adivinar destino o /pass para pasar!".format(
+			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"]), ParseMode.MARKDOWN)		
+		# Si es las horas el token va a la siguiente carta
+		if arcana["Título"] == "Las Horas":
+			arcana = game.board.state.arcanasOnTable[index+1]
+			texto = arcana["Texto"]
+			titulo = arcana["Título"]
+			bot.send_message(cid, "Como se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"]), ParseMode.MARKDOWN)
+		arcana['tokens'].append(choosen_fate)
+		
 		game.board.print_board(bot, game)
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
 	except Exception as e:
@@ -222,35 +230,32 @@ def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR")
 	datos = str(cid) + "*" + comando_callback + "*" + str(texto) + "*" + str(index)
 	return InlineKeyboardButton(txtBoton, callback_data=datos)
 	
-def call_players_to_clue(bot, game):
-	for uid in game.playerlist:
-		if uid != game.board.state.active_player.uid:
-			#bot.send_message(cid, "Enviando mensaje a: %s" % game.playerlist[uid].name)
-			mensaje = "Nueva frase en el grupo *{1}*.\nEl jugado activo es: *{2}*\nLa frase es: *{0}*, propone tu respuesta!".format(game.board.state.acciones_carta_actual, game.groupName, game.board.state.active_player.name)
-			bot.send_message(uid, mensaje, ParseMode.MARKDOWN)
-			mensaje = "/resp Ejemplo" if game.board.num_players != 3 else "/resp Ejemplo Ejemplo2"
-			bot.send_message(uid, mensaje)
-
-def send_prop(bot, game):
-	text = ""
-	i = 1
-	for key, value in game.board.state.last_votes.items():		
-		try:
-			player = game.playerlist[key]
-		except Exception as e:
-			player = game.playerlist[key-1]
-		text += "*{1}: {0}*\n".format(value, i)
-		i += 1
-	mensaje_final = "[{0}](tg://user?id={1}) es hora de elegir! Elige con /pick NUMERO\n*{3}*\nLas respuestas son:\n{2}\n*NO SE PUEDE HABLAR*".format(game.board.state.active_player.name, game.board.state.active_player.uid, text, game.board.state.acciones_carta_actual)	
-	game.board.state.fase_actual = "Adivinando"
-	Commands.save(bot, game.cid)
+def resolve(bot, game, prediccion = "0"):
 	
-	bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
-
-def pass_say_anything(bot, game):
-	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
-	start_next_round(bot, game)
-
+	# Si los jugadores hicieron una prediccion (se pasa el argumento como string)
+	good_prediction = False
+	if prediccion > 0:
+		destino_posible = game.board.state.active_player.fateTokens[0]
+		if prediccion == destino_posible["Texto"]:
+			# Si predicen bien el faden no aumenta el doom.
+			game.board.state.score += 1
+			good_prediction = True
+		else:
+			game.board.state.doom  += 1
+		# TODO: reseteo los ayuda memoria del jugador activo
+	
+	# Fading phase
+	int_replace_index = []
+	i = 0
+	for arcana_on_table in game.board.state.arcanasOnTable:
+		if 'tokens' not in arcana_on_table:
+			arcana_on_table['tokens'] = []
+		if len(arcana_on_table['tokens']) >= int(arcana_on_table["Lunas"]):
+			# Fading...
+			int_replace_index.append(i)
+		i += 1
+	# Reemplazo en cada indice
+	
 def start_next_round(bot, game):
 	log.info('Verifing End_Game called')
 	if not game.board.cartas:
@@ -353,7 +358,10 @@ def callback_txt_arcana(bot, update):
 		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		#bot.send_message(ADMIN[0], struid)
-		arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
+		if opcion == "Las horas":
+			arcana = LASHORAS
+		else:
+			arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
 		texto = arcana["Texto"]
 		titulo = arcana["Título"]
 		update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
