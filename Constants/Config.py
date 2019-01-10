@@ -40,7 +40,8 @@ JUEGOS_DISPONIBLES = {
                 "comandos" : {
                     "Arcana" : "Ship Arcana"
                 },
-		"restriccion" : "admin"
+		"restriccion" : "admin",
+		"permitir_ingreso_tardio" : True
         }
 }
 
