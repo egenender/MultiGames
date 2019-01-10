@@ -98,7 +98,7 @@ class Board(BaseBoard):
 		return "*{}*\n{}\n".format(arcana["Título reverso"], arcana["Texto reverso"])
 	
 	def print_result(self, game):		
-		resultado 
+		resultado = ""
 		if game.board.state.score > 6:
 			resultado = "*Han ganado!*"
 		else:
