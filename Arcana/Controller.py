@@ -382,7 +382,7 @@ def create_arcana_button(cid, arcana, tokens = []):
 def callback_txt_arcana(bot, update):
 	callback = update.callback_query
 	try:		
-		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+		log.info('callback_txt_arcana called: %s' % callback.data)
 		regex = re.search("(-[0-9]*)\*txtArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
 		cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
 		#bot.send_message(ADMIN[0], struid)
