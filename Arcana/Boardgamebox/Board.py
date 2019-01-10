@@ -41,13 +41,14 @@ class Board(BaseBoard):
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
-		btns = []
-		i = 0
-		for arcana_on_table in game.board.state.fadedarcanasOnTable:
-			btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
-			i += 1
-		btnMarkup = InlineKeyboardMarkup(btns)
-		bot.send_message(game.cid, "*Arcanas Faded*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		if len(game.board.state.fadedarcanasOnTable) > 0:
+			btns = []
+			i = 0
+			for arcana_on_table in game.board.state.fadedarcanasOnTable:
+				btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
+				i += 1
+			btnMarkup = InlineKeyboardMarkup(btns)
+			bot.send_message(game.cid, "*Arcanas Faded*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
