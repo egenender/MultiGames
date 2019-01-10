@@ -123,7 +123,7 @@ def command_call(bot, game):
 			ArcanaController.show_fates_active_player(bot, game)
 		elif game.board.state.fase_actual == "Predecir":
 			msg = "Hagan /guess N para adivinar destino o /pass para pasar!"
-			bot.send_message(cid, msg, ParseMode.MARKDOWN)
+			bot.send_message(game.cid, msg, ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))		
 		
