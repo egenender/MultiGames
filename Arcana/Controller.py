@@ -268,7 +268,7 @@ def resolve(bot, game, prediccion = "0"):
 		# TODO: reseteo los ayuda memoria del jugador activo
 	
 	# Fading phase
-	arcana_on_table = game.board.state.arcanasOnTable	
+	arcanasOnTable = game.board.state.arcanasOnTable	
 	for arcana_on_table in arcanasOnTable:
 		#print(arcana_on_table)
 		if 'tokens' not in arcana_on_table:
