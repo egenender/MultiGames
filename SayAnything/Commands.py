@@ -90,7 +90,7 @@ def call_to_vote_respeustas(bot, game):
 
 def verify_missing_votes_user(game, uid):
 	lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==uid]
-	return len(lista_votos_usuario) != 2 and uid != game.board.state.active_player.uid:
+	return len(lista_votos_usuario) != 2 and uid != game.board.state.active_player.uid
 	
 def call_proponiendo_pistas(bot, game):
 	if not game.dateinitvote:
