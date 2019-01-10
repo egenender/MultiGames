@@ -1,5 +1,6 @@
 from Constants.Cards import cartas_aventura
 
+import copy
 import random
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
 
@@ -11,8 +12,8 @@ from Arcana.Constants.Cards import FATETOKENS, ARCANACARDS
 class Board(BaseBoard):
 	def __init__(self, playercount, game):
 		BaseBoard.__init__(self, playercount, game)
-		self.arcanaCards = random.sample(ARCANACARDS[:], len(ARCANACARDS))
-		self.fateTokens = random.sample(FATETOKENS[:], len(FATETOKENS))
+		self.arcanaCards = random.sample(copy.deepcopy(ARCANACARDS), len(ARCANACARDS))
+		self.fateTokens = random.sample(copy.deepcopy(FATETOKENS), len(FATETOKENS))
 		self.fateTokensDiscard = []
 		# Se seteara en difficultad el doom inicial
 		self.state = State()
