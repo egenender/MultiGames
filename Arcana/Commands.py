@@ -233,10 +233,10 @@ def command_guess(bot, update, args):
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
 	
-	elegido = -1 if check_invalid_pick(args) else args[0]
+	elegido = -1 if check_invalid_pick(args) else int(args[0])
 	
 	if elegido > 0 and elegido < 8:
-		ArcanaController.resolve(bot, game, args[0])
+		ArcanaController.resolve(bot, game, elegido)
 	else:
 		bot.send_message(game.cid, "El número debe ser entre 1 y 7", ParseMode.MARKDOWN)
 	
@@ -252,7 +252,20 @@ def command_pass(bot, update):
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
 	ArcanaController.resolve(bot, game)
+
+def command_remove(bot, update, args):
+	log.info('command_pass called')
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = Commands.get_game(cid)
 	
+	elegido = -1 if check_invalid_pick(args) else int(args[0])+1
+	
+	if elegido > 0 and elegido < len(game.board.state.fadedarcanasOnTable)+1:
+		arcana_quitada = game.board.state.fadedarcanasOnTable.pop(elegido-1)
+		bot.send_message(game.cid, "Se ha removido la arcana {}".format(arcana_quitada["Título reverso"]), ParseMode.MARKDOWN)
+	else:
+		bot.send_message(game.cid, "Debes ingresar un numero del 1 a Cantidas de arcanas", ParseMode.MARKDOWN)
 def command_continue(bot, game, uid):
 	try:
 		
