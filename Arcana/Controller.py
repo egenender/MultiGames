@@ -4,9 +4,8 @@ __author__ = "Eduardo Peluffo"
 
 import json
 import logging as log
-import random
 import re
-from random import randrange, choice
+from random import randrange, choice, shuffle
 from time import sleep
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
@@ -125,7 +124,7 @@ def start_round(bot, game):
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
-	# El jugador obtiene hasta 2 fates
+	# El jugador obtiene hasta 2 fates	
 	for i in range(2-len(game.board.state.active_player.fateTokens)):
 		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
 	
@@ -208,7 +207,7 @@ def callback_choose_arcana(bot, update, user_data):
 		bot.send_message(cid, "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*. Hagan /guess N para adivinar destino o /pass para pasar!".format(
 			game.board.state.active_player.name, choosen_fate["Texto"], arcana["Título"]), ParseMode.MARKDOWN)		
 		# Si es las horas el token va a la siguiente carta
-		if arcana["Título"] == "Las Horas":
+		if arcana["Título"] == "Las horas":
 			arcana = game.board.state.arcanasOnTable[index+1]
 			texto = arcana["Texto"]
 			titulo = arcana["Título"]
@@ -230,42 +229,55 @@ def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR")
 	datos = str(cid) + "*" + comando_callback + "*" + str(texto) + "*" + str(index)
 	return InlineKeyboardButton(txtBoton, callback_data=datos)
 	
-def resolve(bot, game, prediccion = "0"):
-	
+def resolve(bot, game, prediccion = "0"):	
 	# Si los jugadores hicieron una prediccion (se pasa el argumento como string)
 	good_prediction = False
 	if prediccion > 0:
-		destino_posible = game.board.state.active_player.fateTokens[0]
-		if prediccion == destino_posible["Texto"]:
+		fate_quedaba = game.board.state.active_player.fateTokens.pop()		
+		if prediccion == fate_quedaba["Texto"]:
 			# Si predicen bien el faden no aumenta el doom.
 			game.board.state.score += 1
 			good_prediction = True
+			bot.send_message(cid, "*Correcto!* El destino que tenia el jugador era {}, se gana 1 punto!"
+					 .format(fate_quedaba["Texto"]), ParseMode.MARKDOWN)
 		else:
 			game.board.state.doom  += 1
+			bot.send_message(cid, "*Incorrecto!* El destino que tenia el jugador era {}"
+					 .format(fate_quedaba["Texto"]), ParseMode.MARKDOWN)	
 		# TODO: reseteo los ayuda memoria del jugador activo
 	
 	# Fading phase
-	int_replace_index = []
-	i = 0
-	for arcana_on_table in game.board.state.arcanasOnTable:
+	arcana_on_table = game.board.state.arcanasOnTable	
+	for arcana_on_table in arcanasOnTable:
+		#print(arcana_on_table)
 		if 'tokens' not in arcana_on_table:
 			arcana_on_table['tokens'] = []
 		if len(arcana_on_table['tokens']) >= int(arcana_on_table["Lunas"]):
-			# Fading...
-			int_replace_index.append(i)
-		i += 1
-	# Reemplazo en cada indice
+			fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction)
+	start_next_round(bot, game)			
 	
+def fadding_arcana(arcanasOnTable, arcana_on_table, game, good_prediction):
+	indice = arcanasOnTable.index(arcana_on_table)
+	# Regreso los tokens de destino a la bolsa
+	game.board.fateTokens.extend(arcana_on_table['tokens'])
+	# La doy vuelta y la pongo en la "faded area"
+	arcana_on_table["faded"] = true
+	game.board.state.fadedarcanasOnTable.append(arcana_on_table)
+	# Si no hubo buena prediccion avanzo doom 2
+	if not good_prediction:
+		game.board.state.doom  += 2
+	# Reemplazo arcana
+	arcanasOnTable[indice] = game.board.arcanaCards.pop()	
+		
 def start_next_round(bot, game):
 	log.info('Verifing End_Game called')
-	if not game.board.cartas:
+	if game.board.state.score > 6 or game.board.state.doom > 6:
 		# Si no quedan cartas se termina el juego y se muestra el puntaje.
-		mensaje = "Juego finalizado!:\n*{0}*".format(game.board.print_puntaje(game))		
+		mensaje = "Juego finalizado!:\n*{0}*".format(game.board.print_result(game))		
 		game.board.state.fase_actual = "Finalizado"
 		Commands.save(bot, game.cid)
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 		continue_playing(bot, game)
-		#bot.send_message(game.cid, "Para comenzar un juego nuevo pon el comando /delete y luego /newgame", ParseMode.MARKDOWN)
 		return
 	helper.increment_player_counter(game)
 	start_round(bot, game)
@@ -362,8 +374,12 @@ def callback_txt_arcana(bot, update):
 			arcana = LASHORAS
 		else:
 			arcana = next(item for item in ARCANACARDS if item["Título"] == opcion)
-		texto = arcana["Texto"]
-		titulo = arcana["Título"]
+		if "faded" in arcana and arcana["faded"]:
+			texto = arcana["Texto reverso"]
+			titulo = arcana["Título reverso"]
+		else:
+			texto = arcana["Texto"]
+			titulo = arcana["Título"]
 		update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_txt_arcana debido a: '+str(e))
