@@ -324,7 +324,7 @@ def callback_finish_game_buttons(bot, update):
 		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
 		regex = re.search("(-[0-9]*)\*chooseendAR\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
-		mensaje_edit = "Has elegido el diccionario: {0}".format(opcion)
+		mensaje_edit = "Has elegido: {0}".format(opcion)
 		try:
 			bot.edit_message_text(mensaje_edit, cid, callback.message.message_id)
 		except Exception as e:
@@ -333,22 +333,21 @@ def callback_finish_game_buttons(bot, update):
 		
 		# Obtengo el diccionario actual, primero casos no tendre el config y pondre el community
 		try:
-			dicc = game.configs.get('diccionario','community')
+			diff = game.configs.get('difficultad', 0)
 		except Exception as e:
-			dicc = 'community'
+			diff = 0
 		
 		# Obtengo datos de juego anterior		
 		groupName = game.groupName
 		tipojuego = game.tipo
 		modo = game.modo
-		descarte = game.board.discards
+		
 		# Dependiendo de la opcion veo que como lo inicio
 		players = game.playerlist.copy()
 		# Creo nuevo juego
 		game = Game(cid, uid, groupName, tipojuego, modo)
 		GamesController.games[cid] = game
-		# Guarda los descartes en configs para asi puedo recuperarlos
-		game.configs['discards'] = descarte
+		
 		if opcion == "Nuevo":
 			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
@@ -361,10 +360,8 @@ def callback_finish_game_buttons(bot, update):
 		game.shuffle_player_sequence()
 					
 		if opcion == "Misma Dificultad":
-			#(Beta) Nuevo Partido, mismos jugadores, mismo diccionario
-			#log.info('Llego hasta el new2')
-			game.configs['difficultad'] = dicc
-			finish_config(bot, game, dicc)
+			game.configs['difficultad'] = diff
+			finish_config(bot, game, diff)
 		if opcion == "Diferente Dificultad":
 			#(Beta) Nuevo Partido, mismos jugadores, diferente diccionario
 			call_diff_buttons(bot, game)				
