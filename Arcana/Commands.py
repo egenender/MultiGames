@@ -69,6 +69,7 @@ def check_invalid_pick(args):
 	return (len(args) < 1 or (not args[0].isdigit()) or args[0] == '0')
 
 def command_guess(bot, update, args):
+	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
 	# TODO poner restriccion del jugador activo
