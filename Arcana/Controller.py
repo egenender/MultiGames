@@ -401,6 +401,7 @@ def callback_txt_arcana(bot, update):
 			if arcana == -1:
 				arcana = next(item for item in ARCANACARDS if item["Título reverso"] == opcion)
 				faded = True
+		log.info((arcana, faded))
 		if faded:
 			texto = arcana["Texto reverso"]
 			titulo = arcana["Título reverso"]
