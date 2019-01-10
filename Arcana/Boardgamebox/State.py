@@ -7,3 +7,4 @@ class State(BaseState):
 		self.score = 0
 		self.topArcana = None
 		self.arcanasOnTable = []
+		self.fadedarcanasOnTable = []
