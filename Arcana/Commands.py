@@ -261,7 +261,7 @@ def command_remove(bot, update, args):
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
-	elegido = -1 if check_invalid_pick(args) else int(args[0])+1
+	elegido = -1 if check_invalid_pick(args) else int(args[0])
 	
 	bot.send_message(game.cid, "{} {}".format(elegido, len(game.board.state.fadedarcanasOnTable)+1))
 	if (elegido > 0) and (elegido < (len(game.board.state.fadedarcanasOnTable)+1)):
