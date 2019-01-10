@@ -18,10 +18,12 @@ class Board(BaseBoard):
 		self.state = State()
 		
 	def draw_fate_token(self):
+		
 		if len(self.fateTokens) == 0:
 			# Si esta vacio agrego pongo los del descarte
 			self.fateTokens = random.sample(self.fateTokensDiscard, len(self.fateTokensDiscard))
 			self.fateTokensDiscard = []
+		random.shuffle(self.fateTokens)
 		return self.fateTokens.pop()
 	
 	def print_board(self, bot, game):
@@ -38,6 +40,14 @@ class Board(BaseBoard):
 			i += 1
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcanas Activas*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
+		
+		btns = []
+		i = 0
+		for arcana_on_table in game.board.state.fadedarcanasOnTable:
+			btns.append([self.create_arcana_button(game.cid, arcana_on_table, i)])
+			i += 1
+		btnMarkup = InlineKeyboardMarkup(btns)
+		bot.send_message(game.cid, "*Arcanas Faded*:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
@@ -60,8 +70,13 @@ class Board(BaseBoard):
 			arcana['tokens'] = []
 			tokens = arcana['tokens']		
 		titulo = arcana["Título"]	
-		texto = arcana["Texto"]
-		lunas = arcana["Lunas"]
+		
+		if "faded" in arcana and arcana["faded"]:
+			texto = arcana["Texto reverso"]
+			titulo = arcana["Título reverso"]
+		else:
+			texto = arcana["Texto"]
+			titulo = arcana["Título"]
 		#if len(tokens) > 0:
 		txt_tokens = ""
 		if len(arcana['tokens']) > 0:
@@ -80,9 +95,11 @@ class Board(BaseBoard):
 	
 	def print_arcana_back(self, arcana):
 		return "*{}*\n{}\n".format(arcana["Título reverso"], arcana["Texto reverso"])
-	def print_puntaje(self, game):		
-		board += "--- *Puntaje de jugadores* ---\n"
-		for player in game.player_sequence:
-			nombre = player.name.replace("_", " ")
-			board += "*{} ({})*\n".format(nombre, player.puntaje)
-		return board
+	
+	def print_result(self, game):		
+		resultado 
+		if game.board.state.score > 6:
+			resultado = "*Han ganado!*"
+		else:
+			resultado = "*Han perdido!*"
+		return resultado
