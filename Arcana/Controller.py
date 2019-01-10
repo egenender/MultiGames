@@ -238,6 +238,7 @@ def callback_choose_arcana(bot, update, user_data):
 		game.board.print_board(bot, game)
 		game.board.state.active_player.fateTokens.remove(choosen_fate)
 		game.board.state.fase_actual = "Predecir"
+		Commands.save(bot, game.cid)
 		#bot.send_message(cid, msg, ParseMode.MARKDOWN)		
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
