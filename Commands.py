@@ -902,6 +902,46 @@ def get_config_data(game, config_name):
 	except Exception as e:
 		return None
 
+def command_guess(bot, update, args):	
+	import JustOne.Commands as JustoneCommands
+	import SayAnything.Commands as SayAnythingCommands
+	import Arcana.Commands as ArcanaCommands
+
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
+	# Me fijo si hay una partida, sino por defecto es D100
+	game = get_game(cid)
+	if game and uid in game.playerlist:
+		#bot.send_message(cid, "*Juego encontrado*", ParseMode.MARKDOWN)
+		if game.tipo == "JustOne":
+			JustoneCommands.command_guess(bot, update, args)
+		elif game.tipo == "Arcana":
+			ArcanaCommands.command_guess(bot, update, args)
+		else:
+			bot.send_message(cid, "*El juego no tiene commando guess*", ParseMode.MARKDOWN)
+	else:
+		bot.send_message(cid, "*No estas en ninguna partida en la que puedas hacer guess*", ParseMode.MARKDOWN)
+
+def command_pass(bot, update):	
+	import JustOne.Commands as JustoneCommands
+	import SayAnything.Commands as SayAnythingCommands
+	import Arcana.Commands as ArcanaCommands
+
+	cid = update.message.chat_id
+	uid = update.message.from_user.id
+	# Me fijo si hay una partida, sino por defecto es D100
+	game = get_game(cid)
+	if game and uid in game.playerlist:
+		#bot.send_message(cid, "*Juego encontrado*", ParseMode.MARKDOWN)
+		if game.tipo == "JustOne":
+			JustoneCommands.command_pass(bot, update)
+		elif game.tipo == "Arcana":
+			ArcanaCommands.command_pass(bot, update)
+		else:
+			bot.send_message(cid, "*El juego no tiene commando pass*", ParseMode.MARKDOWN)
+	else:
+		bot.send_message(cid, "*No estas en ninguna partida en la que puedas hacer pass*", ParseMode.MARKDOWN)
+	
 '''
 def command_addplayer(bot, update, args):	
 	cid = update.message.chat_id
