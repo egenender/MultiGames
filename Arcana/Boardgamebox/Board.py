@@ -106,6 +106,6 @@ class Board(BaseBoard):
 		return resultado
 	def count_fate_tokens(self, arcana):
 		i = 0
-		for fate in arcana_on_table['tokens']:
+		for fate in arcana['tokens']:
 			i += int(fate["TimeSymbols"])
 		return i
