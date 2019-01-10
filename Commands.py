@@ -872,6 +872,8 @@ def command_set_config_data(bot, update, args):
 		save(bot, cid)
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
+	import SayAnything.Commands as SayAnythingCommands
+	
 	if game.tipo == 'JustOne' or game.tipo == 'SayAnything':
 		if game.tipo == 'JustOne' and game.board.state.fase_actual == "Proponiendo Pistas":
 			return uid not in game.board.state.last_votes and uid != game.board.state.active_player.uid
@@ -882,6 +884,8 @@ def verify_my_turn(game, uid):
 			return game.board.state.reviewer_player.uid == uid
 		elif game.board.state.fase_actual == "Adivinando":
 			return game.board.state.active_player.uid == uid
+		elif game.board.state.fase_actual == "Votando Frases":
+			return SayAnythingCommands.verify_missing_votes_user(game, uid)			
 	return False
 
 def myturn_message(game, uid):
@@ -889,6 +893,9 @@ def myturn_message(game, uid):
 		if game.tipo == 'JustOne':
 			return JustOneController.myturn_message(game, uid)
 		elif game.tipo == 'SayAnything':
+			if game.board.state.fase_actual == "Votando Frases":
+				SayAnythingController.send_vote_buttons(bot, game, uid)
+				return "Te faltan votos"							
 			return SayAnythingController.myturn_message(game, uid)			
 	except Exception as e:
 		return str(e)
