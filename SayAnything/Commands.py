@@ -83,12 +83,15 @@ def command_call(bot, game):
 def call_to_vote_respeustas(bot, game):
 	call_text = 'Recuerden votar\n'
 	for player in game.player_sequence:
-		lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==player.uid]
-		if len(lista_votos_usuario) != 2 and player.uid != game.board.state.active_player.uid:
+		if verify_missing_votes_user(bot, game, player.uid)
 			call_text += 'Te faltan *{0}* votos {1}.\n'.format(2-len(lista_votos_usuario), helper.player_call(player))			
 	bot.send_message(game.cid, call_text, ParseMode.MARKDOWN)
 	#SayAnythingController.send_vote_buttons(bot, game, player.uid)
-		
+
+def verify_missing_votes_user(game, uid):
+	lista_votos_usuario = [(index, val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[0].uid==uid]
+	return len(lista_votos_usuario) != 2 and uid != game.board.state.active_player.uid:
+	
 def call_proponiendo_pistas(bot, game):
 	if not game.dateinitvote:
 		# If date of init vote is null, then the voting didnt start          
