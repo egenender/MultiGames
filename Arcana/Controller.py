@@ -124,10 +124,13 @@ def start_round(bot, game):
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
-	# El jugador obtiene hasta 2 fates	
-	for i in range(2-len(game.board.state.active_player.fateTokens)):
-		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
+	# El jugador obtiene hasta 2 
+	draw_tokens = 2-len(game.board.state.active_player.fateTokens)
 	
+	for i in range(draw_tokens):
+		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
+	bot.send_message(cid, "El jugador activo ha robado {} tokens de destino".format(draw_tokens), parse_mode=ParseMode.MARKDOWN)
+
 	show_fates_active_player(bot, game)	
 	#send_buttons_active_player(bot, game)
 	#bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
