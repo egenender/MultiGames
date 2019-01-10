@@ -23,6 +23,7 @@ import Arcana.Controller as ArcanaController
 import JustOne.Commands as JustoneCommands
 import LostExpedition.Commands as LostExpeditionCommands
 import SayAnything.Commands as SayAnythingCommands
+import Arcana.Commands as ArcanaCommands
 
 from Constants.Cards import playerSets, actions
 from Constants.Config import TOKEN, STATS, ADMIN
@@ -533,6 +534,7 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*txtArcanaAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_txt_arcana))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseFateAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_choose_fate, pass_user_data = True))
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseArcanaAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_choose_arcana, pass_user_data = True))
+	dp.add_handler(CommandHandler("remove", ArcanaCommands.command_remove, pass_args = True))
 	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
