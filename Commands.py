@@ -896,7 +896,7 @@ def myturn_message(bot, game, uid):
 		if game.tipo == 'JustOne':
 			return JustOneController.myturn_message(game, uid)
 		elif game.tipo == 'SayAnything':
-			log.info("Fase: {} Grupo {}".format(game.board.state.fase_actual, game.groupName)
+			log.info("Fase: {} Grupo {}".format(game.board.state.fase_actual, game.groupName))
 			if game.board.state.fase_actual == "Votando Frases":				
 				SayAnythingController.send_vote_buttons(bot, game, uid)
 				return "Te faltan votos"							
