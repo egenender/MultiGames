@@ -261,7 +261,7 @@ def callback_choose_arcana(bot, update, user_data):
 		bot.send_message(ADMIN[0], callback.data)
 
 # Acciones particulares de la Arcana Sacar.
-def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje):
+def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje, chosen_fate):
 	stop_flow = False
 	if arcana["Título"] == "Las horas":
 		arcana = game.board.state.arcanasOnTable[index+1]
