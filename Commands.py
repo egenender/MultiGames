@@ -876,7 +876,7 @@ def command_set_config_data(bot, update, args):
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
 	import SayAnything.Commands as SayAnythingCommands
-	
+	log.info(game.groupName)
 	if game.tipo == 'JustOne' or game.tipo == 'SayAnything':
 		if game.tipo == 'JustOne' and game.board.state.fase_actual == "Proponiendo Pistas":
 			return uid not in game.board.state.last_votes and uid != game.board.state.active_player.uid
