@@ -219,7 +219,7 @@ def callback_choose_arcana(bot, update, user_data):
 		chosen_fate = user_data['fate']
 		unchosen_fate = user_data['unchosen']
 		try:
-			arcada_db = next((item for item in ARCANACARDS if item["Título"] == opcion), -1)
+			arcada_db = next((item for item in ARCANACARDS if item["Título"] == titulo), -1)
 			if 'tokens' not in arcana:
 				arcana['tokens'] = []
 			arcada_db["tokens"] = arcana["tokens"]
