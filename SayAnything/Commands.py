@@ -341,7 +341,7 @@ def pick_resp(bot, game, uid, opcion):
 		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
 			SayAnythingController.count_points(bot, game)
 		else:
-			SayAnythingController.command_call(bot, game)
+			command_call(bot, game)
 			
 			
 		#SayAnythingController.count_points(bot, game)
