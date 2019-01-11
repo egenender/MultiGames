@@ -218,7 +218,7 @@ def callback_choose_arcana(bot, update, user_data):
 		titulo = arcana["Título"]
 		chosen_fate = user_data['fate']
 		unchosen_fate = user_data['unchosen']
-		is_legal_arcana = arcana["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]))
+		is_legal_arcana = True#arcana["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]))#FIX
 
 		if not is_legal_arcana:
 			bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
