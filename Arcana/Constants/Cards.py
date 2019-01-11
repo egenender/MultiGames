@@ -122,7 +122,8 @@ LASHORAS = {
 	"Texto": "Si no podés jugar tu destino en ningún otro lado, hacelo aquí. Después, movelo una carta a la derecha.",
 	"Lunas": "99",
 	"Título reverso": "",
-	"Texto reverso": ""
+	"Texto reverso": "",
+	"Legal": lambda kept, played: True #FIXME
 }
 
 ARCANACARDS = [ 
