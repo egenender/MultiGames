@@ -856,6 +856,7 @@ def command_myturns(bot, update):
 	# Me improtan los juegos que; Este el jugador, hayan sido iniciados, datinivote no sea null y que cumpla reglas del tipo de juego en particular
 	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and verify_my_turn(game, uid) }
 	for game_chat_id, game in all_games.items():
+		log.info(game.groupName)
 		bot.send_message(uid, myturn_message(bot, game, uid), ParseMode.MARKDOWN)			
 	if len(all_games) == 0:
 		bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
@@ -876,7 +877,7 @@ def command_set_config_data(bot, update, args):
 # TODO Poner estos metodos en helpers o usar los de cada juego en particular en su controller
 def verify_my_turn(game, uid):
 	import SayAnything.Commands as SayAnythingCommands
-	log.info(game.groupName)
+	
 	if game.tipo == 'JustOne' or game.tipo == 'SayAnything':
 		if game.tipo == 'JustOne' and game.board.state.fase_actual == "Proponiendo Pistas":
 			return uid not in game.board.state.last_votes and uid != game.board.state.active_player.uid
