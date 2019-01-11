@@ -124,13 +124,8 @@ def start_round(bot, game):
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
-	# El jugador obtiene hasta 2 
-	draw_tokens = 2-len(game.board.state.active_player.fateTokens)
+	draw_fates_player(bot, game, game.board.state.active_player)
 	
-	for i in range(draw_tokens):
-		game.board.state.active_player.fateTokens.append(game.board.draw_fate_token())
-	bot.send_message(cid, "El jugador activo ha robado {} tokens de destino".format(draw_tokens), parse_mode=ParseMode.MARKDOWN)
-
 	show_fates_active_player(bot, game)	
 	#send_buttons_active_player(bot, game)
 	#bot.send_message(cid, game.board.print_board(game), ParseMode.MARKDOWN)
@@ -138,6 +133,13 @@ def start_round(bot, game):
 	#print_board(bot, game)
 	game.board.state.fase_actual = "Jugar Fate"
 	Commands.save(bot, game.cid)
+
+def draw_fates_player(bot, game, player):
+	# El jugador obtiene hasta 2 
+	draw_tokens = 2-len(player.fateTokens)	
+	for i in range(draw_tokens):
+		player.fateTokens.append(game.board.draw_fate_token())
+	bot.send_message(cid, "El jugador {} ha robado {} tokens de destino".format(player.name, draw_tokens), parse_mode=ParseMode.MARKDOWN)	
 	
 def show_fates_active_player(bot, game):
 	cid = game.cid
@@ -222,11 +224,8 @@ def callback_choose_arcana(bot, update, user_data):
 			arcada_db = next((item for item in ARCANACARDS if item["Título"] == titulo), -1)
 			if 'tokens' not in arcana:
 				arcana['tokens'] = []
-			arcada_db["tokens"] = arcana["tokens"]
-			
-			is_legal_arcana = arcada_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]))#FIX
-			
-			
+			arcada_db["tokens"] = arcana["tokens"]			
+			is_legal_arcana = arcada_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]))#FIX			
 		except Exception as e:
 			is_legal_arcana = True
 
@@ -242,25 +241,14 @@ def callback_choose_arcana(bot, update, user_data):
 		
 		bot.edit_message_text("Has elegido la Arcana *{}: {}*\n".format(titulo, texto), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 		
-		#bot.edit_message_text("Has elegido el destino {}\n".format(texto), uid, callback.message.message_id)
-		#update.callback_query.answer(text="{}: {}".format(titulo, texto), show_alert=True)		
-		
-		
-		
-		mensaje_final = ""
-		
-		mensaje_final += "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
+		mensaje_final = "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
 			game.board.state.active_player.name, chosen_fate["Texto"], arcana["Título"])
-					
-		# Si es las horas el token va a la siguiente carta
-		if arcana["Título"] == "Las horas":
-			arcana = game.board.state.arcanasOnTable[index+1]
-			texto = arcana["Texto"]
-			titulo = arcana["Título"]
-			mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
 		
-		mensaje_final += "\nHagan /guess N para adivinar destino o /pass para pasar!"
+		# Caminos alternativo si elige una arcana especial o Las Horas. Y si detiende la ejecucion del metodo.
+		if(aditional_actions_arcanas(bot, game, index, ref arcana, titulo, texto, uid, callback, mensaje_final)):
+			return
 		
+		mensaje_final += "\nHagan /guess N para adivinar destino o /pass para pasar!"		
 		arcana['tokens'].append(chosen_fate)		
 		game.board.state.active_player.fateTokens.remove(chosen_fate)
 		game.board.state.fase_actual = "Predecir"
@@ -271,6 +259,24 @@ def callback_choose_arcana(bot, update, user_data):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
+
+# Acciones particulares de la Arcana Sacar.
+def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje):
+	stop_flow = False
+	if arcana["Título"] == "Las horas":
+		arcana = game.board.state.arcanasOnTable[index+1]
+		texto = arcana["Texto"]
+		titulo = arcana["Título"]
+		mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
+	if arcana["Título"] == "Sacar":	
+		arcana['tokens'].append(chosen_fate)		
+		game.board.state.active_player.fateTokens.remove(chosen_fate)
+		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+		draw_fates_player(bot, game, game.board.state.active_player)
+		show_fates_active_player(bot, game)
+		Commands.save(bot, game.cid)
+		stop_flow = True		
+	return stop_flow
 	
 def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR"):
 	texto = fate["Texto"]
