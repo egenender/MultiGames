@@ -364,6 +364,7 @@ def callback_finish_game_buttons(bot, update):
 
 def myturn_message(game, uid):
 	try:
+		log.info("My Turn message: Fase: {} Grupo {}".format(game.board.state.fase_actual, game.groupName))
 		group_link_name = helper.gname(game)
 		#group_link_name = game.groupName if get_config_data(game, "link")==None else "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
 		#if uid == ADMIN[0]:
@@ -376,6 +377,7 @@ def myturn_message(game, uid):
 			reviewer_player = game.board.state.reviewer_player
 			return "Partida: {1} Revisor recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player), group_link_name)
 		elif game.board.state.fase_actual == "Adivinando":
+			log.info("My Turn message: Fase: {} Grupo {}".format(game.board.state.fase_actual, game.groupName))
 			active_player = game.board.state.active_player
 			return "Partida: {1} estamos esperando para que hagas /guess EJEMPLO o /pass".format(helper.player_call(active_player), group_link_name)
 	except Exception as e:
