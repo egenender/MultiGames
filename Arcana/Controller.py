@@ -139,7 +139,7 @@ def draw_fates_player(bot, game, player):
 	draw_tokens = 2-len(player.fateTokens)	
 	for i in range(draw_tokens):
 		player.fateTokens.append(game.board.draw_fate_token())
-	bot.send_message(cid, "El jugador {} ha robado {} tokens de destino".format(player.name, draw_tokens), parse_mode=ParseMode.MARKDOWN)	
+	bot.send_message(game.cid, "El jugador {} ha robado {} tokens de destino".format(player.name, draw_tokens), parse_mode=ParseMode.MARKDOWN)	
 	
 def show_fates_active_player(bot, game):
 	cid = game.cid
