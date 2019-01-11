@@ -89,7 +89,7 @@ class helper:
 		except Exception as e:
 			return None
 	def gname(game):
-		return "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
+		return "[{0}]({1})".format(game.groupName, helper.get_config_data(game, "link"))
 	
 	
 	
