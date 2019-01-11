@@ -2,7 +2,7 @@
 Eduardo Peluffo
 
 # Colaborators
-HQ063
+HQ063 egenender
 
 # Telegram Bot for the Multi Games By Levi
 This is a simple Telegram Bot for the Multi Games By Levi
