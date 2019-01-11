@@ -364,7 +364,7 @@ def callback_finish_game_buttons(bot, update):
 
 def myturn_message(game, uid):
 	try:
-		group_link_name = "[{0}]({1})".format(game.groupName, helper.get_config_data(game, "link"))
+		group_link_name = helper.gname(game)
 		#group_link_name = game.groupName if get_config_data(game, "link")==None else "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
 		#if uid == ADMIN[0]:
 		#	group_link_name = "[{0}]({1})".format(game.groupName, get_config_data(game, "link"))
