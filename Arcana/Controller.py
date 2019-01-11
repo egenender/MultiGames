@@ -245,7 +245,7 @@ def callback_choose_arcana(bot, update, user_data):
 			game.board.state.active_player.name, chosen_fate["Texto"], arcana["Título"])
 		
 		# Caminos alternativo si elige una arcana especial o Las Horas. Y si detiende la ejecucion del metodo.
-		if(aditional_actions_arcanas(bot, game, index, ref arcana, titulo, texto, uid, callback, mensaje_final)):
+		if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final)):
 			return
 		
 		mensaje_final += "\nHagan /guess N para adivinar destino o /pass para pasar!"		
