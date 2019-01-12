@@ -81,7 +81,7 @@ class helper:
 		cropped = img.crop( ( left, top, right, bottom ) )
 		return cropped
 	
-	def get_config_data(self, game, config_name):
+	def get_config_data(game, config_name):
 		# Si por algun motivo tira excepcion siempre se devuelve None
 		try:
 
