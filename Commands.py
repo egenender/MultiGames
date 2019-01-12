@@ -856,7 +856,7 @@ def command_myturns(bot, update):
 	# Me improtan los juegos que; Este el jugador, hayan sido iniciados, datinivote no sea null y que cumpla reglas del tipo de juego en particular
 	all_games = {key:game for key, game in all_games_unfiltered.items() if uid in game.playerlist and game.board != None and verify_my_turn(game, uid) }
 	for game_chat_id, game in all_games.items():		
-		bot.send_message(uid, myturn_message(bot, game, uid))			
+		bot.send_message(uid, myturn_message(bot, game, uid), ParseMode.MARKDOWN)			
 	if len(all_games) == 0:
 		bot.send_message(uid, "*NO* tienes partidos pendientes", ParseMode.MARKDOWN)
 
