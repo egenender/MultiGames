@@ -247,7 +247,11 @@ def callback_choose_arcana(bot, update, user_data):
 		if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final, chosen_fate)):
 			return
 		
-		mensaje_final += "\nHagan /guess N para adivinar destino o /pass para pasar!"		
+		call_other_players = ""
+		for uid, player in game.playerlist.items():
+			call_other_players += "{} ".format(helper.player_call(player)) if uid != game.board.state.active_player.uid else ""
+		
+		mensaje_final += "\n{}Hagan /guess N para adivinar destino o /pass para pasar!".format(call_other_players)	
 		arcana['tokens'].append(chosen_fate)		
 		game.board.state.active_player.fateTokens.remove(chosen_fate)
 		game.board.state.fase_actual = "Predecir"
