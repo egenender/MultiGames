@@ -108,8 +108,7 @@ def finish_config(bot, game, opcion):
 	game.board.state.arcanasOnTable.append(LASHORAS)
 	for i in range(4):
 		game.board.state.arcanasOnTable.append(game.board.arcanaCards.pop())
-	# Siempre se ve la proxima carta de arcana		
-	game.board.state.topArcana = game.board.arcanaCards[0]
+	
 	start_round(bot, game)
 
 # Objetivo
