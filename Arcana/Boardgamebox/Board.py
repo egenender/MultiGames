@@ -28,10 +28,10 @@ class Board(BaseBoard):
 		return self.fateTokens.pop()
 	
 	def print_board(self, bot, game):
-		bot.send_message(game.cid, "--- *Estado de Partida* ---\nCondenacion: {}/7.\nPuntaje {}/7"
+		bot.send_message(game.cid, "--- *Estado de Partida* ---\nCondena: {}/7.\nPuntaje {}/7"
 				 .format(self.state.doom, self.state.score), parse_mode=ParseMode.MARKDOWN, timeout=20)
 		btns = []
-		btns.append([self.create_arcana_button(game.cid, self.arcanaCards[len(self.arcanaCards)])])
+		btns.append([self.create_arcana_button(game.cid, self.arcanaCards[len(self.arcanaCards)-1])])
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
 		board = "*Arcanas Activas*:\n"
