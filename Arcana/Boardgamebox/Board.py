@@ -31,7 +31,7 @@ class Board(BaseBoard):
 		bot.send_message(game.cid, "--- *Estado de Partida* ---\nCondenacion: {}/7.\nPuntaje {}/7"
 				 .format(self.state.doom, self.state.score), parse_mode=ParseMode.MARKDOWN, timeout=20)
 		btns = []
-		btns.append([self.create_arcana_button(game.cid, game.board.state.topArcana)])
+		btns.append([self.create_arcana_button(game.cid, self.arcanaCards[len(self.arcanaCards)])])
 		btnMarkup = InlineKeyboardMarkup(btns)
 		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
 		board = "*Arcanas Activas*:\n"
