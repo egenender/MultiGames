@@ -70,9 +70,11 @@ class Board(BaseBoard):
 		if 'tokens' not in arcana:
 			arcana['tokens'] = []
 		
+		faded = "faded" in arcana and arcana["faded"]
+		
 		tokens = arcana['tokens']	
 		lunas = arcana["Lunas"]		
-		if "faded" in arcana and arcana["faded"]:
+		if faded:
 			texto = arcana["Texto reverso"]
 			titulo = arcana["Título reverso"]
 		else:
@@ -85,7 +87,7 @@ class Board(BaseBoard):
 			for fate in arcana['tokens']:
 				txt_tokens += "{}, ".format(fate["Texto"])
 			txt_tokens = "[{}]".format(txt_tokens[:-2])
-		tokens_lunas = "" if titulo == "Las horas" else "({}/{})".format(self.count_fate_tokens(arcana), lunas) 
+		tokens_lunas = "" if (titulo == "Las horas" or faded) else "({}/{})".format(self.count_fate_tokens(arcana), lunas) 
 		txtBoton = "{} {} {}".format(titulo, txt_tokens, tokens_lunas)
 		comando_callback = comando_callback
 		uid = cid # Solo se va a usar para mostrar en pantallas de juego
