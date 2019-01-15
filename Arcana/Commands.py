@@ -111,7 +111,7 @@ def command_remove(bot, update, args):
 	#bot.send_message(game.cid, "{} {}".format(elegido, len(game.board.state.fadedarcanasOnTable)+1))
 	fadeded_on_table = len(game.board.state.fadedarcanasOnTable)+1
 	if (elegido > 0) and (elegido < fadeded_on_table):
-		ArcanaController.use_fadded_action(bot, game, uid, game.board.state.fadedarcanasOnTable[elegido-1])		
+		ArcanaController.use_fadded_action(bot, game, uid, game.board.state.fadedarcanasOnTable[elegido-1], elegido-1)		
 	else:
 		bot.send_message(game.cid, "Debes ingresar un numero del 1 a {} (incluido)".format(fadeded_on_table-1), ParseMode.MARKDOWN)
 
