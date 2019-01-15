@@ -439,7 +439,7 @@ def callback_txt_arcana(bot, update):
 		bot.send_message(ADMIN[0], callback.data)
 
 # Si se usa la accion se descarta al final.
-def use_fadded_action(bot, game, uid, arcana):
+def use_fadded_action(bot, game, uid, arcana, elegido):
 	if can_use_fadded(bot, game, uid, arcana):
 		# 3 acciones que cambian cartas en arcanas Reubicar Ciclar Descartar menor
 		titulo = arcana["Título reverso"]
