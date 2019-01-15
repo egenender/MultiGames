@@ -479,10 +479,10 @@ def can_use_fadded(bot, game, uid, arcana):
 	log.info('destino: {}, antes: {}, Req jugador_activo: {}, Es el jugador activo?: {}'.format(destino, antes, jugador_activo, (uid==game.board.state.active_player.uid)))
 	
 	# VErifico si es el jugador correcto el que ejecuta 
-	if jugador_activo and not (uid==game.board.state.active_player.uid):
+	if (jugador_activo and not (uid==game.board.state.active_player.uid)) or (
+		(not jugador_activo) and (uid==game.board.state.active_player.uid)):
 		return False
-	elif (not jugador_activo) and (uid==game.board.state.active_player.uid):
-		return False
+	
 	# Verifico que sea en la fase correcta.
 	if antes and destino and game.board.state.fase_actual == "Jugar Fate":
 		return True
