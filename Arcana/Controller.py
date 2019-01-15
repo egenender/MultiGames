@@ -474,7 +474,7 @@ def can_use_fadded(bot, game, uid, arcana):
 	# Si es true es antes, sino despues
 	antes = True if "Antes de" in texto else False
 	# Si es true la puede usar el jugador activo, sino el grupo
-	jugador_activo = True if ("el jugador activo" in texto) and (uid==game.board.state.active_player.uid) and else False	
+	jugador_activo = True if (("el jugador activo" in texto) and (uid==game.board.state.active_player.uid)) else False	
 	# Si es antes de poner destino el estado debe ser Jugar Fate, sino Predecir
 	log.info('destino: {}'.format(destino, antes, jugador_activo))
 	
