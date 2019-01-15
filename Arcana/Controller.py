@@ -478,10 +478,14 @@ def can_use_fadded(bot, game, uid, arcana):
 	# Si es antes de poner destino el estado debe ser Jugar Fate, sino Predecir
 	log.info('destino: {}, antes: {}, Req jugador_activo: {}, Es el jugador activo?: {}'.format(destino, antes, jugador_activo, (uid==game.board.state.active_player.uid)))
 	
+	# VErifico si es el jugador correcto el que ejecuta 
 	if jugador_activo and not (uid==game.board.state.active_player.uid):
-		return False	
-	if antes and destino and jugador_activo and game.board.state.fase_actual == "Jugar Fate":
+		return False
+	elif (not jugador_activo) and (uid==game.board.state.active_player.uid):
+		return False
+	# Verifico que sea en la fase correcta.
+	if antes and destino and game.board.state.fase_actual == "Jugar Fate":
 		return True
-	elif ( ( (not antes) and destino and jugador_activo) or (not destino and not jugador_activo)) and game.board.state.fase_actual == "Predecir":
+	elif ((not antes) or (not destino)) and game.board.state.fase_actual == "Predecir":
 		return True
 	return False		
