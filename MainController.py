@@ -536,7 +536,8 @@ def main():
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseArcanaAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_choose_arcana, pass_user_data = True))
 	dp.add_handler(CommandHandler("remove", ArcanaCommands.command_remove, pass_args = True))	
 	dp.add_handler(CallbackQueryHandler(pattern="(-[0-9]*)\*chooseendAR\*(.*)\*([0-9]*)", callback=ArcanaController.callback_finish_game_buttons))
-		
+	dp.add_handler(CommandHandler("discard", ArcanaCommands.command_discard))	
+	
 	# Handlers de D100
 	dp.add_handler(CommandHandler("tirada", Commands.command_roll, pass_args = True))
 	
