@@ -238,7 +238,7 @@ def callback_choose_arcana(bot, update, user_data):
 		
 		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], chosen_fate["Texto"]), show_alert=False)
 		
-		bot.edit_message_text("Has elegido la Arcana *{}: {}* Te queda en la mano el token *{}*\n".format(titulo, texto, unchosen_fate["Texto"]), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
+		bot.edit_message_text("Has elegido la Arcana *{}: {}*.\nTe queda en la mano el token *{}*\n".format(titulo, texto, unchosen_fate["Texto"]), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
 		
 		mensaje_final = "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
 			game.board.state.active_player.name, chosen_fate["Texto"], arcana["Título"])
