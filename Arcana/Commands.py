@@ -144,3 +144,17 @@ def command_continue(bot, game, uid):
 			SayAnythingController.continue_playing(bot, game)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))
+
+def command_discard(bot, update):
+	log.info('command_pass called')
+	uid = update.message.from_user.id
+	cid = update.message.chat_id
+	game = Commands.get_game(cid)
+	
+	if uid in game.playerlist and len(game.playerlist[uid].playerFateTokens) == 1:
+		discarded_fate = game.playerlist[uid].playerFateTokens.pop()
+		bot.send_message(game.cid, "El jugador se ha descartado del token: {} ({})."
+				 .format(discarded_fate["Texto"]), ParseMode.MARKDOWN)
+	else:
+		bot.send_message(game.cid, "No estas en esta partida o tienes más de un token o no tienes tokens en la mano.", ParseMode.MARKDOWN)	
+	
