@@ -246,7 +246,11 @@ def callback_choose_arcana(bot, update, user_data):
 		# Caminos alternativo si elige una arcana especial o Las Horas. Y si detiende la ejecucion del metodo.
 		if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final, chosen_fate)):
 			return
-		
+		if arcana["Título"] == "Las horas":
+			arcana = game.board.state.arcanasOnTable[index+1]
+			texto = arcana["Texto"]
+			mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
+	
 		call_other_players = ""
 		for uid, player in game.playerlist.items():
 			call_other_players += "{} ".format(helper.player_call(player)) if uid != game.board.state.active_player.uid else ""
@@ -266,11 +270,6 @@ def callback_choose_arcana(bot, update, user_data):
 # Acciones particulares de la Arcana Sacar.
 def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje, chosen_fate):
 	stop_flow = False
-	if arcana["Título"] == "Las horas":
-		arcana = game.board.state.arcanasOnTable[index+1]
-		texto = arcana["Texto"]
-		titulo = arcana["Título"]
-		mensaje += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
 	if arcana["Título"] == "Sacar":	
 		arcana['tokens'].append(chosen_fate)		
 		game.board.state.active_player.fateTokens.remove(chosen_fate)
