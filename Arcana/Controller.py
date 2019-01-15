@@ -453,7 +453,7 @@ def use_fadded_action(bot, game, uid, elegido):
 			game.board.state.fadedarcanasOnTable.remove(arcana)
 			bot.send_message(game.cid, "Se ha removido la arcana *{}* con habilidad *{}*".format(arcana["Título reverso"], arcana["Texto reverso"]), ParseMode.MARKDOWN)		
 	else:
-		bot.send_message(game.cid, "No se puede usar este poder en este momento", ParseMode.MARKDOWN)
+		bot.send_message(game.cid, "No se puede/No puedes usar este poder en este momento", ParseMode.MARKDOWN)
 
 def reubicar_action(bot, game, uid):
 	log.info('reubicar_action called')
