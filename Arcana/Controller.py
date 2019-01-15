@@ -441,10 +441,16 @@ def callback_txt_arcana(bot, update):
 # Si se usa la accion se descarta al final.
 def use_fadded_action(bot, game, uid, fadded_arcana):
 	if can_use_fadded(bot, game, uid, fadded_arcana):
-		return True
+		# 3 acciones que cambian cartas en arcanas Reubicar Ciclar Descartar menor
+		titulo = arcana["Título reverso"]
+		if titulo in ["Reubicar", "Ciclar", "Descartar menor"]:
+			bot.send_message(game.cid, "Funcionalidad de *{}* en *Construcción*".format(arcana_quitada["Título reverso"]), ParseMode.MARKDOWN)
+		else:
+			# Por el momento el resto se ejecutaran directamente.
+			arcana_quitada = game.board.state.fadedarcanasOnTable.pop(elegido-1)
+			bot.send_message(game.cid, "Se ha removido la arcana *{}* con habilidad *{}*".format(arcana_quitada["Título reverso"], arcana_quitada["Texto reverso"]), ParseMode.MARKDOWN)		
 	else:
 		bot.send_message(game.cid, "No se puede usar este poder en este momento", ParseMode.MARKDOWN)
-		return	False
 		
 # Acciones que se realizan al usar las fadded
 def can_use_fadded(bot, game, uid, fadded_arcana):
