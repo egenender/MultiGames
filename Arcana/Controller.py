@@ -457,12 +457,26 @@ def use_fadded_action(bot, game, uid, elegido):
 
 def reubicar_action(bot, game, uid):
 	log.info('reubicar_action called')
+	# Botones Publicos
+	# El jugador mueve destino de una arcana a otra.
+	# Mostrar arcanas (menos las horas) (Cancel jugador no decide más)
+	# Mostrar destinos Arcana (Cancel muestra arcanas)
+	# Mostrar arcanas posibles (Cancel muestra destinos de nuevo)
+	# Verificar que la arcana no sea la misma
 
 def ciclar_action(bot, game, uid):
 	log.info('ciclar_action called')
+	# Botones Publicos
+	# El jugador mueve destino de una arcana a otra.
+	# Mostrar arcanas (menos las horas)
+	# Verificar que la arcanano tenga destinos 
     
 def descartarmenor_action(bot, game, uid):
 	log.info('descartarmenor_action called')
+	# Botones en privado
+	# Mostrar arcanas (Cancel jugador no decide más)
+	# Mostrar destinos Arcana (Cancel muestra arcanas)
+	# Verificar que el destino a eliminar sea menor al destino restante	
 	
 # Acciones que se realizan al usar las fadded
 def can_use_fadded(bot, game, uid, arcana):
