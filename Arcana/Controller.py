@@ -246,6 +246,7 @@ def callback_choose_arcana(bot, update, user_data):
 		# Caminos alternativo si elige una arcana especial o Las Horas. Y si detiende la ejecucion del metodo.
 		if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final, chosen_fate)):
 			return
+		
 		if arcana["Título"] == "Las horas":
 			arcana = game.board.state.arcanasOnTable[index+1]
 			texto = arcana["Texto"]
@@ -436,5 +437,29 @@ def callback_txt_arcana(bot, update):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_txt_arcana debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
+
+# Si se usa la accion se descarta al final.
+def use_fadded_action(bot, game, uid, fadded_arcana):
+	if can_use_fadded(bot, game, uid, fadded_arcana):
+		return True
+	else:
+		bot.send_message(game.cid, "No se puede usar este poder en este momento", ParseMode.MARKDOWN)
+		return	False
 		
-		
+# Acciones que se realizan al usar las fadded
+def can_use_fadded(bot, game, uid, fadded_arcana):
+	# Detecto el timing por el texto de la carta
+	texto = arcana["Texto reverso"]
+	titulo = arcana["Título reverso"]
+	# Si es true es jugable antes de destino, sino prediccion
+	destino = True if "de jugar" in texto else False
+	# Si es true es antes, sino despues
+	antes = True if "Antes de" in texto else False
+	# Si es true la puede usar el jugador activo, sino el grupo
+	jugador_activo = True if "el jugador activo" in texto else False	
+	# Si es antes de poner destino el estado debe ser Jugar Fate, sino Predecir
+	if antes and destino and game.board.state.fase_actual == "Jugar Fate":
+		return True
+	elif ((not antes and destino and jugador_activo) or (not destino and not jugador_activo)) and game.board.state.fase_actual == "Predecir":
+		return True
+	return False		
