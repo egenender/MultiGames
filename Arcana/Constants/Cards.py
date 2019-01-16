@@ -181,7 +181,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played: (not (played in [2,4,6] and kept in [2,4,6])) and ((played in [1,3,5,7] and kept in [1,3,5,7] and played > kept) or (kept < played))
+   "Legal": lambda kept, played: (played % 2 + kept % 2 > 0) and (((kept+played) % 2 == 0 and played > kept) or ((kept+played) % 2 != 0 and kept > played))
  },
  {
    "Título": "±1",
