@@ -5,8 +5,8 @@ from random import shuffle
 from Constants.Cards import cartas_aventura
 
 from Boardgamebox.Game import Game as BaseGame
-from SayAnything.Boardgamebox.Player import Player
-from SayAnything.Boardgamebox.Board import Board
+from LostExpedition.Boardgamebox.Player import Player
+from LostExpedition.Boardgamebox.Board import Board
 #from Boardgamebox.Board import Board
 #from Boardgamebox.State import State
 
