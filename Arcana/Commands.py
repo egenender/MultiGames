@@ -70,6 +70,7 @@ def check_invalid_pick(args):
 
 def command_guess(bot, update, args):
 	cid = update.message.chat_id
+	uid = update.message.from_user.id
 	game = Commands.get_game(cid)
 	
 	if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:	
