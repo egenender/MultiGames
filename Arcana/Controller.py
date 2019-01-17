@@ -119,7 +119,10 @@ def start_round(bot, game):
 	log.info('start_round_Arcana called')
 	cid = game.cid	
 	# Se marca al jugador activo
-		
+	
+	# Se resetean marcas del turno
+	game.board.state.plusOneEnable = False
+	
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
@@ -219,6 +222,10 @@ def callback_choose_arcana(bot, update, user_data):
 		titulo = arcana["Título"]
 		chosen_fate = user_data['fate']
 		unchosen_fate = user_data['unchosen']
+		
+		# Caso particular de elegir +1
+		if game.board.state.plusOneEnable:
+			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"]+1))		
 		try:
 			arcada_db = next((item for item in ARCANACARDS if item["Título"] == titulo), -1)
 			if 'tokens' not in arcana:
@@ -444,10 +451,14 @@ def use_fadded_action(bot, game, uid, elegido):
 	if can_use_fadded(bot, game, uid, arcana):
 		# 3 acciones que cambian cartas en arcanas Reubicar Ciclar Descartar menor
 		titulo = arcana["Título reverso"]
-		accion = {"Reubicar": reubicar_action, "Ciclar": ciclar_action, "Descartar menor": descartarmenor_action}.get(titulo)
+		accion = {"+1" : plusOneAction, "Reubicar": reubicar_action, "Ciclar": ciclar_action, "Descartar menor": descartarmenor_action}.get(titulo)
 		if accion:
-			accion(bot, game, uid)
-			bot.send_message(game.cid, "Funcionalidad de *{}* en *Construcción*".format(arcana["Título reverso"]), ParseMode.MARKDOWN)
+			done = accion(bot, game, uid)
+			if done:
+				game.board.state.fadedarcanasOnTable.remove(arcana)
+				bot.send_message(game.cid, "Se ha removido la arcana *{}* con habilidad *{}*".format(arcana["Título reverso"], arcana["Texto reverso"]), ParseMode.MARKDOWN)						
+			else:
+				bot.send_message(game.cid, "Funcionalidad de *{}* en *Construcción*".format(arcana["Título reverso"]), ParseMode.MARKDOWN)
 		else:
 			# Por el momento el resto se ejecutaran directamente.
 			game.board.state.fadedarcanasOnTable.remove(arcana)
@@ -455,8 +466,13 @@ def use_fadded_action(bot, game, uid, elegido):
 	else:
 		bot.send_message(game.cid, "No se puede/No puedes usar este poder en este momento", ParseMode.MARKDOWN)
 
+def plusOneAction(bot, game, uid):
+	game.board.state.plusOneEnable = False
+	return True
+		
 def reubicar_action(bot, game, uid):
 	log.info('reubicar_action called')
+	return False
 	# Botones Publicos
 	# El jugador mueve destino de una arcana a otra.
 	# Mostrar arcanas (menos las horas) (Cancel jugador no decide más)
@@ -466,6 +482,7 @@ def reubicar_action(bot, game, uid):
 
 def ciclar_action(bot, game, uid):
 	log.info('ciclar_action called')
+	return False
 	# Botones Publicos
 	# El jugador mueve destino de una arcana a otra.
 	# Mostrar arcanas (menos las horas)
@@ -473,6 +490,7 @@ def ciclar_action(bot, game, uid):
     
 def descartarmenor_action(bot, game, uid):
 	log.info('descartarmenor_action called')
+	return False
 	# Botones en privado
 	# Mostrar arcanas (Cancel jugador no decide más)
 	# Mostrar destinos Arcana (Cancel muestra arcanas)
