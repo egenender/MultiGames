@@ -23,7 +23,7 @@ from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
 from SayAnything.Boardgamebox.Game import Game as GameSayAnything
 from Arcana.Boardgamebox.Game import Game as GameArcana
-from Boardgamebox.Game import Game
+from LostExpedition.Boardgamebox.Game import GameLostExpedition
 
 from Boardgamebox.Player import Player
 from Boardgamebox.State import State
@@ -626,6 +626,8 @@ def CreateGame(cid, uid, tipo, groupName):
 		GamesController.games[cid] = GameSayAnything(cid, uid, groupName, tipo)	
 	elif tipo == 'Arcana':
 		GamesController.games[cid] = GameArcana(cid, uid, groupName, tipo)
+	elif tipo == 'LostExpedition':
+		GamesController.games[cid] = GameLostExpedition(cid, uid, groupName, tipo)
 	else:
 		GamesController.games[cid] = Game(cid, uid, groupName, tipo)		
 	return GamesController.games[cid]
