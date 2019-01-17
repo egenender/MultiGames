@@ -23,7 +23,7 @@ from Boardgamebox.Board import Board
 from Boardgamebox.Game import Game
 from SayAnything.Boardgamebox.Game import Game as GameSayAnything
 from Arcana.Boardgamebox.Game import Game as GameArcana
-from LostExpedition.Boardgamebox.Game import GameLostExpedition
+from LostExpedition.Boardgamebox.Game import Game as GameLostExpedition
 
 from Boardgamebox.Player import Player
 from Boardgamebox.State import State
