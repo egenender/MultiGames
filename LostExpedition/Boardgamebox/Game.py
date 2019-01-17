@@ -7,7 +7,7 @@ from Constants.Cards import cartas_aventura
 
 from Boardgamebox.Game import Game as BaseGame
 from LostExpedition.Boardgamebox.Player import Player
-from Boardgamebox.Board import Board
+from LostExpedition.Boardgamebox.Board import Board
 #from Boardgamebox.Board import Board
 #from Boardgamebox.State import State
 
