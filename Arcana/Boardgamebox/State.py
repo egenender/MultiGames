@@ -8,3 +8,4 @@ class State(BaseState):
 		self.topArcana = None
 		self.arcanasOnTable = []
 		self.fadedarcanasOnTable = []
+		self.plusOneEnable = False
