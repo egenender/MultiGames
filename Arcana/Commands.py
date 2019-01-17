@@ -72,9 +72,7 @@ def command_guess(bot, update, args):
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
-	# TODO poner restriccion del jugador activo
-	#if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:
-	if game.board.state.fase_actual != "Predecir":
+	if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:	
 		bot.send_message(game.cid, "Fase actual *{}*".format(game.board.state.fase_actual), ParseMode.MARKDOWN)
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
@@ -93,8 +91,7 @@ def command_pass(bot, update):
 	game = Commands.get_game(cid)
 	
 	# TODO poner restriccion del jugador activo
-	#if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:
-	if game.board.state.fase_actual != "Predecir":
+	if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:	
 		bot.send_message(game.cid, "Fase actual *{}*".format(game.board.state.fase_actual), ParseMode.MARKDOWN)
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
