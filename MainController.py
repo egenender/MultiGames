@@ -77,6 +77,7 @@ def init_game(bot, game):
 	game.board = Board(player_number, game)	
 	bot.send_message(game.cid, "Juego iniciado")
 	if game.tipo == "LostExpedition":
+		game.create_board()
 		init_lost_expedition(bot, game, player_number)
 	elif game.tipo == "JustOne":
 		JustOneController.init_game(bot, game)
