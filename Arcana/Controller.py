@@ -225,7 +225,7 @@ def callback_choose_arcana(bot, update, user_data):
 		
 		# Caso particular de elegir +1
 		if game.board.state.plusOneEnable:
-			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"]+1))		
+			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
 		try:
 			arcada_db = next((item for item in ARCANACARDS if item["Título"] == titulo), -1)
 			if 'tokens' not in arcana:
