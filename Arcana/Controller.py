@@ -467,7 +467,7 @@ def use_fadded_action(bot, game, uid, elegido):
 		bot.send_message(game.cid, "No se puede/No puedes usar este poder en este momento", ParseMode.MARKDOWN)
 
 def plusOneAction(bot, game, uid):
-	game.board.state.plusOneEnable = False
+	game.board.state.plusOneEnable = True
 	return True
 		
 def reubicar_action(bot, game, uid):
