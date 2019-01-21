@@ -54,13 +54,12 @@ class Board(BaseBoard):
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
-		for player in game.player_sequence:
-			nombre = player.name.replace("_", " ")
+		for player in game.player_sequence:			
 			if self.state.active_player == player:
-				nombre += "*{}({})* ".format(nombre, len(player.fateTokens))
+				nombre += "*{}({})*".format(player.name.replace("_", " "), len(player.fateTokens))
 			else:
-				nombre += "{}({})".format(nombre, len(player.fateTokens))
-			board += "{}".format(nombre, len(player.fateTokens)) + " " + u"\u27A1\uFE0F" + " "
+				nombre += "{}({})".format(player.name.replace("_", " "), len(player.fateTokens))
+			board += "{}".format(nombre) + " " + u"\u27A1\uFE0F" + " "
 		board = board[:-3]
 		board += u"\U0001F501"
 		board += "\n\nEl jugador *{0}* es el jugador activo".format(game.board.state.active_player.name)		
