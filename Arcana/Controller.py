@@ -237,13 +237,14 @@ def callback_choose_arcana(bot, update, user_data):
 			all_tokens = [int(item['Texto']) 
 					 for sublist in [arcana['tokens'] 
 							 for arcana in game.board.state.arcanasOnTable ] 
-					 for item in sublist]			
+					 for item in sublist]
+			log.info(all_tokens)
 			is_legal_arcana = arcana_db["Legal"](
 				int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)			
 		except Exception as e:
 			is_legal_arcana = True
 			
-		game.board.state.used_sacar = False
+		#me.board.state.used_sacar = Falselog.info(all_tokens)
 		
 		if game.board.state.used_sacar and texto == "Sacar":
 			is_legal_arcana = False
