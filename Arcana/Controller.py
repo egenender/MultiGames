@@ -229,11 +229,18 @@ def callback_choose_arcana(bot, update, user_data):
 			unchosen_fate = copy.deepcopy(user_data['unchosen'])
 			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
 		try:
-			arcada_db = next((item for item in ARCANACARDS if item["Título"] == titulo), -1)
+			arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == titulo), -1))
 			if 'tokens' not in arcana:
 				arcana['tokens'] = []
-			arcada_db["tokens"] = arcana["tokens"]			
-			is_legal_arcana = arcada_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]))#FIX			
+			arcana_db["tokens"] = arcana["tokens"]
+			my_tokens = [int(item['Texto']) for item in arcana_db['tokens']]
+			others_tokens = [int(item['Texto']) 
+					 for sublist in [arcana['tokens'] 
+							 for arcana in ARCANACARDS if arcana["Título"] != arcana_db["Título"] ] 
+					 for item in sublist]
+			others_tokens
+			is_legal_arcana = arcana_db["Legal"](
+				int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, others_tokens)			
 		except Exception as e:
 			is_legal_arcana = True
 
