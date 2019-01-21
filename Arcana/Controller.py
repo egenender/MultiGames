@@ -490,7 +490,7 @@ def create_arcanas_buttons(bot, game, action, uid, restrict = []):
 	btns = []
 	i = 0
 	for arcana_on_table in game.board.state.arcanasOnTable:
-		if arcana_on_table["Texto"] not in restrict
+		if arcana_on_table["Texto"] not in restrict:
  			btns.append([game.board.create_arcana_button(
 				game.cid, arcana_on_table, i, comando_callback = "{}ArcanaAR".format(action))])
 		i += 1
