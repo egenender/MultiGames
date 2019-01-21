@@ -123,7 +123,7 @@ def start_round(bot, game):
 	
 	# Se resetean marcas del turno
 	game.board.state.plusOneEnable = False
-	
+	game.board.state.used_sacar = False
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
@@ -242,7 +242,10 @@ def callback_choose_arcana(bot, update, user_data):
 				int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)			
 		except Exception as e:
 			is_legal_arcana = True
-
+			
+		if game.board.state.used_sacar and texto == "Sacar":
+			is_legal_arcana = False
+			
 		if not is_legal_arcana:
 			bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
 			show_fates_active_player(bot, game)
@@ -290,6 +293,7 @@ def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, call
 		arcana['tokens'].append(chosen_fate)		
 		game.board.state.active_player.fateTokens.remove(chosen_fate)
 		bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
+		game.board.state.used_sacar = True
 		draw_fates_player(bot, game, game.board.state.active_player)
 		show_fates_active_player(bot, game)
 		Commands.save(bot, game.cid)
