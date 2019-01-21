@@ -243,6 +243,8 @@ def callback_choose_arcana(bot, update, user_data):
 		except Exception as e:
 			is_legal_arcana = True
 			
+		game.board.state.used_sacar = False
+		
 		if game.board.state.used_sacar and texto == "Sacar":
 			is_legal_arcana = False
 			
