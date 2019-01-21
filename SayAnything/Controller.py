@@ -254,7 +254,7 @@ def callback_put_vote(bot, update):
 		Commands.save(bot, game.cid)		
 		send_vote_buttons(bot, game, uid, message_id = callback.message.message_id)
 		# Si ya todos hicieron sus 2 votos (menos el jugador activo) cuento puntos
-		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
+		if (len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2) and game.board.state.index_pick_resp != -1:
 			count_points(bot, game)		
 	except Exception as e:
 		aux = ""
