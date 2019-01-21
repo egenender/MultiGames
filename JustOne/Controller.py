@@ -354,7 +354,7 @@ def start_next_round(bot, game):
 	start_round_just_one(bot, game)
 
 def continue_playing(bot, game):
-	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Mismo Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "Otro Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
+	opciones_botones = { "Nuevo" : "Nuevo Partido con nuevos jugadores", "Mismo Diccionario" : "Mismo diccionario", "Otro Diccionario" : "Diferente diccionario"}
 	Commands.simple_choose_buttons(bot, game.cid, 1, game.cid, "chooseend", "¿Quieres continuar jugando?", opciones_botones)
 	
 def callback_finish_game_buttons(bot, update):
