@@ -149,7 +149,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: kept > max(my_tokens)
  },
  {
    "Título": "Solo",
@@ -157,7 +157,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: (kept-1) not in all_tokens and (kept+1) not in all_tokens and (played-1) not in all_tokens and (played+1) not in all_tokens
  },
  {
    "Título": "Igual",
@@ -173,7 +173,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "Reubicar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para mover un destino visible a una nueva carta.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: (played + kept + sum(all_tokens)) % 4 == 0
  },
  {
    "Título": "Altas probabilidades",
@@ -221,7 +221,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "Ciclar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para reemplazar una carta arcana (sin destinos) por la carta superior del mazo.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: kept in all_tokens
  },
  {
    "Título": "x3",
@@ -261,7 +261,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "¿Igual?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un destino visible y preguntar \"¿Tu destino es igual?\".",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: played > kept and (played - kept) in all_tokens
  },
  {
    "Título": "Factor",
@@ -333,7 +333,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "Ciclar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para reemplazar una carta arcana (sin destinos) por la carta superior del mazo.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: played != kept #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: played != kept and kept not in all_tokens and played not in all_tokens
  },
  {
    "Título": "Entre",
@@ -341,7 +341,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "¿Igual?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un destino visible y preguntar \"¿Tu destino es igual?\".",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: len(filter(lambda x: x in xrange(min(kept, played)+1, max(kept, played)), all_tokens)) == 1
  },
  {
    "Título": "Separados 4",
