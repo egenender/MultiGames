@@ -236,7 +236,7 @@ def callback_choose_arcana(bot, update, user_data):
 			my_tokens = [int(item['Texto']) for item in arcana_db['tokens']]
 			others_tokens = [int(item['Texto']) 
 					 for sublist in [arcana['tokens'] 
-							 for arcana in ARCANACARDS if arcana["Título"] != arcana_db["Título"] ] 
+							 for arcana in ARCANACARDS ] 
 					 for item in sublist]
 			others_tokens
 			is_legal_arcana = arcana_db["Legal"](
