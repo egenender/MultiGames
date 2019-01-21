@@ -321,6 +321,7 @@ def resolve(bot, game, prediccion = "0"):
 			game.board.state.doom  += 1
 			bot.send_message(game.cid, "*Incorrecto!* El destino que tenia el jugador era {}"
 					 .format(fate_quedaba["Texto"]), ParseMode.MARKDOWN)	
+		game.board.fateTokens.append(fate_quedaba)
 		# TODO: reseteo los ayuda memoria del jugador activo
 	
 	# Fading phase
