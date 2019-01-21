@@ -341,7 +341,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "¿Igual?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un destino visible y preguntar \"¿Tu destino es igual?\".",
-   "Legal": lambda kept, played, my_tokens, all_tokens: len(filter(lambda x: x in xrange(min(kept, played)+1, max(kept, played)), all_tokens)) == 1
+   "Legal": lambda kept, played, my_tokens, all_tokens: len(list(filter(lambda x: x in range(min(kept, played)+1, max(kept, played)), all_tokens))) == 1
  },
  {
    "Título": "Separados 4",
