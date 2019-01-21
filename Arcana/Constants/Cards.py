@@ -123,7 +123,7 @@ LASHORAS = {
 	"Lunas": "99",
 	"Título reverso": "",
 	"Texto reverso": "",
-	"Legal": lambda kept, played: True #FIXME
+	"Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
 }
 
 ARCANACARDS = [ 
@@ -133,7 +133,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "¿Dentro de 2?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿La diferencia entre tus destinos era de 2 o menos?\".",
-   "Legal": lambda kept, played: played in [1,4,7] and kept not in [1,4,7]
+   "Legal": lambda kept, played, my_tokens, others_tokens: played in [1,4,7] and kept not in [1,4,7]
  },
  {
    "Título": "Dentro de 2",
@@ -141,7 +141,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "¿Dentro de 2?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿La diferencia entre tus destinos era de 2 o menos?\".",
-   "Legal": lambda kept, played: abs(kept-played) in [1,2]
+   "Legal": lambda kept, played, my_tokens, others_tokens: abs(kept-played) in [1,2]
  },
  {
    "Título": "Levantamiento",
@@ -149,7 +149,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "Solo",
@@ -157,7 +157,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "Igual",
@@ -165,7 +165,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "Repetir",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para hacer una predicción extra este turno.",
-   "Legal": lambda kept, played: played == kept
+   "Legal": lambda kept, played, my_tokens, others_tokens: played == kept
  },
  {
    "Título": "Todos x4",
@@ -173,7 +173,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "Reubicar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para mover un destino visible a una nueva carta.",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "Altas probabilidades",
@@ -181,7 +181,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played: (played % 2 + kept % 2 > 0) and (((kept+played) % 2 == 0 and played > kept) or ((kept+played) % 2 != 0 and kept > played))
+   "Legal": lambda kept, played, my_tokens, others_tokens: (played % 2 + kept % 2 > 0) and (((kept+played) % 2 == 0 and played > kept) or ((kept+played) % 2 != 0 and kept > played))
  },
  {
    "Título": "±1",
@@ -189,7 +189,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "Repetir",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para hacer una predicción extra este turno.",
-   "Legal": lambda kept, played: abd(played - kept) == 1
+   "Legal": lambda kept, played, my_tokens, others_tokens: abd(played - kept) == 1
  },
  {
    "Título": "Menor",
@@ -197,7 +197,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "¿Mayor que?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un número X y preguntar \"¿Tu destino es mayor que X?\".",
-   "Legal": lambda kept, played: played < kept
+   "Legal": lambda kept, played, my_tokens, others_tokens: played < kept
  },
  {
    "Título": "Libre",
@@ -205,7 +205,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "1-4-7",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 1, 4 o 7?\".",
-   "Legal": lambda kept, played: True
+   "Legal": lambda kept, played, my_tokens, others_tokens: True
  },
  {
    "Título": "≥11",
@@ -213,7 +213,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "Descartar menor",
    "Texto reverso": "Después de jugar su destino, el jugador activo puede descartar esta carta para descartar un destino visible que sea menor que el destino restante.",
-   "Legal": lambda kept, played: played + kept >= 11
+   "Legal": lambda kept, played, my_tokens, others_tokens: played + kept >= 11
  },
  {
    "Título": "Coincidencia",
@@ -221,7 +221,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "Ciclar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para reemplazar una carta arcana (sin destinos) por la carta superior del mazo.",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "x3",
@@ -229,7 +229,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "Descartar menor",
    "Texto reverso": "Después de jugar su destino, el jugador activo puede descartar esta carta para descartar un destino visible que sea menor que el destino restante.",
-   "Legal": lambda kept, played: (played + kept) % 3 == 0
+   "Legal": lambda kept, played, my_tokens, others_tokens: (played + kept) % 3 == 0
  },
  {
    "Título": "5-6-7",
@@ -237,7 +237,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "5-6-7",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 5, 6 o 7?\".",
-   "Legal": lambda kept, played: played in [5,6,7] and kept not in [5,6,7]
+   "Legal": lambda kept, played, my_tokens, others_tokens: played in [5,6,7] and kept not in [5,6,7]
  },
  {
    "Título": "7 a 9",
@@ -245,7 +245,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "¿Viejo?",
    "Texto reverso": "Después de jugar su destino, el jugador activo puede descartar esta carta para decir si tenía ese destino desde el turno anterior.",
-   "Legal": lambda kept, played: (played + kept) in [7,8,9]
+   "Legal": lambda kept, played, my_tokens, others_tokens: (played + kept) in [7,8,9]
  },
  {
    "Título": "Adivinar",
@@ -253,7 +253,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "¿Viejo?",
    "Texto reverso": "Después de jugar su destino, el jugador activo puede descartar esta carta para decir si tenía ese destino desde el turno anterior.",
-   "Legal": lambda kept, played: True
+   "Legal": lambda kept, played, my_tokens, others_tokens: True
  },
  {
    "Título": "Diferencia",
@@ -261,7 +261,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "¿Igual?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un destino visible y preguntar \"¿Tu destino es igual?\".",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "Factor",
@@ -269,7 +269,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "5-6-7",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 5, 6 o 7?\".",
-   "Legal": lambda kept, played: played == 2*kept or played == 3*kept or kept == 2*played or kept == 3*played
+   "Legal": lambda kept, played, my_tokens, others_tokens: played == 2*kept or played == 3*kept or kept == 2*played or kept == 3*played
  },
  {
    "Título": "1-2-3",
@@ -277,7 +277,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "1-2-3",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 1, 2 o 3?\".",
-   "Legal": lambda kept, played: played in [1,2,3] and kept not in [1,2,3]
+   "Legal": lambda kept, played, my_tokens, others_tokens: played in [1,2,3] and kept not in [1,2,3]
  },
  {
    "Título": "Sacar",
@@ -285,7 +285,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "Reubicar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para mover un destino visible a una nueva carta.",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "Decir",
@@ -293,7 +293,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "1-4-7",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 1, 4 o 7?\".",
-   "Legal": lambda kept, played: True
+   "Legal": lambda kept, played, my_tokens, others_tokens: True
  },
  {
    "Título": "Impar",
@@ -301,7 +301,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "1-2-3",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 1, 2 o 3?\".",
-   "Legal": lambda kept, played: (played + kept) % 2 != 0
+   "Legal": lambda kept, played, my_tokens, others_tokens: (played + kept) % 2 != 0
  },
  {
    "Título": "Mayor",
@@ -309,7 +309,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "¿Mayor que?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un número X y preguntar \"¿Tu destino es mayor que X?\".",
-   "Legal": lambda kept, played: played > kept
+   "Legal": lambda kept, played, my_tokens, others_tokens: played > kept
  },
  {
    "Título": "±2",
@@ -317,7 +317,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "Repetir",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para hacer una predicción extra este turno.",
-   "Legal": lambda kept, played: abs(played - kept) == 2
+   "Legal": lambda kept, played, my_tokens, others_tokens: abs(played - kept) == 2
  },
  {
    "Título": "≤5",
@@ -325,7 +325,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "¿Mayor que?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un número X y preguntar \"¿Tu destino es mayor que X?\".",
-   "Legal": lambda kept, played: played + kept <= 5
+   "Legal": lambda kept, played, my_tokens, others_tokens: played + kept <= 5
  },
  {
    "Título": "Único",
@@ -333,7 +333,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "Ciclar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para reemplazar una carta arcana (sin destinos) por la carta superior del mazo.",
-   "Legal": lambda kept, played: played != kept #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: played != kept #FIXME
  },
  {
    "Título": "Entre",
@@ -341,7 +341,7 @@ ARCANACARDS = [
    "Lunas": "2",
    "Título reverso": "¿Igual?",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para elegir un destino visible y preguntar \"¿Tu destino es igual?\".",
-   "Legal": lambda kept, played: True #FIXME
+   "Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
  },
  {
    "Título": "Separados 4",
@@ -349,7 +349,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "Descartar menor",
    "Texto reverso": "Después de jugar su destino, el jugador activo puede descartar esta carta para descartar un destino visible que sea menor que el destino restante.",
-   "Legal": lambda kept, played: abs(played - kept) >= 4
+   "Legal": lambda kept, played, my_tokens, others_tokens: abs(played - kept) >= 4
  },
  {
    "Título": "Par",
@@ -357,7 +357,7 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "3-4-5",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 3, 4 o 5?\".",
-   "Legal": lambda kept, played: (played + kept) % 2 == 0
+   "Legal": lambda kept, played, my_tokens, others_tokens: (played + kept) % 2 == 0
  },
  {
    "Título": "3-4-5",
@@ -365,6 +365,6 @@ ARCANACARDS = [
    "Lunas": "3",
    "Título reverso": "3-4-5",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para preguntar \"¿Tu destino es 3, 4 o 5?\".",
-   "Legal": lambda kept, played: played in [3,4,5] and kept not in [3,4,5]
+   "Legal": lambda kept, played, my_tokens, others_tokens: played in [3,4,5] and kept not in [3,4,5]
  },
 ]
