@@ -149,8 +149,14 @@ def command_discard(bot, update):
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
-	if uid in game.playerlist and len(game.playerlist[uid].playerFateTokens) == 1:
+	all_tokens = [int(item['Texto']) 
+		      for sublist in [arcana['tokens'] 
+				      for arcana in game.board.state.arcanasOnTable ] for item in sublist]
+	
+	# Verify if user is in the game and has only fate token
+	if uid in game.playerlist and len(game.playerlist[uid].playerFateTokens) == 1 and all_tokens.count(int(game.playerlist[uid].playerFateTokens[0]['Texto'])) == 2:
 		discarded_fate = game.playerlist[uid].playerFateTokens.pop()
+		game.board.fateTokens.append(discarded_fate)
 		bot.send_message(game.cid, "El jugador se ha descartado del token: {} ({})."
 				 .format(discarded_fate["Texto"]), ParseMode.MARKDOWN)
 	else:
