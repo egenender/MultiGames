@@ -409,16 +409,6 @@ def callback_finish_game_buttons(bot, update):
 	except Exception as e:
 		bot.send_message(ADMIN[0], 'No se ejecuto el comando debido a: '+str(e))
 		bot.send_message(ADMIN[0], callback.data)
-
-def create_arcana_button(cid, arcana, tokens = []):
-	titulo = arcana["Título"]	
-	texto = arcana["Texto"]
-	lunas = arcana["Lunas"]
-	txtBoton = "{}".format(titulo)
-	comando_callback = "txtArcanaAR"
-	uid = cid # Solo se va a usar para mostrar en pantallas de juego
-	datos = str(cid) + "*" + comando_callback + "*" + str(titulo) + "*" + str(uid)
-	return InlineKeyboardButton(txtBoton, callback_data=datos)
 	
 def callback_txt_arcana(bot, update):
 	callback = update.callback_query
@@ -474,6 +464,8 @@ def plusOneAction(bot, game, uid):
 		
 def reubicar_action(bot, game, uid):
 	log.info('reubicar_action called')
+	btnMarkup = create_arcanas_buttons(bot, game, action, uid, restrict = [])
+	bot.send_message(uid, "Partida {}\n*Elige desde Arcana quieres ponerlo.*:".format(game.groupName), parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup)
 	return False
 	# Botones Publicos
 	# El jugador mueve destino de una arcana a otra.
@@ -489,7 +481,24 @@ def ciclar_action(bot, game, uid):
 	# El jugador mueve destino de una arcana a otra.
 	# Mostrar arcanas (menos las horas)
 	# Verificar que la arcanano tenga destinos 
-    
+	
+# Accion a realizar, usuario que llama a la accion, restricciones de arcanas a mostrar
+def create_arcanas_buttons(bot, game, action, uid, restrict = []):
+	
+	#(-?[0-9]*)\*([a-z]*)ArcanaAR\*(.*)\*(-?[0-9]*)
+	#"Elige en que Arcana quieres ponerlo."
+	btns = []
+	i = 0
+	for arcana_on_table in game.board.state.arcanasOnTable:
+		if arcana_on_table["Texto"] not in restrict
+ 			btns.append([game.board.create_arcana_button(
+				game.cid, arcana_on_table, i, comando_callback = "{}ArcanaAR".format(action))])
+		i += 1
+	# Agrego boton cancelar
+	datos = str(cid) + "*{}ArcanaAR*Cancelar*".format(action) + str(-1)
+	btns.append([InlineKeyboardButton("Cancelar", callback_data=datos)])
+	btnMarkup = InlineKeyboardMarkup(btns)
+	
 def descartarmenor_action(bot, game, uid):
 	log.info('descartarmenor_action called')
 	return False
