@@ -234,13 +234,12 @@ def callback_choose_arcana(bot, update, user_data):
 				arcana['tokens'] = []
 			arcana_db["tokens"] = arcana["tokens"]
 			my_tokens = [int(item['Texto']) for item in arcana_db['tokens']]
-			others_tokens = [int(item['Texto']) 
+			all_tokens = [int(item['Texto']) 
 					 for sublist in [arcana['tokens'] 
 							 for arcana in ARCANACARDS ] 
-					 for item in sublist]
-			others_tokens
+					 for item in sublist]			
 			is_legal_arcana = arcana_db["Legal"](
-				int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, others_tokens)			
+				int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)			
 		except Exception as e:
 			is_legal_arcana = True
 
