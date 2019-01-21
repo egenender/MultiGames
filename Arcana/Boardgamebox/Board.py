@@ -54,7 +54,8 @@ class Board(BaseBoard):
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
-		for player in game.player_sequence:			
+		for player in game.player_sequence:
+			nombre = ""
 			if self.state.active_player == player:
 				nombre += "*{}({})*".format(player.name.replace("_", " "), len(player.fateTokens))
 			else:
