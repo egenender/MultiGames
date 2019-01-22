@@ -133,7 +133,7 @@ class Board(BaseBoard):
 						 for arcana in self.state.arcanasOnTable ] 
 				 for item in sublist]
 		#log.info(all_tokens)
-		log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]), int(chosen_fate["Texto"])))
+		log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens))
 		is_legal_arcana = arcana_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)
 		log.info('Finalizando is legal arcana' + is_legal_arcana)
 		return is_legal_arcana
