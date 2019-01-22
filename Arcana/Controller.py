@@ -203,92 +203,92 @@ def callback_choose_fate(bot, update, user_data):
 def callback_choose_arcana(bot, update, user_data):
 	callback = update.callback_query
 	
-	try:		
-		#log.info('callback_finish_game_buttons called: %s' % callback.data)	
-		regex = re.search("(-[0-9]*)\*chooseArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
-		cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
-		#bot.send_message(ADMIN[0], struid)
-		
-		uid = update.effective_user.id
-		game = Commands.get_game(cid)
-		
-		if game.board.state.fase_actual != "Jugar Fate" or uid != game.board.state.active_player.uid:
-			bot.send_message(cid, "No es el momento de jugar destino o no eres el que tiene que jugar el fate", ParseMode.MARKDOWN)
-		
-		if index == -1:
-			bot.edit_message_text("Accion cancelada se vuelven a enviar destinos\n", uid, callback.message.message_id)
-			show_fates_active_player(bot, game)
-			return
-		
-		arcana = game.board.state.arcanasOnTable[index]
-		texto = arcana["Texto"]
-		titulo = arcana["Título"]
-		chosen_fate = user_data['fate']
-		unchosen_fate = user_data['unchosen']
-		
-		# Caso particular de elegir +1
-		if game.board.state.plusOneEnable:
-			unchosen_fate = copy.deepcopy(user_data['unchosen'])
-			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
-		log.info('is_legal_arcana called')	
-		is_legal_arcana = game.board.is_legal_arcana(arcana, chosen_fate, unchosen_fate)
-		log.info('is_legal_arcana finished')	
-		#me.board.state.used_sacar = Falselog.info(all_tokens)
-		
-		if game.board.state.used_sacar and texto == "Sacar":
-			is_legal_arcana = False
 			
-		# Verifico que no haya posibles arcanas
-		if titulo == "Las horas":
-			log.info('get_valid_arcanas called')
-			valid_arcanas_fates = game.board.get_valid_arcanas(chosen_fate, unchosen_fate)
-			log.info('get_valid_arcanas finished')
-			if len(valid_arcanas_fates) > 0:
-				msg = "Puedes usar estas arcanas y combinaciones (Choose fate / unchoose fate)\n"
-				for valid_arcana_fates in valid_arcanas_fates:
-					msg += "Arcana: *{}*, Poner fate: *{}*.\n".format(
-						valid_arcana_fates[0]["Título"], valid_arcana_fates[1]["Texto"])
-					bot.send_message(uid, msg, ParseMode.MARKDOWN)				
-				is_legal_arcana = False				
-		if not is_legal_arcana:
-			bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
-			show_fates_active_player(bot, game)
-			return
+	#log.info('callback_finish_game_buttons called: %s' % callback.data)	
+	regex = re.search("(-[0-9]*)\*chooseArcanaAR\*(.*)\*(-?[0-9]*)", callback.data)
+	cid, strcid, opcion, index = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3))
+	#bot.send_message(ADMIN[0], struid)
 
-		if 'tokens' not in arcana:
-			arcana['tokens'] = []		
-		
-		update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], chosen_fate["Texto"]), show_alert=False)
-		
-		bot.edit_message_text("Has elegido la Arcana *{}: {}*.\nTe queda en la mano el token *{}*\n".format(titulo, texto, user_data['unchosen']["Texto"]), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
-		
-		mensaje_final = "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
-			game.board.state.active_player.name, chosen_fate["Texto"], arcana["Título"])
-		
-		# Caminos alternativo si elige una arcana especial. Y si detiende la ejecucion del metodo.
-		if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final, chosen_fate)):
-			return
-		
-		if titulo == "Las horas":
-			arcana = game.board.state.arcanasOnTable[index+1]
-			texto = arcana["Texto"]
-			mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
-	
-		call_other_players = ""
-		for uid, player in game.playerlist.items():
-			call_other_players += "{} ".format(helper.player_call(player)) if uid != game.board.state.active_player.uid else ""
-		
-		mensaje_final += "\n{}Hagan /guess N para adivinar destino o /pass para pasar!".format(call_other_players)	
-		arcana['tokens'].append(chosen_fate)		
-		game.board.state.active_player.fateTokens.remove(chosen_fate)
-		game.board.state.fase_actual = "Predecir"
-		Commands.save(bot, game.cid)
-		
-		game.board.print_board(bot, game)		
-		bot.send_message(cid, mensaje_final, ParseMode.MARKDOWN)		
-	except Exception as e:
-		bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
-		bot.send_message(ADMIN[0], callback.data)
+	uid = update.effective_user.id
+	game = Commands.get_game(cid)
+	#try:	
+	if game.board.state.fase_actual != "Jugar Fate" or uid != game.board.state.active_player.uid:
+		bot.send_message(cid, "No es el momento de jugar destino o no eres el que tiene que jugar el fate", ParseMode.MARKDOWN)
+
+	if index == -1:
+		bot.edit_message_text("Accion cancelada se vuelven a enviar destinos\n", uid, callback.message.message_id)
+		show_fates_active_player(bot, game)
+		return
+
+	arcana = game.board.state.arcanasOnTable[index]
+	texto = arcana["Texto"]
+	titulo = arcana["Título"]
+	chosen_fate = user_data['fate']
+	unchosen_fate = user_data['unchosen']
+
+	# Caso particular de elegir +1
+	if game.board.state.plusOneEnable:
+		unchosen_fate = copy.deepcopy(user_data['unchosen'])
+		unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
+	log.info('is_legal_arcana called')	
+	is_legal_arcana = game.board.is_legal_arcana(arcana, chosen_fate, unchosen_fate)
+	log.info('is_legal_arcana finished')	
+	#me.board.state.used_sacar = Falselog.info(all_tokens)
+
+	if game.board.state.used_sacar and texto == "Sacar":
+		is_legal_arcana = False
+
+	# Verifico que no haya posibles arcanas
+	if titulo == "Las horas":
+		log.info('get_valid_arcanas called')
+		valid_arcanas_fates = game.board.get_valid_arcanas(chosen_fate, unchosen_fate)
+		log.info('get_valid_arcanas finished')
+		if len(valid_arcanas_fates) > 0:
+			msg = "Puedes usar estas arcanas y combinaciones (Choose fate / unchoose fate)\n"
+			for valid_arcana_fates in valid_arcanas_fates:
+				msg += "Arcana: *{}*, Poner fate: *{}*.\n".format(
+					valid_arcana_fates[0]["Título"], valid_arcana_fates[1]["Texto"])
+				bot.send_message(uid, msg, ParseMode.MARKDOWN)				
+			is_legal_arcana = False				
+	if not is_legal_arcana:
+		bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
+		show_fates_active_player(bot, game)
+		return
+
+	if 'tokens' not in arcana:
+		arcana['tokens'] = []		
+
+	update.callback_query.answer(text="Se puso en la arcana {} el destino {}".format(arcana["Título"], chosen_fate["Texto"]), show_alert=False)
+
+	bot.edit_message_text("Has elegido la Arcana *{}: {}*.\nTe queda en la mano el token *{}*\n".format(titulo, texto, user_data['unchosen']["Texto"]), uid, callback.message.message_id, parse_mode=ParseMode.MARKDOWN)
+
+	mensaje_final = "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
+		game.board.state.active_player.name, chosen_fate["Texto"], arcana["Título"])
+
+	# Caminos alternativo si elige una arcana especial. Y si detiende la ejecucion del metodo.
+	if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final, chosen_fate)):
+		return
+
+	if titulo == "Las horas":
+		arcana = game.board.state.arcanasOnTable[index+1]
+		texto = arcana["Texto"]
+		mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
+
+	call_other_players = ""
+	for uid, player in game.playerlist.items():
+		call_other_players += "{} ".format(helper.player_call(player)) if uid != game.board.state.active_player.uid else ""
+
+	mensaje_final += "\n{}Hagan /guess N para adivinar destino o /pass para pasar!".format(call_other_players)	
+	arcana['tokens'].append(chosen_fate)		
+	game.board.state.active_player.fateTokens.remove(chosen_fate)
+	game.board.state.fase_actual = "Predecir"
+	Commands.save(bot, game.cid)
+
+	game.board.print_board(bot, game)		
+	bot.send_message(cid, mensaje_final, ParseMode.MARKDOWN)		
+	#except Exception as e:
+	#	bot.send_message(ADMIN[0], 'No se ejecuto el comando de callback_choose_arcana debido a: '+str(e))
+	#	bot.send_message(ADMIN[0], callback.data)
 
 # Acciones particulares de la Arcana Sacar.
 def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje, chosen_fate):
