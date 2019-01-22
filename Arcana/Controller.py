@@ -315,13 +315,13 @@ def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR")
 	datos = str(cid) + "*" + comando_callback + "*" + str(texto) + "*" + str(index)
 	return InlineKeyboardButton(txtBoton, callback_data=datos)
 	
-def resolve(bot, game, prediccion = "0"):	
+def resolve(bot, game, prediccion = []):	
 	# Si los jugadores hicieron una prediccion (se pasa el argumento como string)
 	good_prediction = False
-	prediccion = int(prediccion)
-	if prediccion > 0:
+	
+	if len(prediccion) > 0:
 		fate_quedaba = game.board.state.active_player.fateTokens.pop()		
-		if prediccion == int(fate_quedaba["Texto"]):
+		if int(fate_quedaba["Texto"]) in prediccion:
 			# Si predicen bien el faden no aumenta el doom.
 			game.board.state.score += 1
 			good_prediction = True
