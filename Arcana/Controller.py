@@ -124,6 +124,8 @@ def start_round(bot, game):
 	# Se resetean marcas del turno
 	game.board.state.plusOneEnable = False
 	game.board.state.used_sacar = False
+	game.board.state.extraGuess = False
+	
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
 	
@@ -228,27 +230,24 @@ def callback_choose_arcana(bot, update, user_data):
 		if game.board.state.plusOneEnable:
 			unchosen_fate = copy.deepcopy(user_data['unchosen'])
 			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
-		try:
-			arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == titulo), -1))
-			if 'tokens' not in arcana:
-				arcana['tokens'] = []
-			arcana_db["tokens"] = arcana["tokens"]
-			my_tokens = [int(item['Texto']) for item in arcana_db['tokens']]
-			all_tokens = [int(item['Texto']) 
-					 for sublist in [arcana['tokens'] 
-							 for arcana in game.board.state.arcanasOnTable ] 
-					 for item in sublist]
-			log.info(all_tokens)
-			is_legal_arcana = arcana_db["Legal"](
-				int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)			
-		except Exception as e:
-			is_legal_arcana = True
-			
+		
+		is_legal_arcana = game.board.is_legal_arcana(arcana, choosen_fate, unchoosen_fate)
+					
 		#me.board.state.used_sacar = Falselog.info(all_tokens)
 		
 		if game.board.state.used_sacar and texto == "Sacar":
 			is_legal_arcana = False
 			
+		# Verifico que no haya posibles arcanas
+		if titulo == "Las horas":
+			valid_arcanas_fates = game.board.get_valid_arcanas(chosen_fate, unchosen_fate)
+			if len(valid_arcanas_fates) > 0:
+				msg = "Puedes usar estas arcanas y combinaciones (Choose fate / unchoose fate)"
+				for valid_arcana_fates in valid_arcanas_fates:
+					msg += "Arcana: *{}*, Poner fate: *{}*.\n".format(
+						valid_arcana_fates[0]["Título"], valid_arcana_fates[1]["Texto"])
+					bot.send_message(uid, msg, ParseMode.MARKDOWN)				
+				is_legal_arcana = False				
 		if not is_legal_arcana:
 			bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
 			show_fates_active_player(bot, game)
@@ -264,11 +263,11 @@ def callback_choose_arcana(bot, update, user_data):
 		mensaje_final = "El jugador *{}* ha puesto el destino *{}* en la Arcana *{}*.".format(
 			game.board.state.active_player.name, chosen_fate["Texto"], arcana["Título"])
 		
-		# Caminos alternativo si elige una arcana especial o Las Horas. Y si detiende la ejecucion del metodo.
+		# Caminos alternativo si elige una arcana especial. Y si detiende la ejecucion del metodo.
 		if(aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, callback, mensaje_final, chosen_fate)):
 			return
 		
-		if arcana["Título"] == "Las horas":
+		if titulo == "Las horas":
 			arcana = game.board.state.arcanasOnTable[index+1]
 			texto = arcana["Texto"]
 			mensaje_final += "\nComo se ha jugado en Las Horas el token pasa a la siguiente arcana *{}*".format(arcana["Título"])			
@@ -300,7 +299,10 @@ def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, call
 		draw_fates_player(bot, game, game.board.state.active_player)
 		show_fates_active_player(bot, game)
 		Commands.save(bot, game.cid)
-		stop_flow = True		
+		stop_flow = True
+	if arcana["Título"] == "Adivinar":
+		game.board.state.extraGuess = True
+		
 	return stop_flow
 	
 def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR"):
