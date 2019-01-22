@@ -28,7 +28,8 @@ class Board(BaseBoard):
 		btns = []
 		btns.append([self.create_arcana_button(game.cid, self.arcanaCards[len(self.arcanaCards)-1])])
 		btnMarkup = InlineKeyboardMarkup(btns)
-		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
+		bot.send_message(game.cid, "*Arcana de arriba del mazo:*", 
+				 parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
 		board = "*Arcanas Activas*:\n"
 		btns = []
 		i = 0
@@ -45,7 +46,8 @@ class Board(BaseBoard):
 				btns.append([self.create_arcana_button(game.cid, arcana_on_table, -2)])
 				i += 1
 			btnMarkup = InlineKeyboardMarkup(btns)
-			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /remove N:", parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
+			bot.send_message(game.cid, "*Arcanas desvanecidas* para usar /remove N:", 
+					 parse_mode=ParseMode.MARKDOWN, reply_markup=btnMarkup, timeout=20)
 		
 		board = ""		
 		board += "--- *Orden de jugadores* ---\n"
@@ -108,3 +110,25 @@ class Board(BaseBoard):
 		for fate in arcana['tokens']:
 			i += int(fate["TimeSymbols"])
 		return i
+	
+	def is_legal_arcana(self, arcana, choosen_fate, unchoosen_fate):
+		arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == arcana["Título"]), -1))
+		if 'tokens' not in arcana:
+			arcana['tokens'] = []
+		my_tokens = [int(item['Texto']) for item in arcana['tokens']]
+		all_tokens = [int(item['Texto']) 
+				 for sublist in [arcana['tokens'] 
+						 for arcana in self.state.arcanasOnTable ] 
+				 for item in sublist]
+		#log.info(all_tokens)
+		is_legal_arcana = arcana_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)
+		return is_legal_arcana
+		
+	def get_valid_arcanas(self, fate_token1, fate_token2):
+		valid_arcanas_fates = []
+		for arcana in self.state.arcanasOnTable:
+			if(self.is_legal_arcana(arcana, fate_token1, fate_token2)):
+				valid_arcanas_fates.append([arcana, fate_token1, fate_token2])
+			if(self.is_legal_arcana(arcana, fate_token2, fate_token1)):
+				valid_arcanas_fates.append([arcana, fate_token2, fate_token1])
+		return valid_arcanas_fates
