@@ -1,5 +1,7 @@
 from Constants.Cards import cartas_aventura
 
+import logging as log
+
 import copy
 import random
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ForceReply
@@ -8,6 +10,13 @@ from Arcana.Boardgamebox.State import State
 from Boardgamebox.Board import Board as BaseBoard
 
 from Arcana.Constants.Cards import FATETOKENS, ARCANACARDS
+
+log.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=log.INFO)
+
+
+logger = log.getLogger(__name__)
 
 class Board(BaseBoard):
 	def __init__(self, playercount, game):
@@ -112,16 +121,21 @@ class Board(BaseBoard):
 		return i
 	
 	def is_legal_arcana(self, arcana, chosen_fate, unchosen_fate):
+		log.info('Iniciando legal arcana')
 		arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == arcana["Título"]), -1))
 		if 'tokens' not in arcana:
 			arcana['tokens'] = []
 		my_tokens = [int(item['Texto']) for item in arcana['tokens']]
+		
+		log.info('En el medio de is legal arcana' + is_legal_arcana)
+		
 		all_tokens = [int(item['Texto']) 
 				 for sublist in [arcana['tokens'] 
 						 for arcana in self.state.arcanasOnTable ] 
 				 for item in sublist]
 		#log.info(all_tokens)
 		is_legal_arcana = arcana_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)
+		log.info('Finalizando is legal arcana' + is_legal_arcana)
 		return is_legal_arcana
 		
 	def get_valid_arcanas(self, fate_token1, fate_token2):
