@@ -134,7 +134,8 @@ class Board(BaseBoard):
 						 for arcana in self.state.arcanasOnTable ] 
 				 for item in sublist]
 		#log.info(all_tokens)
-		#log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens))
+		#log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]),
+		#	int(chosen_fate["Texto"]), my_tokens, all_tokens))
 		int_unchosen_fate, int_chosen_fate = int(unchosen_fate["Texto"]), int(chosen_fate["Texto"])
 		is_legal_arcana = arcana_db["Legal"](int_unchosen_fate, int_chosen_fate, my_tokens, all_tokens)
 		#log.info('Finalizando is legal arcana {}'.format(is_legal_arcana))
@@ -142,7 +143,7 @@ class Board(BaseBoard):
 		
 	def get_valid_arcanas(self, fate_token1, fate_token2):
 		valid_arcanas_fates = []
-		for arcana in self.state.arcanasOnTable if arcana["Título"] != "Las horas":
+		for arcana in (arcana for arcana in self.state.arcanasOnTable if arcana["Título"] != "Las horas"):
 			if(self.is_legal_arcana(arcana, fate_token1, fate_token2)):
 				valid_arcanas_fates.append([arcana, fate_token1, fate_token2])
 			if(self.is_legal_arcana(arcana, fate_token2, fate_token1)):
