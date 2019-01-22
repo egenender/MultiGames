@@ -124,7 +124,7 @@ def start_round(bot, game):
 	# Se resetean marcas del turno
 	game.board.state.plusOneEnable = False
 	game.board.state.used_sacar = False
-	game.board.state.extraGuess = False
+	game.board.state.extraGuess = 0
 	
 	active_player = game.player_sequence[game.board.state.player_counter]	
 	game.board.state.active_player = active_player
@@ -302,8 +302,7 @@ def aditional_actions_arcanas(bot, game, index, arcana, titulo, texto, uid, call
 		Commands.save(bot, game.cid)
 		stop_flow = True
 	if arcana["Título"] == "Adivinar":
-		game.board.state.extraGuess = True
-		
+		game.board.state.extraGuess += 1		
 	return stop_flow
 	
 def create_fate_button(fate, cid, uid, index, comando_callback = "chooseFateAR"):
@@ -460,7 +459,12 @@ def use_fadded_action(bot, game, uid, elegido):
 	if can_use_fadded(bot, game, uid, arcana):
 		# 3 acciones que cambian cartas en arcanas Reubicar Ciclar Descartar menor
 		titulo = arcana["Título reverso"]
-		accion = {"+1" : plusOneAction, "Reubicar": reubicar_action, "Ciclar": ciclar_action, "Descartar menor": descartarmenor_action}.get(titulo)
+		accion = {"+1" : plusOneAction, 
+			  "Reubicar": reubicar_action, 
+			  "Ciclar": ciclar_action, 
+			  "Descartar menor": descartarmenor_action,
+			  "Repetir" : repetir_action
+			 }.get(titulo)
 		if accion:
 			done = accion(bot, game, uid)
 			if done:
@@ -523,6 +527,12 @@ def descartarmenor_action(bot, game, uid):
 	# Mostrar arcanas (Cancel jugador no decide más)
 	# Mostrar destinos Arcana (Cancel muestra arcanas)
 	# Verificar que el destino a eliminar sea menor al destino restante	
+
+def repetir_action(bot, game, uid):
+	log.info('repetir_action called')
+	# Verifico que el jugador no haya puesto en la arcana adivinar, sino
+	game.board.state.extraGuess += 1
+	return True		
 	
 # Acciones que se realizan al usar las fadded
 def can_use_fadded(bot, game, uid, arcana):
