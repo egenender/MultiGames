@@ -73,20 +73,24 @@ def command_guess(bot, update, args):
 	uid = update.message.from_user.id
 	game = Commands.get_game(cid)
 	
+	# Remover luego de que pase por start.
+	if game.board.state.extraGuess == False:
+		game.board.state.extraGuess = 0
+	
 	if game.board.state.fase_actual != "Predecir" or uid == game.board.state.active_player.uid:	
 		bot.send_message(game.cid, "Fase actual *{}*".format(game.board.state.fase_actual), ParseMode.MARKDOWN)
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
 	
 	# Acepto 1 o 2 guess
-	continue_resolve = 1 <= len(args) <= 2
+	continue_resolve = 1 <= len(args) <= (game.board.state.extraGuess+1)
 	# Verifico si todos los numero para adivinar son validos		
 	for arg in args:
 		if check_invalid_pick(arg) or not (1 <= int(arg) <= 7):
 			continue_resolve = False			
 	
 	if continue_resolve:
-		if (game.board.state.extraGuess and len(args) != 2) or (not game.board.state.extraGuess and len(args) == 2):
+		if (game.board.state.extraGuess+1) != len(args):
 			bot.send_message(game.cid, "Tienes que poner {} numero/s para adivinar."
 					 .format(2 if game.board.state.extraGuess else 1), ParseMode.MARKDOWN)		
 		ArcanaController.resolve(bot, game, [int(s) for s in args])
