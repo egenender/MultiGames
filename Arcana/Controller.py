@@ -231,7 +231,7 @@ def callback_choose_arcana(bot, update, user_data):
 			unchosen_fate = copy.deepcopy(user_data['unchosen'])
 			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
 		
-		is_legal_arcana = game.board.is_legal_arcana(arcana, choosen_fate, unchoosen_fate)
+		is_legal_arcana = game.board.is_legal_arcana(arcana, chosen_fate, unchosen_fate)
 					
 		#me.board.state.used_sacar = Falselog.info(all_tokens)
 		
