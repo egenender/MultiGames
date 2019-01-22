@@ -122,7 +122,7 @@ MODULOS_DISPONIBES = {
                             "Cooperativo" : "Cooperativo"
                         },
                         "min_jugadores" : 1,
-                        "max_jugadores" : 5
+                        "max_jugadores" : 7
                 } 
         }
 }
