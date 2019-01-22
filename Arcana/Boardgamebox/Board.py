@@ -127,7 +127,7 @@ class Board(BaseBoard):
 			arcana['tokens'] = []
 		my_tokens = [int(item['Texto']) for item in arcana['tokens']]
 		
-		log.info('En el medio de is legal arcana' + is_legal_arcana)
+		log.info('En el medio de is legal arcana')
 		
 		all_tokens = [int(item['Texto']) 
 				 for sublist in [arcana['tokens'] 
