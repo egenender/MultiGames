@@ -123,7 +123,7 @@ LASHORAS = {
 	"Lunas": "99",
 	"Título reverso": "",
 	"Texto reverso": "",
-	"Legal": lambda kept, played, my_tokens, others_tokens: True #FIXME
+	"Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
 }
 
 ARCANACARDS = [ 
