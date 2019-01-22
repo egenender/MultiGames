@@ -9,7 +9,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Forc
 from Arcana.Boardgamebox.State import State
 from Boardgamebox.Board import Board as BaseBoard
 
-from Arcana.Constants.Cards import FATETOKENS, ARCANACARDS
+from Arcana.Constants.Cards import FATETOKENS, ARCANACARDS, LASHORAS
 
 log.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -120,23 +120,24 @@ class Board(BaseBoard):
 			i += int(fate["TimeSymbols"])
 		return i
 	
-	def is_legal_arcana(self, arcana, chosen_fate, unchosen_fate):		
-		arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == arcana["Título"]), -1))
+	def is_legal_arcana(self, arcana, chosen_fate, unchosen_fate):
+		if arcana["Título"] == "Las horas":
+			arcana_db = copy.deepcopy(LASHORAS)
+		else:
+			arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == arcana["Título"]), -1))
 		if 'tokens' not in arcana:
 			arcana['tokens'] = []
 		my_tokens = [int(item['Texto']) for item in arcana['tokens']]
-		
-		
 		
 		all_tokens = [int(item['Texto']) 
 				 for sublist in [arcana['tokens'] 
 						 for arcana in self.state.arcanasOnTable ] 
 				 for item in sublist]
 		#log.info(all_tokens)
-		log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens))
+		#log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens))
 		int_unchosen_fate, int_chosen_fate = int(unchosen_fate["Texto"]), int(chosen_fate["Texto"])
 		is_legal_arcana = arcana_db["Legal"](int_unchosen_fate, int_chosen_fate, my_tokens, all_tokens)
-		log.info('Finalizando is legal arcana {}'.format(is_legal_arcana))
+		#log.info('Finalizando is legal arcana {}'.format(is_legal_arcana))
 		return is_legal_arcana
 		
 	def get_valid_arcanas(self, fate_token1, fate_token2):
