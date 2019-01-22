@@ -9,3 +9,4 @@ class State(BaseState):
 		self.arcanasOnTable = []
 		self.fadedarcanasOnTable = []
 		self.plusOneEnable = False
+		self.extraGuess = False
