@@ -242,7 +242,7 @@ def callback_choose_arcana(bot, update, user_data):
 		if titulo == "Las horas":
 			valid_arcanas_fates = game.board.get_valid_arcanas(chosen_fate, unchosen_fate)
 			if len(valid_arcanas_fates) > 0:
-				msg = "Puedes usar estas arcanas y combinaciones (Choose fate / unchoose fate)"
+				msg = "Puedes usar estas arcanas y combinaciones (Choose fate / unchoose fate)\n"
 				for valid_arcana_fates in valid_arcanas_fates:
 					msg += "Arcana: *{}*, Poner fate: *{}*.\n".format(
 						valid_arcana_fates[0]["Título"], valid_arcana_fates[1]["Texto"])
