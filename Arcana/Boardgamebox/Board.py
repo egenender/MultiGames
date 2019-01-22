@@ -120,20 +120,20 @@ class Board(BaseBoard):
 			i += int(fate["TimeSymbols"])
 		return i
 	
-	def is_legal_arcana(self, arcana, chosen_fate, unchosen_fate):
-		log.info('Iniciando legal arcana')
+	def is_legal_arcana(self, arcana, chosen_fate, unchosen_fate):		
 		arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == arcana["Título"]), -1))
 		if 'tokens' not in arcana:
 			arcana['tokens'] = []
 		my_tokens = [int(item['Texto']) for item in arcana['tokens']]
 		
-		log.info('En el medio de is legal arcana')
+		
 		
 		all_tokens = [int(item['Texto']) 
 				 for sublist in [arcana['tokens'] 
 						 for arcana in self.state.arcanasOnTable ] 
 				 for item in sublist]
 		#log.info(all_tokens)
+		log.info( 'En el medio de is legal arcana {} {} {} {}'.format(int(unchosen_fate["Texto"]), int(chosen_fate["Texto"])))
 		is_legal_arcana = arcana_db["Legal"](int(unchosen_fate["Texto"]), int(chosen_fate["Texto"]), my_tokens, all_tokens)
 		log.info('Finalizando is legal arcana' + is_legal_arcana)
 		return is_legal_arcana
