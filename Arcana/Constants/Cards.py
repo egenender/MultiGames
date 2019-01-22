@@ -149,7 +149,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "+1",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para tratar el destino no jugado como si fuera 1 más alto durante este turno.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: kept > max(my_tokens)
+   "Legal": lambda kept, played, my_tokens, all_tokens: len(my_tokens) == 0 or kept > max(my_tokens)
  },
  {
    "Título": "Solo",
