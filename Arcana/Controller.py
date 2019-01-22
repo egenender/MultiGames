@@ -229,16 +229,14 @@ def callback_choose_arcana(bot, update, user_data):
 		# Caso particular de elegir +1
 		if game.board.state.plusOneEnable:
 			unchosen_fate = copy.deepcopy(user_data['unchosen'])
-			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
-		log.info('is_legal_arcana called')	
+			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)
+			
 		is_legal_arcana = game.board.is_legal_arcana(arcana, chosen_fate, unchosen_fate)
-		log.info('is_legal_arcana finished')	
-		#me.board.state.used_sacar = Falselog.info(all_tokens)
-
+		
 		if game.board.state.used_sacar and texto == "Sacar":
 			is_legal_arcana = False
 
-		# Verifico que no haya posibles arcanas
+		# Verifico que no haya posibles arcanas si se elija a "Las Horas"
 		if titulo == "Las horas":
 			log.info('get_valid_arcanas called')
 			valid_arcanas_fates = game.board.get_valid_arcanas(chosen_fate, unchosen_fate)
@@ -249,7 +247,8 @@ def callback_choose_arcana(bot, update, user_data):
 					msg += "Arcana: *{}*, Poner fate: *{}*.\n".format(
 						valid_arcana_fates[0]["Título"], valid_arcana_fates[1]["Texto"])									
 				bot.send_message(uid, msg, ParseMode.MARKDOWN)
-				is_legal_arcana = False				
+				is_legal_arcana = False
+				
 		if not is_legal_arcana:
 			bot.edit_message_text("No puedes jugar ese destino en esa arcana, se vuelven a enviar destinos\n", uid, callback.message.message_id)
 			show_fates_active_player(bot, game)
