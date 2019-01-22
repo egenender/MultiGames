@@ -66,7 +66,7 @@ conn = psycopg2.connect(
 )
 
 def check_invalid_pick(args):
-	return (len(args) < 1 or (not args[0].isdigit()) or args[0] == '0')
+	return ((not args[0].isdigit()) or (args[0] == '0'))
 
 def command_guess(bot, update, args):
 	cid = update.message.chat_id
@@ -78,10 +78,18 @@ def command_guess(bot, update, args):
 		bot.send_message(game.cid, "No es el momento de adivinar o no eres el que tiene que adivinar", ParseMode.MARKDOWN)
 		return
 	
-	elegido = -1 if check_invalid_pick(args) else int(args[0])
+	# Acepto 1 o 2 guess
+	continue_resolve = 1 <= len(args) <= 2
+	# Verifico si todos los numero para adivinar son validos		
+	for arg in args:
+		if check_invalid_pick(arg) or not (1 <= int(arg) <= 7):
+			continue_resolve = False			
 	
-	if elegido > 0 and elegido < 8:
-		ArcanaController.resolve(bot, game, elegido)
+	if continue_resolve:
+		if (game.board.state.extraGuess and len(args) != 2) or (not game.board.state.extraGuess and len(args) == 2):
+			bot.send_message(game.cid, "Tienes que poner {} numero/s para adivinar."
+					 .format(2 if game.board.state.extraGuess else 1), ParseMode.MARKDOWN)		
+		ArcanaController.resolve(bot, game, [int(s) for s in args])
 	else:
 		bot.send_message(game.cid, "El número debe ser entre 1 y 7", ParseMode.MARKDOWN)
 	
@@ -104,7 +112,7 @@ def command_remove(bot, update, args):
 	cid = update.message.chat_id
 	game = Commands.get_game(cid)
 	
-	elegido = -1 if check_invalid_pick(args) else int(args[0])
+	elegido = -1 if (check_invalid_pick(args) or len(args) != 1) else int(args[0])
 	
 	#bot.send_message(game.cid, "{} {}".format(elegido, len(game.board.state.fadedarcanasOnTable)+1))
 	fadeded_on_table = len(game.board.state.fadedarcanasOnTable)+1
