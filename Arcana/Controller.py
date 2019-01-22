@@ -230,9 +230,9 @@ def callback_choose_arcana(bot, update, user_data):
 		if game.board.state.plusOneEnable:
 			unchosen_fate = copy.deepcopy(user_data['unchosen'])
 			unchosen_fate["Texto"] = "{}".format(int(unchosen_fate["Texto"])+1)		
-		
+		log.info('is_legal_arcana called')	
 		is_legal_arcana = game.board.is_legal_arcana(arcana, chosen_fate, unchosen_fate)
-					
+		log.info('is_legal_arcana finished')	
 		#me.board.state.used_sacar = Falselog.info(all_tokens)
 		
 		if game.board.state.used_sacar and texto == "Sacar":
@@ -240,7 +240,9 @@ def callback_choose_arcana(bot, update, user_data):
 			
 		# Verifico que no haya posibles arcanas
 		if titulo == "Las horas":
+			log.info('get_valid_arcanas called')
 			valid_arcanas_fates = game.board.get_valid_arcanas(chosen_fate, unchosen_fate)
+			log.info('get_valid_arcanas finished')
 			if len(valid_arcanas_fates) > 0:
 				msg = "Puedes usar estas arcanas y combinaciones (Choose fate / unchoose fate)\n"
 				for valid_arcana_fates in valid_arcanas_fates:
