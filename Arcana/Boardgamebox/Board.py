@@ -142,7 +142,7 @@ class Board(BaseBoard):
 		
 	def get_valid_arcanas(self, fate_token1, fate_token2):
 		valid_arcanas_fates = []
-		for arcana in self.state.arcanasOnTable:
+		for arcana in self.state.arcanasOnTable if arcana["Título"] != "Las horas":
 			if(self.is_legal_arcana(arcana, fate_token1, fate_token2)):
 				valid_arcanas_fates.append([arcana, fate_token1, fate_token2])
 			if(self.is_legal_arcana(arcana, fate_token2, fate_token1)):
