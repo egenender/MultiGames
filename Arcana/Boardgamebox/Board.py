@@ -111,7 +111,7 @@ class Board(BaseBoard):
 			i += int(fate["TimeSymbols"])
 		return i
 	
-	def is_legal_arcana(self, arcana, choosen_fate, unchoosen_fate):
+	def is_legal_arcana(self, arcana, chosen_fate, unchosen_fate):
 		arcana_db = copy.deepcopy(next((item for item in ARCANACARDS if item["Título"] == arcana["Título"]), -1))
 		if 'tokens' not in arcana:
 			arcana['tokens'] = []
