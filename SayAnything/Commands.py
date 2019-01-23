@@ -270,9 +270,13 @@ def command_pick(bot, update, args):
 		#Send message of executing command
 		cid = update.message.chat_id
 		uid = update.message.from_user.id
-		game = Commands.get_game(cid)
-		games_tipo = MainController.getGamesByTipo('SayAnything')
-		
+		groupType = update.message.chat.type
+		# Si el usuario no hace el pick en privado corregirlo.
+		if groupType not in ['group', 'supergroup']:
+			bot.edit_message_text("No puedes hacer pick en groupos!", cid, callback.message.message_id)
+			return
+				
+		games_tipo = MainController.getGamesByTipo('SayAnything')		
 		elegido = -1 if check_invalid_pick(args) else args[0]
 		
 		btns, cid = get_choose_game_buttons(games_tipo, uid, 
@@ -328,25 +332,14 @@ def pick_resp(bot, game, uid, opcion):
 			bot.send_message(game.cid, "No es el momento de adivinar, no eres el que tiene que adivinar o no has ingresado algo valido para puntuar", ParseMode.MARKDOWN)
 			return
 		# Llego con un numero valido, mayor a zero y que esta en el rando de las respuestas
-		args_text = opcion
-		
-		game.board.state.index_pick_resp = int(args_text)-1		
-		
-		
-			
-		
+		args_text = opcion		
+		game.board.state.index_pick_resp = int(args_text)-1			
 		bot.send_message(game.cid, "El jugador activo ha elegido la frase! A votar!")
-		game.board.state.fase_actual = "Votando Frases"
-		
+		game.board.state.fase_actual = "Votando Frases"		
 		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
 			SayAnythingController.count_points(bot, game)
 		else:
-			command_call(bot, game)
-			
-			
-		#SayAnythingController.count_points(bot, game)
-		#SayAnythingController.start_next_round(bot, game)		
-
+			command_call(bot, game)	
 	except Exception as e:
 		bot.send_message(uid, str(e))
 		log.error("Unknown error: " + str(e))
