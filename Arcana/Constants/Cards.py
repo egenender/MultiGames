@@ -123,7 +123,7 @@ LASHORAS = {
 	"Lunas": "99",
 	"Título reverso": "",
 	"Texto reverso": "",
-	"Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+	"Legal": lambda kept, played, my_tokens, all_tokens: True
 }
 
 ARCANACARDS = [ 
@@ -285,7 +285,7 @@ ARCANACARDS = [
    "Lunas": "4",
    "Título reverso": "Reubicar",
    "Texto reverso": "Antes de jugar el destino, el jugador activo puede descartar esta carta para mover un destino visible a una nueva carta.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: True #FIXME
+   "Legal": lambda kept, played, my_tokens, all_tokens: True
  },
  {
    "Título": "Decir",
