@@ -272,7 +272,7 @@ def command_pick(bot, update, args):
 		uid = update.message.from_user.id
 		groupType = update.message.chat.type
 		# Si el usuario no hace el pick en privado corregirlo.
-		if groupType not in ['group', 'supergroup']:
+		if groupType in ['group', 'supergroup']:
 			bot.edit_message_text("No puedes hacer pick en groupos!", cid, callback.message.message_id)
 			return
 				
