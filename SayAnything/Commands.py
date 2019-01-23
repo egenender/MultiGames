@@ -273,7 +273,7 @@ def command_pick(bot, update, args):
 		groupType = update.message.chat.type
 		# Si el usuario no hace el pick en privado corregirlo.
 		if groupType in ['group', 'supergroup']:
-			bot.edit_message_text("No puedes hacer pick en groupos!", cid, update.message.message_id)
+			bot.delete_message(cid, update.message.message_id)
 			return
 				
 		games_tipo = MainController.getGamesByTipo('SayAnything')		
