@@ -292,7 +292,7 @@ def command_pick(bot, update, args):
 				btnMarkup = InlineKeyboardMarkup(btns)
 				bot.send_message(uid, "¿En cual de estos grupos queres elegir respuesta?", reply_markup=btnMarkup)
 		else:
-			mensaje_error = "No hay partidas en las que puedas hacer /resp"
+			mensaje_error = "No hay partidas en las que puedas hacer /pick"
 			bot.send_message(uid, mensaje_error)
 		
 	except Exception as e:
