@@ -189,7 +189,7 @@ ARCANACARDS = [
    "Lunas": "1",
    "Título reverso": "Repetir",
    "Texto reverso": "Antes de hacer una predicción, el grupo puede descartar esta carta para hacer una predicción extra este turno.",
-   "Legal": lambda kept, played, my_tokens, all_tokens: abd(played - kept) == 1
+   "Legal": lambda kept, played, my_tokens, all_tokens: abs(played - kept) == 1
  },
  {
    "Título": "Menor",
