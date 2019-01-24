@@ -136,7 +136,7 @@ def command_call(bot, game):
 			call_other_players = ""
 			for uid, player in game.playerlist.items():
 				call_other_players += "{} ".format(helper.player_call(player)) if uid != game.board.state.active_player.uid else ""
-			mensaje_final += "\n{}Hagan /guess N para adivinar destino o /pass para pasar!".format(call_other_players)			
+			mensaje_final = "\n{}Hagan /guess N para adivinar destino o /pass para pasar!".format(call_other_players)			
 			bot.send_message(game.cid, mensaje_final, ParseMode.MARKDOWN)
 	except Exception as e:
 		bot.send_message(game.cid, str(e))		
