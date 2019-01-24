@@ -186,7 +186,8 @@ def get_respuestas(bot, game):
 		text += "*{1}: {0}*\n".format(vote.content['propuesta'], i)
 		i += 1		
 	respuestas = "Las respuestas son:\n{}".format(text)
-	return "{0} es hora de elegir! Elige con /pick NUMERO (En privado)\n*{1}*\n{2}\n".format(helper.player_call(game.board.state.active_player), game.board.state.acciones_carta_actual, respuestas)		
+	return "{0} es hora de elegir! Elige con /pick NUMERO (En privado)\n*{1}*\n{2}\n".format(
+		helper.player_call(game.board.state.active_player), game.board.state.acciones_carta_actual, respuestas)		
 
 # Jugador activo hace /pick en secreto
 
@@ -228,9 +229,12 @@ def callback_put_vote(bot, update):
 		regex = re.search("(-[0-9]*)\*voteRespuestaSA\*(.*)\*([0-9]*)", callback.data)
 		cid, strcid, opcion, uid, struid = int(regex.group(1)), regex.group(1), regex.group(2), int(regex.group(3)), regex.group(3)
 		game = Commands.get_game(cid)
+		
+		# Si alguien quiere votar antes de tiempo o el jugador activo quiere hacerlo...
+		if game.board.state.fase_actual == "Proponiendo Pistas" or uid == game.board.state.active_player.uid:
+			bot.edit_message_text("*No es momento de votar!*", chat_id=uid, message_id=callback.message.message_id, 
+					      parse_mode=ParseMode.MARKDOWN)
 		# Si decidio terminar le doy las gracias y continuo.
-		
-		
 		if not hasattr(game.board.state, 'votes_on_votes'):
 			game.board.state.votes_on_votes = []
 		# Tuplas de votos (UID=de quien es el voto, PUNTAJE=valor del voto, INDEX_ORDERED_VOTES=respeusta que apunta)  
@@ -290,11 +294,13 @@ def count_points(bot, game):
 	frase_elegida = game.board.state.ordered_votes[game.board.state.index_pick_resp]	
 	jugador_favorecido = frase_elegida.player
 	
-	mensaje = "La frase elegida fue: *{0}* de {1}! El cual gana 1 punto!".format(frase_elegida.content['propuesta'], helper.player_call(jugador_favorecido))
+	mensaje = "La frase elegida fue: *{0}* de {1}! El cual gana 1 punto!".format(frase_elegida.content['propuesta'], 
+										     helper.player_call(jugador_favorecido))
 	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 	jugador_favorecido.puntaje += 1
 	
-	votos_a_respuesta_elegida = [(val[0], val[1], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) if val[2]==game.board.state.index_pick_resp]
+	votos_a_respuesta_elegida = [(val[0], val[1], val[2]) for index, val in enumerate(game.board.state.votes_on_votes) 
+				     if val[2]==game.board.state.index_pick_resp]
 	mensaje = "A su vez los jugadores que votaron la frase:\n"
 	votos_dif_jugadores = []
 	
@@ -306,13 +312,15 @@ def count_points(bot, game):
 		
 		mensaje += "{name} gano {puntos} punto\n".format(name=player.name, puntos=voto[1])
 	game.board.state.active_player.puntaje += len(votos_dif_jugadores)
-	bot.send_message(game.cid, "El jugador activo ha ganado *{}* por los votos de diferentes jugadores (MAX 3)".format(len(votos_dif_jugadores)), ParseMode.MARKDOWN)
+	bot.send_message(game.cid, "El jugador activo ha ganado *{}* por los votos de diferentes jugadores (MAX 3)".format(
+		len(votos_dif_jugadores)), ParseMode.MARKDOWN)
 	bot.send_message(game.cid, mensaje, ParseMode.MARKDOWN)
 	#Commands.save(bot, game.cid)
 	start_next_round(bot, game)
 		
 def pass_say_anything(bot, game):
-	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
+	bot.send_message(game.cid, "La frase era: *{0}*. El jugador activo no le gusto ninguna respuesta.".format(
+		game.board.state.acciones_carta_actual), ParseMode.MARKDOWN)
 	start_next_round(bot, game)
 
 def start_next_round(bot, game):
@@ -330,7 +338,9 @@ def start_next_round(bot, game):
 	start_round_say_anything(bot, game)
 
 def continue_playing(bot, game):
-	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", "Mismo Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", "Otro Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
+	opciones_botones = { "Nuevo" : "(Beta) Nuevo Partido", 
+			    "Mismo Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, mismo diccionario", 
+			    "Otro Diccionario" : "(Beta) Nuevo Partido, mismos jugadores, diferente diccionario"}
 	Commands.simple_choose_buttons(bot, game.cid, 1, game.cid, "chooseendSA", "¿Quieres continuar jugando?", opciones_botones)
 	
 def callback_finish_game_buttons(bot, update):
@@ -365,7 +375,9 @@ def callback_finish_game_buttons(bot, update):
 		# Guarda los descartes en configs para asi puedo recuperarlos
 		game.configs['discards'] = descarte
 		if opcion == "Nuevo":
-			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando /join.\nEl iniciador del juego (o el administrador) pueden unirse tambien y escribir /startgame cuando todos se hayan unido al juego!")			
+			bot.send_message(cid, "Cada jugador puede unirse al juego con el comando " + 
+					 "/join.\nEl iniciador del juego (o el administrador) pueden unirse tambien"+
+					 "y escribir /startgame cuando todos se hayan unido al juego!")			
 			return
 		#log.info('Llego hasta la creacion')		
 		game.playerlist = players
@@ -397,7 +409,9 @@ def myturn_message(game, uid):
 		# Verifico en mi maquina de estados que comando deberia usar para el estado(fase) actual
 		if game.board.state.fase_actual == "Proponiendo Pistas":			
 			mensaje_clue_ejemplo = "/resp Ejemplo" if game.board.num_players != 3 else "/resp Ejemplo Ejemplo2"
-			return "Partida: {1} debes dar {3} para la palabra: *{2}*.\nAdivina el jugador *{4}*".format(helper.player_call(game.playerlist[uid]), group_link_name, game.board.state.acciones_carta_actual, mensaje_clue_ejemplo, game.board.state.active_player.name)
+			return "Partida: {1} debes dar {3} para la palabra: *{2}*.\nAdivina el jugador *{4}*".format(
+				helper.player_call(game.playerlist[uid]), group_link_name, game.board.state.acciones_carta_actual, 
+				mensaje_clue_ejemplo, game.board.state.active_player.name)
 		elif game.board.state.fase_actual == "Revisando Pistas":
 			reviewer_player = game.board.state.reviewer_player
 			return "Partida: {1} Revisor recorda que tenes que verificar las pistas".format(helper.player_call(reviewer_player), group_link_name)
