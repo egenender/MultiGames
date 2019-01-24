@@ -339,7 +339,7 @@ def pick_resp(bot, game, uid, opcion):
 		game.board.state.index_pick_resp = int(args_text)-1			
 		bot.send_message(game.cid, "El jugador activo ha elegido la frase! A votar!")
 		game.board.state.fase_actual = "Votando Frases"		
-		if len(game.board.state.votes_on_votes) == (len(game.player_sequence)-1)*2:
+		if len(game.board.state.votes_on_votes) >= (len(game.player_sequence)-1)*2:
 			SayAnythingController.count_points(bot, game)
 		else:
 			command_call(bot, game)	
